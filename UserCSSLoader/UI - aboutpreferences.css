@@ -1,0 +1,178 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+@-moz-document url-prefix("about:preferences") {
+    
+/* 背景 */
+    page {
+        background:#FFF !important;
+        padding:0 !important;
+    }
+    
+/* 前进后退 */
+    #header {
+        margin:0 !important;
+        height:50px !important;
+        width:200px !important;
+        padding:0 10px !important;
+        position:fixed;
+        z-index:99999;
+    }
+    
+    #header > .nav-button {
+        list-style-image:none !important;
+        background:none !important;
+        border:0 !important;
+        box-shadow:none !important;
+    }
+    
+    #back-btn,#forward-btn {
+        padding:0 !important;
+        height:50px !important;
+        width:50px !important;
+        line-height:50px;
+        font-size:50px;
+        color:#FFF;
+    }
+
+    #back-btn[disabled="true"],
+    #forward-btn[disabled="true"] {
+        opacity:0.3 !important;
+    }
+    
+    #forward-btn {
+        margin-left:70px !important;
+    }
+
+    #back-btn:before {
+        content:"<";
+    }
+
+    #forward-btn:after {
+        content:">";
+    }
+
+/* 选项卡 */
+    #categories {
+        margin:0 !important;
+        padding-top:60px !important;
+        width:180px !important;
+        background:#333 !important;
+    }
+    
+    .category {
+        border:none !important;
+        border-radius:0 !important;
+        color:#AAA !important;
+    }
+
+    /* 当前项 */
+    .category[selected="true"] {
+        font-weight: bold;
+        color:#FFF !important;
+        background-color:yellowgreen !important;
+    }
+    
+    /* 图标与文字 */
+    #categories .category-name {
+        font-family: 微軟正黑體 !important;
+        font-size:20px !important;
+    }
+    
+    #categories .category-icon {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    
+/* 主体 */
+    
+    hbox > .main-content {
+        max-width:calc(100% - 200px) !important;
+    }
+    
+    groupbox > caption {
+        margin-left:20px ;
+        padding:0 10px !important;
+        background:#fff !important;
+    }
+    
+/* 高级 */
+    
+    [last-selected="category-advanced"] + .main-content #mainPrefPane {
+        padding-top:0px !important;
+    }
+    
+    #advancedPrefs #tabsElement tab {
+        height:32px !important;
+        margin-top:0 !important;
+        padding:0px 20px !important;
+        -moz-appearance:none;
+        background:none !important;
+        border:none !important;
+        border-radius:0 !important;
+        font-size:18px !important;
+    }
+    
+    #advancedPrefs #tabsElement tab[selected="true"] {
+        background:yellowgreen !important;
+    }
+    
+        /*按钮*/
+        radio .radio-check-box1,
+    radio .radio-check-box2 {
+        -moz-appearance:none !important;
+        border:1px solid orange !important;
+    }
+    
+    radio:hover .radio-check-box1 {
+        background:#A8C9F3 !important;
+    }
+    
+    radio:active .radio-check-box1 {
+        background:#478ADD !important;
+    }
+    
+    radio[selected="true"] .radio-check {
+        display:none !important;
+/*        height:0 !important;width:0 !important;
+        padding-left:4px;padding-top:4px;
+        background:deepskyblue !important;*/
+    }
+    
+    radio[selected="true"] .radio-check-box1 {
+        background:#468ADF !important;
+    }
+    
+    radio[selected="true"]:hover .radio-check-box1 {
+        background:#2F72C5 !important;
+    }
+
+    radio[selected="true"]:active .radio-check-box1 {
+        background:#1959A9 !important;
+    }
+    
+    checkbox .checkbox-check {
+        -moz-appearance:none !important;
+        border:2px solid #1788F1 !important;
+    }
+    
+    checkbox:hover .checkbox-check {
+        background:#FFE2B9 !important;
+    }
+
+    checkbox:active .checkbox-check {
+        background:#FFBC5C !important;
+    }
+    
+    checkbox[checked="true"] .checkbox-check {
+        background:#F5A533 !important;
+    }
+    
+    checkbox[checked="true"]:hover .checkbox-check {
+        background:#F39D22 !important;
+    }
+    
+    checkbox[checked="true"]:active .checkbox-check {
+        background:#F0920C !important;
+    }
+    
+}

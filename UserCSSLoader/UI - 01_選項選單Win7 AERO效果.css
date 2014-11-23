@@ -1,0 +1,48 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+/* 設置不顯示菜單欄的情況下，按下 alt 鍵時不會激活菜單欄。 */
+
+#toolbar-menubar[autohide="true"] {display:none !Important;}
+
+/* ::::::::::::::::::::::::::::::::::::::::::::::::::::選項選單Win7 AERO效果:::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+
+popup:not(#autoscroller), popup menu,menupopup,#addonitem-popup,#utils-menu{
+    color: black !important;
+    text-shadow:rgba(255,255,255,.8) 0 0 0.8em,
+            rgba(255,255,255,.8) 0 0 0.8em,
+            rgba(255,255,255,.8) 0 0 0.8em,
+            rgba(255,255,255,.8) 0 0 0.8em,
+            rgba(255,255,255,.8) 0 0 0.8em,
+            rgba(255,255,255,.8) 0 0 0.8em,
+            rgba(255,255,255,.8) 0 0 0.8em !important;
+    -moz-appearance: -moz-win-glass !important ;
+    background: transparent !important;
+    opacity: 1.0 !important;
+    border: none !important;
+    padding: 5px !important;
+    margin: 0px !important;
+}
+
+.menu-iconic-text{
+    margin-top: -1px !important;
+}
+/*
+#appmenu-popup splitmenu[active="true"] .splitmenu-menuitem,
+#appmenu-popup .splitmenu[active="true"] .splitmenu-menu,
+#appmenu-popup .splitmenu-menu[open="true"]{
+    background: rgba(255, 255,255, 0.3) !important;
+}
+
+#appmenu-popup vbox {
+    background: none !important;
+    border: none !important;
+    -moz-box-shadow: none !important;
+} 
+*/
+#anobtn_popup,#eom-button-popup{
+    margin-top: -5px !important;
+}
+
+
+
+

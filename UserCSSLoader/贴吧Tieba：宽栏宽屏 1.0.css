@@ -1,0 +1,167 @@
+@-moz-document domain("tieba.baidu.com") {
+
+/* 宽屏 */
+.search_form,.search_top  {
+margin:0px 20px !important;}
+
+#container:not(.container_wrap),
+#container > .content,
+.live_thread_cnt .live_item_wrapper {
+width:auto !important;}
+
+.forum_content > #contet_wrap,
+#contet_wrap  {
+width:calc(100% - 238px) !important;}
+
+.threadlist_li_right {
+width:calc(100% - 100px) !Important;}
+
+.live_thread_cnt .live_item_wrapper .live_item_cnt,
+.tt_guidetexture,
+.qp_wrap .tb-simpleeditor-wrapper {
+width:98% !Important;}
+
+.live_thread_cnt,
+.live_thread_cnt[style="position: absolute;"] {
+		width:98% !Important;
+	}
+.live_thread_cnt[style="position: absolute;"] {
+		width:98% !Important;
+	}
+.live_thread_cnt[style="position: static;"] {
+		width:99.5% !Important;
+	}
+
+	.threadlist_text .threadlist_abs {
+		width:600px !Important;
+	}
+
+/*TF*/
+
+.tbui_aside_float_bar {
+bottom:-220px !Important;
+transition:0.33s all ease}
+
+.tbui_aside_float_bar:hover {
+bottom:0px !Important;}
+
+/* title */
+
+.card_top {
+background-size: 100% !Important;}
+
+.star_banner {
+width:auto !Important;}
+
+.star_banner img {
+margin:0 auto !Important;}
+
+.star_nav_wrap {
+margin-bottom:0px !Important;}
+
+#contet_wrap {
+background:#fff !Important;}
+
+.frs_content,#container {
+background:none !Important;}
+}
+
+@-moz-document url-prefix("http://tieba.baidu.com/bawu2") {
+
+#aside_slide_button {
+display:none !Important;}
+
+.main_content {
+width:calc(100% - 180px) !Important;}
+
+.nav {
+background:#3F7AC6 !important;}
+
+}
+
+@-moz-document url-prefix("http://tieba.baidu.com/i/") {
+
+#pc2client {
+display:none !important;}
+
+#main_header_logo,#main_header_logo .nav_bar,
+#feed {
+width:auto !Important;}
+
+.feed_left {
+width:85% !Important;}
+
+.feed_right {
+width:12% !Important;
+float:right !Important;}
+
+.w750.fleft {
+width:calc(100% - 228px) !Important;}
+
+}
+@-moz-document domain("tieba.baidu.com") {
+
+/*发帖框*/
+.old_style_wrapper,
+.edui-container,
+#ueditor_replace {
+width:auto !Important;}
+
+.tb_rich_poster {
+margin-left:0px !Important;}
+/*发帖框*/
+
+}
+
+
+
+@-moz-document url-prefix("http://tieba.baidu.com/p"),
+url-prefix("http://tieba.baidu.com/f?kz="),
+url-prefix("http://tieba.baidu.com/f?ct=") {
+
+[class*="lottery"], [class*="lecai"] {display:none !important;}
+
+.top10_wrapper {
+display:none !Important;}
+
+.core_title_absolute {
+position:static !Important;
+margin-bottom:-45px }
+
+/*宽栏宽屏*/
+.right_section,[class*="game_"] {
+display:none !Important;}
+
+.left_section {width:100% !important;}
+    
+#tb_nav,#thread_theme_5,#pb_content,
+.left_section .core,
+#j_core_title_wrap,
+.l_post,
+.editor_for_container .lzl_simple_wrapper,
+table.lzl_panel_wrapper
+ {width:auto !Important;}
+
+	/*左移*/
+	.j_lzl_p,.p_tail,.j_lzl_r.p_reply {
+		float:left !Important;
+	}
+
+.d_post_content_main {
+width:calc(100% - 150px) !Important;
+background:#fff !important;}
+
+.j_lzl_container {
+width:auto !Important;}
+
+/*Tieba client*/
+table.lzl_panel_wrapper {
+float:right}
+
+#lzl_cliend {
+clear:both;
+position:relative !Important;
+top:-24px;left:-150px}
+
+
+}

@@ -1,0 +1,11 @@
+/*================顯示類似IE圖片叉燒包================*/
+
+@namespace url(http://www.w3.org/1999/xhtml); 
+@-moz-document url-prefix(http), url-prefix(https), url-prefix(file) {
+img:-moz-broken
+{
+-moz-force-broken-image-icon: 1 !important;
+width: 24px;
+height: 24px;
+}
+}
