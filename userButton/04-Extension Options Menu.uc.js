@@ -2,7 +2,7 @@
 // @name                Extension Options Menu.uc.js
 // @description         拡張を操作するボタンを追加
 // @include             main
-// @charset      utf-8
+// @charset        UTF-8
 // @version             3.0.0  プラグインも表示するように アイテムのソート方法を指定できるように
 // @downloadURL         http://u6.getuploader.com/script/search?q=Extension+Options+Menu.uc.js
 // @note                作成にあたりアドオン版Extension Options Menuとucjs_optionsmenu_0.8.uc.jsとtoggleRestartlessAddons.jsを参考にさせてもらいました
@@ -23,7 +23,6 @@ CTRL + 右鍵：移除擴展
 */
 (function() {
 	EOM = {
-		BUTTON_TYPE:		0, // 0:按鈕 2:菜單
 		ADDON_TYPES:		['extension', 'plugin'], // 顯示的項目類型 (表示するアイテムの種類)
 		SHOW_VERSION:		true, // 顯示版本 (ヴァージョンを表示するか)
 		SHOW_ALL:			true, // 顯示全部，包括沒有選項的 (設定のないアドオンも表示するか)

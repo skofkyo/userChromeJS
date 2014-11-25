@@ -1,16 +1,21 @@
 // ==UserScript==
-// @name                  Sidebarbutton.uc.js
-// @description    側邊攔按鈕
-// @namespace        
-// @include               main
-// @compatibility     Firefox 29.0+
-// @author                skofkyo
-// @charset      utf-8
-// @homepage         
-// @version              
-// @updateURL         
-// @update
+// @name                 Sidebarbutton.uc.js
+// @description       側邊攔按鈕
+// @namespace    
+// @author               skofkyo
+// @license               MIT License
+// @compatibility    Firefox 29+
+// @charset              UTF-8
+// @version              2014.11.26
+// @startup        
+// @shutdown       
+// @config         
+// @homepageURL    
+// @ohomepageURL    
+// @reviewURL    
+// @downloadURL    
 // @note                   
+// @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
 
@@ -18,8 +23,8 @@
     CustomizableUI.createWidget({
         id : "Sidebar-button",
         defaultArea : CustomizableUI.AREA_NAVBAR,
-        label : "\u5074\u908A\u6B04\u958B\u95DC",
-        tooltiptext : "\u5DE6\u9375\uFF1A\u66F8\u7C64\u5074\u908A\u6514\n\u4E2D\u9375\uFF1A\u6B77\u53F2\u5074\u908A\u6514\n\u53F3\u9375\uFF1AStylish\u5074\u908A\u6514",
+        label : "側邊欄開關",
+        tooltiptext : "左鍵：書籤側邊攔\n中鍵：歷史側邊攔\n右鍵：Stylish側邊攔",
         onClick : function (event) {
             switch (event.button) {
             case 0:

@@ -1,15 +1,21 @@
 // ==UserScript==
 // @name                  reStartButton.uc.js
 // @description    重新啟動按鈕
-// @namespace        
-// @include               main
-// @compatibility     Firefox 29.0+
-// @author                skofkyo
-// @homepage         
-// @version              
-// @updateURL         
-// @update
+// @namespace    
+// @author               skofkyo
+// @license               MIT License
+// @compatibility    Firefox 29+
+// @charset              UTF-8
+// @version              2014.11.26
+// @startup        
+// @shutdown       
+// @config         
+// @homepageURL    
+// @ohomepageURL    
+// @reviewURL    
+// @downloadURL    
 // @note                   
+// @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
 
@@ -17,8 +23,8 @@
     CustomizableUI.createWidget({
         id : "Re-Start-button",
         defaultArea : CustomizableUI.AREA_NAVBAR,
-        label : "\u91CD\u65B0\u555F\u52D5",
-        tooltiptext : "\u91CD\u65B0\u555F\u52D5\u4E26\u6E05\u9664\u7DE9\u5B58",
+        label : "重新啟動",
+        tooltiptext : "重新啟動並清除緩存",
         onClick : function (event) {
             switch (event.button) {
             case 0:

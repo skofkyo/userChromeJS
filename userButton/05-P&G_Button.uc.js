@@ -1,16 +1,21 @@
 // ==UserScript==
-// @name                  P&G_Button.uc.js
-// @namespace        
-// @description    
-// @include               main
-// @compatibility     Firefox 29.0+
-// @author                skofkyo
-// @charset      utf-8
-// @homepage         
-// @version              
-// @updateURL         
-// @update
+// @name                 P&G_Button.uc.js
+// @description       貼上就瀏覽&貼上就搜索
+// @namespace    
+// @author               skofkyo
+// @license               MIT License
+// @compatibility    Firefox 29+
+// @charset              UTF-8
+// @version              2014.11.26
+// @startup        
+// @shutdown       
+// @config         
+// @homepageURL    
+// @ohomepageURL    
+// @reviewURL    
+// @downloadURL    
 // @note                   
+// @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
 
@@ -20,8 +25,8 @@
     CustomizableUI.createWidget({
         id : "RFC-button",
         defaultArea : CustomizableUI.AREA_NAVBAR,
-        label : "\u8CBC\u4E0A\u5C31\u700F\u89BD",
-        tooltiptext : "\u5DE6\u9375\uFF1A\u8CBC\u4E0A\u5C31\u700F\u89BD(\u65B0\u5206\u9801\u80CC\u666F)\n\u4E2D\u9375\uFF1A\u8CBC\u4E0A\u5C31\u700F\u89BD(\u65B0\u5206\u9801\u524D\u666F)\n\u53F3\u9375\uFF1A\u8CBC\u4E0A\u5C31\u700F\u89BD",
+        label : "貼上就瀏覽",
+        tooltiptext : "左鍵：貼上就瀏覽(新分頁背景)\n中鍵：貼上就瀏覽(新分頁前景)\n右鍵：貼上就瀏覽",
         onClick : function (event) {
             switch (event.button) {
             case 0:
@@ -47,15 +52,43 @@
     CustomizableUI.createWidget({
         id : "searchClipboard-button",
         defaultArea : CustomizableUI.AREA_NAVBAR,
-        label : "\u8CBC\u4E0A\u5C31\u641C\u7D22",
-        tooltiptext : "\u5DE6\u9375\uFF1AGoogle\u641C\u7D22\n\u53F3\u9375\uFF1AGoogle\u7AD9\u5167\u641C\u7D22\u526A\u8CBC\u7C3F\u6587\u5B57",
+        label : "貼上就搜索",
+        tooltiptext : "左鍵：Google搜索剪貼簿文字\n中鍵：翻譯剪貼簿文字\n右鍵：Google站內搜索選取文字否則搜索剪貼簿文字",
         onClick : function (event) {
             switch (event.button) {
             case 0:
                gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(readFromClipboard()));
                 break;
+            case 1:
+						var div = content.document.documentElement.appendChild(content.document.createElement("div"));
+						
+						div.style.cssText = "position:absolute;\
+						z-index:1000;\
+						border:solid 3px hsla(220,65%,84%,1);\
+						border-radius: 5px;\
+						background: -moz-linear-gradient( hsla(100,65%,94%,1) 0px, hsla(100,35%,80%,1) 100%) border-box;\
+						padding:5px;\
+						font-size: 10pt;\
+						color: black;\
+						left:" + +(event.clientX + content.scrollX + 10) + 'px;top:' + +(event.clientY + content.scrollY + 10) + "px";
+						
+						var xmlhttp = new XMLHttpRequest;
+						xmlhttp.open("get", "http://translate.google.tw/translate_a/t?client=t&sl=en&tl=zh-TW&text=" + encodeURIComponent(readFromClipboard()), 0);
+						xmlhttp.send();
+						div.textContent = eval("(" + xmlhttp.responseText + ")")[0][0][0];
+						content.addEventListener("click", function() {
+						content.removeEventListener("click", arguments.callee, false);
+						div.parentNode.removeChild(div);
+						}, false);
+                break;
             case 2:
+               var selection = content.document.getSelection().toString();
+               var gbs = getBrowserSelection();
+               if (selection || gbs) {
+                 loadURI("http://www.google.com/search?q=" + "site:" + content.location.host + " " + encodeURIComponent(selection || gbs));
+               } else {
                  loadURI("http://www.google.com/search?q=" + "site:" + content.location.host + " " + encodeURIComponent(readFromClipboard()));
+               }
                 break;
             }
         }

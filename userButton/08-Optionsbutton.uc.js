@@ -1,28 +1,30 @@
-// ==UserScript==
-// @name                  Optionsbutton.uc.js
-// @namespace        
-// @description    
-// @include               main
-// @compatibility     Firefox 29.0+
-// @author                skofkyo
-// @charset      utf-8
-// @homepage         
-// @version              
-// @updateURL         
-// @update
+// ==UserScript==  
+// @name                 Optionsbutton.uc.js
+// @description       選項按鈕
+// @namespace    
+// @author               skofkyo
+// @license               MIT License
+// @compatibility    Firefox 29+
+// @charset              UTF-8
+// @version              2014.11.26
+// @startup        
+// @shutdown       
+// @config         
+// @homepageURL    
+// @ohomepageURL    
+// @reviewURL    
+// @downloadURL    
 // @note                   
+// @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
-
-
-/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 使用者設定資料夾 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
 
 (function () {
     CustomizableUI.createWidget({
         id : "openPreferences-button",
         defaultArea : CustomizableUI.AREA_NAVBAR,
-        label : "\u9078\u9805",
-        tooltiptext : "\u5DE6\u9375\uFF1A\u6253\u958B\u9078\u9805\n\u4E2D\u9375\uFF1A\u6253\u958Babout:support \u7591\u96E3\u6392\u9664\u8CC7\u8A0A\n\u53F3\u9375\uFF1A\u6253\u958Babout:config",
+        label : "選項",
+        tooltiptext : "左鍵：打開選項\n中鍵：打開about:support 疑難排除資訊\n右鍵：打開about:config",
         onClick : function (event) {
             switch (event.button) {
             case 0:

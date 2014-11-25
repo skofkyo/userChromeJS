@@ -1,28 +1,30 @@
 // ==UserScript==
-// @name                  ProfDbutton.uc.js
-// @namespace        
-// @description    
-// @include               main
-// @compatibility     Firefox 29.0+
-// @author                skofkyo
-// @charset      utf-8
-// @homepage         
-// @version              
-// @updateURL         
-// @update
+// @name                 ProfDbutton.uc.js
+// @description       開啟使用者設定資料夾
+// @namespace    
+// @author               skofkyo
+// @license               MIT License
+// @compatibility    Firefox 29+
+// @charset              UTF-8
+// @version              2014.11.26
+// @startup        
+// @shutdown       
+// @config         
+// @homepageURL    
+// @ohomepageURL    
+// @reviewURL    
+// @downloadURL    
 // @note                   
+// @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
-
-
-/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 使用者設定資料夾 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
 
 (function () {
     CustomizableUI.createWidget({
         id : "ProfD-button",
         defaultArea : CustomizableUI.AREA_NAVBAR,
-        label : "\u4F7F\u7528\u8005\u8A2D\u5B9A\u8CC7\u6599\u593E",
-        tooltiptext : "\u5DE6\u9375\uFF1A\u6253\u958BProfile\u8CC7\u6599\u593E\n\u4E2D\u9375\uFF1A\u6253\u958Bextensions\u8CC7\u6599\u593E\n\u53F3\u9375\uFF1A\u6253\u958Bchrome\u8CC7\u6599\u593E",
+        label : "使用者設定資料夾",
+        tooltiptext : "左鍵：打開Profile資料夾\n中鍵：打開extensions資料夾\n右鍵：打開chrome資料夾",
         onClick : function (event) {
             switch (event.button) {
             case 0:

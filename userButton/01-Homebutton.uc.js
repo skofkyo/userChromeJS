@@ -1,16 +1,21 @@
 // ==UserScript==
-// @name                  Homebutton.uc.js
-// @description    首頁按鈕
-// @namespace        
-// @include               main
-// @compatibility     Firefox 29.0+
-// @author                skofkyo
-// @charset      utf-8
-// @homepage         
-// @version              
-// @updateURL         
-// @update
+// @name                 Homebutton.uc.js
+// @description       首頁按鈕
+// @namespace    
+// @author               skofkyo
+// @license               MIT License
+// @compatibility    Firefox 29+
+// @charset              UTF-8
+// @version              2014.11.26
+// @startup        
+// @shutdown       
+// @config         
+// @homepageURL    
+// @ohomepageURL    
+// @reviewURL    
+// @downloadURL    
 // @note                   
+// @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
 
@@ -18,8 +23,8 @@
     CustomizableUI.createWidget({
         id : "Home-button",
         defaultArea : CustomizableUI.AREA_NAVBAR,
-        label : "\u65B0\u9996\u9801",//新首頁
-        tooltiptext : "\u5DE6\u9375\uFF1A\u539F\u59CB\u9996\u9801\n\u4E2D\u9375\uFF1A\u767E\u5EA6\n\u53F3\u9375\uFF1AGoogle",//左鍵：原始首頁\n中鍵：百度\n右鍵：Google
+        label : "新首頁",
+        tooltiptext : "左鍵：原始首頁\n中鍵：百度\n右鍵：Google",
         onClick : function (event) {
             switch (event.button) {
             case 0:

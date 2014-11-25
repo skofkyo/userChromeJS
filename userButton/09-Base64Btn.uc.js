@@ -1,20 +1,23 @@
 // ==UserScript==
-// @name                  Base64Btn.uc.js
-// @namespace        Base64Btn.uc.js
-// @include               main
-// @compatibility     Firefox 4.0+
-// @author                skofkyo
-// @charset      utf-8
-// @homepage         
-// @version              
-// @updateURL         
-// @update
+// @name                 Base64Btn.uc.js
+// @description       Base64/Unicode轉碼 線上圖片編輯
+// @namespace    
+// @author               skofkyo
+// @license               MIT License
+// @compatibility    Firefox 29+
+// @charset              UTF-8
+// @version              2014.11.26
+// @startup        
+// @shutdown       
+// @config         
+// @homepageURL    
+// @ohomepageURL    
+// @reviewURL    
+// @downloadURL    
 // @note                   
+// @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
-
-
-/* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Base64&Unicode Encoder :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
 
 (function () {
 
@@ -30,7 +33,7 @@
 		Base64Btn.setAttribute("context", "_child");
 		Base64Btn.style.listStyleImage = "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAADPklEQVQ4jTXMzWscZRzA8e/vmZmdzmaT1DRJkzRvpM2LPYgnEaxFDBYPouBN9OQ/4NH+BcWLaEGoIOjF4D/QePCgh4IgtU1TG2uRvJlmNzu7m92dmc3OzjPzPF708Ll+BODOna/Pr6+/+UaSJOudbvelk7A+k/bT0bGxsdLS4iK+72dRknS7UVRttVqPReTnhw8e/PLZrVsdeevGDefLL25/b619B2wZsDrL5KyfkuWZKBEAKyIoEascR1zHOSuVSpuf3rz5kRuUy171pHZVocp5novv+2r0/CgLi/PkWnN3c5N6GMrE+DhTU1NMjI9bd2io3I2jq67nua61ljzPcZUjFivz83NMT09hTMHxcZWZmRniOGZ/f5/dvT2uXL4sy8tXMFYwxuCKKASUsZaiKChMwf+p1hqd5+g8p5+mGFOg8xxrARClFGpv/0DvtJKjXj+1AI5SICBKECUoJSilEBGwglhLr5/anWZ8tHdwqN0njZRvtp8WTq3JfODw6u4Ra5cXGB4qE0URe4fHHFZDjsMO3Szncfwn8fZz8qlx8+xU474ePOX22OdsNOa5d7rAd79GJFt/MygFFJmGsIUTJ5ScgkpZuJjXebvyOx9e+IdPzrVw76VrvNv8mGv2J96vbDHhJfjnMsQ3FJmQD8A4FlEOxTmf02CIR6zwXuMDjgbf4iIFTTvE3fRlfszWKLsFpUxwfYurM2y3jY4HFFJCByOc6QqmXCG3FaDAXR0pcX3KVfeaUNeQWA9rfYwpQaGRQrCmh1KgrIMnwqQvvHZRqfsTw7hrq6ve+uwL87O9Edl9nnCaQxZ4ECiygdBo9xlIRMVTTFYUc+MBLy6NydLS5Fx9dtZzm2FIZbhirl27zitac+nSNKMjI6SDPtXjKn89e8bB4SHdKMbzXFaWl1ldWWGQZbbZbOA+fPggSHo9r1TyrSkKKQcBk5MTZFlGnhc0mk1ap6dE3S5pv4/OMowxttfruY+2tgKltb4Q1usda4xGMCDGWmsAK2D5jwUDGESMtVaHYdjRWl9wjDHZzs6T+0nSq0VxnIqgwMpgMHDa7bbUajV7UqvpRtiI2512NYqi3/7Y3v5hY2Pjq06nc/gvmv3MyCpz9m8AAAAASUVORK5CYII=)";
 		Base64Btn.setAttribute("label","Base64&Unicode");
-		Base64Btn.setAttribute("tooltiptext","\u5DE6\u9375\uFF1Abase64\u7DE8\u78BC\n\u4E2D\u9375\uFF1A\u7DDA\u4E0A\u7DE8\u8F2F\u5716\u7247\n\u53F3\u9375\uFF1AJava Unicode");
+		Base64Btn.setAttribute("tooltiptext","左鍵：base64編碼\n中鍵：線上編輯圖片\n右鍵：Java Unicode");
 		
 })();
 
