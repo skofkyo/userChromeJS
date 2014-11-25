@@ -986,7 +986,7 @@ USL.edit = function(path) {
 	if (!USL.EDITOR) return;
 	try {
 		var UI = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
-		UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0? "GB2312": "UTF-8";
+		UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0? "BIG5": "UTF-8";
 		path = UI.ConvertFromUnicode(path);
 		var app = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
 		app.initWithPath(USL.EDITOR);
