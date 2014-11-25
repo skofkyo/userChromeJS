@@ -1,0 +1,131 @@
+@charset "utf-8";
+
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document regexp("((?!taobao|tmall).)*") {
+
+
+
+/*
+
+Name: /基礎廣告過濾
+
+Version: 1.0.3.9
+
+Author: KwokTree
+
+Url: http://code.taobao.org/svn/simpleu/trunk/css/adfilter.css
+
+Description: MayBe a better User CSS Help U.
+
+*/
+
+
+
+/* AdNo.*/
+
+div[class^="ad0"],div[class^="ad1"],div[class^="ad2"],div[class^="ad3"],div[class^="ad4"],div[class^="ad5"],
+
+div[class^="ad6"],div[class^="ad7"],div[class^="ad8"],div[class^="ad9"],div[class^="ad-9"],div[class^="ad_9"]{
+
+display: none !important;
+
+	}
+
+/* Adid */
+
+div[id="ad"],div[id*="-ad-"],div[id^="adRight"],div[id^="ad_thread"],div[id*="ad"][class*="_ad"],div[id*="advert"],div[id^="ads_"],div[id^="adflash"],div[id*="ad_right"],div[id*="ad_left"]{
+
+display: none !important;
+
+	}
+
+div[id^="ad-wrap"],div[id^="side-ad"],div[id^="topad"],div[id^="topAd"],div[id^="tonglan"],div[id^="leftad"],
+
+div[id^="right_ad"],div[id^="promote-"],div[class^="topad"],div[class^="rightad"],div[class="gg"]{
+
+display: none !important;
+
+	}
+
+div[class="ad"],div[class^="ads"],div[class^="adB"],div[class^="adArea"],div[class^="adarea"],
+
+div[class*="_ad_"],div[class^="adv"],div[class^="adclass"],div[class^="ad_area"],div[class*="ad-area"]{
+
+display: none !important;
+
+	}
+
+div[class^="adbox"],div[class^="adList"],div[class*="adLeft"],div[class^="adtext"],div[class^="adtop"],
+
+div[class^="ad-box"],div[class^="ad-list"],div[class*="adRight"],div[class^="ad_text"],div[class^="top_ad"]{
+
+display: none !important;
+
+	}
+
+div[class^="ad ad-"],div[class^="adcontent"],div[class^="topAd"],div[class^="ad_box"],div[class*="-promotion"]{
+
+display: none !important;
+
+	}
+
+/* Site */
+
+iframe[id^="cpro"],iframe[src*=".com/html/click/"],iframe[src*="/htmlcode/"],iframe[src="/html/read/gg.html"],[flashvars*=".com/event.ng/"]{
+
+display: none !important;
+
+	}
+
+[href*="網購排行：淘寶"],[src*="網購排行：淘寶"],a[href*="alimama.c"],a[href*="s.click.taobao.com"],a[href*="simba.taobao.com"],a[href^="http://ai.taobao.com"],a[href^="http://www.tmall.com/go/chn/tbk_channel/"],a[href^="http://www.taobao.com/go/chn/tbk_channel/"],img[alt*="淘寶皇冠"],img[title*="皇冠店鋪"]{
+
+display: none !important;
+
+	}
+
+div[id*="baidu_ad"],[src*="cb.baidu.com"],[src*="cbjs.baidu.com"],[src*="cpro.baidu.com"],[src*="drmcmm.baidu.com"],[src*="eiv.baidu.com"],a[href^="http://www.baidu.com/cpro.php"],
+
+[src*="hm.baidu.com"],a[href*="baidu.com/adrc.php"],a[href*="baidu.com/baidu.php?"],a[href*="cb.baidu.com"],a[href*="cpro.baidu.com"],a[href*="hm.baidu.com"],a[href^="http://e.baidu.com"],a[href^="http://shadu.baidu.com/"],a[href^="http://youqian.baidu.com"]{
+
+display: none !important;
+
+	}
+
+div[class*="Adsense"],div[id*="adsense"],ins[class*="adsbygoogle"],[src*="doubleclick.net"],[src*="google-analytics.com"],[src*="googleadservices.com"],[src*="googleadsserving.cn"],[src*="googlesyndication.com"],a[href*=".googleadservices.com"],a[href*="doubleclick.net"]{
+
+display: none !important;
+
+	}
+
+div[class*="l_qq_com"],iframe[src^="http://re.paipai.com/"],[src^="http://pgdt.gtimg.cn/"],a[href*=".gdt.qq.com/"],a[gdtoriurl*=".gdt.qq.com"]{
+
+display: none !important;
+
+	}
+
+[src*="adsame.com"],[src*="allyes."],[src*=".mediav.com"],a[href*="?utm_source="],a[href*=".chanet.com.cn"],a[href*=".oadz.com/"],a[href*=".yiqifa.com"],a[href*="/www/delivery/"],a[href*="allyes."],a[href*="http://cnrdn.com/"],a[href*="http://js.50bang"],img[alt*="裝機賺錢"],img[alt*="廣告"],a[href*=".2345.cn/jifen"],a[href^="http://www.2345.com/?"],a[href^="http://chrome.2345.com/"],a[href*="http://jifen.2345"]{
+
+    display: none !important;
+
+}
+
+[src*="ifengimg.com/mappa/"],[src*="http://images.sohu.com/"],[src^="http://dolphin.ftimg.net/"],[src*="union.youdao.com/"],a[href^="http://www.sogou.com/bill_cpc?"],[src^="http://d"][src*=".sina.com.cn"],[src^="http://g.163.com/"],[src^="http://img1.126.net"],[src^="http://stadig.ifeng.com/"],a[href*=".deliver.ifeng.com"],a[href*="http://ebpe.renren.com/"],iframe[src^="http://same.jrj.com.cn/"],a[href^="http://adcl.pchome."],iframe[src^="http://x.jd.com/"],iframe[src^="http://pub.mop.com"]{
+
+    display: none !important;
+
+}
+
+iframe[src$="adb.php"],iframe[src$="adt.php"],iframe[src$="_adView"],img[src*="/data/attachment/common/cf/"],img[src="static/image/common/ad_close.gif"]{display:none !important;}
+
+
+
+/* Float */
+
+div[id="browser360-tips"],div[id*="Couplet"],div[id="play_fmt"],div[id*="_couplet"],div[id$="_Float_Div"],div[id$="tCouple"],div[id$="tFloat"],div[id*="_float"],div[id^="lovexin1"],div[class="l1"],div[class="r1"]{
+
+display: none !important;
+
+	}
+
+}

@@ -16,6 +16,7 @@ span[class="fw"]{ display: none !important }
 }
 @-moz-document url-prefix("http://dynamic.cloud.vip.xunlei.com/") {
 .rwbox .w09, .namelink {
+    width: intrinsic !important; /* chrome */
     width: -moz-max-content !important;
 }
 .rwbox .w05 {float: right !important;}
