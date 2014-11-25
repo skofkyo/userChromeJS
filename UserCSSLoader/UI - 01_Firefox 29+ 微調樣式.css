@@ -36,6 +36,7 @@
     padding: 0 !important;
 }
 
+#sidebar-box .toolbarbutton-icon,
 #navigator-toolbox .toolbarbutton-icon{
     width: 16px !important;
     height: 16px !important;
