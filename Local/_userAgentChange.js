@@ -1,70 +1,44 @@
-// ==UserScript==
-// @name UserAgentChangeModLite.uc.js
-// @namespace http://www.sephiroth-j.de/mozilla/
-// @charset     utf-8
-// @note  modify by lastdream2013 at 20130616 mino fix
-// @note  modify by lastdream2013 at 20130409 sitelist : change SITELIST idx to Name
-// @note  modify by lastdream2013 for navigator.userAgent https://g.mozest.com/thread-43428-1-2
-// @include chrome://browser/content/browser.xul
-// ==/UserScript==
-var ucjs_UAChanger = {
 
-	DISPLAY_TYPE : 1, // 0顯示列表為radiobox, 1顯示為ua圖標列表
+DISPLAY_TYPE =1; // 0顯示列表為radiobox, 1顯示為ua圖標列表
 
-	//----講解開始----
-	//（1）在url後面添加網站，注意用正則表達式
+SITE_LIST =[
+{url : "http:\/\/vod\.kankan\.com/",Name : "Safari - Mac"}, //直接可以看kankan視頻，無需高清組件
+{url : "http:\/\/wap\.*",Name : "UCBrowser"}, //WAP用UC瀏覽器
+{url : "http:\/\/browser\.qq\.com\/*",Name : "Chrome - Win7"}, 
+{url : "http://www\\.google\\.co\\.jp\\m/",Name : "iPhone"},
+{url : "http://wapp\\.baidu\\.com/",Name : "iPhone"},
+{url : "http://wappass\\.baidu\\.com/",Name : "iPhone"},
+{url : "http://wapbaike\\.baidu\\.com/",Name : "iPhone"},
+{url : "http://weibo\\.cn/",Name : "iPhone"},
+{url : "http://m\\.hao123\\.com/",Name : "iPhone"},
+{url : "http://m\\.mail\\.163\\.com/",Name : "iPhone"},
+{url : "http://w\\.mail\\.qq\\.com//",Name : "iPhone"},
+{url : "http:\/\/m\\.qzone\\.com/",Name : "iPhone"},
+{url : "http://wap\\.58\\.com/",Name : "iPhone"},
+{url : "http://i\\.jandan\\.net/",Name : "iPhone"},
+{url : "http://www\\.tianya\\.com\\m/",Name : "iPhone"},
+{url : "http://m\\.xianguo\\.com\\wap/",Name : "iPhone"},
+{url : "http:\/\/ti\\.3g\\.qq\\.com/",Name : "iPhone"},
+{url : "http:\/\/[a-zA-Z0-9]*\\.z\\.qq\\.com/",Name : "iPhone"},
+{url : "https?://www\\.icbc\\.com\\.cn/",Name : "Fox10.0"}, 
+{url : "https?://(?:mybank1?|b2c1)\\.icbc\\.com\\.cn/",Name : "Fox10.0"},
+{url : "http://(.*?)n\\.baidu\\.com/",Name : "BaiduYunGuanJia"},//百度雲
 
-	//正則表達式簡單教程：先把網址裡的/換成\/
-	//然後把.換成\.
-	//比如 www.google.com/for.com 就是 www\.google\.com\/for\.com
 
-    /*
-    有誤：. 代表除換行符外的所有字符，* 代表 0個或多個
+],
 
-	*代表任意位數的字母數字，推薦看http://msdn.microsoft.com/zh-cn/library/cc295435.aspx
-	所以要通吃 http和 https 可以用 http*: 或者https?: 或者 http+:
-	要通吃www.google.com/reader/2.html和 www.google.com/music/2.html,就用www\.google\.com\/*\/2\.html
-    */
-
-	// www.google.com/chrome.exe 一般通配符就可以寫成2種（.*包含了所有後綴名）
-	// 即 www\.google\.com\/.exe或者www\.google\.com\/.*
-	// 添加網站開始，不想要的前面添加 //
-
-	SITE_LIST : [
-
-    //此處添加你需要的useragent的名稱
-		{
-			url : "https?://www\\.icbc\\.com\\.cn/",
-			Name : "Firefox10.0"
-		}, {
-			url : "https?://(?:mybank1?|b2c1)\\.icbc\\.com\\.cn/",
-			Name : "Firefox10.0"
-		},{
-			url : "http://vod\\.kankan\\.com/",
-			Name : "Safari - Mac"
-		}, //直接可以看kankan視頻，無需高清組件
-
-		//添加網站到此結束
-	],
-
-	//現有版本firefox的圖標
-	NOW_UA_IMG: "data:image/png;base64,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",
-	//其他版本firefox的圖標
-	EXT_FX_LIST_IMG: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADgElEQVQ4jX2Te0wUdADHf3cEyEtAJCBkDqWZBWpAirIaA7kGIpOI44CTp2EQ8qrAbNSBxFJAOx/DFlM0HoEzKGVgQJTEIw3iDjjkcXV40IaMDbEk5+DTf23h1ufvz/e/70eIVfiH59nI3lYroksbK7NruzuOt2jbSnomzipLGsKjolRmq/3/4CcvkHsqK/S5Aw/4aQWmgHuAbgVO62ZJOlU/+O5HF4KfGi435X6Yk5hWaeZ9FJmqh+pzZXT1tdH99wo9D5/Q9uAJ52eWiK+5Q03jCVo/e+f6/ZFmZyGEEBNnQsyNca7G3mh72jL86FR4cSNpJ+o5aHoMzYvLlP++SPIP0wSqtdR8XYqxV8Gt08o+o7HBQow0n3fWpzotGKIsmIy0YizSknb5ZprVudS1NnBqbpnimSUyRv9E1jSH4vgZHk9EY2iRMWsoe0Ms1Cfk6Q+YMBRswa8yKzSRttx9azPTn4RSUFJKXO9fxLTPEXLtD7aV/IxbzAUGroWB/nXmh+I/FrMn9/SM7DVlUGaNJtyWsSQX5k/uIr68EZ+L0wRVG/BWdbLpUC2OMVUEpxRx92ooy0MBTF4M7hDGD7w02r3mDEXYcUtmy5eea4mOzWRrwfc8X6LBvbCfDUl1OIWUYr67GGVWOugCeNT3Cleyfe+LcYXL8ECQNcMKB77ZbsZ3L0tJOJyPfWorL6Z/xYFjlXhmX8UuoAjptnySU6Ogz5uFZnf6Pt8xInqV/pVdPqZoFY4MhlkysU/KSIIDHZne6DI3oj+6icO5x5B4F2DqkUhnuSfLLW7MV1gxV/1qhbiTlxze6CqhK9CO0SRH7qXY0h26lvLtLmT7+uC6IwPhVYRwzWX3nn08rHJk8QtbJo9I0Xyavl9cUqnW1G/dMFS1XsrtcAd0h5wwZDlTG/sS/r4KbJzD2Lh+CzkBHgwWurOgtmcy5xlq5FvQ3azwFEIIMXZOHaQ2N1m+7GbG7bB1DB90xJDuyG9p9vQn2DKcbM1M+hpm8y2ZKV7HeL5gqi2tAiEk/965KTY6vtRUsnTpWSk/vmaDVm7P6EE7JhPXMhFvgz7FhqksK/TvWTHbFFGoUqmkTzXREBu287KHU88VB0HLCxJ+CTRDt1/CuFzCWKIJNxTOj7Rn38/73yIboqJMrseFvHkzYpe6PfC5b/sTfOt6j/iVaU7IUjorlR6r/X8ACyEFfsUfVDgAAAAASUVORK5CYII=",
-
-	//自己在底下添加ua
-	UA_LIST : [
- {name : "分隔線",},
+UA_LIST=[
+{name : "分隔線",},
 {  
 		  name: "IE6 - XP",
 		  ua: "Mozilla/4.0 (compatible; MSIE 6.1; Windows XP; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
 		  label: "IE6",
-		  img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADF0lEQVQ4jZWTfVALcBjHn1rbaq1QXWiFLW8JebnK7byE0zmjVyVjKcrLEedwXg4pnXZeW7jpReTtWHpZw0zcMp3USpeXvF7ISyuu2qRQ7esPtHPyh+fP5/f9fO733HMP0X+UR9zNaVN3VKTM2lOZxVt2YzYRWf07HXDKlgIUXApSOlBgkQcrXD0+Tv4ob/ia20G8mJIpc5MqTnvGa6L6ABVcpyiN8LDm7YOC2lbDlTrjp3pTNxR17Z+YEdoJv2Pu0epQ7/Wlu/5gnaI0QnlZc1Phq66O9bqvL7UtMD/rAqo+A3ojoKrv7Jm+W59CROQYqZ7ntPR6bC/MClePl5W3fktQG3WCNENqWl13R2pZy4fVl9/rZDXtxnwDUNgMFDeZMXF71TaaVzCfREXCXkHo8SflM9NfZrrsfL5K+rgHy/Mb71OAgktExJJox24pM7XJGgBZA5B8vxP2i65vIFIwiIiIGab25SfcOWQXe1e4svyrectjYEjSi61ERLRAxSEi8stqVK2oBcTVwNqHwLjEmiOW4QOLPEh0Zaww19AQpgeC7pkxU9X+ZeqZxha/E29aBybVtzCSm74x0jthffw7OEeMGLCuvJTmKN16HS6b9Bn+JV3w1QG+WjNGyQ11/D31avv4ByUkrr5JSyoKSFJ5kaKrLlGkrpBE16QUqnH99YNivl3iqy88JTBUDQzKA6wD9m/+Y0XDNviTf24w+eXMJx95KI2Relsew0oSrVJNYJ4EOKcB5gmAIi9VEpHtzxU5j7ZaWdVmIzWBsa8VlPAaxBNFWATiu4+sJEq9zd4mIzsTsD8FsI52w3p12VNGSHaxzdbnzXaZACcHYMsA6zlpFyzwtIzBFK41EdvVkzkyROKQ3NzDyQJscwBWNsDOAmyzAU420D+9Gw6RZ68SEccisBeMI5HyXW/T0X2ES/R5leuxHvAzOiGQd0Bw8GOXYGNptfOk+Bj6+4A4bv3Et9q43uJ1bEf34W5es0O8glNTeDPiJf08Jns6DAsczeUOdO0DtJSj+6S5Pov3n5u88ICU7yeJ+GewD8kPRgBxL4eH9TwAAAAASUVORK5CYII="},
+		  img: "data:image/png;base64,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"},
 
 {  name: "IE8 - Win7",//此處文字顯示在右鍵菜單上，中文字符請轉換成javascript編碼，否則亂碼(推薦http://rishida.net/tools/conversion/)
 ua: "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)",
 label: "IE8",//此處文字顯示在狀態欄上，如果你設置狀態欄不顯示圖標
-img: "data:image/png;base64,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"},
+img: "data:image/png;base64,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"},
 
 {  name: "IE11 - Win7",//此處文字顯示在右鍵菜單上，中文字符請轉換成javascript編碼，否則亂碼(推薦http://rishida.net/tools/conversion/)
 ua: "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko",
@@ -138,6 +112,11 @@ ua: "Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, lik
 label: "Apple iPad 2",
 img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADG0lEQVQ4jW3R708TdxwH8HPGB0fLj0TguN5dCxkLiUSDOrLExDAXf8RHOjKJmTEKrcUftKUdlLrVWQwI18QZ2Nwsa7vatBRaaHtnqdIqFIzgZtzOLtb4wGV/h7lv33uwLIuh7z/glc/7/aGof7Otq6vrF4NeX2rmeaVFEIoCpyt+fuJE0Ts5WbzmdhfdV13FEeeQ4rDbSy6XK+LxeD6g/ks8Ht8ucFyplmHR1L4bDR+1YeeHbdhz8FOM3boN9/gEnNc9sLu/Rb/FAqPR+Nbn8+14D+B1uj+Omy6VZ5Zy6mg0UZ7KyGVvMlWOrq2XpY2NsvT8RTn/8pU65vOXu0+eLG0BdCyrfNl/GbnlHAnML2JubgaR2D3IhSyevVhB/skaXhafk/Hb0/js0KHXWwCWZRXboAOp5QKJLspISmkkMzIyS6tYX/sN+fVNFH4tkQnRi086O7cCDMsqww47Ftb/JDG5gHQijGQ6hmxiBfn5x5BWn2Jh8y8yNjqKXe3tlQBGcdhHUHgYJXImguXlVeTyjyDJElL37yObXMTjWJhc99xAc7OhUgVGGfpqBIn4PJEWQ0iml5B9kMXcXByhcBSZRAKZoJ98/c018DxfeQPLgAW53ApJxFOQ0hLSqRRkWYaUlrCQTCFfeEJs1kFwlQCdTqcY+0y4e9dHfvj+DkKhewgGgwgEAggEgpiZ+Rmz0RgxGk2VL+A4Tunu/gI/3vmJTEyK8Hq9EEUvRFHEpOjFzfEJTE1Nk1OneqDX6ysDhw8fgcvpJDarDVaLBTabFTbbICwWKwasVjiGRsjRI8dgMFQYURAEZW9HBy5ZnaTn9Bn0mi7iXJ8ZvefPwnShD2dO92BooJ907N0HQ6UvcBz/+8cde9SLwdy73uFRdco/q96YDqk3x4dV8TuP6nGcU1dD5nf7Ow+oer3wagvQ0tLyRqvVoJFtAtPEgGEY8IIAXtBjZ0MjGpkGsLpGVFdXo7W19W+z2fw/QFEUpdVqr9TW1vo1VVV+mqbDNE1HampqonV1dRENTUdoWhOuqtL4NRqNv76+3k5R1DaKoqh/AOus3HSfnM0iAAAAAElFTkSuQmCC"},
 
+{name: "iOS/微信瀏覽器",
+ua: "Mozilla/5.0 (iPhone; CPU iPhone OS 6_1_4 like Mac OS X)AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B350MicroMessenger/4.5",
+label: "iOS-MM",
+img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAAAgAAAAIAAAl543UAAADwSURBVCjPtdFNK8MBAMDhZ5vkvV30D62m5fUiB681H0EpB19gpebiS3ARF3dxcOPgZlrIhYMrIVm0MKN5STGZg8+w3/m5/ah6EVNa5NFoxKhmRT+I6JWUUKZoU1hgw7N7L1a1IOVOwZNlpo1hwad53VZ8mxW4dGjQsH72Lepw4UAT4nJ29bm1rwPCRnRp0+bMBx7lxL1aNyZjTrTGPwv5BRUVlC24lLZkgE/bOuXsaUDMtax6EDjyFUZIXsa4Ge1SYnZUTEgI1Hrj3ZawLlklN0rWRCWcyXtwJx0yqeBERaukwJVjH+oM6VF26rz6r/wBo5JJ0SVt+rYAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTMtMDQtMDNUMTc6MTg6MDErMDg6MDDSRxDeAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDEzLTAyLTI4VDE5OjU0OjU1KzA4OjAwXI2twAAAAE10RVh0c29mdHdhcmUASW1hZ2VNYWdpY2sgNi44LjgtNyBRMTYgeDg2XzY0IDIwMTQtMDItMjggaHR0cDovL3d3dy5pbWFnZW1hZ2ljay5vcmdZpF9/AAAAGHRFWHRUaHVtYjo6RG9jdW1lbnQ6OlBhZ2VzADGn/7svAAAAGHRFWHRUaHVtYjo6SW1hZ2U6OkhlaWdodAA1MTKPjVOBAAAAF3RFWHRUaHVtYjo6SW1hZ2U6OldpZHRoADUxMhx8A9wAAAAZdEVYdFRodW1iOjpNaW1ldHlwZQBpbWFnZS9wbmc/slZOAAAAF3RFWHRUaHVtYjo6TVRpbWUAMTM2MjA1MjQ5Nd0ggmMAAAATdEVYdFRodW1iOjpTaXplADEyLjdLQkJCclMLAAAAYnRFWHRUaHVtYjo6VVJJAGZpbGU6Ly8vaG9tZS9mdHAvMTUyMC9lYXN5aWNvbi5jbi9lYXN5aWNvbi5jbi9jZG4taW1nLmVhc3lpY29uLmNuL3BuZy8xMDk3MS8xMDk3MTUwLnBuZ9oIJJMAAAAASUVORK5CYII="},
+
 {name: "分隔線",},
 
 //  偽裝 Nokia E72
@@ -156,6 +135,13 @@ img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXElE
 ua: "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; Desktop) AppleWebKit/534.13 (KHTML, like Gecko) UCBrowser/8.9.0.251",
 label: "UCBrowser",
 img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABFklEQVQ4jc2TsWoCQRCG9w0sgqX4CHZpfQrxGkOwC1jZKDY2NhIUUgTsghDBQgsLW21EqyuuEeGuMQge6+7tDcT6t7hweuqdB7GwGGaHYT6Y/59ljDFGRAjE7/72mwjs6nCMwdM6HBAz7gQQNlxjGmyaOmhjHevtGmrSgxp3QMv5GWC1AM8/gYTt7yiqWajRB4gIatIDf0lBfr7BGb5DtotngOU8HGAZ4FoS7mIUIaKphwKcfgO7UubSicgViI6Abg2i/HxDRFMHzyVAPyu/sStloMYduLMhuJYEWUa0jaKahWxqcI0pnK8K+Gvad0G2Ch5wNgCZupcv7kDYvsLOdz1o4Z8TslWAbGpe/8Eu8T+AyB8ZY/gAY1aTwt2Ru2IAAAAASUVORK5CYII="},
+
+{name: "分隔線",},
+{name : "BaiduYunGuanJia",
+ua : "netdisk;4.4.0.6;PC;PC-Windows;6.2.9200;WindowsBaiduYunGuanJia",
+label : "BaiduYunGuanJia",
+img : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACHElEQVR42p2UT2jTYADFPy8KbaUHD+JF7x48TBDFgR489bCBDgRFEQR31VEPUxT8j39wAxUU22oVNNNWFEQRYc0GG3MoznUZc6y21nZb0nZJviRNIoNnvoS4biqTBX6Q9773Xi4fIcFgMJxMJjlKqe08+B9YlnVCoVCYsBfLsrASWJeoqmovF/wXrEtM08JSqGGhR/iJM/3zuDAwDz5v4285hjNgopF63cTFPhP7nls4/s7Gsdc22lIWXo4vzvkQVmhEKBtovjuH6zx1dB2qXsfRlIqWpOzqpXnimR5GeRrDz3oRifYj/Wnut3/qlYSmLhFDRROKtpBnEMNwig7pUQ37H0kYaz0Cedce5Ns7IEyK4L+q2MtRRJ7oLgdf6Bgp6fB7zoCB7A+KrbdnceCphFLvICo3ulFo2onO1svYfHMazfdEcJ9VpL+o2H1fQuShCKqxEQNE1w3c6pOw4XwOwzkZuq67DLUcxvYTGWy69A3vxxf8bt7LjnxXwbpEc5bu8DNYHRWQ+iiC6apMsSOawZqTAh4Mep5PtiijnStCrFFXuwOFWRXrTgtY2zmGQ4/z2HJtAqQji3NvSk5IW0RB0hD7QFFTNG+AUg2MgakatsUKWHVlCuu7criamWF3Hv65z9vRKjaencBkWXE1qVSqdmNAUahzRf8sNuKfsy6Jx+McM1ZCIpHoIYFAIByLxTlJqtjLFXxYln2Y/Qp+AYT/fmUuqWWGAAAAAElFTkSuQmCC"
+                    },
 
 {name: "分隔線",},
 
@@ -180,283 +166,5 @@ ua: "Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10.5; en-US; rv:1.9.2.8) Gecko/2010
 label: "Firefox-Mac",
 img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADlElEQVQ4jW2TfVDTdQCHv1dd2Da2cMCGbxgshqPmXvhtv7Ht9zZ5VVeC44CBCHdJJ5r4R4BRRp3eefSmeXVUd3qeCUhKBxmYbJIYbMPxolididoVeWd3HSrINpZ8+q/TO5//n+e/h5BHaG4mT93/SasODaW/FvKlHA0Niz2hoRhvyLf6RNiXvnNuUK3t7CRPkyfxoD9Tv/BjwnDowpLF8MUYRHzPIhIQIRIQIexfgn/9MUAgBpELS6+EvAbhcbk7WX+vT353pk8G+GKB4FKE/EkIX0pCdDQJ4RElRjteQN9nqZg5J8PigCQ617067/9AtE8+NHg4GU3bs3C5XYOugzq0f2wEJtWIjqchOqZCsD0NJYUCqt0OXG9TItIrn/q7M0NC5k+r6MXv4tCxNxVGSy4YLg86yoF9dTpcO2NAeMyAhaAOMwPpCB5ZhcoiE7YWc5jtSsT8adVmMtu+sjZ8Uo6GKjNoKw+WZcGwLKxMDpp2sJgdNiPiNyF80YB7vWp8uUcL3pGHX1pXINyxooU8OJZ8eLpViU3redgZDjzPw2rnUOEScLVNj7teGrPnacx7jHh4ToPWBjPYnCJ8sycFkbZlJ8nsF4offm5ZhnUCA44TYDJbYMnMwPf703G/R4fwWQpzZ4yY71mLv46/jB1lVlj4DTiyaw1CXyV6yD+HFP2T7ymQw1vAcgJMZjMoisK+GhOOvkVjd7UDgU9NeNipxshHOjhyN4LPLkDPmy9i5mCil9w+sLz19/flqM5/CbSNB8dxsNsZGIwU8q1aNBWrce2DVPx5SIV3KgzgswvgLt4EX70Cdw4oT5HpZkXdH3vj8XnZcuhNNnAcD5blwLEMGl0anN29EufrU7HVmQWThUGeswg7X9Xjt8Y4TL+b9Am51ajkbjTEw789Di57GtZSVthsNtgZBlZGQM46AYLDAdrKwsoKyM524Gt3Am7Wy3GzPrGCDHDkmald8Zcna+PQVfo8CukUaLQGaI0mUHQWKNqKTIsNmVkMchgzWjYoMPG6DFN18tu/1sbKCSGE3KiROa5sky0EqmTocUnwtpCAQloFgdJAoDLgtKzBG/wqHHNK4dsSi6vb4nC9Rlr+2A8TVdLc8UrpLX+5FF6XGF1OEU6sF+N4gRinnM+hf7MII+WxmNgSe2e8Uup+4pHBjUQ0USbhR0sk+y+VSr7tfUXsGSwSe0ZKJN1jpeIPx9yifL+bSB91/gMKvPB030hdHgAAAABJRU5ErkJggg=="},
 
-		// 添加ua，到此結束
-	],
 
-	UANameIdxHash : [],
-
-	// ----- 下面設置開始 -----
-	// defautl: ステータスバーの右端に表示する
-	TARGET : null, // 定義一個target，用來調整狀態欄順序,null為空
-
-	ADD_OTHER_FX : true, // true:自動添加其他版本firefox的ua  false:不添加
-	
-	//2種版本firefox，下面請勿修改
-	EXT_FX_LIST : [{
-			name : "Firefox4.0",
-			ua : "Mozilla/5.0 (Windows; Windows NT 6.1; rv:2.0b2) Gecko/20100720 Firefox/4.0b2",
-			label : "Fx4.0",
-			img : ""
-		}, {
-			name : "Firefox3.6",
-			ua : "Mozilla/5.0 (Windows; U; Windows NT 5.1; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8",
-			label : "Fx3.6",
-			img : ""
-		},
-	],
-	// ----------------------
-	// UA リストのインデックス
-	def_idx : 0,
-	Current_idx : 0,
-
-	// 初期化
-	init : function () {
-		this.mkData(); // UA データ(UA_LIST)を作る
-		this.mkPanel(); // パネルとメニューを作る
-		this.setSiteIdx();
-		// Observer 登錄
-		var os = Cc["@mozilla.org/observer-service;1"].getService(Ci.nsIObserverService);
-		os.addObserver(this, "http-on-modify-request", false);
-		os.addObserver(this.onDocumentCreated, "content-document-global-created", false);
-		// イベント登錄
-		var contentArea = document.getElementById("appcontent");
-		contentArea.addEventListener("load", this, true);
-		contentArea.addEventListener("select", this, false);
-		var contentBrowser = this.getContentBrowser();
-		contentBrowser.tabContainer.addEventListener("TabClose", this, false);
-		window.addEventListener("unload", this, false);
-	},
-	onDocumentCreated : function (aSubject, aTopic, aData) {
-		var aChannel = aSubject.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIWebNavigation).QueryInterface(Ci.nsIDocShell).currentDocumentChannel;
-		if (aChannel instanceof Ci.nsIHttpChannel) {
-			var navigator = aSubject.navigator;
-			var userAgent = aChannel.getRequestHeader("User-Agent");
-			if (navigator.userAgent != userAgent)
-				Object.defineProperty(XPCNativeWrapper.unwrap(navigator), "userAgent", {
-					value : userAgent,
-					enumerable : true
-				});
-		}
-	},
-	// UA データを作る
-	mkData : function () {
-		var ver = this.getVer(); // 現在使っている Firefox のバージョン
-		// 現在使っている Firefox のデータを作る
-		var tmp = [];
-		tmp.name = "Firefox" + ver;
-		tmp.ua = "";
-		tmp.img = this.NOW_UA_IMG;
-		tmp.label = "Fx" + (this.ADD_OTHER_FX ? ver : "");
-		this.UA_LIST.unshift(tmp);
-		// Fx のバージョンを見て UA を追加する
-		if (this.ADD_OTHER_FX) {
-			if (ver == 3.6) { // Fx3.6 の場合 Fx4 を追加する
-				this.EXT_FX_LIST[0].img = this.EXT_FX_LIST_IMG;
-				this.UA_LIST.push(this.EXT_FX_LIST[0]);
-			} else { // Fx3.6 以外では Fx3.6 を追加する
-				this.EXT_FX_LIST[1].img = this.EXT_FX_LIST_IMG;
-				this.UA_LIST.push(this.EXT_FX_LIST[1]);
-			}
-		}
-		// 起動時の UA を 初期化 (general.useragent.override の值が有るかチェック 07/03/02)
-		var preferencesService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("");
-		if (preferencesService.getPrefType("general.useragent.override") != 0) {
-			for (var i = 0; i < this.UA_LIST.length; i++) {
-				if (preferencesService.getCharPref("general.useragent.override") == this.UA_LIST[i].ua) {
-					this.def_idx = i;
-					break;
-				}
-			}
-		}
-	},
-	// UA パネルを作る
-	mkPanel : function () {
-		var uacPanel = document.createElement("toolbarbutton");
-		uacPanel.setAttribute("id", "uac_statusbar_panel");
-		uacPanel.setAttribute("class", "toolbarbutton-1 chromeclass-toolbar-additional");
-		uacPanel.setAttribute("type", "menu");
-		// css 解決按鈕定義在urlbar-icons撐大地址欄，變寬……
-		document.insertBefore(document.createProcessingInstruction('xml-stylesheet', 'type="text/css" href="data:text/css;utf-8,' + encodeURIComponent(
-		'\
-		#uac_statusbar_panel {\
-		  -moz-appearance: none !important;\
-		  border-style: none !important;\
-		  border-radius: 0 !important;\
-		  padding: 0 3px !important;\
-		  margin: 0 !important;\
-		  background: transparent !important;\
-		  box-shadow: none !important;\
-		  -moz-box-align: center !important;\
-		  -moz-box-pack: center !important;\
-		  min-width: 18px !important;\
-		  min-height: 18px !important;\
-		          }\
-		#uac_statusbar_panel > .toolbarbutton-icon {\
-			max-width: 18px !important;\
-		    padding: 0 !important;\
-		    margin: 0 !important;\
-		}\
-		#uac_statusbar_panel dropmarker{display: none !important;}\
-		    ') + '"'), document.documentElement);
-
-		uacPanel.setAttribute("image", this.UA_LIST[this.def_idx].img);
-		uacPanel.style.padding = "0px 2px";
-
-		var toolbar = document.getElementById("urlbar-icons");
-		if (this.TARGET != null) { // default から書き換えている場合
-			this.TARGET = document.getElementById(this.TARGET);
-		}
-		toolbar.insertBefore(uacPanel, this.TARGET);
-		// UA パネルのコンテクストメニューを作る
-		var PopupMenu = document.createElement("menupopup");
-		PopupMenu.setAttribute("id", "uac_statusbar_panel_popup");
-		for (var i = 0; i < this.UA_LIST.length; i++) {
-			if (this.UA_LIST[i].name == "分隔線") {
-				var mi = document.createElement("menuseparator");
-				PopupMenu.appendChild(mi);
-			} else {
-				var mi = document.createElement("menuitem");
-
-				mi.setAttribute('label', this.UA_LIST[i].name);
-				mi.setAttribute('tooltiptext', this.UA_LIST[i].ua);
-				mi.setAttribute('oncommand', "ucjs_UAChanger.setUA(" + i + ");");
-
-				if (this.DISPLAY_TYPE) {
-					mi.setAttribute('class', 'menuitem-iconic');
-					mi.setAttribute('image', this.UA_LIST[i].img);
-				} else {
-					mi.setAttribute("type", "radio");
-					mi.setAttribute("checked", i == this.def_idx);
-				}
-				if (i == this.def_idx) {
-					mi.setAttribute("style", 'font-weight: bold;');
-					mi.style.color = 'red';
-				} else {
-					mi.setAttribute("style", 'font-weight: normal;');
-					mi.style.color = 'black';
-				}
-				mi.setAttribute("uac-generated", true);
-				PopupMenu.appendChild(mi);
-			}
-		}
-		uacPanel.addEventListener("popupshowing", this, false);
-		uacPanel.appendChild(PopupMenu);
-
-		// パネルの變更を可能にする
-		uacPanel.setAttribute("context", "uac_statusbar_panel_popup");
-		uacPanel.setAttribute("onclick", "event.stopPropagation();");
-	},
-	// URL 指定で User-Agent の書き換え(UserAgentSwitcher.uc.js より)
-	observe : function (subject, topic, data) {
-		if (topic != "http-on-modify-request")
-			return;
-		var http = subject.QueryInterface(Ci.nsIHttpChannel);
-		for (var i = 0; i < this.SITE_LIST.length; i++) {
-			if (http.URI && (new RegExp(this.SITE_LIST[i].url)).test(http.URI.spec)) {
-				var idx = this.SITE_LIST[i].idx;
-				http.setRequestHeader("User-Agent", this.UA_LIST[idx].ua, false);
-			}
-		}
-	},
-	// イベント・ハンドラ
-	handleEvent : function (aEvent) {
-		var contentBrowser = this.getContentBrowser();
-		var uacPanel = document.getElementById("uac_statusbar_panel");
-		var uacMenu = document.getElementById("uac_statusbar_panel_popup");
-		switch (aEvent.type) {
-		case "popupshowing": // コンテクスト・メニュー・ポップアップ時にチェック・マークを更新する
-			var menu = aEvent.target;
-			for (var i = 0; i < menu.childNodes.length; i++) {
-				if (i == ucjs_UAChanger.Current_idx) {
-					menu.childNodes[i].setAttribute("style", 'font-weight: bold;');
-					menu.childNodes[i].style.color = 'red';
-					if (!this.DISPLAY_TYPE)
-						menu.childNodes[i].setAttribute("checked", true);
-				} else {
-					menu.childNodes[i].setAttribute("style", 'font-weight: normal;');
-					menu.childNodes[i].style.color = 'black';
-				}
-			}
-			break;
-		case "load": // SITE_LIST に登錄された URL の場合
-		case "select":
-		case "TabClose":
-			for (var i = 0; i < ucjs_UAChanger.SITE_LIST.length; i++) {
-				if ((new RegExp(this.SITE_LIST[i].url)).test(contentBrowser.currentURI.spec)) {
-					var idx = this.SITE_LIST[i].idx;
-					this.setImage(idx);
-					return;
-				}
-			}
-			this.setImage(this.def_idx);
-
-			break;
-		case "unload": // 終了處理
-			var os = Cc["@mozilla.org/observer-service;1"].getService(Ci.nsIObserverService);
-			os.removeObserver(this, "http-on-modify-request");
-			os.removeObserver(this.onDocumentCreated, "content-document-global-created");
-			var contentArea = document.getElementById("appcontent");
-			contentArea.removeEventListener("load", this, true);
-			contentArea.removeEventListener("select", this, false);
-			if (contentBrowser)
-				contentBrowser.tabContainer.removeEventListener("TabClose", this, false);
-			uacMenu.removeEventListener("popupshowing", this, false);
-			window.removeEventListener("unload", this, false);
-			break;
-		}
-	},
-	// 番號を指定して UA を設定
-	setUA : function (i) {
-		var preferencesService = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("");
-		if (i == 0) { // オリジナル UA にする場合
-			// 既にオリジナル UA の場合は何もしない
-			if (preferencesService.getPrefType("general.useragent.override") == 0)
-				return;
-			preferencesService.clearUserPref("general.useragent.override");
-		} else { // 指定した UA にする場合
-			preferencesService.setCharPref("general.useragent.override", this.UA_LIST[i].ua);
-		}
-		this.def_idx = i;
-		this.setImage(i);
-	},
-	// UA パネル畫像とツールチップを設定
-	setImage : function (i) {
-		var uacPanel = document.getElementById("uac_statusbar_panel");
-
-		uacPanel.setAttribute("image", this.UA_LIST[i].img);
-		uacPanel.style.padding = "0px 2px";
-
-		this.Current_idx = i;
-	},
-	// アプリケーションのバージョンを取得する(Alice0775 氏のスクリプトから頂きました。)
-	getVer : function () {
-		var info = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULAppInfo);
-		var ver = parseInt(info.version.substr(0, 3) * 10, 10) / 10;
-		return ver;
-	},
-	setSiteIdx : function () {
-		for (let i = 0; i < this.UA_LIST.length; i++) {
-			this.UANameIdxHash[this.UA_LIST[i].name] = i;
-		}
-		for (let j = 0; j < this.SITE_LIST.length; j++) {
-			var uaName = this.SITE_LIST[j].Name;
-			if (this.UANameIdxHash[uaName]) {
-				this.SITE_LIST[j].idx = this.UANameIdxHash[uaName];
-
-			} else {
-				this.SITE_LIST[j].idx = this.def_idx;
-
-			}
-		}
-	},
-	// 現在のブラウザオブジェクトを得る。
-	getContentBrowser : function () {
-		var windowMediator = Cc["@mozilla.org/appshell/window-mediator;1"]
-			.getService(Ci.nsIWindowMediator);
-		var topWindowOfType = windowMediator.getMostRecentWindow("navigator:browser");
-		if (topWindowOfType)
-			return topWindowOfType.document.getElementById("content");
-		return null;
-	}
-}
-ucjs_UAChanger.init();
+]

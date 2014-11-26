@@ -65,8 +65,9 @@ var moveButton = {
         { id: "UserScriptLoader-icon", bar: "urlbar-icons", pos: 6},
         { id: "uSuper_preloader-icon", bar: "urlbar-icons", pos: 7},
         { id: "foxyproxy-toolbar-icon", bar: "urlbar-icons", pos: 8},
-        { id: "redirector-icon", bar: "urlbar-icons", pos: 9},
-        { id: "statusbarZoomLevel", bar: "urlbar-icons", pos: 10}        
+        //{ id: "redirector-icon", bar: "urlbar-icons", pos: 9},
+        //{ id: "ucjs_UserAgentChanger", bar: "urlbar-icons", pos: 10},
+        { id: "statusbarZoomLevel", bar: "urlbar-icons", pos: 11}        
         
         
     ],

@@ -5,7 +5,7 @@
 // @compatibility  Firefox 29+
 // @include        chrome://browser/content/places/places.xul
 // @include        chrome://browser/content/bookmarks/bookmarksPanel.xul
-// @charset      utf-8
+// @charset              UTF-8
 // ==/UserScript==
 
 (function () {

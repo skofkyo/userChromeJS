@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name           keyconfig_Modoki.uc.js
 // @include        main
+// @charset        UTF-8
 // @include chrome://browser/content/browser.xul
 // ==/UserScript==
 (function(){

@@ -1,6 +1,8 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 @-moz-document url-prefix("about:preferences") {
-    
+    #dialogBox{
+        width: 800px !important;
+    }
 /* 背景 */
     page {
         background:#FFF !important;

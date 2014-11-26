@@ -3,7 +3,7 @@
 // @description  附件組件頁面右鍵新增查看所在目錄，詳細信息頁面新增安裝地址或路徑，新增 uc腳本管理頁面。
 // @author       ywzhaiqi
 // @include      main
-// @charset      utf-8
+// @charset      UTF-8
 // @version      2014.09.11
 // @downloadURL  https://raw.github.com/ywzhaiqi/userChromeJS/master/AddonsPage/AddonsPage.uc.js
 // @homepageURL  https://github.com/ywzhaiqi/userChromeJS/tree/master/AddonsPage

@@ -265,7 +265,7 @@ page({
                     else {var txt = getBrowserSelection();}
                     var xmlhttp = new XMLHttpRequest;
                     
-                    xmlhttp.open("get", "http://translate.google.hk/translate_a/t?client=t" + urls[event.button] + txt, 0);
+                    xmlhttp.open("get", "http://translate.google.tw/translate_a/t?client=t" + urls[event.button] + txt, 0);
                     xmlhttp.send();
                     for(var i = 0; i < xmlhttp.responseText.length; i++) {
                             var output = eval("(" + xmlhttp.responseText + ")")[0][i][0];
@@ -284,9 +284,44 @@ page({
                             }
                     };
             },
-            condition:'input'
+            condition:'input',
 });
-    
+
+page({
+    label: "下載腳本檔案鏈接到指定位置",
+    tooltiptext: "下載鏈接到指定位置 (不彈窗)\nUC Script 下載到 chrome 資料夾\nUser Script 下載到 UserScriptLoader 資料夾\nUser Style 下載到 UserCSSLoader 資料夾\nJavaScript 下載到 local 資料夾",
+    condition:'link',
+    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABCElEQVQ4jd2RsWoCURBFFwIJSUrFQuyUx8Luu+dCyAeIQmp/IB8k6bQx+UFLCxGirKZZQ7I+Y9Lmwq3ezJk787KsIUn3wMz21vah9haYSbpv1p+oLMs+sPzSfLB9AJZlWfYvAoBge9UE2F4B4b8CiqK4jjE+AENJz8A6ccR1/TYsiuJxMBjcfAJ6vd6tpCnwDuwT04+QfV3z0u12776lyPO8BSwa/9/0Fljked5KrnIB8nPzUSGEdgKyBRYhhHbq6hNJnTNJdrZ3qcmSOsAkAypJo1QSSVNJ09RkSSOgyoAqxjg+s9FV7RPFGMdAldneSHqVNPqtgSfbb7Y3GTC3vQGqP3hf98w/AHA+wuIFFjTgAAAAAElFTkSuQmCC",
+    onclick: function(e) {
+        var url = addMenu.convertText("%RLINK_OR_URL%"),
+            uri = Components.classes["@mozilla.org/network/io-service;1"].
+        getService(Components.interfaces.nsIIOService).newURI(url, null, null)
+
+        var file = Components.classes["@mozilla.org/file/directory_service;1"].
+        getService(Components.interfaces.nsIProperties).
+        get("ProfD", Components.interfaces.nsIFile);
+
+        // 添加哪个文件夹名
+        file.append("chrome");
+        if (url.endsWith(".uc.js") || url.endsWith(".uc.xul")) {
+
+        } else if (url.endsWith("user.js")) {
+            file.append("UserScriptLoader");
+        } else if (url.endsWith(".js")) {
+            file.append("local");
+        } else if (url.endsWith(".css")) {
+            file.append("UserCSSLoader");
+        }
+
+        // 添加文件名
+        file.append(getDefaultFileName(null, uri));
+        internalSave(null, null, null, null, null, null, null, {
+            file: file,
+            uri: uri
+        }, null, internalSave.length === 12 ? document : true, internalSave.length === 12 ? true : null, null);
+    }
+});
+
 var execute = PageMenu({class: "exec",label: "以外部程序開啟", image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADKUlEQVQ4jaWTfUzMcRzHv0O4UyIZmTjmaVOyO3IknbrqV50kXc7CZJadp7ozlMvjCAt5uB7Wgzpnbp3SdTl31BVRrlS6EJPKxsywzCl1d796+6PJMv7y/vOzvd6fz957fwj5hyQSiYtYLPaLi4tz+DVD59YJ3e2hnmjgz/gXN6Tw8PAluoKCC0/kabv6uo6L6fb1lQPNvh20aYmKfsTJ6dd7Jv4VhFA40paalkCnpL6nb55Hf2cCbDVc2NOjYE062PYxXrqBEEL61PMptZqMHg7zeKPsiTKNXSoFXXMaA2+j0FUjgjJHAW1wBCzRIvQKo/E1KvocNB7uarVw5DCDx1LRUWvsVtBPTwAv/fG6XILisnpkXK9EXkYxOtlsdPusxHdvLt6u9No2DGZFsCZEakIslrpDQKsf6i9FQpZZhQzVI6TkVyMrtxiVvu74JmLBsssNX2ST3xBCfl+wKt0nJrd1B/CKj+4kD5wPiMK+rApo6zoglxdAGeuLWpk/ehWOsJUzYa9lovyyA3fIIEm/Tm7tWIP7xuUo9J0FCS8amxQN2HxSAWPMNCRc0uDBrYuw1Y2FvZkBu5mB55qx2wfDw7Gp3ztF5g/32VhbxIcwZRnyYuNxoaIN9c3PIErOxOpUE0orboA2jwHdwoCtmYlnJc5iQgghtt5TW2z13j0HtP7gK3kIKgzAntyjyNebEJKsBDvZAO4RPT6+iAfdMri9r2E8qjInCgggn0R/iMnqKPGo5V/n04GqAAjuUNhbloCkmxexM8uA+Gw9rhrTYDWPg93MgLVpHD4bXS1CDnEmABlBN/lU9RmXruGeWaEKLgxC2G0KAm0IBHoKEQYBqGIK1dXTBuFGR1geTkZd7pQzQwEOVC9shWnjFCeek+uqK36twaoghGoohN2mEKajcEDnDWujI3pME9FldINZ4f5wOSGMIQPa5FkL3dzFhBDC5DDdOLJlVbzsgIHAa4EIVgaixcDCJ8N0vCua2a87PaOIzyHOw0r0467HCrp0diZdyIowJI6fw3QgbBcvV+m8HV75mw4v0t47yyot2D89x2fBmN2EkIWE/PED/6OfPpfFsNBpBf4AAAAASUVORK5CYII=" });
 execute([
 	{

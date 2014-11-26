@@ -2,6 +2,7 @@
 // @name               EasyDrag.uc.js
 // @namespace          EasyDrag@gmail.com
 // @author             紫云飞
+// @charset               UTF-8
 // @description        从紫大博客定制,修复了拖拽链接的一个小bug
 // @homepageURL        http://www.cnblogs.com/ziyunfei/archive/2011/12/20/2293928.html
 // ==/UserScript==
@@ -102,15 +103,38 @@ location == "chrome://browser/content/browser.xul" && (function(event) {
 					}
 				} else {
 					var selection = content.document.getSelection().toString();
+					var gbs = getBrowserSelection();
 					var edgsel = event.dataTransfer.getData("text/unicode");//选中的文字
 					if (direction == "R") {
 						//Google搜索選取文字(背景)[辨識URL並開啟][向右]
-						/^about:/i.test(getBrowserSelection()) && setTimeout('gBrowser.addTab(getBrowserSelection()) && content.document.getSelection().removeAllRanges();',0) || self.seemAsURL(getBrowserSelection()) && setTimeout('gBrowser.addTab(getBrowserSelection()) && content.document.getSelection().removeAllRanges();',0) || gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(getBrowserSelection()))  && content.document.getSelection().removeAllRanges();
+						/^about:/i.test(gbs) && setTimeout('gBrowser.addTab(getBrowserSelection()) && content.document.getSelection().removeAllRanges();',0) || self.seemAsURL(gbs) && setTimeout('gBrowser.addTab(getBrowserSelection()) && content.document.getSelection().removeAllRanges();',0) || gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(selection || gbs))  && content.document.getSelection().removeAllRanges();
 						return;
 					}
 					if (direction == "L") {
 						//新分頁Google翻譯選取文字(前景)[向左]
-						gBrowser.selectedTab = gBrowser.addTab("http://translate.google.tw/translate_t?hl=zh-TW#auto|zh-TW|"+encodeURIComponent(selection || getBrowserSelection()));
+						gBrowser.selectedTab = gBrowser.addTab("http://translate.google.tw/translate_t?hl=zh-TW#auto|zh-TW|"+encodeURIComponent(selection || gbs));						
+						/*
+						var div = content.document.documentElement.appendChild(content.document.createElement("div"));
+						
+						div.style.cssText = "position:absolute;\
+						z-index:1000;\
+						border:solid 3px hsla(220,65%,84%,1);\
+						border-radius: 5px;\
+						background: -moz-linear-gradient( hsla(100,65%,94%,1) 0px, hsla(100,35%,80%,1) 100%) border-box;\
+						padding:5px;\
+						font-size: 10pt;\
+						color: black;\
+						left:" + +(event.clientX + content.scrollX + 10) + 'px;top:' + +(event.clientY + content.scrollY + 10) + "px";
+						
+						var xmlhttp = new XMLHttpRequest;
+						xmlhttp.open("get", "http://translate.google.tw/translate_a/t?client=t&sl=en&tl=zh-TW&text=" + selection || gbs, 0);
+						xmlhttp.send();
+						div.textContent = eval("(" + xmlhttp.responseText + ")")[0][0][0];
+						content.addEventListener("click", function() {
+						content.removeEventListener("click", arguments.callee, false);
+						div.parentNode.removeChild(div);
+						}, false);
+						*/
 						return;
 					}
 					if (direction == "D") {

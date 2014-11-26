@@ -1,5 +1,16 @@
 // ==/UserScript==
-// @charset      utf-8
+// @name                  FireGestures.uc.js
+// @description        滑鼠手勢
+// @include               main
+// @compatibility     Firefox 4.0+
+// @author                紫雲飛
+// @charset               UTF-8
+// @homepage         
+// @version              
+// @updateURL         
+// @update
+// @note                   
+// @include              chrome://browser/content/browser.xul
 // ==/UserScript==
 location == "chrome://browser/content/browser.xul" && (function () {
 	ucjsMouseGestures = {

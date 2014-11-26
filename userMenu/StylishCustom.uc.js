@@ -5,7 +5,7 @@
 // @author       Crab
 // @include      chrome://stylish/content/edit.xul
 // @version      0.0.7.5
-// @charset 	 utf-8
+// @charset              UTF-8
 // @updateURL    https://j.mozest.com/ucscript/script/110.meta.js
 // @note         自用修改：移动按钮位置到预览按钮后面
 // ==/UserScript==

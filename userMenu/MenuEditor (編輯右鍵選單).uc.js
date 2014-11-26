@@ -2,10 +2,10 @@
 // @name                  Menu Editor.uc.js
 // @description        編輯頁面右鍵選單 (自用版)
 // @include               main
-// @charset      utf-8
+// @charset               UTF-8
 // @compatibility     Firefox 4.0+
 // @author                skofkyo
-// @version              20121114
+// @version              20141114
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
 

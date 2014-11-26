@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name ucjs_copysysinfo_0.2.uc.js
 // @include main
-// @charset      utf-8
+// @charset              UTF-8
 // @description 添加一个复制UA、 附件组件/userChrome.js 脚本列表等信息到剪贴板的菜
 // @compatibility WindowsXP/Vista/7/Ubuntu10.04(gnome)
 // @compatibility Firefox 3.6.* - 9.0.* / Thunderbird 3.1.*

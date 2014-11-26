@@ -61,12 +61,20 @@
   //=====================USE_0_63_FOLDER = falseの時===================
   var UCJS      = new Array("UCJSFiles","userContent","userMenu"); //UCJS Loader 仕様を適用 (NoScriptでfile:///を許可しておく)
   var UCJS      = new Array("UCJSFiles","userContent","userMenu"); //UCJS Loader 仕様を適用 (NoScriptでfile:///を許可しておく)
-  var arrSubdir = new Array("", "xul","TabMixPlus","withTabMixPlus", "SubScript", "UCJSFiles", "userCrome.js.0.8","userContent","userMenu",
+  var arrSubdir = new Array("", "xul","withTabMixPlus"  ,  "userCrome.js.0.8","userContent",
+"SubScript", 
+"UCJSFiles",
+"TabMixPlus",
+"userMenu",
+"userButton",
+"PageBrowse",
+"ToolbarScript",
+"downloadPlus",
+ "\u6DFB\u52A0\u9078\u55AE\u529F\u80FD",//添加選單功能
 "\u9801\u9762\u700F\u89BD\u529F\u80FD",//頁面瀏覽功能
 "\u5DE5\u5177\u5217\u6309\u9215",//工具列按鈕
 "\u4E0B\u8F09\u5C0D\u8A71\u6846\u589E\u5F37",//下載對話框增強
 "\u5DE5\u5177\u5217\u529F\u80FD\u589E\u5F37",//工具列功能增強
-"\u6DFB\u52A0\u9078\u55AE\u529F\u80FD",//添加選單功能
 "\u4ECB\u9762\u66F4\u6539"); //介面更改
 //スクリプトはこの順番で実行される
   //===================================================================
