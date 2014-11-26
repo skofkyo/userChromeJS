@@ -293,6 +293,10 @@ window.UCL = {
 		}
 		if (this.initialized)
 			XULBrowserWindow.statusTextField.label = "重新加載樣式已完成";//Rebuild しました
+			
+			setTimeout(function(){
+			XULBrowserWindow.statusTextField.label = "";
+			}, 1500);	
 	},
 	loadCSS: function(aFile) {
 		var CSS = this.readCSS[aFile.leafName];
