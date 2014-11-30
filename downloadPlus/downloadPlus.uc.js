@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         downloadPlus.uc.js
-// @charset      utf-8
 // @description  從硬盤中刪除+下載重命名並可轉碼+雙擊複製鏈接+另存為+保存並打開+完成下載提示音+自動關閉下載產生的空白標籤
 // @author       w13998686967再次修改整合 (ywzhaiqi、黑儀大螃蟹、Alice0775、紫雲飛)
 // @include      chrome://browser/content/browser.xul
@@ -8,54 +7,55 @@
 // @include      chrome://mozapps/content/downloads/unknownContentType.xul
 // @include      chrome://mozapps/content/downloads/downloads.xul
 // @include      chrome://browser/content/downloads/contentAreaDownloadsView.xul
+// @version      2014.11.30
 // @version      2014.11.02 增加多個功能
 // @version      2014.06.06 add delay to fix for new userChrome.js
+// @charset      UTF-8
 // ==/UserScript==
 (function() {
 
-    var encoding = true         //true,(新建下載)彈窗             false,不彈窗
+    var popups = true           //true,(新建下載)彈窗             false,不彈窗
     var rename = true           //true,(下載改名)可改名           false,不可改
-    var locking = true          //true,(下載改名)自動鎖定保存文件 false,不鎖定
+    var locking = true          //true,(下載改名)鎖定保存文件按鈕 false,不鎖定
     var encodingConvert = true  //true,(下載改名)開啟下拉菜單選項 false,關閉下拉菜單選項
-    var Convert = false          //true,(保存並打開)兼容火狐版本26+(也許會有BUG)     false,火狐版本29+
+    var convert = false          //true,(保存並打開)兼容火狐版本26+(也許會有BUG)     false,火狐版本29+
 
     switch (location.href) {
 	    case "chrome://browser/content/browser.xul":
 		    setTimeout(function(){
-			    new_Download();                    // 新建下載
+			    new_Download();                    // 新建下載              
 			    downloadsPanel_removeFile();       // 從硬盤中刪除
 			    //downloadSound_Play();              // 下載完成提示音
 				downloadFileSize();                // 精確顯示文件大小
 				autoClose_blankTab();              // 自動關閉下載產生的空白標籤
 				saveAndOpen_on_main(); 		       // 跟下面的 save_AndOpen 配合使用
-				download_dialog_changeName_on_main()// 跟下面的 download_dialog_changeName 配合使用
-			}, 200);	
+				download_dialog_changeName_on_main();// 跟下面的 download_dialog_changeName 配合使用
+			}, 100);	
             break;
         case "chrome://mozapps/content/downloads/unknownContentType.xul":
             setTimeout(function(){
-			    save_And_Open();                   // 儲存並開啟
+			    save_And_Open();                   // 保存並打開
                 download_dialog_changeName();      // 下載改名
-                download_dialog_saveas();          // 另存新檔...
-				download_dialog_saveTo();          // 儲存到...
+                download_dialog_saveas();          // 另存為...
+				download_dialog_saveTo();          // 保存到...
 				download_dialog_showCompleteURL(); // 下載彈出窗口雙擊鏈接複製完整鏈接
-				download_dialog_doubleclicksaveL();// 下載彈出窗口雙擊保存文件項執行下載	
-				//Window.sizeToContent();
-            }, 200);
+				download_dialog_doubleclicksaveL();// 下載彈出窗口雙擊保存文件項執行下載
+				window.sizeToContent();            // 下載彈出窗口大小自適應(確保在添加的按鈕之後加載)
+            }, 100);
             break;
 		case "chrome://browser/content/places/places.xul":
 		    setTimeout(function(){
 			    new_Download();                    // 新建下載(我的足跡)
                 downloadsPanel_removeFile();       // 從硬盤中刪除(我的足跡)
-			}, 200);	
+			}, 100);	
             break;
 		case "chrome://browser/content/downloads/contentAreaDownloadsView.xul":
 		    setTimeout(function(){
 			    new_Download();
                 downloadsPanel_removeFile();       // 從硬盤中刪除(我的足跡)
-			}, 200);	
+			}, 100);	
             break;
     }
-	
 		
 	// 下載完成提示音
 	function downloadSound_Play() {
@@ -146,10 +146,10 @@
 	//新建下載
 	function new_Download() {
 	    var createDownloadDialog = function(){
-        if (encoding)
+        if (popups)
             window.openDialog("data:application/vnd.mozilla.xul+xml;charset=UTF-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjw/eG1sLXN0eWxlc2hlZXQgaHJlZj0iY2hyb21lOi8vZ2xvYmFsL3NraW4vIiB0eXBlPSJ0ZXh0L2NzcyI/Pg0KPHdpbmRvdyB4bWxucz0iaHR0cDovL3d3dy5tb3ppbGxhLm9yZy9rZXltYXN0ZXIvZ2F0ZWtlZXBlci90aGVyZS5pcy5vbmx5Lnh1bCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSIzMDAiIHRpdGxlPSLmlrDlop7kuIvovInku7vli5kiPg0KCTxoYm94IGFsaWduPSJjZW50ZXIiIHRvb2x0aXB0ZXh0PSJodHRwOi8vd3d3LmV4YW1wbGUuY29tL1sxLTEwMC0zXSAgKFvplovlp4st57WQ5p2fLeS9jeaVuF0pIj4NCgkJPGxhYmVsIHZhbHVlPSLmibnph4/ku7vli5kiPjwvbGFiZWw+DQoJCTx0ZXh0Ym94IGZsZXg9IjEiLz4NCgk8L2hib3g+DQoJPHRleHRib3ggaWQ9InVybHMiIG11bHRpbGluZT0idHJ1ZSIgZmxleD0iMSIvPg0KCTxoYm94IGRpcj0icmV2ZXJzZSI+DQoJCTxidXR0b24gbGFiZWw9IumWi+Wni+S4i+i8iSIvPg0KCTwvaGJveD4NCgk8c2NyaXB0Pg0KCQk8IVtDREFUQVsNCgkJZnVuY3Rpb24gUGFyc2VVUkxzKCkgew0KCQkJdmFyIGJhdGNodXJsID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcigidGV4dGJveCIpLnZhbHVlOw0KCQkJaWYgKC9cW1xkKy1cZCsoLVxkKyk/XF0vLnRlc3QoYmF0Y2h1cmwpKSB7DQoJCQkJZm9yICh2YXIgbWF0Y2ggPSBiYXRjaHVybC5tYXRjaCgvXFsoXGQrKS0oXGQrKS0/KFxkKyk/XF0vKSwgaSA9IG1hdGNoWzFdLCBqID0gbWF0Y2hbMl0sIGsgPSBtYXRjaFszXSwgdXJscyA9IFtdOyBpIDw9IGo7IGkrKykgew0KCQkJCQl1cmxzLnB1c2goYmF0Y2h1cmwucmVwbGFjZSgvXFtcZCstXGQrKC1cZCspP1xdLywgKGkgKyAiIikubGVuZ3RoIDwgayA/IChldmFsKCIxMGUiICsgKGsgLSAoaSArICIiKS5sZW5ndGgpKSArICIiKS5zbGljZSgyKSArIGkgOiBpKSk7DQoJCQkJfQ0KCQkJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUgPSB1cmxzLmpvaW4oIlxuIik7DQoJCQl9IGVsc2Ugew0KCQkJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUgPSBiYXRjaHVybDsNCgkJCX0NCgkJfQ0KCQl2YXIgb3duZXIgPSB3aW5kb3cub3BlbmVyOw0KCQl3aGlsZShvd25lci5vcGVuZXIgJiYgb3duZXIubG9jYXRpb24gIT0gImNocm9tZTovL2Jyb3dzZXIvY29udGVudC9icm93c2VyLnh1bCIpew0KCQkJb3duZXIgPSBvd25lci5vcGVuZXI7DQoJCX0NCnZhciBtYWlud2luID0gQ29tcG9uZW50cy5jbGFzc2VzWyJAbW96aWxsYS5vcmcvYXBwc2hlbGwvd2luZG93LW1lZGlhdG9yOzEiXS5nZXRTZXJ2aWNlKENvbXBvbmVudHMuaW50ZXJmYWNlcy5uc0lXaW5kb3dNZWRpYXRvcikuZ2V0TW9zdFJlY2VudFdpbmRvdygibmF2aWdhdG9yOmJyb3dzZXIiKTsJCQlkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCJ0ZXh0Ym94IikuYWRkRXZlbnRMaXN0ZW5lcigia2V5dXAiLCBQYXJzZVVSTHMsIGZhbHNlKTsNCgkJZG9jdW1lbnQucXVlcnlTZWxlY3RvcigiYnV0dG9uIikuYWRkRXZlbnRMaXN0ZW5lcigiY29tbWFuZCIsIGZ1bmN0aW9uICgpIHsJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUuc3BsaXQoIlxuIikuZm9yRWFjaChmdW5jdGlvbiAodXJsKSB7DQoJCQkJb3duZXIuc2F2ZVVSTCh1cmwgLCBudWxsLCBudWxsLCBudWxsLCBudWxsLCBudWxsLCBtYWlud2luLmRvY3VtZW50KTsNCgkJCX0pOw0KCQkJY2xvc2UoKQ0KCQl9LCBmYWxzZSk7DQoJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoInRleHRib3giKS52YWx1ZSA9IG93bmVyLnJlYWRGcm9tQ2xpcGJvYXJkKCk7DQoJCVBhcnNlVVJMcygpOw0KCQldXT4NCgk8L3NjcmlwdD4NCjwvd2luZG93Pg==", "name", "top=" + (window.screenY + window.innerHeight/4 - 50) + ",left=" + (window.screenX + window.innerWidth/2 - 250));
 	    else
-	        window.openDialog("data:application/vnd.mozilla.xul+xml;charset=UTF-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjw/eG1sLXN0eWxlc2hlZXQgaHJlZj0iY2hyb21lOi8vZ2xvYmFsL3NraW4vIiB0eXBlPSJ0ZXh0L2NzcyI/Pg0KPHdpbmRvdyB4bWxucz0iaHR0cDovL3d3dy5tb3ppbGxhLm9yZy9rZXltYXN0ZXIvZ2F0ZWtlZXBlci90aGVyZS5pcy5vbmx5Lnh1bCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSIzMDAiIHRpdGxlPSLmlrDlu7rkuIvovInku7vli5kiPg0KCTxoYm94IGFsaWduPSJjZW50ZXIiIHRvb2x0aXB0ZXh0PSJodHRwOi8vd3d3LmV4YW1wbGUuY29tL1sxLTEwMC0zXSAgKFvplovlp4st57WQ5p2fLeS9jeaVuF0pIj4NCgkJPGxhYmVsIHZhbHVlPSLmibnph4/ku7vli5kiPjwvbGFiZWw+DQoJCTx0ZXh0Ym94IGZsZXg9IjEiLz4NCgk8L2hib3g+DQoJPHRleHRib3ggaWQ9InVybHMiIG11bHRpbGluZT0idHJ1ZSIgZmxleD0iMSIvPg0KCTxoYm94IGRpcj0icmV2ZXJzZSI+DQoJCTxidXR0b24gbGFiZWw9IumWi+Wni+S4i+i8iSIvPg0KCTwvaGJveD4NCgk8c2NyaXB0Pg0KCQk8IVtDREFUQVsNCgkJZnVuY3Rpb24gUGFyc2VVUkxzKCkgew0KCQkJdmFyIGJhdGNodXJsID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcigidGV4dGJveCIpLnZhbHVlOw0KCQkJaWYgKC9cW1xkKy1cZCsoLVxkKyk/XF0vLnRlc3QoYmF0Y2h1cmwpKSB7DQoJCQkJZm9yICh2YXIgbWF0Y2ggPSBiYXRjaHVybC5tYXRjaCgvXFsoXGQrKS0oXGQrKS0/KFxkKyk/XF0vKSwgaSA9IG1hdGNoWzFdLCBqID0gbWF0Y2hbMl0sIGsgPSBtYXRjaFszXSwgdXJscyA9IFtdOyBpIDw9IGo7IGkrKykgew0KCQkJCQl1cmxzLnB1c2goYmF0Y2h1cmwucmVwbGFjZSgvXFtcZCstXGQrKC1cZCspP1xdLywgKGkgKyAiIikubGVuZ3RoIDwgayA/IChldmFsKCIxMGUiICsgKGsgLSAoaSArICIiKS5sZW5ndGgpKSArICIiKS5zbGljZSgyKSArIGkgOiBpKSk7DQoJCQkJfQ0KCQkJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUgPSB1cmxzLmpvaW4oIlxuIik7DQoJCQl9IGVsc2Ugew0KCQkJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUgPSBiYXRjaHVybDsNCgkJCX0NCgkJfQ0KCQl2YXIgb3duZXIgPSB3aW5kb3cub3BlbmVyOw0KCQl3aGlsZShvd25lci5vcGVuZXIgJiYgb3duZXIubG9jYXRpb24gIT0gImNocm9tZTovL2Jyb3dzZXIvY29udGVudC9icm93c2VyLnh1bCIpew0KCQkJb3duZXIgPSBvd25lci5vcGVuZXI7DQoJCX0NCnZhciBtYWlud2luID0gQ29tcG9uZW50cy5jbGFzc2VzWyJAbW96aWxsYS5vcmcvYXBwc2hlbGwvd2luZG93LW1lZGlhdG9yOzEiXS5nZXRTZXJ2aWNlKENvbXBvbmVudHMuaW50ZXJmYWNlcy5uc0lXaW5kb3dNZWRpYXRvcikuZ2V0TW9zdFJlY2VudFdpbmRvdygibmF2aWdhdG9yOmJyb3dzZXIiKTsJCQlkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCJ0ZXh0Ym94IikuYWRkRXZlbnRMaXN0ZW5lcigia2V5dXAiLCBQYXJzZVVSTHMsIGZhbHNlKTsNCgkJZG9jdW1lbnQucXVlcnlTZWxlY3RvcigiYnV0dG9uIikuYWRkRXZlbnRMaXN0ZW5lcigiY29tbWFuZCIsIGZ1bmN0aW9uICgpIHsJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUuc3BsaXQoIlxuIikuZm9yRWFjaChmdW5jdGlvbiAodXJsKSB7DQoJCQkJb3duZXIuc2F2ZVVSTCh1cmwgLCBudWxsLCBudWxsLCBudWxsLCB0cnVlLCBudWxsLCBtYWlud2luLmRvY3VtZW50KTsNCgkJCX0pOw0KCQkJY2xvc2UoKQ0KCQl9LCBmYWxzZSk7DQoJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoInRleHRib3giKS52YWx1ZSA9IG93bmVyLnJlYWRGcm9tQ2xpcGJvYXJkKCk7DQoJCVBhcnNlVVJMcygpOw0KCQldXT4NCgk8L3NjcmlwdD4NCjwvd2luZG93Pg==", "name", "top=" + (window.screenY + window.innerHeight/4 - 50) + ",left=" + (window.screenX + window.innerWidth/2 - 250));
+	        window.openDialog("data:application/vnd.mozilla.xul+xml;charset=UTF-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjw/eG1sLXN0eWxlc2hlZXQgaHJlZj0iY2hyb21lOi8vZ2xvYmFsL3NraW4vIiB0eXBlPSJ0ZXh0L2NzcyI/Pg0KPHdpbmRvdyB4bWxucz0iaHR0cDovL3d3dy5tb3ppbGxhLm9yZy9rZXltYXN0ZXIvZ2F0ZWtlZXBlci90aGVyZS5pcy5vbmx5Lnh1bCIgd2lkdGg9IjUwMCIgaGVpZ2h0PSIzMDAiIHRpdGxlPSLmlrDlop7kuIvovInku7vli5kiPg0KCTxoYm94IGFsaWduPSJjZW50ZXIiIHRvb2x0aXB0ZXh0PSJodHRwOi8vd3d3LmV4YW1wbGUuY29tL1sxLTEwMC0zXSAgKFvplovlp4st57WQ5p2fLeS9jeaVuF0pIj4NCgkJPGxhYmVsIHZhbHVlPSLmibnph4/ku7vli5kiPjwvbGFiZWw+DQoJCTx0ZXh0Ym94IGZsZXg9IjEiLz4NCgk8L2hib3g+DQoJPHRleHRib3ggaWQ9InVybHMiIG11bHRpbGluZT0idHJ1ZSIgZmxleD0iMSIvPg0KCTxoYm94IGRpcj0icmV2ZXJzZSI+DQoJCTxidXR0b24gbGFiZWw9IumWi+Wni+S4i+i8iSIvPg0KCTwvaGJveD4NCgk8c2NyaXB0Pg0KCQk8IVtDREFUQVsNCgkJZnVuY3Rpb24gUGFyc2VVUkxzKCkgew0KCQkJdmFyIGJhdGNodXJsID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcigidGV4dGJveCIpLnZhbHVlOw0KCQkJaWYgKC9cW1xkKy1cZCsoLVxkKyk/XF0vLnRlc3QoYmF0Y2h1cmwpKSB7DQoJCQkJZm9yICh2YXIgbWF0Y2ggPSBiYXRjaHVybC5tYXRjaCgvXFsoXGQrKS0oXGQrKS0/KFxkKyk/XF0vKSwgaSA9IG1hdGNoWzFdLCBqID0gbWF0Y2hbMl0sIGsgPSBtYXRjaFszXSwgdXJscyA9IFtdOyBpIDw9IGo7IGkrKykgew0KCQkJCQl1cmxzLnB1c2goYmF0Y2h1cmwucmVwbGFjZSgvXFtcZCstXGQrKC1cZCspP1xdLywgKGkgKyAiIikubGVuZ3RoIDwgayA/IChldmFsKCIxMGUiICsgKGsgLSAoaSArICIiKS5sZW5ndGgpKSArICIiKS5zbGljZSgyKSArIGkgOiBpKSk7DQoJCQkJfQ0KCQkJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUgPSB1cmxzLmpvaW4oIlxuIik7DQoJCQl9IGVsc2Ugew0KCQkJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUgPSBiYXRjaHVybDsNCgkJCX0NCgkJfQ0KCQl2YXIgb3duZXIgPSB3aW5kb3cub3BlbmVyOw0KCQl3aGlsZShvd25lci5vcGVuZXIgJiYgb3duZXIubG9jYXRpb24gIT0gImNocm9tZTovL2Jyb3dzZXIvY29udGVudC9icm93c2VyLnh1bCIpew0KCQkJb3duZXIgPSBvd25lci5vcGVuZXI7DQoJCX0NCnZhciBtYWlud2luID0gQ29tcG9uZW50cy5jbGFzc2VzWyJAbW96aWxsYS5vcmcvYXBwc2hlbGwvd2luZG93LW1lZGlhdG9yOzEiXS5nZXRTZXJ2aWNlKENvbXBvbmVudHMuaW50ZXJmYWNlcy5uc0lXaW5kb3dNZWRpYXRvcikuZ2V0TW9zdFJlY2VudFdpbmRvdygibmF2aWdhdG9yOmJyb3dzZXIiKTsJCQlkb2N1bWVudC5xdWVyeVNlbGVjdG9yKCJ0ZXh0Ym94IikuYWRkRXZlbnRMaXN0ZW5lcigia2V5dXAiLCBQYXJzZVVSTHMsIGZhbHNlKTsNCgkJZG9jdW1lbnQucXVlcnlTZWxlY3RvcigiYnV0dG9uIikuYWRkRXZlbnRMaXN0ZW5lcigiY29tbWFuZCIsIGZ1bmN0aW9uICgpIHsJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoIiN1cmxzIikudmFsdWUuc3BsaXQoIlxuIikuZm9yRWFjaChmdW5jdGlvbiAodXJsKSB7DQoJCQkJb3duZXIuc2F2ZVVSTCh1cmwgLCBudWxsLCBudWxsLCBudWxsLCB0cnVlLCBudWxsLCBtYWlud2luLmRvY3VtZW50KTsNCgkJCX0pOw0KCQkJY2xvc2UoKQ0KCQl9LCBmYWxzZSk7DQoJCWRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoInRleHRib3giKS52YWx1ZSA9IG93bmVyLnJlYWRGcm9tQ2xpcGJvYXJkKCk7DQoJCVBhcnNlVVJMcygpOw0KCQldXT4NCgk8L3NjcmlwdD4NCjwvd2luZG93Pg==", "name", "top=" + (window.screenY + window.innerHeight/4 - 50) + ",left=" + (window.screenX + window.innerWidth/2 - 250));
     }
         
         location == "chrome://browser/content/browser.xul" && (function () {
@@ -170,7 +170,7 @@
         location == "chrome://browser/content/places/places.xul" && (function () {
             var button = document.querySelector("#placesToolbar").insertBefore(document.createElement("toolbarbutton"), document.querySelector("#clearDownloadsButton"));
             button.id = "createNewDownload";
-            button.label = "新建下載";
+            button.label = "新增下載";
             button.style.paddingRight = "9px";
             button.addEventListener("command", createDownloadDialog, false);
             window.addEventListener("mouseover", function(e){
@@ -312,7 +312,7 @@
     			Downloads.getList(Downloads.ALL).then(list => {
     				list.addView({
     					onDownloadChanged: function(dl){
-						    if (Convert){
+						    if (convert){
 							    if(dl.progress == 100 && saveAndOpen.urls.indexOf(dl.source.url)>-1){
 						    		dl.launch();
     					    		saveAndOpen.urls[saveAndOpen.urls.indexOf(dl.source.url)] = "";
@@ -405,10 +405,12 @@
                 document.querySelector("#location").hidden = false;
             }
         }, false)
+        
 		if (locking)
 		    dialog.dialogElement("save").click();
-        else
+        else 
             dialog.dialogElement("save").selected && dialog.dialogElement("save").click();
+            
         window.addEventListener("dialogaccept", function() {
             if ((document.querySelector("#locationtext").value != dialog.mLauncher.suggestedFileName) && dialog.dialogElement("save").selected) {
                 var mainwin = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator).getMostRecentWindow("navigator:browser");
@@ -495,15 +497,23 @@
 	    var saveTo = document.documentElement._buttons.cancel.parentNode.insertBefore(document.createElement("button"), document.documentElement._buttons.cancel);
 	    var saveToMenu = saveTo.appendChild(document.createElement("menupopup"));
 	        saveTo.classList.toggle("dialog-button");
-	    saveTo.label = "\u5132\u5B58\u5230...";
+	        saveTo.label = "\u5132\u5B58\u5230...";
 	        saveTo.type = "menu";
 	    dir.forEach(function (dir) {
-	    	var [name, dir] = [dir[1], dir[0]];
-	    	var item = saveToMenu.appendChild(document.createElement("menuitem"));
+	    var [name, dir] = [dir[1], dir[0]];
+	    var item = saveToMenu.appendChild(document.createElement("menuitem"));
 	    	item.setAttribute("label", (name || (dir.match(/[^\\/]+$/) || [dir])[0]));
 	    	item.setAttribute("image", "moz-icon:file:///" + dir + "\\");
 	    	item.setAttribute("class", "menuitem-iconic");
-	    	item.onclick = function(){var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);file.initWithPath(dir.replace(/^\./, Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("ProfD", Components.interfaces.nsIFile).path) + "\\" + (document.querySelector("#locationtext") ? document.querySelector("#locationtext").value : document.querySelector("#location").value)); dialog.mLauncher.saveToDisk(file,1); dialog.onCancel = function(){};close();};
+	    	item.onclick = function(){
+			var filename = (document.querySelector("#locationtext") ? document.querySelector("#locationtext").value.trim() : document.querySelector("#location").value);
+			var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+			    file.initWithPath(dir + "\\" + filename);
+			    if(file.exists()) file.createUnique(0,0644); 
+			    dialog.mLauncher.saveToDisk(file,1);
+			    dialog.onCancel = function(){};
+			    close();
+		    };
 	    })	
 	}
 		

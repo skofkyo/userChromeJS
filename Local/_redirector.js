@@ -21,9 +21,27 @@ rules = [
             resp: false                             // 可选，true 表示替换 response body
         },
         {
-            name: "userscripts:8080",
-            from: /^https?:\/\/userscripts\.org\/(.*)/i,
-            to: "http:\/\/userscripts.org:8080/$1",
-            regex: true
-        }
+            name: "ref.gamer.com.tw",
+            from: "http://ref.gamer.com.tw/redir.php?url=*",
+            to: "$1",
+            wildcard: true,
+        },
+        {
+            name: "noMoreArchiver",
+            from: "http://*/archiver/?tid-*.html",
+            to: "http://$1/viewthread.php?tid=$2",
+            wildcard: true,
+        },
+        {
+            name: "noMoreArchiver",
+            from: "http://*/archiver/tid-*.html",
+            to: "http://$1/viewthread.php?tid=$2",
+            wildcard: true,
+        },
+        {
+            name: "2ch",
+            from: "http://*.2ch.net/*l50",
+            to: "http://$1.2ch.net/$2",
+            wildcard: true,
+        },
 ];
