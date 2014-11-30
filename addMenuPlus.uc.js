@@ -614,7 +614,7 @@ window.addMenu = {
         }
 
         // 右键第一层菜单添加 onpopupshowing 事件
-        if (opt.isTopMenuitem && obj.onshowing) {
+        if (obj.onshowing) {
             this.customShowings.push({
                 item: menuitem,
                 fnSource: obj.onshowing.toSource()

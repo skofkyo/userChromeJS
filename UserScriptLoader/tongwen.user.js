@@ -20,6 +20,7 @@
 // @include        http://www.slimeden.com/*
 // @include        http://www.52miji.com/*
 // @include        https://g.mozest.com/*
+// @include        file://*
 // ==/UserScript==
 
 var TongWen = {};

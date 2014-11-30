@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            youkuantiadsModY.uc.js
 // @namespace       YoukuAntiADs@harv.c
-// @description     视频网站去黑屏（网络本地结合版）。如果有本地播放器则使用本地的路径，否则使用默认的网络播放器
+// @description     視頻網站去黑屏（網絡本地結合版）。如果有本地播放器則使用本地的路徑，否則使用默認的網絡播放器
 // @include         chrome://browser/content/browser.xul
 // @author          ywzhaiqi && harv.c（原作者）
 // @charset      UTF-8
@@ -15,28 +15,28 @@
 // @downloadURL     https://github.com/ywzhaiqi/userChromeJS/raw/master/YoukuantiadsModY/youkuantiadsModY.uc.js
 // updateURL       https://j.mozest.com/ucscript/script/92.meta.js
 // downloadURL     https://j.mozest.com/zh-CN/ucscript/script/92.uc.js
-// @note            2014-7-21 新增下载播放器、自动更新等功能。
-// @note            2014-7-1 新增：提前判断是否为 flash，加快速度。
-// @note            2014-7-1 新增：本地播放器检测功能。
+// @note            2014-7-21 新增下載播放器、自動更新等功能。
+// @note            2014-7-1 新增：提前判斷是否為 flash，加快速度。
+// @note            2014-7-1 新增：本地播放器檢測功能。
 // ==/UserScript==
 
 (function() {
     /*
-        脚本地址：http://bbs.kafan.cn/thread-1509944-1-1.html
-        绿色播放器主页：https://g.mozest.com/thread-43519-1-1
+        腳本地址：http://bbs.kafan.cn/thread-1509944-1-1.html
+        綠色播放器主頁：https://g.mozest.com/thread-43519-1-1
      */
 
-    var enalbe_localPlayer = true; // 是否启用本地播放器
-    var SWF_DIR = 'swf';           // 本地播放器路径，chrome 目录下
+    var enalbe_localPlayer = true; // 是否啟用本地播放器
+    var SWF_DIR = 'swf';           // 本地播放器路徑，chrome 目錄下
     // var SWF_DIR = 'local\\swf';
 
     var XHR_TIMEOUT = 30 * 1000;
 
     var updateStates = {
-        noUpdate: '无更新',
-        urlNotExists: '链接错误或不存在',
-        xhrError: '请求出错',
-        xhrTimeout: '请求超时'
+        noUpdate: '無更新',
+        urlNotExists: '鏈接錯誤或不存在',
+        xhrError: '請求出錯',
+        xhrTimeout: '請求超時'
     };
 
     var debug = false ? window.console && console.log.bind(console) : function() {};
@@ -59,11 +59,11 @@
 
     var ProfD = 'file:///' + FileUtils.getDir('UChrm', []).path + '/';
 
-    // 全局替换规则，后面会检验是否存在，不存在会删除
+    // 全局替換規則，後面會檢驗是否存在，不存在會刪除
     var SpecialRules = [
-        // 重定向这个网址 http://s3.music.126.net/s/2/pt_index.js?49d138c4e4dfbd143dc16794a95a4856
+        // 重定向這個網址 http://s3.music.126.net/s/2/pt_index.js?49d138c4e4dfbd143dc16794a95a4856
         {
-            name: '网易云音乐 320k 辅助',
+            name: '網易雲音樂 320k 輔助',
             player: ProfD + 'pt_index.js',
             re: /^http:\/\/.*\.music\.126\.net\/.*pt_index\.js/i,
         }
@@ -137,7 +137,7 @@
                 're': /http:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf/i
             },
             // http://bbs.kafan.cn/thread-1725172-1-1.html
-            // github 无法正常检查更新，每次都会下载
+            // github 無法正常檢查更新，每次都會下載
             '17173':{
                 'player': 'https://raw.githubusercontent.com/ywzhaiqi/userChromeJS/master/YoukuantiadsModY/swf/17173_Player_file.swf',
                 're': /http:\/\/f\.v\.17173cdn\.com\/(\d+)\/flash\/Player_file\.swf/i
@@ -236,7 +236,7 @@
             var http = aSubject.QueryInterface(Ci.nsIHttpChannel),
                 url = http.URI.spec;
 
-            // 先查找全局规则
+            // 先查找全局規則
             var site = null;
             SpecialRules.some(function(rule){
                 if (rule.re.test(url)){
@@ -245,7 +245,7 @@
                 }
             });
 
-            // 如果不存在，搜索 flash 规则
+            // 如果不存在，搜索 flash 規則
             if (!site) {
                 var aVisitor = new HttpHeaderVisitor();
                 http.visitResponseHeaders(aVisitor);
@@ -255,7 +255,7 @@
                 var rule;
                 for(var i in this.SITES) {
                     rule = this.SITES[i];
-                    // 跳过禁用的
+                    // 跳過禁用的
                     if (rule.enable == false) continue;
 
                     if(rule['re'].test(http.URI.spec)) {
@@ -354,7 +354,7 @@
             this.initSpecialRules();
 
             // register observer
-            // uc 脚本会因为打开新窗口而重复注册
+            // uc 腳本會因為打開新窗口而重複註冊
             var mediator = Cc["@mozilla.org/appshell/window-mediator;1"]
                            .getService(Ci.nsIWindowMediator);
             var enumerator = mediator.getEnumerator("navigator:browser");
@@ -417,7 +417,7 @@
                 var uri = Services.io.newURI(rule.player, null, null),
                     file = uri.QueryInterface(Ci.nsIFileURL).file;
                 if (!file.exists()) {
-                    SpecialRules.splice(i, 1);  // 从数组中移除
+                    SpecialRules.splice(i, 1);  // 從數組中移除
                 }
             });
         },
@@ -476,7 +476,7 @@
 
             var nsIFilePicker = Ci.nsIFilePicker;
             var fp = Cc["@mozilla.org/filepicker;1"].createInstance(Ci.nsIFilePicker);
-            fp.init(window, '请选择播放器存放的文件夹', nsIFilePicker.modeGetFolder);
+            fp.init(window, '請選擇播放器存放的文件夾', nsIFilePicker.modeGetFolder);
             fp.displayDirectory = FileUtils.getDir('ProfD', ['']);
 
             if (fp.show() != nsIFilePicker.returnOK)
@@ -491,7 +491,8 @@
             var menuitem = $C('menuitem', {
                 id: 'youkuAntiADsMod',
                 class: 'menuitem-iconic menu-iconic',
-                label: '更新视频播放器',
+                label: '更新視頻播放器',
+                image: 'data:image/png;base64,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',
             });
 
             var self = this;
@@ -515,10 +516,10 @@
         },
 
         /**
-         * 如果存在本地播放器，则替换地址为本地
-         * @return 本地播放器的个数
+         * 如果存在本地播放器，則替換地址為本地
+         * @return 本地播放器的個數
          */
-        setLocalSwf: function(SITES) {  // 这个修改的是原型
+        setLocalSwf: function(SITES) {  // 這個修改的是原型
             let swfPaths = {};
 
             // 取得所有的 .swf 文件
@@ -535,14 +536,14 @@
                 if (filename in swfPaths) {
                     if (name.startsWith('_')) {
                         site[name.replace(/^_/, '')] = swfPaths[filename];
-                    } else {  // 先备份
+                    } else {  // 先備份
                         site['_' + name] = site[name];
                         site[name] = swfPaths[filename];
                     }
                 }
             };
 
-            // 替换地址，因为 iqiyi 有 3个：player0、player1、player2
+            // 替換地址，因為 iqiyi 有 3個：player0、player1、player2
             for(let [siteName, site] in Iterator(SITES)) {
                 for (let [name, url] in Iterator(site)) {
                     if (typeof url === 'string' && url.startsWith('http')) {
@@ -551,7 +552,7 @@
                 }
             }
 
-            debug('成功替换播放器', SITES);
+            debug('成功替換播放器', SITES);
 
             return Object.keys(swfPaths).length;
         },
@@ -563,7 +564,7 @@
                 for (let [prop, value] in Iterator(info)) {
                     if (typeof value === 'string' && value.startsWith('http')) {
                         this.updateSize += 1;
-                        // 备份
+                        // 備份
                         if (!prop.startsWith('_')) {
                             info['_' + prop] = info[prop];
                         }
@@ -581,7 +582,7 @@
                 var msg;
                 if (aFile) {
                     info[propName] = getURLSpecFromFile(aFile);
-                    msg = '成功下载并替换 ' + aFile.leafName + ' 为 ' + info[propName];
+                    msg = '成功下載並替換 ' + aFile.leafName + ' 為 ' + info[propName];
                 } else {
                     msg = url + ' <b>' + (updateStates[state] || state) + '</b>';
                 }
@@ -590,7 +591,7 @@
 
                 if (self.updateMsgs.length == self.updateSize) {
                     self.showUpdateMsg(self.updateMsgs.join('<br>'));
-                    debug('更新并替换播放器', self.y.SITES);
+                    debug('更新並替換播放器', self.y.SITES);
                 }
             });
         },
@@ -611,13 +612,13 @@
                             <preference id="localPlayereEnable" type="bool" name="userChromeJS.YoukuAntiADs.localPlayer.enable"/>\
                             <preference id="swfDir" type="string" name="userChromeJS.YoukuAntiADs.swfDir"/>\
                         </preferences>\
-                        <checkbox label="是否启用" preferences="enable" />\
-                        <checkbox label="是否启用本地播放器" preferences="localPlayereEnable" />\
+                        <checkbox label="是否啟用" preferences="enable" />\
+                        <checkbox label="是否啟用本地播放器" preferences="localPlayereEnable" />\
                          <groupbox>\
-                            <caption label="本地播放器的路径"/>\
+                            <caption label="本地播放器的路徑"/>\
                                  <hbox>\
                                    <textbox id="textbox_path" flex="1" preference="swfDir"/>\
-                                   <button id="choosePath" label="浏览" oncommand="YoukuAntiADsConfig.pickPath()" width="90"/>\
+                                   <button id="choosePath" label="瀏覽" oncommand="YoukuAntiADsConfig.pickPath()" width="90"/>\
                                  </hbox>\
                         </groupbox>\
                     </prefpane>\
@@ -677,7 +678,7 @@
                     return;
                 }
                 var modifiedTime = xhr.getResponseHeader("Last-Modified");
-                // 可能存在 null 的情况
+                // 可能存在 null 的情況
                 modifiedTime = new Date(modifiedTime).getTime();
                 if (modifiedTime > aFile.lastModifiedTime) {
                     self.startDownload(callback)

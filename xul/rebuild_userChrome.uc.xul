@@ -771,6 +771,7 @@
 				</menu>
 				<menuitem label="userChrome.js"
 						  id="userChromejs-edit"
+						  tooltiptext="編輯userChrome.js"
 						  class="menuitem-iconic"
 						  oncommand="userChromejs.userChromejsEditor();"/>
 				<menuseparator id="uc-menuseparator"/>

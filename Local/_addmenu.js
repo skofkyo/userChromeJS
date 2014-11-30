@@ -110,16 +110,16 @@ var items = [
                     },
                     {condition: "select",},
                     {
-                    label: "射手網",
-                    tooltiptext: "左鍵：射手網搜尋選取文字 (新分頁前景)\n右鍵：射手網搜索剪貼簿文字 (新分頁前景)",
-                    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADcElEQVQ4jW2TW0zTdxzFj0ORhDTMC5rYYEh8YCQ+YLy0W6YEYTG+LUHUZNGwB5kPxvDQgLiEkMw1AZsIblzKrdxWaNFx90K4ClUqpQ4LJGyuKNlYucwwxpC2/9/37M2ExM/75zx9DvABhrOzEzuOHk35OTHxCxtQbtfpPicZAQBFQNKHnPeM5+RkPz5zpncwPX2wDvDUA//WAN5fzOb+P9686Xvd3j5m37vXXrN9+6dbxAdnzyZbgR/vJSQsLD59ysDoKOt27GAdwCqAnrw8kmRgZIRNMTGsBVaaIiO/BQDU7tv32ZzT+fdsVRUdBw5sLgwMhEiGvfn5WjWgqoDwRH5+SCkVfnLlSrgcCNoA6TEYCAAoBSyTZjNJvpssKtL6LlzQ3vp86sHp06wFVDVAb0GBkBTX1avSEhcn9ZGRoY4jRzQAQAXQN3D+vBKlQv/4/WpheFjNVlQoKyDVgFgBeVlYSJJqbW6OofV19dJiCd8/fDgEALAC9x6lpIiIhMZzcjTvrVuaz2KR+uhoPrl8WfwOBzdWVkSJCElZnZ2V/vR0rcdoJAaBj61AS4/BwODaWui32lo1XVKiLb94IYsuF0kqktxcXaWIyExZGRv37FE1gHQfO7YCu073STnQ0XXiRHhjaSk8ZbGohaEhtehySafBwO5Tp8R56BCn7twhSRm8eFHKgLAjNlZ5cnO/QxGQXKfTjftbW4PB1VVtvrNTtFCI3vx8aUtK4mhWFpvj4uizWEhSXFlZYgWkVa9fJxmFQuDroUuXZpYmJtZHMjPVXwMD6r9AQN5OT8tGIECSMnP3Ln23b5OkuE0mVQnQsWvXqtPpjMBXQGpTbOzjruPHfYvPnonf4VDjJpMsj4+LJy9PepKTad+/n9PFxSSpxkwmZQWkLSFh3pmREQEAqALss5WVG0tud8gWHS2eGzf4qqFBjV27xodpafwB4FRxMUVEnt+8Ga4EpMto7HifcRmQ4YyP37BFRLyrBoJLbrf2uq1Naz54UP3Z2yu/2mxc9nhIUk2azZuVAPtPnhze8oX2pKSf7sfH0xYVRU9uLqdLSlgJsEWvp9/ppBYOUwsG+dxkom3nzqAlNfXLLQO/O50xrxobv+82GktLgeqGyMjOum3bvM27d8879Hq6r1/nSGam62Famn3w3LlvAKCgoOCj/wFAqy0Z5ZaacgAAAABJRU5ErkJggg==",
+                    label: "subom字幕庫",
+                    tooltiptext: "左鍵：字幕搜尋選取文字 (新分頁前景)\n右鍵：字幕搜索剪貼簿文字 (新分頁前景)",
+                    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABWklEQVQ4jW2TW47FIAxDHfrgLhZ6968pOfORtKWjqVSJoGCM7cgBGDiAg/uJAz7AGcBgePa4E40AP+AgBqgYpoJJmBmSWGzFJDTtybJWQUUACAaLCjJxMn3+zzIJSAWpACMATGJwou+G2o71SmkVO7ZcfyjHB7UdfTcGJ6YSDC5EHNR2St+wI4GOJf62ol6wXlHfo1fCGQiHJYtoWJNvCDs/a2TlDBbdGgQaDHTELTAeEM9DtwPhjNmSAA4ygfN6u/qOtTV0aCv6hjY6KgA2M7iLo0bT98/hvmPHFuC9Ml8aALbc1CJMnrTP13OCQdo3M7hEnIUiBbySCqC+Yr0+IjrILzQnqPYalrX1tjEs3Sg97A0bS4QqNCivIJXjQ2kfrNfX299B0pPEK5rXQP1J8qs4CQGXJ8qgkgMyD0wOkOVgXXt2D5PByBzAz31TODCNMCNHO13xR1gHfgFv0qfjmordvwAAAABJRU5ErkJggg==",
                     onclick: function(e){
                             switch(e.button){
                                     case 0:
-                                            gBrowser.selectedTab = gBrowser.addTab("http://shooter.cn/search2/" + encodeURIComponent(getBrowserSelection()));
+                                            gBrowser.selectedTab = gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(getBrowserSelection()));
                                             break;
                                     case 2:
-                                            gBrowser.selectedTab = gBrowser.addTab("http://shooter.cn/search2/" + encodeURIComponent(readFromClipboard()));
+                                            gBrowser.selectedTab = gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(readFromClipboard()));
                                             break;
                             }
                     },
@@ -329,7 +329,11 @@ execute([
 		text: "%u",
 		exec: "C:\\綠化軟體\\PotPlayer\\PotPlayer.exe",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVQ4jWNgQAN5+///RxcjGjit+f/faBkEp+8lwyCYZpe1ENpiBYmGGC37/z9mB0TTqlv//5stJ9E1yAYwMDAwXPwG4RPtGnQDYIBo1+AygGjX4DMABiacQ8QUWQZsvEumAc+//P9fcQShufsMCQZcfPr/PyyR+WwkIRCff/n/v/44AVtxGXDxKSJF4rUV3QCjZf//J+4iwVZkELAJoZFoW9FBxZH//yecI14zAJoE+V+sQXR/AAAAAElFTkSuQmCC",
-		condition: "nolink"
+		condition: "nolink",
+		onshowing: function(menuitem) {
+		var isHidden = !(content.location.host == "www.youtube.com");
+		this.hidden = isHidden;
+		},
 	},
 	{
 		label: "Internet Explorer(頁面)",
@@ -380,7 +384,11 @@ execute([
 		text: "%l",
 		exec: "C:\\綠化軟體\\PotPlayer\\PotPlayer.exe",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVQ4jWNgQAN5+///RxcjGjit+f/faBkEp+8lwyCYZpe1ENpiBYmGGC37/z9mB0TTqlv//5stJ9E1yAYwMDAwXPwG4RPtGnQDYIBo1+AygGjX4DMABiacQ8QUWQZsvEumAc+//P9fcQShufsMCQZcfPr/PyyR+WwkIRCff/n/v/44AVtxGXDxKSJF4rUV3QCjZf//J+4iwVZkELAJoZFoW9FBxZH//yecI14zAJoE+V+sQXR/AAAAAElFTkSuQmCC",
-		condition: "link"
+		condition: "link",
+		onshowing: function(menuitem) {
+		var isHidden = !(content.location.host == "www.youtube.com");
+		this.hidden = isHidden;
+		},
 	},
 	{
 		label: "Internet Explorer(連結)",

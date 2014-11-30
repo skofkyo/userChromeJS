@@ -66,11 +66,11 @@
 						z-index:1000;\
 						border:solid 3px hsla(220,65%,84%,1);\
 						border-radius: 5px;\
-						background: -moz-linear-gradient( hsla(100,65%,94%,1) 0px, hsla(100,35%,80%,1) 100%) border-box;\
+						background-color:InfoBackground;color:InfoText;\
 						padding:5px;\
 						font-size: 10pt;\
 						color: black;\
-						left:" + +(event.clientX + content.scrollX + 10) + 'px;top:' + +(event.clientY + content.scrollY + 10) + "px";
+						left:" + +(event.clientX + content.scrollX ) + 'px;top:' + +(event.clientY + content.scrollY ) + "px";
 						
 						var xmlhttp = new XMLHttpRequest;
 						xmlhttp.open("get", "http://translate.google.tw/translate_a/t?client=t&sl=en&tl=zh-TW&text=" + encodeURIComponent(readFromClipboard()), 0);
