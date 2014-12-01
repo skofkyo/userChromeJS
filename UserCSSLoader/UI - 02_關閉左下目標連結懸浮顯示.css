@@ -3,6 +3,7 @@
 
 .statuspanel-label[value^="http"],
 .statuspanel-label[value^="magnet"],
+.statuspanel-label[value^="data"],
 .statuspanel-label[value^="Copy"]
 {display:none !important;}
 .statuspanel-label{

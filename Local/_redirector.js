@@ -21,6 +21,12 @@ rules = [
             resp: false                             // 可选，true 表示替换 response body
         },
         {
+            name: "userscripts.org",
+            from: "http://userscripts.org/*",
+            to: "http://userscripts-mirror.org/$1",
+            wildcard: true,
+        },
+        {
             name: "ref.gamer.com.tw",
             from: "http://ref.gamer.com.tw/redir.php?url=*",
             to: "$1",
@@ -39,7 +45,7 @@ rules = [
             wildcard: true,
         },
         {
-            name: "2ch",
+            name: "2ch 顯示全部貼文",
             from: "http://*.2ch.net/*l50",
             to: "http://$1.2ch.net/$2",
             wildcard: true,
