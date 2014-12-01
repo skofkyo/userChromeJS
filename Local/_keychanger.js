@@ -56,7 +56,7 @@ keys['F+Alt'] = function() {
 				$& HighlightText();
 				gFindBar.close();
 			};
-//頁面搜索選取文字否則開啟並定位到findbar或關閉findbar
+//頁面尋找選取文字否則開啟並定位到findbar或關閉findbar
 keys['F+Ctrl'] = function() {
 				var Init_Find = true;
 				var Highlight = gFindBar.getElement("highlight");
@@ -122,6 +122,7 @@ keys['Alt+2'] = function() {
 				gPrefService.setIntPref("network.proxy.http_port", 80);
 				XULBrowserWindow.statusTextField.label = "全局代理切換為proxy.hinet.net : 80";
 				setTimeout('XULBrowserWindow.statusTextField.label = ""',1500);
+				BrowserReloadSkipCache();
 			};
 //PAC自動代理 Unblock Youku
 keys['Alt+3'] = function() {
@@ -130,6 +131,7 @@ keys['Alt+3'] = function() {
 				//gPrefService.setCharPref("network.proxy.autoconfig_url", "http://yo.uku.im/proxy.pac");
 				XULBrowserWindow.statusTextField.label = "PAC自動代理 Unblock Youku";
 				setTimeout('XULBrowserWindow.statusTextField.label = ""',1500);
+				BrowserReloadSkipCache();
 			};
 			
 			

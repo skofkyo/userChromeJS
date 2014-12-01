@@ -1,0 +1,11 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+@-moz-document domain(www.soft8.me) {
+
+#countdown_div{
+display:none !important;
+}
+#dlbutton{
+display:inline !important;
+}
+
+}
