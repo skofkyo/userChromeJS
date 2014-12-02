@@ -289,9 +289,15 @@ page({
 
 page({
     label: "下載腳本檔案鏈接到指定位置",
-    tooltiptext: "下載鏈接到指定位置 (不彈窗)\nUC Script 下載到 chrome 資料夾\nUser Script 下載到 UserScriptLoader 資料夾\nUser Style 下載到 UserCSSLoader 資料夾\nJavaScript 下載到 local 資料夾",
+    tooltiptext: "下載鏈接到指定位置 (不彈窗)\nUC Script 下載到 chrome 資料夾\nUser Script 下載到 UserScriptLoader 資料夾\nUser Style 下載到 UserCSSLoader 資料夾\nJavaScript 下載到 local 資料夾\nExtension 下載到 xpi 資料夾",
     condition:'link',
     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABCElEQVQ4jd2RsWoCURBFFwIJSUrFQuyUx8Luu+dCyAeIQmp/IB8k6bQx+UFLCxGirKZZQ7I+Y9Lmwq3ezJk787KsIUn3wMz21vah9haYSbpv1p+oLMs+sPzSfLB9AJZlWfYvAoBge9UE2F4B4b8CiqK4jjE+AENJz8A6ccR1/TYsiuJxMBjcfAJ6vd6tpCnwDuwT04+QfV3z0u12776lyPO8BSwa/9/0Fljked5KrnIB8nPzUSGEdgKyBRYhhHbq6hNJnTNJdrZ3qcmSOsAkAypJo1QSSVNJ09RkSSOgyoAqxjg+s9FV7RPFGMdAldneSHqVNPqtgSfbb7Y3GTC3vQGqP3hf98w/AHA+wuIFFjTgAAAAAElFTkSuQmCC",
+    onshowing: function(menuitem) {
+    var url = addMenu.convertText("%RLINK_OR_URL%");
+    var urlt = !/\.(js$|xul$|css$|xpi)/.test(url);
+    var urlt2 = /\/blob\/master\//i.test(url);
+    this.hidden = urlt2 || urlt;
+    },
     onclick: function(e) {
         var url = addMenu.convertText("%RLINK_OR_URL%"),
             uri = Components.classes["@mozilla.org/network/io-service;1"].
@@ -311,6 +317,10 @@ page({
             file.append("local");
         } else if (url.endsWith(".css")) {
             file.append("UserCSSLoader");
+        } else if (url.endsWith(".xpi")) {
+            file.append("xpi");
+        } else if (/latest\.xpi/i.test(url)) {
+            file.append("xpi");
         }
 
         // 添加文件名
@@ -331,8 +341,9 @@ execute([
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVQ4jWNgQAN5+///RxcjGjit+f/faBkEp+8lwyCYZpe1ENpiBYmGGC37/z9mB0TTqlv//5stJ9E1yAYwMDAwXPwG4RPtGnQDYIBo1+AygGjX4DMABiacQ8QUWQZsvEumAc+//P9fcQShufsMCQZcfPr/PyyR+WwkIRCff/n/v/44AVtxGXDxKSJF4rUV3QCjZf//J+4iwVZkELAJoZFoW9FBxZH//yecI14zAJoE+V+sQXR/AAAAAElFTkSuQmCC",
 		condition: "nolink",
 		onshowing: function(menuitem) {
-		var isHidden = !(content.location.host == "www.youtube.com");
-		this.hidden = isHidden;
+		var url = addMenu.convertText("%RLINK_OR_URL%");
+		var urlt = !/^https?:\/\/www\.youtube\.com\/watch/i.test(url);
+		this.hidden = urlt;
 		},
 	},
 	{
@@ -386,8 +397,9 @@ execute([
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVQ4jWNgQAN5+///RxcjGjit+f/faBkEp+8lwyCYZpe1ENpiBYmGGC37/z9mB0TTqlv//5stJ9E1yAYwMDAwXPwG4RPtGnQDYIBo1+AygGjX4DMABiacQ8QUWQZsvEumAc+//P9fcQShufsMCQZcfPr/PyyR+WwkIRCff/n/v/44AVtxGXDxKSJF4rUV3QCjZf//J+4iwVZkELAJoZFoW9FBxZH//yecI14zAJoE+V+sQXR/AAAAAElFTkSuQmCC",
 		condition: "link",
 		onshowing: function(menuitem) {
-		var isHidden = !(content.location.host == "www.youtube.com");
-		this.hidden = isHidden;
+		var url = addMenu.convertText("%RLINK_OR_URL%");
+		var urlt = !/^https?:\/\/www\.youtube\.com\/watch/i.test(url);
+		this.hidden = urlt;
 		},
 	},
 	{
@@ -551,24 +563,3 @@ resizeTosub([
 // 添加样式
 css('\
 ')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

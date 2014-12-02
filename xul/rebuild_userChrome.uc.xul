@@ -683,7 +683,11 @@
   var userChromejsScriptOptionsMenu = {
     //あまり使わないメニューのリスト
     menues: [
-	'',
+	'toolsbar_KeyChanger_rebuild',
+	'ucjs_UserAgentChanger',
+	'redirector-icon',
+	'RefererChanger',
+	'ucjs_copysysinfo-menu',
     ],
 
     interval: 500, //0.5秒間隔

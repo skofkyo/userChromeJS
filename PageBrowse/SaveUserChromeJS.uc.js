@@ -58,7 +58,7 @@ var ns = window.saveUserChromeJS = {
 			case "popupshowing":
 				if (event.target != event.currentTarget) return;
 				if(gContextMenu.onLink){
-					this._menuitem.hidden = !RE_USERCHROME_JS.test(gContextMenu.linkURL);
+					this._menuitem.hidden = /\/blob\/master\//i.test(gContextMenu.linkURL) || !RE_USERCHROME_JS.test(gContextMenu.linkURL);
 				}else{
 					this._menuitem.hidden = true;
 				}

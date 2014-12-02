@@ -39,7 +39,7 @@ popup:not(#autoscroller), popup menu,menupopup,#addonitem-popup,#utils-menu{
     -moz-box-shadow: none !important;
 } 
 */
-#anobtn_popup,#eom-button-popup{
+#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
     margin-top: -5px !important;
 }
 
