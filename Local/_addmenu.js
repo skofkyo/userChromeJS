@@ -131,6 +131,7 @@ var items = [
                     condition: "select",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACLklEQVQ4jZWTMUiqYRSGT/04haTpEoEagYLhWgRJ+je5hmC/DtbgFoEuQmOBGIFrDbmphVKSg9AQkSC0KkI0uAjSEoS4qfjcIe5fN4t77wsvfPCd7zmc850jfNF4PP6rP0t+H56enggEAvj9fjY3N7+1qqqoqsrl5eUkoFQqISL/5GAwOAkol8t6gMFgYHp6GovFgslkQlEUFEVhamoKESEcDv8M8Hg8NJtNotEolUqF5+dnYrEYlUqFdDqNiKBp2iTg+voaEWFlZYVut4umadjtdlwuF0tLSzQaDVKpFCJCKBSaBJyfn+slzM7OTtRtNBpRFEVPMhgMfgaICHa7nZmZGUQEp9OJwWDQ75aXlz8ArVaLeDzO2dmZnmF1dZVgMMjCwgIiQjQaZX19HbPZjIjg9/sZj8eMRiPk/v4eEeHw8JBMJkM+n6darVIsFikUCuTzeXK5HFdXV5TLZW5ubuh2u5yenhKJRJCDgwOdurGxwc7ODplMhkajwXA41Jv19vZGvV4nm81ydHSExWLB5/Mht7e37O3t4fP5uLi4IJlMYrVaERGsVitra2ssLi4yPz+P1+tF0zRUVcXtduNyud6b+PLygslkwuFwoKoqoVCIWCzGyckJx8fHbG1t4Xa78Xq97O/vY7PZ2N3d5eHh4R3Q7/eZm5sjkUjQ6/W+7hcAvV6PWq3G9vY2IsLj4+PHN45GI+7u7nh9ff328Wd1Oh0CgQDtdvvPOfgffV7pXz5OoYc083dvAAAAAElFTkSuQmCC",
                     },
+                    /*
                     {
                     label: "PublicHD",
                     url  : "https://publichd.se/index.php?page=torrents&search=%SEL%&active=0",
@@ -138,6 +139,7 @@ var items = [
                     condition: "select",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAxUlEQVQ4ja2SwQ3DIAxFOdBg1sgKXYFZukLujWrlRsOtK/TsnLJCV8gKURQGoAeaiqoRgbSWfPAXfjYfGPtHWAO9beXDGumskW42cvQanBIBvnE9oc8A+MOThtIa6N/61iZr0zzkdaUWbtmAmJ6/gZFVFmDSUIavMmlQiYDvnK/QRJvXAP4fyPvm5JgHBzofRYeOMcZEh26pRYeuIBw51SoK4FSrELDUnGpV0KUqCMckwJIhIITv3aARhMNuDwTh8OHBL/EEcBoQnhOhTF0AAAAASUVORK5CYII=",
                     },
+                    */
                     {
                     label: "Seed2Peer",
                     url  : "http://seed2peer.com/search/%SEL%/",
@@ -212,16 +214,16 @@ var items = [
                     },
                     },
                     {
-                    label: "Userscripts.org",
-                    tooltiptext: "左鍵：Userscripts.org搜尋選取文字 (新分頁前景)\n右鍵：Userscripts.org搜索剪貼簿文字 (新分頁前景)",
-                    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACaUlEQVQ4jY3STUjTcRzH8a+mLozoUNTFQ3qQXYygQ6cO4aEyUlY6lz3L/g5WUOJDGatTRBhWsHSKa2o+pCKtgnmIWBPx6b/Z2oObc1v778nU9vD/WyCdPh0yW6Lm7/x7vX/w/X2JNj9pp8vkR2rvN3JqbQ+qbqlGCiWSvVvc/xeXyOSl6vZu3jhmxhcujEAoAkmF4jYRpf8XF0sZ5mlrF0xjZvgCYcTiPITlH7iirB8moswtsUTKMM26XnwcN8PHhRCL80jwAroG9DhVLKskItHmWMYwbS8HYRqfhp8LIZZIIsELmJnzoazyxhQR7SOijA3xuQsMo+nsB2udQSAY+Y2TAtzeALyBEEanplEhr+4loh0bBTLvPGjitX16PFLrwIWjSCQFfJ7xwO7yggt/RSzBwznrw0VFbfdGg8y++/AZmjsGoH7xChabC6zVCdbqhMfPYX5xCbywjJWVn7DYnCi9pKwnorTUwC7pteu6IcMH9AwZ8HrYiJHJaTjcXgQj86u/8B28sIxYksfjFh1PRFmpAdHB/AJxVc09t3GMxXvTBCYtdjjcXvi5CCLzC1iKxbH4LQ6PP4gnLZ0CEWWnBtKJaHdOnrhAUa2atdhcsLvm4PFzCEVX8VIcsz4OA2+GcbK4vG59gFanuycnN/cQU6OKsp8cf1/+g/UGFBaVNhDRftpkoTJOnCkvadJ0wThpg9XhXsP9egOOF51tIKIDRLRz/RDXAtLLSoMrsIC3RhbPOwfh9vrR1jO0LUxEJJKcl7ePmu1o7X0HtbYPTZqObWMioqy8PHH+VWUd26jWgrmpih4+eqxkK/wLdLSQIruD/tMAAAAASUVORK5CYII=",
+                    label: "greasyfork.org",
+                    tooltiptext: "左鍵：greasyfork.org搜尋選取文字 (新分頁前景)\n右鍵：greasyfork.org搜索剪貼簿文字 (新分頁前景)",
+                    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABSUlEQVQ4jZXTv8qCUBgG8OegVEOhkiS0NJzJewi6qMCpqZtwkybvoDvoAlqFoOjPoBBRikPDeb5Fpb7S6oGz+Ofne17fA7xGAvABRADuxYqKa/LN808JxuMxO50OAdStoO7lNQC6rsvD4UBd15uQ9cuXAXCz2bDdblNK+Q1SVSInkwlHoxEdx+F2u62Q/X7/CZEA4FuWxSRJOBwOORgMuNvtqGka5/M5T6cTW61WHeCj6DB7vV6F9Pt9Ho9Hllkul3VAhOI3sUTiOOZsNuNjFotFHXB/Akrker1SKVUBcRyz2+3WAtH/G4ZhcLVaMQxDns9nKqV4uVxoWdbbLfgNXaZpmsyyjEop3m43mqZJIcRTE2UTAIC2bTPP8wp52E412kETIISgbdtM05QkOZ1O3470+lMlhmHQ8zzquv4yyl9Vgg+HqcxPx/kP9hE33f0JJs0AAAAASUVORK5CYII=",
                     onclick: function(e){
                             switch(e.button){
                                     case 0:
-                                            gBrowser.selectedTab = gBrowser.addTab("http://userscripts.org/scripts/search?q=" + encodeURIComponent(getBrowserSelection()));
+                                            gBrowser.selectedTab = gBrowser.addTab("https://greasyfork.org/zh-TW/scripts/search?q=" + encodeURIComponent(getBrowserSelection()));
                                             break;
                                     case 2:
-                                            gBrowser.selectedTab = gBrowser.addTab("http://userscripts.org/scripts/search?q=" + encodeURIComponent(readFromClipboard()));
+                                            gBrowser.selectedTab = gBrowser.addTab("https://greasyfork.org/zh-TW/scripts/search?q=" + encodeURIComponent(readFromClipboard()));
                                             break;
                             }
                     },
@@ -503,7 +505,13 @@ page({
         insertBefore: "spell-check-enabled",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACcklEQVQ4jY2Ra0iTcRTG/+qmW6+XTS1lGtmX7fWdbhqZ2OiilFjCiggrdWh+MFtUoM1GamqkOS8ttRpYkKEgY15mBgVeyxhMM9FUMBJzdNFc6QKxLHz6kF/MF9wD58OB83s4zzmEsChyBz9GHMSVr7UumQmUlhDiwjbLKi9C/HITt9ZXJgdadvpy4h+dD7SqDlM5ThusSXBI4v08LVq4UnLCa7Xpgs9HQgjPGdDjgEIRGxcXF1+Sndo81nIVvfq96MkXQuTjdmpTukKnq/q9sowvtiksfZ3EYIcejvZYdF/3Bb3NY/MYGRlpmT+XFrH8ww6H/RMW5z5g+oEMPQXeCBfxc52J4G0w3G1c/G6H49ssTAat5V25D0yXPH8J3YnMGQNCCOFnq9NvVOVnNJYlUQ2jt/h4dsX9M0WRAGdgqizJ1ThQxPljLeJioNQfw7VyWAp56NS4LRzbRc6xUsHhiqPS1NrW6CzDq9biCIwU8zB+0xOT9Uo87TCh/PETNObJYbnmtro7mBzcsDKjsThklbOI1NsRVT2PWP17HKmeQE6NEeP9zeiyjsHYZsbrPAqZMZyCdTRXEBJBa4cRVjIDWakNSXU2GAcXoLxvQ3TZNPbrJpFQMYoGoxk1yQKryIvQ6ww4QolCcvElpNpRSLVvcfrOCGbn5vFmYgb7CgfBaIbAaIYgUXeBePiLN+TnUkFycXo7QtW9CM3qQry2E4UP+xF1uRuMug+M+gUYdR8kZ80gZIuI7Ya87Ym358VnmkCnmECntiBU1Qpa1QZaZf5XKc0ISdRNEUJcWb/A5QfuEUiUej/pyXts5cscryKeAWH/c38B9b8egwNZncgAAAAASUVORK5CYII=",
 })
-
+page({
+    label: "字元編碼",
+    tooltiptext: "左鍵：UTF-8\n中鍵：Big5\n右鍵：GBK",
+    insertBefore: "context-sep-selectall",
+    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEUSURBVDhPvZE9S4JhFIZ9B6lJxBZBUloSwo9o6T8IGTg4uAniX3CQwNWlqamhqba+IAiDqAZBgsC5P9Dv6LrlvPL49IgO4QsX55zrnOe8X4nEf1xRFNUh7+/CNeE29srl/twTeW/cEFNOHftgnC/iQAFOoQdpKBld4pVTK5eb9Ze+Pc0yPK2g7D7BHcN9aEASKvAMx5CBodXK5dSruAvOEI/wAjtQtVz1Mqqhj7nHgW3IwqHDOfmr57KhBW1boPixgvbCAoZrMIYtOPKQv/C9v+CBgWtJ4mQd3I94woEv6LpbqQ/MD4gtuJQL/f935DfsW7NI7MAU3iBnKJdTTzPz69MGY/FDIkaw68wpl4v7oYfZsPsFkotMBB1tttAAAAAASUVORK5CYII=",
+    onclick: "var code = ['UTF-8', 'Big5', 'GBK']; BrowserSetForcedCharacterSet(code[event.button]);"
+});
 tab({
         id: "Faviconbase64",
         label: '複製 Favicon 的 base64',
@@ -554,7 +562,7 @@ resizeTosub([
         },
         {
             label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u53F3\u534A\u90E8",//視窗占用螢幕右半部
-            oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(screen.availWidth / 2, 0));", 
+            oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(screen.availWidth / 1, 1));", 
         },
 ]);
 

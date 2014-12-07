@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name                 Proxybutton.uc.js
+// @label                 Proxybutton.uc.js
 // @description       切換代理設置
-// @namespace    
+// @labelspace    
 // @author               skofkyo
 // @license               MIT License
 // @compatibility    Firefox 29+
@@ -21,7 +21,7 @@
 
 (function () {
 
-init:{
+
     CustomizableUI.createWidget({
         id : "Proxy-button",
         defaultArea : CustomizableUI.AREA_NAVBAR,
@@ -34,7 +34,8 @@ init:{
     var menupopup = document.createElement("menupopup");
     menupopup.setAttribute("id", "Proxymenupopup");
     btn.appendChild(menupopup);
-    }
+    
+ 
 ///////////////////////////////////////////////////////////////////
     var menuitem = document.createElement("menuitem");
     menuitem.setAttribute('id', "ProxybuttonnoProxy");
@@ -89,12 +90,13 @@ init:{
     var menuitem4 = document.getElementById("Proxybuttonuyp");
     var menuitem5 = document.getElementById("ProxybuttonUltraSurf");
     var menuitem6 = document.getElementById("ProxybuttonFreegate");
-    /*
+
 
     menuitem2.removeAttribute("checked");
     menuitem3.removeAttribute("checked");
     menuitem4.removeAttribute("checked");
     menuitem5.removeAttribute("checked");
     menuitem6.removeAttribute("checked");
-*/
+
+
 })();

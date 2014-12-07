@@ -1,0 +1,27 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain(www.convertstring.com) {
+
+    .navbar,
+	#sidebar,
+	.social,
+	#footer {
+        display: none !important;
+    }
+
+    #main {
+        width: 100%!important;
+    }
+}
+
+@-moz-document domain(jenson.in) {
+    #at4-share,h3 {
+        display: none !important;
+    }
+}
+@-moz-document domain(html.fwpolice.com) {
+
+    header,footer,body > div:nth-child(5) {
+        display: none !important;
+    }
+}

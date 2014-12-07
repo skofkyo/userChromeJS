@@ -127,16 +127,9 @@ keys['Alt+2'] = function() {
 //PAC自動代理 Unblock Youku
 keys['Alt+3'] = function() {
 				gPrefService.setIntPref("network.proxy.type", 2);
-				gPrefService.setCharPref("network.proxy.autoconfig_url", "https://github.com/whuhacker/Unblock-Youku-Firefox/raw/master/data/proxy.pac");
-				//gPrefService.setCharPref("network.proxy.autoconfig_url", "http://yo.uku.im/proxy.pac");
+				//gPrefService.setCharPref("network.proxy.autoconfig_url", "https://github.com/whuhacker/Unblock-Youku-Firefox/raw/master/data/proxy.pac");
+				gPrefService.setCharPref("network.proxy.autoconfig_url", "http://yo.uku.im/proxy.pac");
 				XULBrowserWindow.statusTextField.label = "PAC自動代理 Unblock Youku";
 				setTimeout('XULBrowserWindow.statusTextField.label = ""',1500);
 				BrowserReloadSkipCache();
 			};
-			
-			
-			
-			
-			
-			
-			

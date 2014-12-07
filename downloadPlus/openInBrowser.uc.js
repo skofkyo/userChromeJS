@@ -27,9 +27,12 @@
 	document.querySelector("#openInBrowser").parentNode.appendChild(document.createElement("vbox")).appendChild(document.createElement("menulist")).id = "MIMETypes";
 	var menupopup = document.querySelector("#MIMETypes").appendChild(document.createElement("menupopup"));
 	menupopup.setAttribute("flex", "1");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "BT\u7a2e\u5b50\u6a94");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u5716\u7247");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u7DB2\u9801");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u7D14\u6587\u5B57");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u97F3\u6A02");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u5F71\u7247");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "XML");
 	document.querySelector("#MIMETypes").selectedIndex = 0;
 	addEventListener("DOMNodeInserted", window.sizeToContent, true)
@@ -37,7 +40,7 @@
 		if (document.querySelector("#mode").selectedItem.id == "openInBrowser") {
 			document.documentElement.removeAttribute("ondialogaccept");
 			openInFirefox.url = dialog.mLauncher.source.asciiSpec;
-			openInFirefox.mime = ["image/png", "text/html", "text/plain", "text/xml"][document.querySelector("#MIMETypes").selectedIndex]
+			openInFirefox.mime = [ "application/x-bittorrent", "image/png","text/plain", "audio/mp3", "video/x-ms-wmv", "text/html", "text/xml"][document.querySelector("#MIMETypes").selectedIndex]
 			var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
 			observerService.addObserver(openInFirefox, "http-on-examine-response", false);
 			observerService.addObserver(openInFirefox, "http-on-examine-merged-response", false);

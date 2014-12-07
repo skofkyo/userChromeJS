@@ -54,7 +54,8 @@ var moveButton = {
         // { id: "autoReaderButton", insertAfter: "uAutoPagerize-icon"}
         
         { id: "showLocationModEx", bar: "urlbar-icons", pos: 0},
-        { id: "Base64Encoder-button", bar: "urlbar-icons", pos: 1},
+        //{ id: "Base64Encoder-button", bar: "urlbar-icons", pos: 1},
+        { id: "Encodebutton", bar: "urlbar-icons", pos: 1},
         { id: "dta-manager-button", bar: "urlbar-icons", pos: 2},
         { id: "abp-toolbarbutton", bar: "urlbar-icons", pos: 3},
         { id: "userChromeJsManagerMenuBtn", bar: "urlbar-icons", pos: 4},

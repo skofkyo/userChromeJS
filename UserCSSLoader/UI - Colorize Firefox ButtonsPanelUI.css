@@ -146,7 +146,7 @@
   }
 
 
-/* Restore classic colors for verified identity and verified domain */
+/* Restore classic colors for verified identity and verified domain 
 
   #urlbar .verifiedDomain {
     background: linear-gradient(hsl(215,60%,92%), hsl(215,58%,88%)) !important;
@@ -183,5 +183,5 @@
     background: linear-gradient(hsl(92,65%,70%), hsl(92,40%,48%)) !important;
     box-shadow: 0 1px 1px hsla(92,81%,16%,.6) inset,
       0 1px 3px 1px hsla(92,81%,16%,.5) inset !important;
-  }
+  }*/
 }

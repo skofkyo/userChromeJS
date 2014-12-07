@@ -1,9 +1,8 @@
 rules = [
-
         {
             name: "wap百度手機版轉PC版",
-            from: /^https?:\/\/pan\.baidu\.com\/wap\//i,
-            to: "http://pan.baidu.com/pcloud/",
+            from: /^https?:\/\/(.*)\.baidu\.com\/wap\/link/i,
+            to: "http://$1.baidu.com/share/link",
             regex: true
         },
         {
@@ -34,20 +33,20 @@ rules = [
         },
         {
             name: "noMoreArchiver",
-            from: "http://*/archiver/?tid-*.html",
-            to: "http://$1/viewthread.php?tid=$2",
-            wildcard: true,
-        },
-        {
-            name: "noMoreArchiver",
-            from: "http://*/archiver/tid-*.html",
-            to: "http://$1/viewthread.php?tid=$2",
-            wildcard: true,
+            from: /(.*)\/archiver\/(.*)tid-(.*)\.html/,
+            to: "$1/viewthread.php?tid=$3",
+            regex: true
         },
         {
             name: "2ch 顯示全部貼文",
             from: "http://*.2ch.net/*l50",
             to: "http://$1.2ch.net/$2",
+            wildcard: true,
+        },
+        {
+            name: "sohu 跳轉",
+            from: "http://so.tv.sohu.com/redirect?kisId=*&url=*.html*",
+            to: "$2.html",
             wildcard: true,
         },
 ];

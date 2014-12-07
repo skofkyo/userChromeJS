@@ -302,7 +302,6 @@
 		onclick: 'if(event.button != 0) {event.stopPropagation();event.preventDefault();userChromejs.clickDirMenuitem(event,true);}',
 		type: 'checkbox',
 		checked: !userChrome_js.dirDisable['*'],
-		disabled: true
       }));
       menuitem.dirName = '*';
 
@@ -683,11 +682,11 @@
   var userChromejsScriptOptionsMenu = {
     //あまり使わないメニューのリスト
     menues: [
+    'InspectElement-menuitem',
 	'toolsbar_KeyChanger_rebuild',
-	'ucjs_UserAgentChanger',
-	'redirector-icon',
 	'RefererChanger',
-	'ucjs_copysysinfo-menu',
+	'redirector-icon',
+	'ucjs_UserAgentChanger',
     ],
 
     interval: 500, //0.5秒間隔
@@ -723,7 +722,7 @@
   }
   userChromejsScriptOptionsMenu.run();
   ]]></script>
-	<toolbarpalette id="TabsToolbar">
+	<toolbarpalette id="nav-bar">
 		<toolbarbutton id="userChromebtnMenu"
 					   label="userChromeJS 管理器"
 					   tooltiptext="userChromeJS 管理器"

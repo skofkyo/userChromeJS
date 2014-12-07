@@ -136,8 +136,6 @@ sss.loadAndRegisterSheet(uri, sss.AGENT_SHEET);
 #softwarebychuck,\
 /*inspect分割線*/\
 #inspect-separator,\
-/*檢測元素*/\
-#context-inspect,\
 #context-navigation,\
 menuitem[label="Adblock Plus：阻擋圖片…"],\
 menuitem[label="Adblock Edge：阻擋圖片…"]\
@@ -213,7 +211,7 @@ var appmenuquit = document.querySelector("#appmenu-quit");
 ///////////////////////////////////////////移動元素到定義的位置//////////////////////////////////////////////////
 
 //語言及字元編碼插入到全選分割線的上方
-contextMenu.insertBefore(charsetMenu,contextsepselectall);
+//contextMenu.insertBefore(charsetMenu,contextsepselectall);
 //檢視背景圖片插入到複製圖片的上方
 contextMenu.insertBefore(contextviewbgimage,contextcopyimagecontents);
 //檢視圖片資訊插入到檢視背景圖片的上方

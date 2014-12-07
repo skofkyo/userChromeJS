@@ -823,4 +823,3 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
 //userChrome.import("stylish0.5_edit.uc.js", "UChrm");
 
 document.querySelector("#nav-bar").removeAttribute("overflowable");
-
