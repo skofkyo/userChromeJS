@@ -40,6 +40,7 @@
 		EncodeTool = document.createElement("menu");
 		EncodeTool.setAttribute("id", "EncodeTool");
 		EncodeTool.setAttribute("label", "EncodeToolMenu");
+		EncodeTool.setAttribute("class", "menu-iconic");
 		EncodeTool.setAttribute("image", image16);
 		var dev = document.getElementById("devToolsSeparator");
 		dev.parentNode.insertBefore(EncodeTool, dev)
@@ -117,12 +118,12 @@
                     menupopup.appendChild(menuseparator);
                 } else {
                     var menuitem = document.createElement("menuitem");
-                    menuitem.setAttribute('label', amenu[i].label);
-                    menuitem.setAttribute('tooltiptext', amenu[i].tooltiptext);
-                    menuitem.setAttribute('image', amenu[i].image);
-                    menuitem.setAttribute('class', 'menuitem-iconic');
-                    menuitem.setAttribute('oncommand', amenu[i].oncommand);
-                    menuitem.setAttribute('onclick', amenu[i].onclick);
+                    menuitem.setAttribute("label", amenu[i].label);
+                    menuitem.setAttribute("tooltiptext", amenu[i].tooltiptext);
+                    menuitem.setAttribute("image", amenu[i].image);
+                    menuitem.setAttribute("class", "menuitem-iconic");
+                    menuitem.setAttribute("oncommand", amenu[i].oncommand);
+                    menuitem.setAttribute("onclick", amenu[i].onclick);
                     menupopup.appendChild(menuitem);
                 }
                 
