@@ -18,6 +18,7 @@
 // @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
+
 (function() {
 
     init: {
