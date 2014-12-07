@@ -5,25 +5,21 @@
 // ==/UserScript==
 
 (function() {
-        document.addEventListener('mouseover', function(e) {
-                //以提示的方式显示当前链接的地址
-                var target = e.target;
+	document.addEventListener('mouseover', function(e) {
+		//以提示的方式显示当前链接的地址
+		var target = e.target;
 
-                if (!target.hasAttribute('settedTitle')) {
-                        var href = target.getAttribute('href') ||
-                                target.parentNode.getAttribute('href') ||
-                                target.hasAttribute('src');
-                        if(href.indexOf('javascript:')!=-1 && href.substring(0,1)=="#"){
-                                target.setAttribute('settedTitle', true);
-                                return;
-                        }else{
-                                if (href && href != '#') {
-                                        var cTitle = target.title || target.parentNode.title || target.parentNode.parentNode.title;
-                                        cTitle = (cTitle ? cTitle + '\n' : '');
-                                        target.title = cTitle + href;
-                                }
-                                target.setAttribute('settedTitle', true);
-                        }
-                }
-        }, false);
+		if (!target.hasAttribute('data-title-changed')) {
+			var href = target.getAttribute('href') ||
+				target.parentNode.getAttribute('href') ||
+				target.hasAttribute('src');
+			if (href && href != '#') {
+				var cTitle = target.title || target.parentNode.title || target.parentNode.parentNode.title;
+				cTitle = (cTitle ? cTitle + ' | ' : '');
+
+				target.title = cTitle + href;
+				target.setAttribute('data-title-changed', true);
+			}
+		}
+	}, false);
 })();
