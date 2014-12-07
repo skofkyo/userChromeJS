@@ -21,7 +21,7 @@
 
 (function() {
 
-	var type = 2;		// 0:按鈕 2:工具菜單
+	var type = 0;		// 0:按鈕 2:工具菜單
 
 	if (type == 0) {
 		CustomizableUI.createWidget({
