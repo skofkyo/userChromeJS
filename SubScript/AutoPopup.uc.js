@@ -11,7 +11,7 @@
     var PopTimer = null;  var HideTimer = null;
     var AlwaysPop = false;
 
-    var BlackIDs = ['autocomplete-history-dropmarker']; //['abp-toolbarbutton'];
+    var BlackIDs = ['browserStartupPage','selectLangs','defaultFont','defaultFontSize','defaultFontType','serif','sans-serif','monospace','sizeVar','sizeMono','minSize','DefaultCharsetList']; //['abp-toolbarbutton'];
 
     var popupPos = ['after_start', 'end_before',
         'before_start', 'start_before'];

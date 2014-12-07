@@ -28,9 +28,10 @@
 
 	if (type == 0) {
 		CustomizableUI.createWidget({
-			id: "EncodeTool",
 			defaultArea: CustomizableUI.AREA_NAVBAR,
-			label: "EncodeToolButton",
+			id: "EncodeTool",
+			label: "編碼工具",
+			tooltiptext: "編碼工具",
 		});
 		var EncodeTool = document.getElementById("EncodeTool");
 		EncodeTool.setAttribute("type", "menu");
@@ -39,7 +40,7 @@
 	} else if (type == 2) {
 		EncodeTool = document.createElement("menu");
 		EncodeTool.setAttribute("id", "EncodeTool");
-		EncodeTool.setAttribute("label", "EncodeToolMenu");
+		EncodeTool.setAttribute("label", "編碼工具");
 		EncodeTool.setAttribute("class", "menu-iconic");
 		EncodeTool.setAttribute("image", image16);
 		var dev = document.getElementById("devToolsSeparator");
@@ -109,7 +110,7 @@
             ]
 
             var menupopup = document.createElement("menupopup");
-            menupopup.setAttribute("id", "Encodebuttonmenupopup");
+            menupopup.setAttribute("id", "EncodeToolPopup");
             EncodeTool.appendChild(menupopup);
 
             for (var i = 0; i < amenu.length; i++) {
@@ -123,7 +124,7 @@
                     menuitem.setAttribute("image", amenu[i].image);
                     menuitem.setAttribute("class", "menuitem-iconic");
                     menuitem.setAttribute("oncommand", amenu[i].oncommand);
-                    menuitem.setAttribute("onclick", amenu[i].onclick);
+                    //menuitem.setAttribute("onclick", amenu[i].onclick);
                     menupopup.appendChild(menuitem);
                 }
                 
