@@ -682,6 +682,7 @@
   var userChromejsScriptOptionsMenu = {
     //あまり使わないメニューのリスト
     menues: [
+    'EncodeDecodeHtml',
     'InspectElement-menuitem',
 	'toolsbar_KeyChanger_rebuild',
 	'RefererChanger',

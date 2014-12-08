@@ -22,10 +22,12 @@
 		}
 	}
 	document.querySelector("#save").parentNode.insertBefore(document.createElement("hbox"), document.querySelector("#save")).appendChild(document.createElement("radio")).id = "openInBrowser";
-	document.querySelector("#openInBrowser").setAttribute("width", "100");
+	document.querySelector("#openInBrowser").setAttribute("width", "103");
 	document.querySelector("#openInBrowser").setAttribute("label", "Firefox\u6253\u958B");
 	document.querySelector("#openInBrowser").parentNode.appendChild(document.createElement("vbox")).appendChild(document.createElement("menulist")).id = "MIMETypes";
-	var menupopup = document.querySelector("#MIMETypes").appendChild(document.createElement("menupopup"));
+	var MT = document.querySelector("#MIMETypes");
+	MT.setAttribute("width", "100");
+	var menupopup = MT.appendChild(document.createElement("menupopup"));
 	menupopup.setAttribute("flex", "1");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "BT\u7a2e\u5b50\u6a94");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u5716\u7247");

@@ -19,14 +19,7 @@ location == 'chrome://browser/content/browser.xul' && (function(){
     var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
     file.initWithPath(handleRelativePath(PATH));
     if (file.exists()) {
-    Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper).copyString(file);
         gPrefService.setCharPref('view_source.editor.path', file.path);
-    }
-    
-    var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
-    file.initWithPath(handleRelativePath(PATH));
-    if (file.exists()) {
-        gPrefService.setCharPref('extensions.greasemonkey.editor', file.path);
     }
 
 })()
