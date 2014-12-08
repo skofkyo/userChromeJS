@@ -99,6 +99,12 @@
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA7UlEQVQ4jWPITr7+PzMRgVOS7vy/FJT3/7+vLwp+FZv2f/b6l//nrnkCx/PXPv3PkJl0/X96/DU4Tky4/f+if87//15eKPhVdMr/mete/J+z+gkcz1vzZNQAqhhQXXP7f1X1LTgurb73/1pB+/+/OTko+E1l/f81Ox7+X7ftHhyv337vP4PBgRP/9ZCw+r5j/3c9fvr//bt3KPjDw1P/P83X+v9poT4CLzL8z2B26NR/44Mn4Vhn/4n/u7EZ8Og0RNNiEwReaj5qAFUMsDh86r/ZIQTWP3Di/54nz7AYcOb/p0VG/z8tMUfgpZb/ATI29NPOivDIAAAAAElFTkSuQmCC",
                     oncommand: 'gBrowser.selectedTab = gBrowser.addTab("http://csscompressor.com/");',
                 },
+                {
+                    label: "打開html資料夾",
+                    tooltiptext: "打開html資料夾",
+                    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACbklEQVQ4jY3RSU+TURSA4f4Lty78AWz8Ba5caFwoCHxAIZRGpZZZhTIPggs1KpJolARCgCvYIJMyI2ngg9YOUIggWhAoZWhLKYMFfF2U1ECJ8STv7twnNzkKkz7BY+lIYuJdHGZ9AtPdahyjurBmB7TYPyiVitMz3a+GnUf4ncU4xtOwtCdh6bzNkv0FYAx1GDAw2Z5IONCn5mi7KpiviiNfJV5HPrKQwJ79N+drrG3Ks4HDrUoOvJUceB9y4AkmC4l9cwaHtqwQYtYnhAP2XjUBdwW/No/bCCYLCb8xjX1zRggwvY8/A+hJYX+9nL21cvZc5ey6yth1lSELCe/YXXZN6SFgoiUuHJj6lMKOs4ydlVL8K6X4l4PJQmJ1JBW/MY2jqWx+T2UjC+lsYHupBN/PEnyLxWwtBJOFhKPvFu5RLQFrFgFrFqNNsRgaYiJOAJMfVXgdRXh/FOH5XoR7vhD3fCGykJjpVLEynIrflMmOJY/VL48xNMac/IWtW4X7WyGbcwVszBawbLnHwngmspAwtiSxMJDK5lg6vulqAEYaok8BXclsfM1nbUaHy65DFhKGRomh+jgm29UsDWtZ/qxl3focgOH6mycBa2cyLruO1ck8nNZcZCHR+SqatppoTHo1cz0a5no1DPVp0AxqGKyLOgV0JOO05bJsfsCS6T6ykNC/jKLpaST9dYnYOu6EMraq6K+N9JwAZBFrtnWpWBzPYUHOQRYStRWXeZZ3ieYnV+h9G3ncDU/vm+tp3TXXzoedcrRZKppoiWemLxVjawKZyotahUJxLmzxX2MQMRFjInZQFpJHVF+98L/v/gDacTCAI1Mk9gAAAABJRU5ErkJggg==",
+                    oncommand: 'var file = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("UChrm", Components.interfaces.nsILocalFile);file.append("Local");file.append("html");file.launch();',
+                },
             ]
 
             var menupopup = document.createElement("menupopup");
@@ -146,7 +152,3 @@ function Base64DecodeandEncode() {
 			var PATH = '/chrome/Local/html/Base64DecodeandEncode.html';
 			var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
-
-
-
-
