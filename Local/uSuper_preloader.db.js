@@ -3201,6 +3201,7 @@ var SITEINFO = [{
         url: /^https?:\/\/www\.alabout\.com\/list/i,
         siteExample: 'http://www.alabout.com/list.php?sid=3',
         nextLink: '//a[contains(text(),"次ページ")]',
+        useiframe: true,
         autopager: {
             pageElement: '//node()[preceding-sibling::hr and following-sibling::hr]',
             useiframe: true,

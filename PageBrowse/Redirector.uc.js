@@ -139,7 +139,7 @@
 				}
 				else if (this.type == 2) {
 					icon = document.createElement("menu");
-					icon.setAttribute("label", "Redirector");
+					icon.setAttribute("label", "Redirector重定向");
 					icon.setAttribute("class", "menu-iconic");
 					var insPos = document.getElementById('devToolsSeparator');
 						insPos.parentNode.insertBefore(icon, insPos);

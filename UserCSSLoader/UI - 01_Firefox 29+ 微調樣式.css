@@ -207,6 +207,16 @@ border: none !important;
 #nav-bar-customization-target #ProfD-button {-moz-box-ordinal-group: 99 !important;}
 #nav-bar-customization-target #openPreferences-button {-moz-box-ordinal-group: 100 !important;}
 */
+#urlbar-icons #downloads-button {-moz-box-ordinal-group: 0 !important;}
+#urlbar-icons #abp-toolbarbutton {-moz-box-ordinal-group: 1 !important;}
+#urlbar-icons #userChromebtnMenu {-moz-box-ordinal-group: 2 !important;}
+#urlbar-icons #usercssloader-menu {-moz-box-ordinal-group: 3 !important;}
+#urlbar-icons #UserScriptLoader-icon {-moz-box-ordinal-group: 4 !important;}
+#urlbar-icons #uSuper_preloader-icon {-moz-box-ordinal-group: 5 !important;}
+#urlbar-icons #statusbarZoomLevel {-moz-box-ordinal-group: 6 !important;}
+
+
+
 #downloadbar-bar-wrbx {-moz-box-ordinal-group: 1 !important;}
 #downloadsbar-mn {-moz-box-ordinal-group: 2 !important;}
 #downloadbar-bar-clrbttn {-moz-box-ordinal-group: 3 !important;}

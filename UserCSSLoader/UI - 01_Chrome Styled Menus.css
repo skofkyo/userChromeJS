@@ -5,6 +5,7 @@
 
 .menu-iconic-text{
     margin-top: -1px !important;
+    padding-right:6px !important;
 }
 
 #anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
@@ -49,7 +50,7 @@ menuseparator:not([hidden]) {
     opacity:0.6 !important;
 }
 
-menuseparator,#context-sep-navigation, #page-menu-separator {
+menuseparator,#context-sep-navigation, #page-menu-separator,[label="啟用 chrome 目錄下全部腳本"] {
 display: none !important; 
 }
 

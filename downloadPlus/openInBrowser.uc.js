@@ -31,10 +31,10 @@
 	menupopup.setAttribute("flex", "1");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "BT\u7a2e\u5b50\u6a94");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u5716\u7247");
-	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u7DB2\u9801");
-	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u7D14\u6587\u5B57");
-	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u97F3\u6A02");
-	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u5F71\u7247");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u7d14\u6587\u5b57");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u97f3\u6a02");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u5f71\u7247");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "\u7db2\u9801");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "XML");
 	document.querySelector("#MIMETypes").selectedIndex = 0;
 	addEventListener("DOMNodeInserted", window.sizeToContent, true)
