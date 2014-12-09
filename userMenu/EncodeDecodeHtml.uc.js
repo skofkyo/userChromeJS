@@ -152,3 +152,7 @@ function Base64DecodeandEncode() {
 			var PATH = '/chrome/Local/html/Base64DecodeandEncode.html';
 			var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
+
+
+
+

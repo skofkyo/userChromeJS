@@ -33,6 +33,12 @@ rules = [
         },
         {
             name: "noMoreArchiver",
+            from: /(.*)\/archiver\/(.*)tid-(.*)\-page\-(.*)\.html/,
+            to: "$1/viewthread.php?tid=$3",
+            regex: true
+        },
+        {
+            name: "noMoreArchiver",
             from: /(.*)\/archiver\/(.*)tid-(.*)\.html/,
             to: "$1/viewthread.php?tid=$3",
             regex: true
@@ -50,4 +56,3 @@ rules = [
             wildcard: true,
         },
 ];
-
