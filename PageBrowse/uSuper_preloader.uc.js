@@ -76,7 +76,7 @@ var ns = window.uSuper_preloader = {
 
         if(append_type != APPEND_NONE){
             // addon-bar, nav-bar, urlbar-icons
-            this.addIconOrMenuitem('addon-bar');
+            this.addIconOrMenuitem('urlbar-icons');
 
             window.addEventListener('unload', this, false);
 
@@ -297,9 +297,11 @@ var ns = window.uSuper_preloader = {
         }, timer);
     },
     edit: function () {
-        var file = Components.classes['@mozilla.org/file/directory_service;1'].getService(Components.interfaces.nsIProperties).get("WinD", Components.interfaces.nsILocalFile);file.append("notepad.exe");
+        //var file = Components.classes['@mozilla.org/file/directory_service;1'].getService(Components.interfaces.nsIProperties).get("WinD", Components.interfaces.nsILocalFile);file.append("notepad.exe");
+        var editor = gPrefService.getCharPref("view_source.editor.path");
+        var appfile = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);appfile.initWithPath(editor);
         var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
-        process.init(file);
+        process.init(appfile);
         process.run(false, [Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\uSuper_preloader.db.js"], 1);
     },
     search: function(){

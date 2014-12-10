@@ -166,6 +166,7 @@ var KeyChanger = {
 		menuitem.setAttribute('id', 'toolsbar_KeyChanger_rebuild');
 		menuitem.setAttribute('label', 'KeyChanger');
 		menuitem.setAttribute('tooltiptext', '左鍵：重載配置\n右鍵：編輯配置');
+		menuitem.setAttribute("class", "menuitem-iconic");
 		menuitem.setAttribute('image', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABOklEQVQ4jcWOsWqDUBSGL4XQLQ/RV/AVMnjui3RVCk52MnRw00HMING7KoQUF7eAhCLcB8ikg4uCEJJNMvydLARM2rj0wMfH4ec/HMb+aZ6I6Gtye7FYvBDR56QyEc1VVf1QVfV1NCSid875nnMub0FES0VRZmMHlkT0RkTzh19TFGXGOd8T0fNDxTAMvSiKMIUwDD0WBAGqqoKUEmVZ/slSSlRVhSAIwHzfR57nuFwu2O12v7rve/R9jzzP4fs+mOM4KIoCaZo+RFEUcBwHzLZtHA4HxHGM8/l818fjEW3bous6bLdb2LYNZlkWsiyDEOIum83mas+yDJZlgZmmCSEETqcTVqsVmqZBXddXNE3zkw0WQsA0TTDDMJAkCVzXxXq9huu6owzZ4CRJYBgGmKZpnq7rmIKmad43z+fVIKHp+DQAAAAASUVORK5CYII=');
 		menuitem.setAttribute('oncommand', 'KeyChanger.makeKeyset(true);');
 		menuitem.setAttribute('onclick', 'if (event.button == 2) { event.preventDefault(); KeyChanger.edit(KeyChanger.file); }');

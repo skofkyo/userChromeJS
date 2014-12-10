@@ -6,7 +6,7 @@
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.09
+// @version              2014.12.10
 // @startup        
 // @shutdown       
 // @config         
@@ -47,6 +47,8 @@
 		        'helpMenu',
 		        'menu_preferences',
 		        '-',
+		        'fullScreenItem',
+		        'charsetMenu',
 		        'menu_openDownloads',
 		        'menu_openAddons',
 		        'webDeveloperMenu',
@@ -62,12 +64,14 @@
 		            Item = document.createElement("menuseparator");
 		        } else if (FavID == 'javascriptConsole') {
 		            Item = document.createElement("menuitem");
-		            Item.setAttribute("label", "錯誤控制台");
+		            Item.setAttribute("label", "錯誤主控台");
+		            Item.setAttribute("class", "menuitem-iconic");
 		            Item.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2ElEQVQ4jY2SURGDMBBEIwEJSHm7CpCAhEqoAyRUAhIqIRKQgAT60WMmTRPam8kMOXIve3tJqQhgsH0HqPJEfkhXISnbPjqAQ1LuFgOj7SMOPs/vev+Xgt66VFCraK2mB5I2SRswA2Mtv2wDGIDJ9ippL299SNolbbYXYOIzJttL/D9sr7XR5wi78os2xl7/NA7PjRw9wNfhlFJqAKa68Fb09hNQGPoG2V7DuK8RdhTwMYVqpPkK8Osp/+vB3C0OP3ILICkDtyYkPJgDNoQvJWA9n3Fctpy1LyNPBAjW0Ns9AAAAAElFTkSuQmCC");
 		            Item.setAttribute("oncommand", "toJavaScriptConsole();");
 		        } else if (FavID == 'restart') {
 		            Item = document.createElement("menuitem");
 		            Item.setAttribute("label", "重新啟動瀏覽器");
+		            Item.setAttribute("class", "menuitem-iconic");
 		            Item.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABgklEQVQ4jX1Su0pDQRC9hVjEVysBX8FCiKTZIsgumznnH2wikUQR9EsEwVrBwkrBXoPGSvATJIrxFcR8gkVAr81svIk3LizsnnmdOTNRNOSUSqUVknG4AA6H+fYdEVkDcEKyrYF7JL/0fSEii6mBJOdI1pNVScZq8wDeNMmniCz3BXvvZ0g+a1BbRLadc7P5fH40+BSLxUmSx5qkKyJLyep1NVxaayf+a5HkkRba6vWswa/GmCnFqgBaoQXFRgDsA/gmGfcYADhVYFsrVAY1EJFpADcJ/KBHCcA7ydh7P6P/B2V0q4kdyQ/F7kgeACgnE3RJxkGwMDIR2Q2CDU5G8fIwBvfqtJMQLAbwQnJV8d82ggZB1SBqyq0ow5r+j0OCda3wZIzJKFYm2dR2moGuMSZD8lH9N5I6XCVWdTxt/oVCYQzAufpd9xmdc7nEqrZEZNNam42iKLLWZknWwl6QbDvncn8qiMg8ycaQ/sNteO8X0nf0N1EVwBmAjjLq6H8jzf8HTUH5xYEpCK8AAAAASUVORK5CYII=");
 		            Item.setAttribute("oncommand", "Services.appinfo.invalidateCachesOnRestart() || Application.restart();");
 		        } else {
