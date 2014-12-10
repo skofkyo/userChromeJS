@@ -915,7 +915,7 @@ list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAY
 -moz-image-region: rect(0, 18px, 18px, 0px) !important;}
 
 #helpMenu
-{list-style-image: url("chrome://mozapps/skin/plugins/pluginHelp-16.png") !important;}
+{list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABfklEQVQ4jYWTz0pbURCHB2nRIBYJgUAyd+abWGmbis/QdX2Bbk2FQDHo1pW46cqFT1CzEkqhdtXFzeK+mptzwvHmtg7cxZk/3z3zmzkiLVPVMTAHlhFRR0QNLIG5qo7b+aVtAacRsQKari/FTkVkq6v4JidFxMLMpqraU9WemU0jYlHAb55B3H2Win+p6lsRkX6//8bdT4BPIrItIlJV1QHwE2jcfSbJOUp/XanqYZH4WFx/CeyLiESEJ21WqjqWJFgDXOYbRcQt8Hc0GlmC/Xb3b0V8kWrmAtwDTVVVRznBzCaqepzPwBXwvYhPE+CHpDE1g8Fgr2My28B74A/wpfC/TprV/wUAF8Cju5+Vqqtqbw3ILZjZxzbA3T8Ddx3+D6mF+1LEi44WXg2Hw90OwPlaRFUdpzHWZjZptfAAPJS+jTEm4te8SCUEuAau89nMJsUinZXgcpXriFikPneAnYh45+7nWfCNVc4Qd5+99JjSCm8Ur631nFcJ+M/n/ASYa4gEyp5tIAAAAABJRU5ErkJggg==") !important;}
 
 /* File Menu Items*/
 
@@ -1127,13 +1127,17 @@ menuitem[oncommand="PlacesCommandHook.showPlacesOrganizer('UnfiledBookmarks');"]
 
 /* Tools Menu Items*/
 
+#menu_openDownloads,
+menuitem[command="Tools:Downloads"]
+{list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABkUlEQVQ4jbXR3UrCcBzG8TpK6yKiTjJDCsODtELQEkbLsM0tZ6ypbcpcrk3LVqblW5YSRffTNXQH1RX0Kp09nUQ4ettJf/gePh/48e/r+483PDZ57ZiagdPtg9Ptg2NqBsNjk9eWAc9cCATFg2QSIJkECIqHZy4Ey4CfoMCJGuKSjrikgxM1+AnKOhAgo1jP5E0FyKh1ILjMgpd3TAWXWevAYjgGQdkztRiOWQcIikcyd2CKoPgfgf5R5/TdxPQsXJ55eAMkaEHBplY2RQsKvAESLs88nO5ZjIy7bz4FQdoSQivxN4qXwUk6UmoJ6cKxqZRaAifpWOVlLIS5VzGr0Z8AgCHNON5gUmpXyh9BLta/TcpXEE1kn41KnQVgN90BYHDvqLHOitvdTLEO5aBlKr1bQzSpPh3WTukv417EqJywnKi/ZI0m1HIbarkN2WhiTVQfq63zCADbrz8AwH7Y7NDxdOFJ2W9B2W+BSxceamcX4T/HPYit2r6MMMncPZPcum10rpYADFga9yIARj76cfwO1doPOUtxNUwAAAAASUVORK5CYII=") !important;}
+
 #menu_search,
 menuitem[command="Tools:Search"]
 {list-style-image: url("chrome://mozapps/skin/extensions/category-languages.png") !important;}
 
 #menu_openAddons, #UACtoolsmenuAU, #UACappmenuAU, #osb_tools_menuitem,
 menuitem[command="Tools:Addons"] 
-{list-style-image: url("chrome://mozapps/skin/extensions/extensionGeneric-16.png") !important;}
+{list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACcUlEQVQ4jZXSPUwTYRzH8ceQODi6YKIRRKhiC1gsL0ITXgXr0dK3u/Zsr9felfbesG9Hr9BSrS2EmBjC4OLqyuRioiEkLMbRuBlHiCvEQdToz4GAA7UJ/+SbPHnyPJ/leQhpMFdNlsUOS/83U1ffYYvJ8qLR2brTMzC6O+liMe0Jw3p3HISYz58JmHYFX3o5GUxMw5STeQPg3JkAZyCS9HIS6KgGyheqEUIaA603el53Wodgttlxe3AMYxSNgPgI7Fwaky4W1qEJmG123OodxrWb1o+ngP4Rx64zKMLDSfDxCoLxFHjNAK8ZYOcy8PEKPJyE2VACg+MzOL7XdLyYdAX3opoBMV1qmJAqYsr98AgwdQ/86ejqe2ex2QUqEPsdz5Qwly2fSkgVEZZyP9lE5pBTFnBvlj0CKCYGh5+Hw88jlMgiqVfqFkrmoJeq4tvtbZuTiW098IY3CSGEcEoevFpASNYRTy9DNmp180VV5HLFFgBNAC4DaCaEEDITEL6ygrr5ZO15hFONX2phBdriKtTCChSjCsWoQi2sgInN487wBH/d3Ntusdk/dVqHdgghhABoA9AM4IKfl/fUxVVoS6sQ0yVEJP1LRF74LKRKiM4XcN/LYcThA0XHYJ9yn7zCv48TFPa04hoSegVStlQD0AqgRcou1eLZMhJ6BfHsY8iFGpxsvD6QKj2DmF6Gk+Ezx/suhs/HM2XkKusneTj5/0By4SlGKeZ7e/fAFVNXX9sYRf+Q8lXo1Q3o1Q3kKutwh6XTgDskvgrJ+f2IYuw7fJH3NC1epOnopWk/9yGiGPtCunwgpMsH/PzSgTMobBFCyF+tx2eysq1wDgAAAABJRU5ErkJggg==") !important;}
 
 #UACtoolsmenuCheck, #UACtoolsmenuCheckSpoofed, #UACappmenuCheckSpoofed
 {list-style-image: url(chrome://UpdateAddon/skin/updates.png) !important;}

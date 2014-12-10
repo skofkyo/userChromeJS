@@ -42,7 +42,10 @@
     height: 16px !important;
 }
 
-#navigator-toolbox #anobtn .toolbarbutton-icon,
+#navigator-toolbox #anobtn .toolbarbutton-icon{
+    width: 20px !important;
+    height: 20px !important;
+}
 #navigator-toolbox #Firefox-button-mod .toolbarbutton-icon{
     width: 23px !important;
     height: 23px !important;

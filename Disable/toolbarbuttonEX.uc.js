@@ -1167,7 +1167,7 @@
 		navigator.palette.appendChild(Btn);
 		
 		if ( !Btn.lastChild ) {
-  		var mc = document.getElementById("goPopup");
+  		var mc = document.getElementById("bookmarksMenuPopup");
   		var mcc = mc.cloneNode( true );
   		Btn.appendChild( mcc );
 		}

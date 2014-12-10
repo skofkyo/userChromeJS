@@ -35,8 +35,14 @@
 		});
 		var EncodeTool = document.getElementById("EncodeTool");
 		EncodeTool.setAttribute("type", "menu");
-		EncodeTool.setAttribute("image", image16);
-		//EncodeTool.style.listStyleImage = "url('')";
+		
+		var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){'
+			 +'#EncodeTool .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADAUlEQVR42mWTW0iTYRzGNYtwbURSkBbtZje7DOsuIigkbAhWHpdOnTqttGwHrVlpJzoS1VQ0c8sDobVzq3TfqgvZdKdIhW2wahdeGINM3dzV3qfvk5Vu/eHhhe99n9/7vf9DWtp6pCfWTRvWzQltStlLT0sNlUrFDYVCSqfT+d5oNgcGNJqwzmhcnp2bW/b5/eFJuz1gslje60wmpVSp5CaZeTze1pnZuZ8ut4d4PF/ibrc37nS6iGN6mpgtFmKlKOJwOOJulyvucbnI7MzMT8bzD5Cbm8uaoGyR8QkbmZx0IPjtOyKRCObn59Hb14cWqRSdN29iQK2GzWYj1MdPEcazDhAIWFYaYDK/o2+axtLSMlZXo/D7A3it1aKjsxO19fWQt7ZCq9OSCYpKBjC/Q9lsC5Z3H4idBiwu/kYkGoXP78Po2Bjar11DTW0tFK1t0Ov1hKKohaQnMJnec+lpsKBRTh52P4fT8wU/foTgdruheamBTKFAUbkQp0Q1ONFwiWTLngUT1VkHfLq1O5hfdozwikXYdeYiOHVKZFa1IfO4GJxDJdh1rAy8k+XIr8gjn+9k/w/gttwK1ghzyWNxDoaadmC0jY1XUg4GK9lQF7LxojgLjyr3Qiw6QLiy2/8DMi88DrIKzxLW6RawKy6D1dABjvgKOCfqsO2wEOyj1WAVnAOrqIlktjxJBjAJufuka2F/mYTklDYhq0oBTuN1sMVKsAUScI4IsTNPhH2nG3FQdJ48UPUspPSBgPVh3BoZGhohPaou9HZ3o6+3F/fu30dVNZ04gQAlxUWQy6QYGR4m49aUMtKxzfzWEjWZLWRqyomVlQhisRgCgUQf3LiBOomELmMr3mi1xESfZTx/zVto8fUGY3StD+xT8V+LiyQajRKfz0dGx0ZJ+9WrpFosJnKFIq4zGIjeYGAA/IR3bcK28/n8fKlUNtjf/+Kr1+sN04MVo/sgrtZo4lK5PFZUWhoWVlR8bW5uHmTOMp4N05k0ohm0OLSyaXETyk58y0gd5z+RasELwMhMQQAAAABJRU5ErkJggg==)}'
+			 +'}';
+		var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
+		var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+		sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
+
 	} else if (type == 2) {
 		EncodeTool = document.createElement("menu");
 		EncodeTool.setAttribute("id", "EncodeTool");

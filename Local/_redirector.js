@@ -21,8 +21,8 @@ rules = [
         },
         {
             name: "userscripts.org",
-            from: "http://userscripts.org/*",
-            to: "http://userscripts-mirror.org/$1",
+            from: "http*://userscripts.org/*",
+            to: "http://userscripts-mirror.org/$2",
             wildcard: true,
         },
         {

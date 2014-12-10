@@ -59,7 +59,13 @@ CTRL + 右鍵：移除擴展
 		var btn = document.getElementById("eom-button"); 
 		btn.setAttribute("type", "menu");
 		btn.setAttribute("context", "_child");
-		btn.style.listStyleImage = "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACbklEQVQ4jY2Sz2sTQRTHv292drOpbZJWycaGxPoDWsVAMdRiPfXQgqe2ogge4smzeFAED60n/S8Ez2IPHgQ9CCLFQyvYIgjWFgu1gULTZLvt7s5mnocmMTQUHJjDzHzn8/3Om0c4ZmQvjfR63t79KIpsAERE2rbtj9ury5/bdfI4QBD4D9JOZravrw9EhCDw8WdzcxdA738BLMuqO04aQhjNNRKJPZSP6MRxgHPnLzxXKnrMzCAihGG4kEylLh7V0dGNU+cLb3p6emZitg0CIe04sCwL5a0tKKXAzGAwdisVRUJMdQDODl/nwaFBEAkQNT0YzACzhtYMrTXCMMDXpaU5mbt8Nem67iMAsr+/f45IwJQmSBCI/vGZGawZmjV0XUOIw9fLKIpKuXz+KWsN3/eteFcXTFM2EhCI0HBnMGsEYfhdmnIKUb0Uj8fL0veDZCaTQcyKQUXqoWVakNKEaCQgosblw+grKytffi5++gVgFgAksxa2bcM0TcS74jCEAcMQEEJ0AKIogud5bnvNZCwWCwkEaRgwDLlgGMZYO6C9BkQE0zRHAOD00JUbSqmqSKZS7zTrH74frLpu7ebGxm8YhgEhRMeUUsJxnLGh0fG1RCLx1vf9iY5vHJ2c5kKh0Iz/jYAPDBww8yAzz2itTdYaUb2O+fn5uY5WJgCCCDuVCmrVaun961fLzbPJ2/cW87lcUQvRauEWYHz6rmXb9skgCDwiOqHCEGvr608mbpWeAcC+5xXK5fLwmXy+ZdLd3a1bgIGBgbp/cKCUUneI6Fo2m0W1VtvMpNP7mhnbwE42m31BRCBmKKXcYrH48i9hlQ1TdRL6wwAAAABJRU5ErkJggg==)";
+
+		var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){'
+			 +'#eom-button .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACbklEQVQ4jY2Sz2sTQRTHv292drOpbZJWycaGxPoDWsVAMdRiPfXQgqe2ogge4smzeFAED60n/S8Ez2IPHgQ9CCLFQyvYIgjWFgu1gULTZLvt7s5mnocmMTQUHJjDzHzn8/3Om0c4ZmQvjfR63t79KIpsAERE2rbtj9ury5/bdfI4QBD4D9JOZravrw9EhCDw8WdzcxdA738BLMuqO04aQhjNNRKJPZSP6MRxgHPnLzxXKnrMzCAihGG4kEylLh7V0dGNU+cLb3p6emZitg0CIe04sCwL5a0tKKXAzGAwdisVRUJMdQDODl/nwaFBEAkQNT0YzACzhtYMrTXCMMDXpaU5mbt8Nem67iMAsr+/f45IwJQmSBCI/vGZGawZmjV0XUOIw9fLKIpKuXz+KWsN3/eteFcXTFM2EhCI0HBnMGsEYfhdmnIKUb0Uj8fL0veDZCaTQcyKQUXqoWVakNKEaCQgosblw+grKytffi5++gVgFgAksxa2bcM0TcS74jCEAcMQEEJ0AKIogud5bnvNZCwWCwkEaRgwDLlgGMZYO6C9BkQE0zRHAOD00JUbSqmqSKZS7zTrH74frLpu7ebGxm8YhgEhRMeUUsJxnLGh0fG1RCLx1vf9iY5vHJ2c5kKh0Iz/jYAPDBww8yAzz2itTdYaUb2O+fn5uY5WJgCCCDuVCmrVaun961fLzbPJ2/cW87lcUQvRauEWYHz6rmXb9skgCDwiOqHCEGvr608mbpWeAcC+5xXK5fLwmXy+ZdLd3a1bgIGBgbp/cKCUUneI6Fo2m0W1VtvMpNP7mhnbwE42m31BRCBmKKXcYrH48i9hlQ1TdRL6wwAAAABJRU5ErkJggg==)}'
+			 +'}';
+		var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
+		var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+		sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
 
 			var mp = btn.appendChild($C('menupopup', {
 				id: 'eom-button-popup',
