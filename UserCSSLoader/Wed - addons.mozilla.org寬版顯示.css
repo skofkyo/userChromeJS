@@ -1,0 +1,31 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("addons.mozilla.org") {
+
+div#page{
+    max-width: 96%!important;
+    width: 100%!important;
+}
+.primary .island.hero {
+    width: 97%!important;
+}
+.listing .item .info {
+    width: 84%!important;
+}
+div.section{
+    max-width: 98%!important;
+    width: 98%!important;
+    padding: 0 0!important;
+}
+}
+
+@-moz-document domain("www.mozilla.org") {
+div#doc{
+
+    width: 98%!important;
+}
+
+.column1, .column2, .column3, .column1-2wide {
+    width: 30%!important;
+}
+}

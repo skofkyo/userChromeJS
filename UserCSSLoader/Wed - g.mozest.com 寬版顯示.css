@@ -1,0 +1,12 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("g.mozest.com") {
+#page {
+
+    max-width: 100% !important;
+
+}
+.content {
+    padding: 10px!important;
+}
+}

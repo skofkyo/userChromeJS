@@ -1,0 +1,72 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+
+
+.statuspanel-label[value^="http"],
+.statuspanel-label[value^="magnet"],
+.statuspanel-label[value^="data"],
+.statuspanel-label[value^="Copy"]
+{display:none !important;}
+.statuspanel-label{
+font-size:1.5em!important;
+}
+
+/*
+.statuspanel-label:not([value=""]) {opacity:1 !important;-moz-transition-property:opacity !important;-moz-transition-delay:-10ms !important;}
+.statuspanel-label {-moz-appearance:none;-moz-border-radius-topright:35px;border-top-right-radius:12px !important;-moz-transition: left .50s ease !important;background-color: #FFFFFF !important;border: none !important;box-shadow: 0 0 15px 10px rgba(169,236,252,1) inset,0 0 0 1px rgba(0,0,0,.25),0 1px 5px rgba(0,0,0,.5) !important;padding: 2px 2px 2px 2px !important;color:#00000 !important;font:message-box !important;} {display:none !important;}
+*/
+/* 關閉左下目標連結懸浮顯示 
+#menu_switchToMetro,
+#statusbar-display {display:none !important;}
+
+.statuspanel-label{
+visibility: collapse !important;
+}
+*/
+/*只顯示懸停連結
+.statuspanel-label[crop="end"] {display:none !important;}
+
+.statuspanel-label:not([crop="end"]){display:none !important;}*/
+/*
+#statusbar-display[label^="從"],
+
+#statusbar-display[label^="等待"],
+
+#statusbar-display[label^="已連線到"],
+
+#statusbar-display[label^="正在"],
+
+#statusbar-display[label^="尋找"],
+
+#statusbar-display[label^="讀取"] {
+
+    display: none !important;
+
+} 
+*/
+/*
+#nosquint-status {
+display:none !important;
+}
+
+#addonbar-closebutton,#scriptish-button-inner .toolbarbutton-menu-dropmarker,#nav-bar > toolbarbutton > dropmarker,#addon-bar > toolbarbutton > dropmarker,#status-bar > statusbarpanel > dropmarker{
+  display: none !important;
+}
+
+
+#statusbar-display[label^="從"],
+
+#statusbar-display[label^="等待"],
+
+#statusbar-display[label^="已連線到"],
+
+#statusbar-display[label^="正在"],
+
+#statusbar-display[label^="尋找"],
+
+#statusbar-display[label^="讀取"] {
+
+    display: none !important;
+
+} 
+
+*/

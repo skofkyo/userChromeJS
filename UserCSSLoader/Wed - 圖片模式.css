@@ -1,0 +1,44 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url-prefix("http"), url-prefix("https")
+{
+  body > img:only-child
+  {
+  max-height: none !important;
+  max-width: 100% !important;
+  min-width: 80% !important;
+  height: auto !important;
+  width: auto !important;
+  text-align: center !important;
+  /*margin: 0 8% !important;*/
+  }
+}
+/*
+@-moz-document regexp(".*\\.(?:jpg|png|bmp|jpeg|gif)") {
+    img:hover{
+    -moz-animation: rotate 6s linear infinite !important;
+    -moz-animation-play-state:paused !important;
+    }
+    img:active{
+    -moz-animation-play-state:running !important;
+    }
+    @-moz-keyframes rotate{
+    100%{
+    -moz-transform: rotate(360deg) !important;
+    }
+    }
+}*/
+
+@-moz-document url-prefix("http://www.imagebam.com/")
+{
+  body > img
+  {
+  max-height: none !important;
+  max-width: 100% !important;
+  min-width: 80% !important;
+  height: auto !important;
+  width: auto !important;
+  text-align: center !important;
+  
+  }
+}

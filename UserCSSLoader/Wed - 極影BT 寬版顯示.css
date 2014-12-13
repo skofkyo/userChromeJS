@@ -1,0 +1,33 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("bt.ktxp.com") {
+
+div.main{width: 98% !important;}
+div#breadcrumb,div#team.space-bottom,div.playbill,div#top.space-bottom{
+margin-top:-15px !important;
+}
+div#resource-list.space-bottom
+{
+margin-top:-40px !important;
+}
+div#playbill{
+margin-top:-20px !important;
+margin-bottom:-25px !important;
+}
+.layout2 {
+    padding: 0 !important;
+}
+div.right{
+float:left !important;
+}
+
+#playbill dl dd {
+    width: 96% !important;
+}
+#projection-left,
+#projection-right,
+div#recommend.space-bottom,
+div.main div.item-box2,
+div#header div.top,
+div#breadcrumb{display: none !important}
+}

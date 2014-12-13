@@ -77,6 +77,7 @@ var anomenu = [
         },
     ]
 },
+/*
 {
     label: "外部程序",
     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAFNUlEQVRIibXTWUwUZwDA8fU+eqg1adID2rqAWsshAgK7CBSBxUUoXqmW1ltUBORwmdkFg7oziGe00rS2VSvWpGlFVJBzl2V3YVmu9URt+tBXd5u+NE1IH/z3YQUWj7ZJ20l+D/N9X+af75sZheL/voxGyWU0SkOSJPPYI0mSHxmN0tAwSZKHJEkekuXKIVmuHLk3GqU/niRJ8qP9+w/cGglIkvzI/MP3PMiLodtq4nfnLkzWJiq/y+bmzdvcvTPIvcH73Bt8wODgfe7cvsuNG7fo73Ph7O7F0eXEbuvC0t5BW6uJxsYmjh499tuYQEtLK2azBWuHnU67g25HDz3OPvp6Bxjov4HLdZMbrlu4Bm7S3++it6d/9OH2LjosNkwmM83NLTTUNyBJMiMBUdQjinoKC4soKdmDTleKIIjo9QYMhjLKysopL9/7lLKycgyGMkRRjyCI6HSllJTsobCwiPz8grGBBclVzEk6xdsJJ/CPO4JfrIxf7EH8VFX4qQ7hrz6Mv/qIV9xR/NVHR+9Vh/FTHfKuja3kzRiZrLV5TwRSjxOgOUNd0wB3Dxbws/k6v7kq+fXBJc42VWBz1eN2e/C4PXg8HjyeX3x4x91uD263m4cP3Qyfiijqf/IGNCcI0tZw+nwLHRbrf0YU9ShEUU+I9gTzMi8yN+Nbr+XDLhCUPqyGIG0NgdrzBC47T2DaeQLSviFAc46A1HMoU86iTDmDMvlrlGnnmJNSja607HEg/STzV3zH3OUXSBOtrK7qH7HmUD+rqwZYfWiAjAM9JBu6yDT2sKqqj5UH+1hZ2UeW3EtKWRdL9V0s1XeiLjDxztITPjvIOMmCNd8TlH6BFF0HWXIvK+Q+r0qvjAM9JAmdLKvoJkvuJUvyWr7fSbKhi/cFO+8LdhJL7ajyTCg1p30CmZ8SvLaWIG0NScXtZBzo8TL2kmnsJX2fk8RSO8n6TjKNPSPz2opuEkvtJOhsJOhsxOtsxO+xEbOrDWXaVz6BD04R+vEVApedJaHQhLbCiXafk/R9TrQV3SwpsZKgs6Gt6B6h2etgyR4bcSVWr2IvdbGVxTtaUKZ+7hNYUU3YhnoC006zJK8ZTbkDzV4HqeUO1MVWVEUdpBi60Ox1oCl3eM+5qAPVY7GFwyzE7rYQub2ZOSnVPoGV1Sza0khAajWqnQ0k6ztJNnSiLrIQnW8mqdROisE7lqCzEVPQPkZ0QTvR+e1E55uJzjcTsa3piZe86jMicppRJh8jJucqSaU2VAVmona2EVdkIUmwkyTYWVLcweJdpmfLbWNxbhtRuW2Eb74+NhCcdZzFua3MSaokakst6gIzETnNxOS1kaizkqizot7dTuSOFiJ3tBLlI3JHq3d8+6iFG+tHj0gQxFs+vzZhH10kfPN1InOaiC+2EF9sITq3lYhtTX9r0dYmFm1tJGz91dEdPL7GKxSKF0VRz/wVZwjf2IC6wEzc7naicpoJ39RA+Obrf29TA+GbGli4sQH/eHlMQKFQKCaJop55mV8QvbMVVb6JiC2NhK2/Rtj6ayzcMKz+Gbxzw2vD1l/l9aiSpwIKUdTz3qovid7ZQtgnVwnJriM0u47Q7CuEfvwPZF8hNLuOkOy65wfezTpFyEeXCf7wEsFra73W1RKy7vJfCl53eXT92trnB6a9Mo9ps+YydVYQU2cGMHWGkikz3mHKy28x+SU/Jr/4BpNeeI1J019l4rTZTJwykwmTX2L8xOmMmzCFceMnohg3jtlz1zwdEAT9j75f1L8hCOKQIAg1fwI51/z+rcXaowAAAABJRU5ErkJggg==",
@@ -109,7 +110,6 @@ var anomenu = [
             text: "\\user.js" , 
             exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
         },
-        /*
         {
             label: "便攜Notepad2",
             exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
@@ -129,7 +129,6 @@ var anomenu = [
             text: "\\Chrome\\userChrome.css" , 
             exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
         },
-        */
         {},
         {
             label: "Goagent",
@@ -145,15 +144,82 @@ var anomenu = [
         },
     ]
 },
+*/
 {
-	label: "pcx便攜模式",
-	text: "-no-remote",
-	exec: "C:\\PCXFirefox\\firefox.exe" , 
+	label: "原版Firefox 當前頁面",
+	text: "%u",
+	exec: "C:\\Firefox\\MyFirefox.exe" , 
 },
 {
 	label: "pcx便攜模式 當前頁面",
 	text: "%u",
 	exec: "C:\\PCXFirefox\\firefox.exe" , 
+},
+{
+    label: "截圖",
+    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC2klEQVQ4ja2Sz0sbQRTHZ2bX/Zkf3cTdmK30EoxVRIl4qVKpx+bkQeLdU7GF/glehV7EYyGHQqXQS2lBLz1VivSQBiqkqaFad0XBrsZNskmaye5MD3UlplYQ+k7vMe/7efN+APCfjAEAgNXVVXR4eDguy/KorusBTdN+WpZ1IxBMp9Py9vZ2xrKsB57nBRBCVUEQviOECKX0TxKE4NyHfgwAoAAAwHFcvb+//y1rGMb40dFRmhAinMN7Mca95z7tLuyDRkZGgCRJoFQqkd3d3TYLIQz5LV7qmWEaoVDoK8a4RAjBoijecRxnFGMc5XkeLi0tbU5NTZVnZ2dThUIhwF7VryRJe7quv5ycnPyWy+UCHMcxmqa9Pzk5iezv72fOzs4m5+fnNUqpBACQJUmC3SDK8/zZwMDAc4Zh7PX19YVqtTpCKWVFUTxQVfXN2NhYNp/PByuVypjfKqWU/gUKBoMfZFk+KBQKjyuVyj0/uVar9WKMY4IgPIvH4+9qtdoQIYT3haiTghByE4nEF8MwkvV6PeVDfGu1WnHHce4PDw+XBEEoX2wAQngJRAihjuNUbdtWXNcVOt+SySRYXFyE1Wq1b25uroUQal76RGcAIUQ8zyvRaNRiWfYiURRFkMlkQLlcJsFg8CCbzYqe5wX+CaKUMqZpjk9MTOyFw+FPEEIvGo2C5eVlYNs23draMhRF+Wia5lCr1brVqWU0TUtaljVOKWUAALDdbscwxkVN07Zc14UYY7lYLP7K5XLbqqquKYpi7+zsLGCMY/4MOY4zWdB1ve12O2wYxhNd119NT0+vxWKx16enp8zMzExjZWUlkc/nn9br9bvdi7jyIDHGmmmaj46Pjx+qqvqD4zh3Y2PjdqPRSHieF+yGUEopSwixIYQYANDTOXdCiNBsNgdN0xy8qljHgtyenp4yqyjK50gk8sJ13T6EELxO1G2UUuB5Xi2VSm3eRHet/QZUwkmnfBikogAAAABJRU5ErkJggg==",
+    child: [
+        {
+            label: "頁面所有區域截圖",
+            oncommand: 'captureAll.init();',
+        },
+        {
+            label: "頁面可見區域截圖",
+            oncommand: 'capturePage.init();',
+        },
+        {
+            label: "瀏覽器界面截圖",
+            oncommand: 'captureBrower.init();',
+        },
+        {
+            label: "擷取選擇範圍",
+            oncommand: 'WebScreenShotByClipping.init();',
+        },
+        {
+            label: "擷取捕獲元素範圍",
+            oncommand: 'WebScreenShotByClick.init();',
+        },
+    ]
+},
+{
+    label: "變更視窗尺寸",
+    image: "data:;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgMF/8QAIxAAAQQBBAEFAAAAAAAAAAAAAQIDBAURABIhQQYiIzEyof/EABUBAQEAAAAAAAAAAAAAAAAAAAUG/8QAHhEBAQABAwUAAAAAAAAAAAAAARECAANhBCEjQfD/2gAMAwEAAhEDEQA/ANRirmKZj2L0VT0V14JHuDc6d2Ckc5ycHrSi4pamPTSno8UR57CEOKSh9Sy0SrjPOOjqVXZUw8di19jMcjyWHFLBQhe5te9RBBAI+D+6O20hJsJTVbLkPxnyjKlE5eOB9hgZ9WetNeTczncjzEuo2bHT7NJk5B7FFHikfrr/2Q==",
+    child: [
+		{
+			label: "800x600  4:3",
+			oncommand: "resizeTo(800,600);",
+		},
+		{
+			label: "1024x768  4:3",
+			oncommand: "resizeTo(1024,768);",
+		},
+		{
+			label: "1280x1024  4:3",
+			oncommand: "resizeTo(1280,1024);",
+		},
+		{},
+		{
+			label: "1280x800  16:10",
+			oncommand: "resizeTo(1280,800);",
+		},
+		{
+			label: "1440x900  16:10",
+			oncommand: "resizeTo(1440,900);",
+		},
+		{
+			label: "1680x1050  16:10",
+			oncommand: "resizeTo(1680,1050);",
+		},
+		{},
+		{
+			label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u5DE6\u534A\u90E8", //視窗占用螢幕左半部
+			oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(0, 0));",
+		},
+		{
+			label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u53F3\u534A\u90E8", //視窗占用螢幕右半部
+			oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(screen.availWidth / 1, 1));",
+		},
+    ]
 },
 {},
 {
