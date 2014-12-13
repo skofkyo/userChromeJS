@@ -6,7 +6,7 @@
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.07
+// @version              2014.12.13
 // @startup        
 // @shutdown       
 // @config         
@@ -88,6 +88,12 @@
 					oncommand: 'Base64DecodeandEncode();',
                 },
                 {
+                    label: "URL解碼/編碼",
+                    tooltiptext: "URL解碼/編碼",
+                    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC80lEQVRYhe2UW0gUURjHPwspupARgi89R0S99NBb2EPQQ09RRFIQEcquWJurrqu7zsw5Z2Y3U9OVyltUkqbZVQoKKexKT4VGdEHLVcjW3VlbU9dNt38PuTJKgWj1ND/4MzBwft+c831niExMTEwMyLIolBXuZ0yAMRWcqeBcheAqBNcguGhgjG39Jw5Jkquam1sxMRFDPP4D8Xh8JlNTv579/f0oL6sAY8L6u+ILdrhKFPeVKy2YnJzEt9FRhMM69DkJD4cRnZhALBZD5WkfmJttMhZfsCMzM3OFUD0I6SFERiK43d6O3x1feVkFurq7MBYdQ29vL7jMzyaKL8pRWOjadfFSI75Gwuh6/Qq59vy3KSkp24locyK2E/ZWReFQFAGFiWm5+CWfKaBBcA0q16AKDarwoCDP0WrwbNm3b79SVenDkB6AruvgCu8hh6Mo58bNmwiGB/H4ySPY7QVtRJSc2J3NZkvxeEsRjcYwPh6dd6LRGDThgaFLSUS0WpaUYN9AD4b0QQimRsluL7C2XWvDl5Afz188hdPpum7srcViWevxliIY8WNw+P28Exzpn/sBRERJsqT4e/veIRAagMq175SVlb2ztr4eDx/fR0/fOzCuQpblNMOiJXl5jqaFtMBZWHx59hXluyvKTiOg+/Hm/UswmQ9QamrqKoUJ1NRVYyDwAR0POsC5OjNAjAm4XSWQJAXXb1xF57N7OFVxEgcPHLqb6G9ycvI2a3YO3JITHZ13UNdQh9xcO1wuadYQVvvOoPv1KwSGP6H1WjOcjqImIqKlOTnHyn3VVeCqhM/BjxgZC2N0PDIrkdEQghE/Gpsa4NG8yMjI2GHY3KIdaywWa4uqafCWqqg9X41z9T7cutsykwuNNfCWqpBlGUcOH80nouVz+rsox1IiWrdnz177cduJ7sQddrtKUFzshttVAqaIuCXLej89PX0XEa2cnmoji3YkTb9cT0QbyfAfmM4GIkojomX0Z/6Gw8TExMTk//ITMvlwcO0adboAAAAASUVORK5CYII=",
+					oncommand: 'URLDE();',
+                },
+                {
                     label: "線上圖片編輯",
                     tooltiptext: "線上圖片編輯",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABnklEQVQ4jWNgoABcv3tdjSyND14/kMys99kZk+O2l2TNu88sj/LPU/5q7Cn64e6zu3JEa7x69Srb9PUlk9O7zf+bBYr8X7NxYQzRml+9ui9RPtP5VOuakP/2MdL/q1ozpxOt+e7r62pZE40fzzmS9d8jVeG/f4L18atXr7IRpfnWk/MGGRP0Xi45U/TfL1v1v42f6r37r+5LEKX59KXDLtmT9N+uuFj23zdH5b+Rq+SrO3euqhCl+eHDh0rN3RU/8pvC/ntlKv7XcxT6cPXqBW2iNDMwMDAWVKS9ev/+/f+Kior/OsYKP06c2W9DrGaGhrbKrU+ePPlfVlb238rO/NfBo3udiNZ8aPOKlKXLFv9PS0v77+Bq9erBgweSRGl8+/Yt38Ys11PzfOX/W5to/s8vzF5HtK0MDAwMm6tiNp6eXf6/O8Tsf6Ku+CsGBgZGojXvXzw1vcaQ83+aFu9/b3HG/3O6mysvXLigffXqVZX79+9LvH37lg9vwqlNCFwbb6F+PVBN8O20ltrGI0eOWJw6dcoAZsC7d+/48RkAABBmw+1iCsQFAAAAAElFTkSuQmCC",
@@ -158,7 +164,10 @@ function Base64DecodeandEncode() {
 	var PATH = '/chrome/Local/html/Base64DecodeandEncode.html';
 	var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
-
+function URLDE() {
+	var PATH = '/chrome/Local/html/URLDE.html';
+	var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
+}
 
 
 
