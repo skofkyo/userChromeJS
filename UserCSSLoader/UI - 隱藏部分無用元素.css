@@ -1,5 +1,0 @@
-@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
-
-#addMenu-rebuild,
-#anobtn_set
-{display:none !important;}
