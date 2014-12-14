@@ -333,34 +333,44 @@ execute([{
 		label: "Internet Explorer(頁面)",
 		text: "%u",
 		exec: "C:\\Program Files\\Internet Explorer\\iexplore.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAC4jAAAuIwF4pT92AAAD7ElEQVR42lWTe0xTBxSHT0sz55JlWzRMMp1kumUugjHVTDZBYGGPyHCBDTfkDbawWgRaaEvbe29pKZQWBIalDMwwRrbgmILAyEIzIshDXuUNujEYG2J5CKxCn/esGLNkJ/nl/PWdk5OcDyiKApKkgKJIINydoBSsIqUUNIQIBAIRlKjyYHZa4YOb+/S4BCO4vsNsH2Q1iAIOv0zIchn/gxUUyVARUogXaT0Dcuvjk/UNVf2jBiMu7Jl62LbjL2Pxa1eqP4KwzhzQ9maDMOr9j+E/WEkRDJGUgneJn6LCGh48qBnqwg1rJeLvB9DU5G+VNBtXfXW9pldP5oSJAt6AuSqmxA/cRT7bLJaRcFTRzOOaHuOAuRvRLrfj4At4qy4RtX9YUGVB5M048VCt2RVRpudPF8OxT/a+xQApqWAVkBIIlVb7xfYsbU4u33XhlsC59isTMxSclkBlizrIcPfmxb5Fq2qZdsaPWem39aYnFwUxJ9S5KgB1LuGRIVEwAqv66tv/vof0lsS2YmQ6hZIEDl9aBIVENgiycoCdURMpnFiziR+67MFta+iddbuWkMsAypQiiBSXvp7d0rXocJTR9D0WrTPwNnwlt5MTpLro8JzyxDiiNIbNr+TGG2fX81Zdzi/6Lc79eZ2zHCH1PGhIEcQKC493jF9z4f19dMeNcNe3WzReRcTLDkSDO+U2xEp3rrgQC54gxs0g7tdPYkqmzBtk0kvQ2CCJcC4E0fev73FcXlimdY8s9vMtw5OprUOjKT8PjXKbB8e4TQMTSQ19Y5F1fSMh33WPvyltHLggonZDW8sNsDz67OpaO6C68ZpNj0hz78w9PhKnPUiIRcxMgWSnKEviwc+UQCw3+8VErnBXCk/oyc+Sv5RDKADampL2umZZXbeun7JG9KzRmpUtR+mKDY/lt1acSVN7iAkKLmSTcDy9ihP+/eD42ZvDM6cMPeYD5ytKCIIA+KX1dAg9AoNZ0X7f+NbO/JM5u0EXrTsc+X9aMLiis/0dUZ3mPU1rI+fOvFO6jPjlNKJX0YDzNE/tr1W5B3S0fRiEJo/urz2f8/U6a0j1qTfTyb9ZkVql7doNRNWiHaklxHQz2kOHbLi7sJ/2jirgyeTE9gczoVL8wU5XL6upNgI4yvRI+Kpcxz9S1TMXYFzC0OEt/HTChYE9m3j4x3l8RWacPxhdGLcN5ypIBkGSALEnz0D+CTg0VQL5U+WQZpLD0YSIz73YgpoktvyHGjZZ1+gjqKlmc4qTY9IIL4nc7Y2CYhBPJaQA8os1kJmaCSGwC/yBCeeCz4FSqQKtUgZaUvw0OoVbP/e9aqViG/Ignhm87dG/AxAqkU/flzAAAAAASUVORK5CYII=",
 		condition: "nolink"
 	}, {
 		label: "CoolNovo(頁面)",
 		text: "%u",
 		exec: "C:\\ChromePlus\\Chrome.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAC4jAAAuIwF4pT92AAAD6klEQVR42mWTe0yTVxjGTzs2IdwyE+vATYFtUK6lWgQK1REKrZXCIAy5I4LDUafZEi792u+c7/t6F8gKUoGOKWFjMTgVCQSUa2SDwYhUYUEXjGNRRsxMtixGmGvPvoL/7Y+T95zk/T3ve5LnARRFgf8dhABiK63VckiziVOr04NrERGKuXyllNDrAYKQg171so2IfSDuq8rC1DZMkhytyQSMKhW4HisouZOS8LujQNliItQAUhTHPWRLwA3QiAY6rc595yAacSg3bDQC/adnPEeiwi8vyyV4MfcIXpaKlzurP/ZSsxvREG4LqJqrc/K+zT1TbTsVDmkIdAQNSIOBw8I+I9ERw0uKw3hBmbr5U2qSc0Es3GyrOhnt/gYNSc6WQHnzCZOiV44z+uXP83qzez5pPx2mO6sCN/lh1xfSJXguTfJiJjnOOSUW4enoMKet4sRBjcEAKBJytwTKLOVqebd8M7P3KM66psCKW8p1e0bUj3diY/BsohBPxcXiCZHANRoT6RoP3udsPV4arzGyApBkBRAAxUxZUapd+pf8G5kr80rGpqxHjq3pkSOT++P0XUolGgwN6xnbG4gHQ99zDvN4G9bCEj5hMANIIgAhDUCBptRf0pTiSLuY7pJ2p2GpTkEdMw8kZ31xf1huf3Qvq/FuQ4dIRgy8uRP3+e2cby3L86ctlI+ervc06NQAFNKlGQnmQ6sSWyr+oFn8MBOZBUmNq0/FDfewxOTA8c0rOB3ebrzBD7QuW71XHk/4PPx1xO/PR7d8f1sZ8h8Fx7TF5SIm6e/4hkOuww3JV/PJpsLImlEcWzuwIagdfBlTM/DyQM3Qg68tij1/fO/x4unUDrw++bprfdIDz7TzpkEpUel9gEieEjLifyUW8VDW5wbJ7tJu/G7Fl86Qis6N4Ao7DijuGenvTA1+Ns7958m49+baxA4837Xrl/PaAj9gpkxAps7KDq0XYiGVgI9qig4GZTM0V2bEbxwxYpB27rGsiuQv9oYQaze98NqoF55uCxizakv2EZQFAIaiufWQ8FTUZ9btrxPOJDL5szmatsQy1WlRxVlVetVn1UHzXe/nrl71fb50mceuHbjcgkoCNMgIaEr7GoCspw00BQhoAil1THlM/ZVnHzEdT+7agr67bw+0PLj01uTiRR52XArA8x27Fr8y5PDVpIWFSa47M8DI2reyhhGFV1onBafsc5k1bSIjPCkcMwZt3G4KwdPWvXi29W08c+Ed/IN198/ndcf3aKCBDZPbyqyRLHoEBEWonfch1V1dC0GTjgAEMoMLKM+3nw5t6aOjlvqYKMcNis/YyDwPBEmAtuK+ncb/APO91IACLw+tAAAAAElFTkSuQmCC",
 		condition: "nolink"
 	}, {
 		label: "AvantBrowser(頁面)",
 		text: "%u",
 		exec: "C:\\Avant Browser\\avant.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAADIUlEQVQ4TwXBTWhcRQDA8f/MvDdvP7KbtJukrk0aEQKmYMQvtNEKCrE9SKUoCgoaFBHRHhrQU6+FniwexKOn0kPqVW0PRVEoCkWCabRYapsmIW6y2U1238e+mTfj7yeGDjYn3lw4s/j+J4tnB8YhBAA451BBgBBgrUXIAGsHCCTt1sb6NxfOLd64dmVJfHnp+o1TJ154vhUr0tyxGw9ARuzu9zAIupmjnwtyK3G2QCiBc5a5qTKfvzs/J75bTn0lkqRW0N5L6BtJJzbsmpyT0xE//t3hr21FFkOee/J0QCAVE+MR4b2rS8FARKz/t09iAnb2C/rWsZVm+Cjk2KTmwVbBt795TCfB91LICrwv6D06ytSgIOgkCa1EsrFruHV3lztdS4zn/OmH0EpwfDLkscOClT0wIQgH2pXIC4cXhqBwil+X2/y+so2tRLgIJo6M8OEzw/yztsWBapmPnrR8sVXBCcDnFMZiCktJOeSfd/f4Y7WFDSTG5ZRHqrz3bJ3ID7j5oGA7jXipaXhkWBBKiYg0QoKOyuALZC/JEULirUVFGhE6Fp7Q9Hox7czRyjRSSk7PWFwlxBY5QgVICvACmRoHgAxCZKA4OT1EsyRotbuUS5o7OwmFNRxvWoZCi4pK+MIShYpBniP39hOwBS7LAfj46Qr9uM9G7BnSjvudhMaBYUzcZX4yx9kchEB4hxcCaVFIFYAUPDdV4ZXpGrmxrPSqTI9K5mdqjI+NMtY4yNtHBZFWYAvKWmOdQFqbYzVQ15x99RA77Q6b3ZTv1yRLKz2Gs23iOGbq4XGmm1VOHFVQK+GVwRhLoCtVwoalOV7ixWbGz/+mnPsF2r2UW1bzw5rmjfUen87VaYyO8dnLCdc2Y+qHRjDrIUFZe5rNGguzIV/fHHB5VaKM5vBIGQk4a7l6T3J9o887T9V4/Yjg1OMOtGbde8SZK5t+qDFKoyzoJikVLSmXAnSgKEyOUJJABSRphkMglKZOTubg/AevvaU2bi+vzs7OHKuWqFdcnxoZFdMjTLuE6R4Vm+L3dwhtTGASTNzBe8Olry5cvP3T5Yv/A8Wnidb2u+HkAAAAAElFTkSuQmCC",
 		condition: "nolink"
 	}, {
 		label: "Opera(頁面)",
 		text: "%u",
 		exec: "C:\\Opera\\launcher.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsSAAALEgHS3X78AAAC10lEQVQ4jWWTzWtcZRTGf++deyczY2PixNrRsVFpEFwUAoIgFApZiCB0V+oHrrpxof4JCrqRbroRhSoIDhWpSFfSoLTFhVQFoVbEaqUSTDBjb2Zy78z9fN9zXhfBOMWzOpvndw7nOY9hpvyFT7rAaeBZDcyqV7pq7R2pq+sibl2dO3fvK69NZzXm30Y+Hayp6Gem1enSiGh4D1UFVYXLM6oyZ1LmQ2vtqeU33v76LkDx0QfHVfXLZqvTDBU2Ll/y3924YTbjIf3uEseOrPj+yhOmqCs2xJaVtWur7394DaAxfvdssyryq22hG00z8p9/5PtvvzHXNv54/s1hevKxYnIzqquTvUZIVFvMdBJuTSfHX378yHsf37zlw8lodCpystwUD1XJ5PYtbu/sYFS/AjCqV/7c3WWyO0LbJYF1aF2tpNa9CAzCNI5PPGgFsRaxNa4oSIuCM0k9AghUR2lR4sWR7I6xzhJZy6R2J4BBmMTx0w+JkDuHOEeAx1m7f+V3MpG3AksYBMRJjHWWyjqmwlMAYRLHvcoYSmexztJqRlhnddYqtZaGMewkuzhx1CJkRAcBwnQ8ImkEOFfjnOPwoR6h9zIL6ABBEDDOJogItShZ1AYgnKbp9tBo34jDOcfDDxxi3gQR/LfEQhAQGMOkKBEPFYYMd2cPkOfXN9X2D4jFikNEWQxDoN4HLIURtXWUCgKkxlCo/AQQZFV5cbOsSfKMtChI84xeu8P5Fl2Az1t0D97TJilyCqAE/sZQqF7cA9R2MHay9ZcYSoHfh9v0719ivsEawOLi/LHe4WV+2d6mBGIMY/VbpfrB/iu/fqC5pvhLCyrN+/CsPvKoX2g0THNujmCuRZxN9epvvwYjDzveiHieuVD7K3eF6XSncVQ955v4o4t42gZvvTcCFHtTSYSRU176Qln/XxoBXpgzTQ+vquc5xT9plQWnJM7zg8K6es5dhmRW8w/HkbkYBGQB7QAAAABJRU5ErkJggg==",
 		condition: "nolink"
 	}, {
 		label: "GoogleChrome(頁面)",
 		text: "%u",
 		exec: "C:\\GoogleChrome\\MyChrome.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACkElEQVQ4ja2Rz2tUVxzFP99738yLMROJoglxxpai0pAYrOiiPzaKv1AshTpREF0VXGVhigHRnVtp+gd0VagLJ66atrqJOx03SqniNCKCjab4Y+KbefNm3o97bxehA7W40gNnc+B8OHDgHSVvBounvt7opcmUXttfVmlSAkeW8pcNworpWz1T/PHq4lsBjz/fdTTf11vRvofkPCTv4ZIMlxlsO8bElrQZlT+6c3f2f4CHmz8+muvNVXSvj+Q9xNOIEpy1OONwcYrtrDhNs/LWRwuzAArg2C/ljdd2FyqunWKCCFMPyeohWaaweJi4iTUtnIqxforql8qjEzuKAB5Ay7TOzB8a4JPqa4ZCgze4gcbZCzwYHkNEGCv8zmB9mpw8xctblGdx6DP8xLcKIKe8ibRHM3dkLa0sY2nyHN+/Gma+FnCjFnDpZomldRdZVYjJ+SlaG5zky90FbdMpaaW498UAC3ccNf8Dnj+LyHsKJUKSWX7+c4Qtm9ej7AsAtGuVugAMkANRiusTQwy0E16GbTytAUiNJYz9/5xmMkUX0GcKRLaFU46/h1PGvacs37UgCkEQsez/8BnKPgfAWYiSYWBh5QXXkSsucTjrEOC2u8zpfYZPi5rPSprJPQnj/vmVsoMszRG385XugpIuzdxv3p/wRBAfAgLm5Qf6x9ZgOwbFH/SpJZyFLMkTNgoEybbv4B4aoHq1ujh+cHsQZdFBUYKIIEBsY3qz10wPPkQ7RdLxiRo91INNUyNfXZsFVgAAtbkH1dG92xtR1D7grMM5sInj9OonFDFEzVU0XhWoN0tTo8dvzfzb6wIAFn6rVfccPnA9aERrCNVosb3Ml4QsB+tpNAcq9Wz8m50nf53lfeof8bUtLh4aPuAAAAAASUVORK5CYII=",
 		condition: "nolink"
 	}, {
-		label: "PotPlayer(連結 youtube限定)",
+		label: "原版Firefox(頁面)",
+		text: "%u",
+		exec: "C:\\Firefox\\MyFirefox.exe",
+		condition: "nolink"
+	}, {
+		label: "Firefoxnightly(頁面)",
+		text: "%u",
+		exec: "C:\\Firefoxnightly\\MyFirefox.exe",
+		condition: "nolink"
+	}, {
+		label: "pcx便攜模式(頁面)",
+		text: "%u",
+		exec: "C:\\PCXFirefox\\firefox.exe",
+		condition: "nolink"
+	}, {
+		label: "PotPlayer(鏈結)",
 		text: "%l",
 		exec: "C:\\綠化軟體\\PotPlayer\\PotPlayer.exe",
 		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAArklEQVQ4jWNgQAN5+///RxcjGjit+f/faBkEp+8lwyCYZpe1ENpiBYmGGC37/z9mB0TTqlv//5stJ9E1yAYwMDAwXPwG4RPtGnQDYIBo1+AygGjX4DMABiacQ8QUWQZsvEumAc+//P9fcQShufsMCQZcfPr/PyyR+WwkIRCff/n/v/44AVtxGXDxKSJF4rUV3QCjZf//J+4iwVZkELAJoZFoW9FBxZH//yecI14zAJoE+V+sQXR/AAAAAElFTkSuQmCC",
@@ -368,64 +378,59 @@ execute([{
 		onshowing: function(menuitem) {
 			var url = addMenu.convertText("%RLINK_OR_URL%");
 			var urlt = !/^https?:\/\/www\.youtube\.com\/watch/i.test(url);
-			this.hidden = urlt;
+			var urlt2 = !/(k|pl)\.youku\.com\/(player|playlist)\/(getFlvPath|m3u8)/i.test(url);
+			var urlt3 = !/newflv\.sohu\.ccgslb\.net\//i.test(url);
+			var urlt4 = !/sohu\.vodnew\.lxdns\.com\//i.test(url);
+			var urlt5 = !/data\.video\.qiyi\.com\/videos\//i.test(url);
+			var urlt6 = !/\/letv\-uts\//i.test(url);
+			//http://data.video.qiyi.com/videos/v0/20141202/22/94/4ff27ef76d4de4b0a6e650ad791d4d89.f4v?key=1a5b6d22dd12b1e8&uuid=da5df8ed
+			//http://sohu.vodnew.lxdns.com/197/193/dDNusBtPTKKHaI82iqJkLH.mp4?key=hipEuDmEL5-cTPhAZi2WaDJdXLqLp84A
+			//http://sohu.vodnew.lxdns.com/86/151/FgfGcqS1SJOBNAzn8y4NSH.mp4?key=w3WfokfbjNPQlHASBBLXhVJhfRWObzdj
+			this.hidden = urlt && urlt2 && urlt3 && urlt4 && urlt5 && urlt6;
 		},
 	}, {
-		label: "Internet Explorer(連結)",
+		label: "Internet Explorer(鏈結)",
 		text: "%l",
 		exec: "C:\\Program Files\\Internet Explorer\\iexplore.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAC4jAAAuIwF4pT92AAAD7ElEQVR42lWTe0xTBxSHT0sz55JlWzRMMp1kumUugjHVTDZBYGGPyHCBDTfkDbawWgRaaEvbe29pKZQWBIalDMwwRrbgmILAyEIzIshDXuUNujEYG2J5CKxCn/esGLNkJ/nl/PWdk5OcDyiKApKkgKJIINydoBSsIqUUNIQIBAIRlKjyYHZa4YOb+/S4BCO4vsNsH2Q1iAIOv0zIchn/gxUUyVARUogXaT0Dcuvjk/UNVf2jBiMu7Jl62LbjL2Pxa1eqP4KwzhzQ9maDMOr9j+E/WEkRDJGUgneJn6LCGh48qBnqwg1rJeLvB9DU5G+VNBtXfXW9pldP5oSJAt6AuSqmxA/cRT7bLJaRcFTRzOOaHuOAuRvRLrfj4At4qy4RtX9YUGVB5M048VCt2RVRpudPF8OxT/a+xQApqWAVkBIIlVb7xfYsbU4u33XhlsC59isTMxSclkBlizrIcPfmxb5Fq2qZdsaPWem39aYnFwUxJ9S5KgB1LuGRIVEwAqv66tv/vof0lsS2YmQ6hZIEDl9aBIVENgiycoCdURMpnFiziR+67MFta+iddbuWkMsAypQiiBSXvp7d0rXocJTR9D0WrTPwNnwlt5MTpLro8JzyxDiiNIbNr+TGG2fX81Zdzi/6Lc79eZ2zHCH1PGhIEcQKC493jF9z4f19dMeNcNe3WzReRcTLDkSDO+U2xEp3rrgQC54gxs0g7tdPYkqmzBtk0kvQ2CCJcC4E0fev73FcXlimdY8s9vMtw5OprUOjKT8PjXKbB8e4TQMTSQ19Y5F1fSMh33WPvyltHLggonZDW8sNsDz67OpaO6C68ZpNj0hz78w9PhKnPUiIRcxMgWSnKEviwc+UQCw3+8VErnBXCk/oyc+Sv5RDKADampL2umZZXbeun7JG9KzRmpUtR+mKDY/lt1acSVN7iAkKLmSTcDy9ihP+/eD42ZvDM6cMPeYD5ytKCIIA+KX1dAg9AoNZ0X7f+NbO/JM5u0EXrTsc+X9aMLiis/0dUZ3mPU1rI+fOvFO6jPjlNKJX0YDzNE/tr1W5B3S0fRiEJo/urz2f8/U6a0j1qTfTyb9ZkVql7doNRNWiHaklxHQz2kOHbLi7sJ/2jirgyeTE9gczoVL8wU5XL6upNgI4yvRI+Kpcxz9S1TMXYFzC0OEt/HTChYE9m3j4x3l8RWacPxhdGLcN5ypIBkGSALEnz0D+CTg0VQL5U+WQZpLD0YSIz73YgpoktvyHGjZZ1+gjqKlmc4qTY9IIL4nc7Y2CYhBPJaQA8os1kJmaCSGwC/yBCeeCz4FSqQKtUgZaUvw0OoVbP/e9aqViG/Ignhm87dG/AxAqkU/flzAAAAAASUVORK5CYII=",
 		condition: "link"
 	}, {
-		label: "CoolNovo(連結)",
+		label: "CoolNovo(鏈結)",
 		text: "%l",
 		exec: "C:\\ChromePlus\\Chrome.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAC4jAAAuIwF4pT92AAAD6klEQVR42mWTe0yTVxjGTzs2IdwyE+vATYFtUK6lWgQK1REKrZXCIAy5I4LDUafZEi792u+c7/t6F8gKUoGOKWFjMTgVCQSUa2SDwYhUYUEXjGNRRsxMtixGmGvPvoL/7Y+T95zk/T3ve5LnARRFgf8dhABiK63VckiziVOr04NrERGKuXyllNDrAYKQg171so2IfSDuq8rC1DZMkhytyQSMKhW4HisouZOS8LujQNliItQAUhTHPWRLwA3QiAY6rc595yAacSg3bDQC/adnPEeiwi8vyyV4MfcIXpaKlzurP/ZSsxvREG4LqJqrc/K+zT1TbTsVDmkIdAQNSIOBw8I+I9ERw0uKw3hBmbr5U2qSc0Es3GyrOhnt/gYNSc6WQHnzCZOiV44z+uXP83qzez5pPx2mO6sCN/lh1xfSJXguTfJiJjnOOSUW4enoMKet4sRBjcEAKBJytwTKLOVqebd8M7P3KM66psCKW8p1e0bUj3diY/BsohBPxcXiCZHANRoT6RoP3udsPV4arzGyApBkBRAAxUxZUapd+pf8G5kr80rGpqxHjq3pkSOT++P0XUolGgwN6xnbG4gHQ99zDvN4G9bCEj5hMANIIgAhDUCBptRf0pTiSLuY7pJ2p2GpTkEdMw8kZ31xf1huf3Qvq/FuQ4dIRgy8uRP3+e2cby3L86ctlI+ervc06NQAFNKlGQnmQ6sSWyr+oFn8MBOZBUmNq0/FDfewxOTA8c0rOB3ebrzBD7QuW71XHk/4PPx1xO/PR7d8f1sZ8h8Fx7TF5SIm6e/4hkOuww3JV/PJpsLImlEcWzuwIagdfBlTM/DyQM3Qg68tij1/fO/x4unUDrw++bprfdIDz7TzpkEpUel9gEieEjLifyUW8VDW5wbJ7tJu/G7Fl86Qis6N4Ao7DijuGenvTA1+Ns7958m49+baxA4837Xrl/PaAj9gpkxAps7KDq0XYiGVgI9qig4GZTM0V2bEbxwxYpB27rGsiuQv9oYQaze98NqoF55uCxizakv2EZQFAIaiufWQ8FTUZ9btrxPOJDL5szmatsQy1WlRxVlVetVn1UHzXe/nrl71fb50mceuHbjcgkoCNMgIaEr7GoCspw00BQhoAil1THlM/ZVnHzEdT+7agr67bw+0PLj01uTiRR52XArA8x27Fr8y5PDVpIWFSa47M8DI2reyhhGFV1onBafsc5k1bSIjPCkcMwZt3G4KwdPWvXi29W08c+Ed/IN198/ndcf3aKCBDZPbyqyRLHoEBEWonfch1V1dC0GTjgAEMoMLKM+3nw5t6aOjlvqYKMcNis/YyDwPBEmAtuK+ncb/APO91IACLw+tAAAAAElFTkSuQmCC",
 		condition: "link"
 	}, {
-		label: "AvantBrowser(連結)",
+		label: "AvantBrowser(鏈結)",
 		text: "%l",
 		exec: "C:\\Avant Browser\\avant.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAADIUlEQVQ4TwXBTWhcRQDA8f/MvDdvP7KbtJukrk0aEQKmYMQvtNEKCrE9SKUoCgoaFBHRHhrQU6+FniwexKOn0kPqVW0PRVEoCkWCabRYapsmIW6y2U1238e+mTfj7yeGDjYn3lw4s/j+J4tnB8YhBAA451BBgBBgrUXIAGsHCCTt1sb6NxfOLd64dmVJfHnp+o1TJ154vhUr0tyxGw9ARuzu9zAIupmjnwtyK3G2QCiBc5a5qTKfvzs/J75bTn0lkqRW0N5L6BtJJzbsmpyT0xE//t3hr21FFkOee/J0QCAVE+MR4b2rS8FARKz/t09iAnb2C/rWsZVm+Cjk2KTmwVbBt795TCfB91LICrwv6D06ytSgIOgkCa1EsrFruHV3lztdS4zn/OmH0EpwfDLkscOClT0wIQgH2pXIC4cXhqBwil+X2/y+so2tRLgIJo6M8OEzw/yztsWBapmPnrR8sVXBCcDnFMZiCktJOeSfd/f4Y7WFDSTG5ZRHqrz3bJ3ID7j5oGA7jXipaXhkWBBKiYg0QoKOyuALZC/JEULirUVFGhE6Fp7Q9Hox7czRyjRSSk7PWFwlxBY5QgVICvACmRoHgAxCZKA4OT1EsyRotbuUS5o7OwmFNRxvWoZCi4pK+MIShYpBniP39hOwBS7LAfj46Qr9uM9G7BnSjvudhMaBYUzcZX4yx9kchEB4hxcCaVFIFYAUPDdV4ZXpGrmxrPSqTI9K5mdqjI+NMtY4yNtHBZFWYAvKWmOdQFqbYzVQ15x99RA77Q6b3ZTv1yRLKz2Gs23iOGbq4XGmm1VOHFVQK+GVwRhLoCtVwoalOV7ixWbGz/+mnPsF2r2UW1bzw5rmjfUen87VaYyO8dnLCdc2Y+qHRjDrIUFZe5rNGguzIV/fHHB5VaKM5vBIGQk4a7l6T3J9o887T9V4/Yjg1OMOtGbde8SZK5t+qDFKoyzoJikVLSmXAnSgKEyOUJJABSRphkMglKZOTubg/AevvaU2bi+vzs7OHKuWqFdcnxoZFdMjTLuE6R4Vm+L3dwhtTGASTNzBe8Olry5cvP3T5Yv/A8Wnidb2u+HkAAAAAElFTkSuQmCC",
 		condition: "link"
 	}, {
-		label: "Opera(連結)",
+		label: "Opera(鏈結)",
 		text: "%l",
 		exec: "C:\\Opera\\launcher.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsSAAALEgHS3X78AAAC10lEQVQ4jWWTzWtcZRTGf++deyczY2PixNrRsVFpEFwUAoIgFApZiCB0V+oHrrpxof4JCrqRbroRhSoIDhWpSFfSoLTFhVQFoVbEaqUSTDBjb2Zy78z9fN9zXhfBOMWzOpvndw7nOY9hpvyFT7rAaeBZDcyqV7pq7R2pq+sibl2dO3fvK69NZzXm30Y+Hayp6Gem1enSiGh4D1UFVYXLM6oyZ1LmQ2vtqeU33v76LkDx0QfHVfXLZqvTDBU2Ll/y3924YTbjIf3uEseOrPj+yhOmqCs2xJaVtWur7394DaAxfvdssyryq22hG00z8p9/5PtvvzHXNv54/s1hevKxYnIzqquTvUZIVFvMdBJuTSfHX378yHsf37zlw8lodCpystwUD1XJ5PYtbu/sYFS/AjCqV/7c3WWyO0LbJYF1aF2tpNa9CAzCNI5PPGgFsRaxNa4oSIuCM0k9AghUR2lR4sWR7I6xzhJZy6R2J4BBmMTx0w+JkDuHOEeAx1m7f+V3MpG3AksYBMRJjHWWyjqmwlMAYRLHvcoYSmexztJqRlhnddYqtZaGMewkuzhx1CJkRAcBwnQ8ImkEOFfjnOPwoR6h9zIL6ABBEDDOJogItShZ1AYgnKbp9tBo34jDOcfDDxxi3gQR/LfEQhAQGMOkKBEPFYYMd2cPkOfXN9X2D4jFikNEWQxDoN4HLIURtXWUCgKkxlCo/AQQZFV5cbOsSfKMtChI84xeu8P5Fl2Az1t0D97TJilyCqAE/sZQqF7cA9R2MHay9ZcYSoHfh9v0719ivsEawOLi/LHe4WV+2d6mBGIMY/VbpfrB/iu/fqC5pvhLCyrN+/CsPvKoX2g0THNujmCuRZxN9epvvwYjDzveiHieuVD7K3eF6XSncVQ955v4o4t42gZvvTcCFHtTSYSRU176Qln/XxoBXpgzTQ+vquc5xT9plQWnJM7zg8K6es5dhmRW8w/HkbkYBGQB7QAAAABJRU5ErkJggg==",
 		condition: "link"
 	}, {
-		label: "GoogleChrome(連結)",
+		label: "GoogleChrome(鏈結)",
 		text: "%l",
 		exec: "C:\\GoogleChrome\\MyChrome.exe",
-		image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACkElEQVQ4ja2Rz2tUVxzFP99738yLMROJoglxxpai0pAYrOiiPzaKv1AshTpREF0VXGVhigHRnVtp+gd0VagLJ66atrqJOx03SqniNCKCjab4Y+KbefNm3o97bxehA7W40gNnc+B8OHDgHSVvBounvt7opcmUXttfVmlSAkeW8pcNworpWz1T/PHq4lsBjz/fdTTf11vRvofkPCTv4ZIMlxlsO8bElrQZlT+6c3f2f4CHmz8+muvNVXSvj+Q9xNOIEpy1OONwcYrtrDhNs/LWRwuzAArg2C/ljdd2FyqunWKCCFMPyeohWaaweJi4iTUtnIqxforql8qjEzuKAB5Ay7TOzB8a4JPqa4ZCgze4gcbZCzwYHkNEGCv8zmB9mpw8xctblGdx6DP8xLcKIKe8ibRHM3dkLa0sY2nyHN+/Gma+FnCjFnDpZomldRdZVYjJ+SlaG5zky90FbdMpaaW498UAC3ccNf8Dnj+LyHsKJUKSWX7+c4Qtm9ej7AsAtGuVugAMkANRiusTQwy0E16GbTytAUiNJYz9/5xmMkUX0GcKRLaFU46/h1PGvacs37UgCkEQsez/8BnKPgfAWYiSYWBh5QXXkSsucTjrEOC2u8zpfYZPi5rPSprJPQnj/vmVsoMszRG385XugpIuzdxv3p/wRBAfAgLm5Qf6x9ZgOwbFH/SpJZyFLMkTNgoEybbv4B4aoHq1ujh+cHsQZdFBUYKIIEBsY3qz10wPPkQ7RdLxiRo91INNUyNfXZsFVgAAtbkH1dG92xtR1D7grMM5sInj9OonFDFEzVU0XhWoN0tTo8dvzfzb6wIAFn6rVfccPnA9aERrCNVosb3Ml4QsB+tpNAcq9Wz8m50nf53lfeof8bUtLh4aPuAAAAAASUVORK5CYII=",
 		condition: "link"
-	}, 
+	},  {
+		label: "原版Firefox(鏈結)",
+		text: "%l",
+		exec: "C:\\Firefox\\MyFirefox.exe",
+		condition: "link"
+	}, {
+		label: "Firefoxnightly(鏈結)",
+		text: "%l",
+		exec: "C:\\Firefoxnightly\\MyFirefox.exe",
+		condition: "link"
+	}, {
+		label: "pcx便攜模式(鏈結)",
+		text: "%l",
+		exec: "C:\\PCXFirefox\\firefox.exe",
+		condition: "link"
+	},
 ]);
-/*
-var capture = PageMenu({label: "截圖", image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC2klEQVQ4ja2Sz0sbQRTHZ2bX/Zkf3cTdmK30EoxVRIl4qVKpx+bkQeLdU7GF/glehV7EYyGHQqXQS2lBLz1VivSQBiqkqaFad0XBrsZNskmaye5MD3UlplYQ+k7vMe/7efN+APCfjAEAgNXVVXR4eDguy/KorusBTdN+WpZ1IxBMp9Py9vZ2xrKsB57nBRBCVUEQviOECKX0TxKE4NyHfgwAoAAAwHFcvb+//y1rGMb40dFRmhAinMN7Mca95z7tLuyDRkZGgCRJoFQqkd3d3TYLIQz5LV7qmWEaoVDoK8a4RAjBoijecRxnFGMc5XkeLi0tbU5NTZVnZ2dThUIhwF7VryRJe7quv5ycnPyWy+UCHMcxmqa9Pzk5iezv72fOzs4m5+fnNUqpBACQJUmC3SDK8/zZwMDAc4Zh7PX19YVqtTpCKWVFUTxQVfXN2NhYNp/PByuVypjfKqWU/gUKBoMfZFk+KBQKjyuVyj0/uVar9WKMY4IgPIvH4+9qtdoQIYT3haiTghByE4nEF8MwkvV6PeVDfGu1WnHHce4PDw+XBEEoX2wAQngJRAihjuNUbdtWXNcVOt+SySRYXFyE1Wq1b25uroUQal76RGcAIUQ8zyvRaNRiWfYiURRFkMlkQLlcJsFg8CCbzYqe5wX+CaKUMqZpjk9MTOyFw+FPEEIvGo2C5eVlYNs23draMhRF+Wia5lCr1brVqWU0TUtaljVOKWUAALDdbscwxkVN07Zc14UYY7lYLP7K5XLbqqquKYpi7+zsLGCMY/4MOY4zWdB1ve12O2wYxhNd119NT0+vxWKx16enp8zMzExjZWUlkc/nn9br9bvdi7jyIDHGmmmaj46Pjx+qqvqD4zh3Y2PjdqPRSHieF+yGUEopSwixIYQYANDTOXdCiNBsNgdN0xy8qljHgtyenp4yqyjK50gk8sJ13T6EELxO1G2UUuB5Xi2VSm3eRHet/QZUwkmnfBikogAAAABJRU5ErkJggg==" });
-capture([
-        {
-        label: "頁面/可見/界面",
-        tooltiptext: "左鍵：頁面所有區域截圖\r\n中鍵：頁面可見區域截圖\r\n右鍵：瀏覽器界面截圖",
-        onclick: function(e){
-                switch(e.button){
-                        case 0:
-                                captureAll.init();
-                                break;
-                        case 1:
-                                capturePage.init();
-                                break;
-                        case 2:
-                                captureBrower.init();
-                                break;
-                        }
-                },
-        },
-        {label: "擷取選擇範圍", oncommand: "WebScreenShotByClipping.init()"},
-        {label: "擷取捕獲元素範圍", oncommand: "WebScreenShotByClick.init();"},
-]);
-*/
+
 page({
         label: '複製圖片base64',
         text: "%IMAGE_BASE64%",
@@ -435,7 +440,7 @@ page({
 })
 
 page({
-        label: '複製選取範圍連結',
+        label: '複製選取範圍鏈結',
         oncommand: function(event) {
 			var urls = {};
 			addMenu.$$('a:not(:empty)', null, true).forEach(function(a) { urls[a.href] = true; });
@@ -451,10 +456,40 @@ page({
 page({
         label: '飛驢視頻分析',
         oncommand: function() {
-				gBrowser.loadURI('http://flvxz.com/?url='+ encodeURIComponent(content.location.href) + '&flag=&format=high');
+				gBrowser.loadURI('http://flvxz.com/?url='+ encodeURIComponent(addMenu.convertText("%RLINK_OR_URL%")) + '&flag=&format=high');
 			},
         insertBefore: "spell-check-enabled",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACcklEQVQ4jY2Ra0iTcRTG/+qmW6+XTS1lGtmX7fWdbhqZ2OiilFjCiggrdWh+MFtUoM1GamqkOS8ttRpYkKEgY15mBgVeyxhMM9FUMBJzdNFc6QKxLHz6kF/MF9wD58OB83s4zzmEsChyBz9GHMSVr7UumQmUlhDiwjbLKi9C/HITt9ZXJgdadvpy4h+dD7SqDlM5ThusSXBI4v08LVq4UnLCa7Xpgs9HQgjPGdDjgEIRGxcXF1+Sndo81nIVvfq96MkXQuTjdmpTukKnq/q9sowvtiksfZ3EYIcejvZYdF/3Bb3NY/MYGRlpmT+XFrH8ww6H/RMW5z5g+oEMPQXeCBfxc52J4G0w3G1c/G6H49ssTAat5V25D0yXPH8J3YnMGQNCCOFnq9NvVOVnNJYlUQ2jt/h4dsX9M0WRAGdgqizJ1ThQxPljLeJioNQfw7VyWAp56NS4LRzbRc6xUsHhiqPS1NrW6CzDq9biCIwU8zB+0xOT9Uo87TCh/PETNObJYbnmtro7mBzcsDKjsThklbOI1NsRVT2PWP17HKmeQE6NEeP9zeiyjsHYZsbrPAqZMZyCdTRXEBJBa4cRVjIDWakNSXU2GAcXoLxvQ3TZNPbrJpFQMYoGoxk1yQKryIvQ6ww4QolCcvElpNpRSLVvcfrOCGbn5vFmYgb7CgfBaIbAaIYgUXeBePiLN+TnUkFycXo7QtW9CM3qQry2E4UP+xF1uRuMug+M+gUYdR8kZ80gZIuI7Ya87Ym358VnmkCnmECntiBU1Qpa1QZaZf5XKc0ISdRNEUJcWb/A5QfuEUiUej/pyXts5cscryKeAWH/c38B9b8egwNZncgAAAAASUVORK5CYII=",
+		condition: "nolink",
+		onshowing: function(menuitem) {
+			var url = addMenu.convertText("%RLINK_OR_URL%");
+			var urlt1 = !/tv\.sohu\.com\/(.*)\.shtml/.test(url);
+			var urlt2 = !/tv\.sohu\.com\/s(.*)\/(.*)\//.test(url);
+			var urlt3 = !/v\.youku\.com\/v\_show\/(.*)\.html/i.test(url);
+			var urlt4 = !/www\.iqiyi\.com\/(a|v)\_(.*)\.html/.test(url);
+			var urlt5 = !/www\.tudou\.com\/albumplay\/(.*)\.html/.test(url);
+			var urlt6 = !/(www|comic)\.letv\.com\/(comic|ptv|zt|izt)\/(.*)\.(html|shtml)/.test(url);
+			this.hidden = urlt1 && urlt2 && urlt3 && urlt4 && urlt5 && urlt6;
+		},
+})
+page({
+        label: '飛驢視頻分析(鏈結)',
+        oncommand: function() {
+				gBrowser.selectedTab = gBrowser.addTab('http://flvxz.com/?url='+ encodeURIComponent(addMenu.convertText("%RLINK_OR_URL%")) + '&flag=&format=high');
+			},
+        insertBefore: "spell-check-enabled",
+        image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACcklEQVQ4jY2Ra0iTcRTG/+qmW6+XTS1lGtmX7fWdbhqZ2OiilFjCiggrdWh+MFtUoM1GamqkOS8ttRpYkKEgY15mBgVeyxhMM9FUMBJzdNFc6QKxLHz6kF/MF9wD58OB83s4zzmEsChyBz9GHMSVr7UumQmUlhDiwjbLKi9C/HITt9ZXJgdadvpy4h+dD7SqDlM5ThusSXBI4v08LVq4UnLCa7Xpgs9HQgjPGdDjgEIRGxcXF1+Sndo81nIVvfq96MkXQuTjdmpTukKnq/q9sowvtiksfZ3EYIcejvZYdF/3Bb3NY/MYGRlpmT+XFrH8ww6H/RMW5z5g+oEMPQXeCBfxc52J4G0w3G1c/G6H49ssTAat5V25D0yXPH8J3YnMGQNCCOFnq9NvVOVnNJYlUQ2jt/h4dsX9M0WRAGdgqizJ1ThQxPljLeJioNQfw7VyWAp56NS4LRzbRc6xUsHhiqPS1NrW6CzDq9biCIwU8zB+0xOT9Uo87TCh/PETNObJYbnmtro7mBzcsDKjsThklbOI1NsRVT2PWP17HKmeQE6NEeP9zeiyjsHYZsbrPAqZMZyCdTRXEBJBa4cRVjIDWakNSXU2GAcXoLxvQ3TZNPbrJpFQMYoGoxk1yQKryIvQ6ww4QolCcvElpNpRSLVvcfrOCGbn5vFmYgb7CgfBaIbAaIYgUXeBePiLN+TnUkFycXo7QtW9CM3qQry2E4UP+xF1uRuMug+M+gUYdR8kZ80gZIuI7Ya87Ym358VnmkCnmECntiBU1Qpa1QZaZf5XKc0ISdRNEUJcWb/A5QfuEUiUej/pyXts5cscryKeAWH/c38B9b8egwNZncgAAAAASUVORK5CYII=",
+		condition: "link",
+		onshowing: function(menuitem) {
+			var url = addMenu.convertText("%RLINK_OR_URL%");
+			var urlt1 = !/tv\.sohu\.com\/(.*)\.shtml/.test(url);
+			var urlt2 = !/v\.youku\.com\/v\_show\/(.*)\.html/i.test(url);
+			var urlt3 = !/www\.iqiyi\.com\/(a|v)\_(.*)\.html/.test(url);
+			var urlt4 = !/www\.tudou\.com\/albumplay\/(.*)\.html/.test(url);
+			var urlt5 = !/(www|comic)\.letv\.com\/(comic|ptv|zt|izt)\/(.*)\.(html|shtml)/.test(url);
+			//http://www.letv.com/ptv/vplay/20802658.html
+			this.hidden = urlt1 && urlt2 && urlt3 && urlt4 && urlt5;
+		},
 })
 
 page({
@@ -479,45 +514,6 @@ tab({
         insertAfter: "Faviconbase64",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB2UlEQVQ4jY2Tu47aQBSGzzskZaI026Sl5xnQYol+W7qgXERcbJMuL5EWhNA0WQN9noEHQArg9dxsj21sj/8UxsasWCkj/c3M+b5zTjFERHdENPzP3NGNMzz6Pg5HH89BAM45hJSQSkFpDa01dBgiimOcJbcFR78WbLdb/H56gud58DwPq9UKq/Uam80GRPSdiPqdvCciGgacIwgCCCEwm82w3+/biQLOwYWAlBJSSquUKpVSpdK6HI/HP4iIhlwICCmhtMZ8Psff/b6dqH1Tql0nDEOEUYTpdPqTiGjY7BtGERaLBY6+j4BzCCEglaqhKEIcxzDG1EkSuK5bC5oCYwyWy2UNnydqwSRBmqbIsqzO6XQRRHGMOI6RpikYY1ewMaYF8zy/SitoOmRZBsYYlFJX8Ol0Qp7nKIoCRVGgLEuUZXkRNIV5noMxBh2G7URduAGttbDWXgTJuXsjiKII3bsGttaiqqo2rwqa7rdgay3SNIXSuhoMBp+IiO6TNK2aYsYYjDFX3bvwbreD7z/DfXxcE9FbIqIPRHTffJh+v/8rSZJ29253YwwOhwMmX7/9IaJ3t/4FOY4zaQQvxw84r7647vpV+Hw+Oo4zGY1Gn1+m1+s9ENGbbvE/7y7BpIiSLPIAAAAASUVORK5CYII=",
 })
-/*
-var resizeTosub = ToolMenu({
-    insertAfter: "toolbar-context-undoCloseTab",
-    label: "變更視窗尺寸",
-    image: "data:;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgMF/8QAIxAAAQQBBAEFAAAAAAAAAAAAAQIDBAURABIhQQYiIzEyof/EABUBAQEAAAAAAAAAAAAAAAAAAAUG/8QAHhEBAQABAwUAAAAAAAAAAAAAARECAANhBCEjQfD/2gAMAwEAAhEDEQA/ANRirmKZj2L0VT0V14JHuDc6d2Ckc5ycHrSi4pamPTSno8UR57CEOKSh9Sy0SrjPOOjqVXZUw8di19jMcjyWHFLBQhe5te9RBBAI+D+6O20hJsJTVbLkPxnyjKlE5eOB9hgZ9WetNeTczncjzEuo2bHT7NJk5B7FFHikfrr/2Q=="
-});
-resizeTosub([{
-    //id: "86",//此選單ID 可有可無
-    label: "800x600  4:3", //此選單名稱
-    oncommand: "resizeTo(800,600);", //執行的命令
-    //image: "圖片連結或base64圖片編碼",//為此選單添加圖示 喜歡美美的選單就加吧
-	}, {
-		label: "1024x768  4:3",
-		oncommand: "resizeTo(1024,768);",
-	}, {
-		label: "1280x1024  4:3",
-		oncommand: "resizeTo(1280,1024);",
-	}, 
-	{}, 
-	{
-		label: "1280x800  16:10",
-		oncommand: "resizeTo(1280,800);",
-	}, {
-		label: "1440x900  16:10",
-		oncommand: "resizeTo(1440,900);",
-	}, {
-		label: "1680x1050  16:10",
-		oncommand: "resizeTo(1680,1050);",
-	}, 
-	{}, 
-	{
-		label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u5DE6\u534A\u90E8", //視窗占用螢幕左半部
-		oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(0, 0));",
-	}, {
-		label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u53F3\u534A\u90E8", //視窗占用螢幕右半部
-		oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(screen.availWidth / 1, 1));",
-	}, 
-]);
-*/
 
 //var openMenu = GroupMenu({ label: '打开...', condition: 'noinput noselect nomailto nocanvas nomedia', insertBefore: 'context-sep-navigation' }); openMenu([ { label:"复制文本+链接", text:"%RLT_OR_UT%\n%RLINK_OR_URL%", image:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABlSURBVDhP5Y5BCsAgEAP3i/1AP+D/zxUlwWBXXQueOhAQzQStcN3p2UmVFK80C7QGH1aEBniOBPqhgRnsQB8P8KzRe+i/+YHCO+htQNPjdaB/G4D6hoWekFzQohfUxngSg4pglgGUsQ0ZR4jGSwAAAABJRU5ErkJggg==" }, { label:"在隐私窗打开", oncommand: "openLinkIn(addMenu.convertText('%RLINK_OR_URL%'), 'window',{private:true});", image:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKDSURBVDhPpY/PT5IBGMffWl76ceiS62/wlrc6uLmZM81MZ3noQik4NAWRVwXlVSbKDyEFcgoCyoshIvgCBpgS/siUhbnWDJrKVnaouS5tuTaX3wSxVrfGZ3sO3+/zPN89D5Ex7+dYWDLmIC1TsNnDWfcE1nNpeaS9Z5NeWv5NG4/aPgmorNSfr3s4LpHLmB2VwrdHSdzzkg7XnFw2tddNORL1XCtVWjpyIbVI4FRVlekOIWoxf9OrbTutLVN+Ra/747RrEevRGOKxBCJrb7EQjiL8PAqvZxljRgbdEttuC98alIrpN8Imy1dCKuRtzljb4PFE4A+sYdL5Cl7fOywuJ7C1vYf1jV3Q9ig02gUo+2ZgMc2ANnvAOLzoEo1uEWTTSCjgCYHqdO1z6wyb1dVKe3XNwCdZz1OsvExgdi6G+kYbbpdLP5RXiO13q+TxRsHYvscRAMk3LxKcmpHBee8c+Pwh6/FvBEFR1GkuVxN1Tm2AtkXAYqlepFspamuVTveoDZwHRjnRyeM8spscUPe5v3d1jTvb2x1ikcjWIBQ+DtH0KsasyyBJc0AgsDaQJH3UM3mUPU9+aLqNP0tKNFeIyMR1yNuaj35aQv/AM6jVfgz0B6HRzIJhXqdKqz32FQpfynfRDBo4en/qnN1wGZrvV3iFvNGVCQsDxrWEadcaBnU+hIIRzPtXYTYEwbgjmJ4MY9xgB9nYHyss1Fz+HWAWZyM3l53FZg2ppGLDZ73Scqjo0B1IWofjEnI4rujQHuh6DYedpPZLDUurLi7uvZhaTnISkJZEQYHqUlmJquhmkfJaXh51Jlm3bsivJr38fFl2euwP/wb8NxkH+HU5mQVkBkH8AgvRfy93EDdrAAAAAElFTkSuQmCC" }, { label: "在 IE 中打开", text: "%RLINK_OR_URL%", exec: "C:\\Program Files\\Internet Explorer\\iexplore.exe", }, { label: "在 Chrome 中打开", text: '%RLINK_OR_URL%', exec: Services.dirsvc.get("LocalAppData", Ci.nsILocalFile).path + "\\Google\\Chrome\\Application\\chrome.exe", },{label: "在 Opera 中打开",text : "%RLINK_OR_URL%",exec : "D:\\Program Files\\Opera\\opera.exe",},]);
 

@@ -30,10 +30,11 @@
 	var menupopup = MT.appendChild(document.createElement("menupopup"));
 	menupopup.setAttribute("flex", "1");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "BT種子檔");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "影片MP4");
+	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "影片WMV");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "圖片");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "純文字");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "音樂");
-	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "影片");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "網頁");
 	menupopup.appendChild(document.createElement("menuitem")).setAttribute("label", "XML");
 	document.querySelector("#MIMETypes").selectedIndex = 0;
@@ -42,7 +43,7 @@
 		if (document.querySelector("#mode").selectedItem.id == "openInBrowser") {
 			document.documentElement.removeAttribute("ondialogaccept");
 			openInFirefox.url = dialog.mLauncher.source.asciiSpec;
-			openInFirefox.mime = [ "application/x-bittorrent", "image/png","text/plain", "audio/mp3", "video/x-ms-wmv", "text/html", "text/xml"][document.querySelector("#MIMETypes").selectedIndex]
+			openInFirefox.mime = [ "application/x-bittorrent", "video/mp4", "video/x-ms-wmv", "image/png","text/plain", "audio/mp3", "text/html", "text/xml"][document.querySelector("#MIMETypes").selectedIndex]
 			var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
 			observerService.addObserver(openInFirefox, "http-on-examine-response", false);
 			observerService.addObserver(openInFirefox, "http-on-examine-merged-response", false);

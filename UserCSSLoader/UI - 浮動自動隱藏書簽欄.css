@@ -1,0 +1,25 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+@-moz-document url(chrome://browser/content/browser.xul) {
+
+#PersonalToolbar {
+  visibility: hidden !important;
+  width: auto !important;
+  position: fixed !important;      
+  /*margin-top: 1px !important;*/
+  /*background:-moz-linear-gradient(rgba(255,255,255,.9), rgba(102,204,255,.9)) !important;  位置，背景色*/
+  /*-moz-transition: visibility .6s, opacity .6s ease-out !important;*/
+  opacity: 0;
+ -moz-transition:  1s ease-out !important;
+ -moz-transition-delay: 1s!important;      /*设置多少秒bookmark消失*/
+}
+#nav-bar:hover~#PersonalToolbar,#PersonalToolbar:hover /*地址栏+标签栏为#navigator-toolbox:hover > */
+{
+  visibility: visible !important;
+  opacity: 1;                               /*动画基于此参数*/
+ -moz-transition: .0s ease-in !important;
+ -moz-transition-delay: 0.0s!important;     /*设置多少秒后延迟出现*/
+}
+
+#PersonalToolbar #PlacesToolbarItems{ -moz-box-pack: center !important;}
+
+}

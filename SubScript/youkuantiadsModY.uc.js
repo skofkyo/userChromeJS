@@ -129,7 +129,7 @@
         },
 		'sohu': {
            'player': 'http://noads.aliapp.com/swf/sohu.swf',
-           're': /http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+)).*\d+\/(main|PlayerShell)\.swf/i
+           're':/http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(live|\d+|ap)).*\d+\/(main|PlayerShell)\.swf/i 
         },
         'sohu_liv': {
            'player': 'http://noads.aliapp.com/swf/sohu_live.swf',

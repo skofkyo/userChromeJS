@@ -350,6 +350,8 @@ window.addMenu = {
     exec: function(path, arg){
         var file    = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
         var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
+		if (path.indexOf('\\') === 0)
+				path = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + path;
         try {
             var a;
             if (typeof arg == 'string' || arg instanceof String) {
