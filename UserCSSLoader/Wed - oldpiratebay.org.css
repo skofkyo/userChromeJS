@@ -1,0 +1,33 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+@-moz-document domain(oldpiratebay.org) {
+
+#header{
+margin: 0 auto; 
+}
+#q {
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+#TPBlogo,input.topsrch[name="q"] {
+    float: none !important;
+}
+a.img{
+float: none !important;
+text-decoration: inherit !important;
+}
+#srchform {
+    margin-left: 0px !important;
+}
+
+table.table-torrents{
+max-width: 96% !important;
+}
+.date-row,
+.size-row,
+.seeders-row.sn,
+.leechers-row.ln,
+.seeders-row.sy,
+.leechers-row.ly{
+    text-align: center !important;
+}
+}

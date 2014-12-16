@@ -15,7 +15,7 @@ rules = [
 		},
         {
             name: "wap百度手機版轉PC版",
-            from: /^https?:\/\/(.*)\.baidu\.com\/wap\/link/i,
+            from: /^https?:\/\/(.*)\.baidu\.com\/wap\/(link|shareview)/i,
             to: "http://$1.baidu.com/share/link",
             regex: true
         },
@@ -39,7 +39,7 @@ rules = [
         },
         {
             name: "noMoreArchiver",
-            from: /(.*)\/archiver\/(.*)tid-(.*)\-page\-(.*)\.html/,
+            from: /(.*)\/archiver\/(.*)tid-(.*)-page-(.*)\.html/,
             to: "$1/viewthread.php?tid=$3",
             regex: true
         },
@@ -80,6 +80,12 @@ rules = [
             from: "http://www.microduo.tw/plugin.php?id=dxksst_link:link&dxksst=*",
             to: "$1",
             wildcard: true,
+        },
+        {
+            name: "greasyfork",
+            from: /^https?:\/\/greasyfork\.org\/(en|zh-CN)/i,
+            to: "https://greasyfork.org/zh-TW",
+            regex: true
         },
 		{
 			//測試地址：http://bbs.colg.cn/thread-3334951-1-1.html

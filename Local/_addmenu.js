@@ -118,10 +118,10 @@ new function() {
             },
         }, {
             label: "海盜灣",
-            url: "http://thepiratebay.se/search/%SEL%/",
+            url: "https://oldpiratebay.org/search.php?q=%SEL%",
             where: "tab",
             condition: "select",
-            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACLklEQVQ4jZWTMUiqYRSGT/04haTpEoEagYLhWgRJ+je5hmC/DtbgFoEuQmOBGIFrDbmphVKSg9AQkSC0KkI0uAjSEoS4qfjcIe5fN4t77wsvfPCd7zmc850jfNF4PP6rP0t+H56enggEAvj9fjY3N7+1qqqoqsrl5eUkoFQqISL/5GAwOAkol8t6gMFgYHp6GovFgslkQlEUFEVhamoKESEcDv8M8Hg8NJtNotEolUqF5+dnYrEYlUqFdDqNiKBp2iTg+voaEWFlZYVut4umadjtdlwuF0tLSzQaDVKpFCJCKBSaBJyfn+slzM7OTtRtNBpRFEVPMhgMfgaICHa7nZmZGUQEp9OJwWDQ75aXlz8ArVaLeDzO2dmZnmF1dZVgMMjCwgIiQjQaZX19HbPZjIjg9/sZj8eMRiPk/v4eEeHw8JBMJkM+n6darVIsFikUCuTzeXK5HFdXV5TLZW5ubuh2u5yenhKJRJCDgwOdurGxwc7ODplMhkajwXA41Jv19vZGvV4nm81ydHSExWLB5/Mht7e37O3t4fP5uLi4IJlMYrVaERGsVitra2ssLi4yPz+P1+tF0zRUVcXtduNyud6b+PLygslkwuFwoKoqoVCIWCzGyckJx8fHbG1t4Xa78Xq97O/vY7PZ2N3d5eHh4R3Q7/eZm5sjkUjQ6/W+7hcAvV6PWq3G9vY2IsLj4+PHN45GI+7u7nh9ff328Wd1Oh0CgQDtdvvPOfgffV7pXz5OoYc083dvAAAAAElFTkSuQmCC",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABcUlEQVQ4ja2SIZLEIBBF8WPbROHCDXAoVDwGhYqLT9XYeE4QG43GpioH4ABI3JhcgL9id5nZmt2dFfurvoHuV5+mGfsv5ZwxDAO01i+9bRueACEEMMb+ZGPM3wBEBCJ6OrfW/gwQQiClBOccQgjIOWMcR4QQsCzLa4CUEqUUWGvBOYcQAn3fI6X0O2Bd1xbxcrk8xX48k1L+DmCMgXPemvq+/3InhLgDUkqYpgmPACkljDHoug6MMTjnoJRqA9Va3wH7voMxhmVZ4L3Htm2IMSKEgG3bmkMIzaUUrOv6Povr9dqoSik45+C9R0oJtVZ86jxPHMeBdV2xLAuI6D1JjBHTNLUNm+e5RSUiSCnBOUfXdVBKwVoLrTWEEPdZlFJAROCcQ2sNay3GcYT3Ht57GGMghIBSCtM0gXMO5xw+ns/YeZ4gIszzjPM8n7/oo2bf988dwHEc97paK2KMuN1u3zY/qpSCYRiQc35Z+6Nqra35DYeYZvDLAwDUAAAAAElFTkSuQmCC",
         }, {
             label: "Seed2Peer",
             url: "http://seed2peer.com/search/%SEL%/",
