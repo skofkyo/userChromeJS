@@ -85,3 +85,12 @@ scrollbar[orient="vertical"] {
 scrollbar[orient="horizontal"] {
     padding: 0px 10px 3px 10px !important;
 }
+@-moz-document regexp("(?!(chrome:)).*"){
+/* autohide */
+scrollbar:not(:hover),
+scrollbar:not(#foo):not(:hover)
+{ 
+  opacity: 0 !important; 
+  transition: all .5s !important; 
+}
+}

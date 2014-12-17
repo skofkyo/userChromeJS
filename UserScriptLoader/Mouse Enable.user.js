@@ -13,6 +13,7 @@
 // @include        http://*.hongshu.com/*
 // @include        http://*.pixnet.net/*
 // @include        http://www.flamefox.org/*
+// @include        http://www.17k.com/*
 // @run-at         document-end
 // ==/UserScript==
 function restore(){

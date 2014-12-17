@@ -1,26 +1,27 @@
 /* 名稱：004.ForceMyFonts.Chinese.FireFoxChromeIE.catcat520 *//* 別名：004.自定義全局字體，修正亂碼和網頁錯位㊣ */
-/* 更新：2014.12.04 | 23:48 *//* 感謝：該 CSS 最初版本來至 卡飯 lyttmonkey & defpt，字體陰影數值參考 卡飯 freelu */
+/* 更新：2014.12.17 | 03:22 *//* 感謝：該 CSS 最初版本來至 卡飯 lyttmonkey & defpt，字體陰影數值參考 卡飯 freelu */
 /* 功能：自定義全局字體，例：英文 Tahoma，中文 雅黑。修正亂碼，網頁錯位 *//* AGENT_SHEET */
-/* 注釋：L：字體亂碼，K：跨域亂碼，C：字體錯位，D：代碼錯位，S：縮放錯位 */
+/* 註釋：L：字體亂碼，K：跨域亂碼，C：字體錯位，D：代碼錯位，S：縮放錯位 */
 /* 適用：Win/*nix 系統 和 FireFox/IE/Chrome 內核瀏覽器 *//* i really want this to be global */
 /* 網址：https://userstyles.org/styles/100473/004-forcemyfonts-chinese-firefoxchromeie-catcat520 */
 /* 幫助：http://bbs.kafan.cn/thread-1681393-1-1.html *//* 反饋問題需附上網址 url，截圖 */
-/* 范圍：*/@-moz-document regexp("(^https?://.*CodeMirror.*|(?!telnet://|(.CodeMirror)|^https?://(www.youziku.com|typekit.com|fontdeck.com|designgala.com|127.0.0.1|bbs.kafan.cn/thread-1700312-1-1.html|bbs.kafan.cn/forum.php\\?mod=viewthread&tid=1700312)).)*"){/* 非火狐瀏覽器，使用時要刪除這行代碼 */
+/* 範圍：*/@-moz-document regexp("(^https?://.*CodeMirror.*|(?!telnet://|(.CodeMirror)|^https?://(www.youziku.com|typekit.com|fontdeck.com|designgala.com|127.0.0.1|bbs.kafan.cn/thread-1700312-1-1.html|bbs.kafan.cn/forum.php\\?mod=viewthread&tid=1700312)).)*"){/* 非火狐瀏覽器，使用時要刪除這行代碼 */
 /* main(diyfont) */*:not([class*="ico"]):not(i){font-family: 
-/* main(sysfont) */"Microsoft JhengHei UI","Microsoft JhengHei","Catcat520.Lite.Latin","在這填寫","Inconsolata-g","Inconsolata","Inconsolata-g","Inconsolata","Segoe UI","Tahoma","Menlo","Monaco","在這填寫","Microsoft JhengHei UI","Microsoft JhengHei","Microsoft YaHei UI","Microsoft YaHei","Microsoft JhengHei UI","Microsoft JhengHei","SimSun","fp-font",
+/* main(sysfont) */"Microsoft JhengHei UI","Microsoft JhengHei","Catcat520.Lite.Latin","在這填寫","Inconsolata-g","Inconsolata","Inconsolata-g","Inconsolata","Segoe UI","Tahoma","Menlo","Monaco","在這填寫","Microsoft JhengHei UI","Microsoft JhengHei","Microsoft YaHei UI","Microsoft YaHei","Microsoft JhengHei UI","Microsoft JhengHei","mingliu","fp-font",
 /* main(webfont) */"AccessibilityFoundicons","Accessibility Foundicons","brandico","Brandico","brankic1979","Brankic1979","brankic 1979","Brankic 1979","broccolidry","Broccolidry","CONDENSEicon","cuticons","Cuticons","dashicons","Dot Com","ecoico","Ecoico","EightiesShades","ElegantIcons","elusive","Elusive","Elusive-Icons","entypo","Entypo","Entypo Social","Entypo-Social","Erler Dingbats","et-line","Et-line","fontawesome","FontAwesome","fontelico","Fontelico","fontello","Fontello","GeneralEnclosedFoundicons","General Enclosed Foundicons","GeneralFoundicons","General Foundicons","Gibson","Gibson Light","gibson_lightbold","Gibson_lightbold","gibson_lightitalic","Gibson_lightitalic","gibsonregular","Gibsonregular","Glyphicons Halflings","GLYPHICONS Halflings","Heydings Controls","Heydings Icons","iconminia","Iconminia",
 /* main(webfont) */"iconvault","Iconvault","icomoon","Icomoon","iconic","Iconic","icons","Icons","Just Vector","JustVector","JustVectorRegular","linecons","Linecons","LondonMM","londonmmregular","Londonmmregular","mainicon","maki","Maki","Mainicon","meteocons","Meteocons","MeteoconsRegular","mfglabs","Mfglabs","MFG Labs Iconset","mfg_labs_iconsetregular","Mfg_labs_iconsetregular","modernpics","Modernpics","Modern Pictograms","OpenWeb Icons","PulsarJS","RaphaelIcons","rondo","Rondo","silkcons","Silkcons","SocialFoundicons","Social Foundicons","Socialico","Socialico Plus","Social Networking Icons","Sosa","Symbol Signs","Symbol Signs Basis set","typicons","Typicons","weathercons","Weathercons","websymbols","Websymbols","Web Symbols","Web Symbols Liga","wpzoom","Wpzoom","zocial","Zocial",
-/* main(sysfont) */"Segoe UI Symbol","Symbola","Meiryo","Malgun Gothic","NSimSun","Nimbus Roman No9 L","WenQuanYi Micro Hei","WenQuanYi Zen Hei","Hiragino Sans GB","FZSongS","方正宋體S-超大字符集","Arial Unicode MS","Unifont","Symbol"  !important;}
-/* VerCtrl */.comeing_twosublist>li>a[href*=thread-1681393-1-1]:after{background: #CBDDE3;color: black;content: " Now(2014.12.04 | 23:48)"  !important;}
-/* stylish edit box Orion */#clientDiv>DIV , #clientDiv>DIV>SPAN , .rulerLines.odd , .rulerLines.even{font-family: "Source Code Pro","Consolas","Menlo","Monaco","DejaVu Sans Mono","Liberation Mono","Nimbus Roman No9 L","Times New Roman","Courier New","Microsoft JhengHei UI","Microsoft JhengHei","Microsoft YaHei UI","Microsoft YaHei","SimHei","SimSun","KaiTi","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei Mono","Hiragino Sans GB"  !important;font-size:14px  !important;line-height:15pt  !important;}
+/* main(sysfont) */"Segoe UI Symbol","Symbola","Meiryo","Malgun Gothic","Nmingliu","Nimbus Roman No9 L","WenQuanYi Micro Hei","WenQuanYi Zen Hei","Hiragino Sans GB","FZSongS","方正細明體S-超大字符集","Arial Unicode MS","Unifont","Symbol"  !important;}
+/* VerCtrl */.comeing_twosublist>li>a[href*=thread-1681393-1-1]:after{background: #CBDDE3;color: black;content: " Now(2014.12.17 | 03:22)"  !important;}
+/* stylish edit box Orion */#clientDiv>DIV , #clientDiv>DIV>SPAN , .rulerLines.odd , .rulerLines.even{font-family: "Source Code Pro","Consolas","Menlo","Monaco","DejaVu Sans Mono","Liberation Mono","Nimbus Roman No9 L","Times New Roman","Courier New","Microsoft JhengHei UI","Microsoft JhengHei","Microsoft YaHei UI","Microsoft YaHei","SimHei","mingliu","KaiTi","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei Mono","Hiragino Sans GB"  !important;font-size:14px  !important;line-height:15pt  !important;}
 /* taobao.com */dl>dt>span.lala , .iconfont>em , p.font-face , a.new-todo-item , a.setting-item , a.calender-book-item , span.prev-btn , span.next-btn{font-family: "shop-iconfont","global-iconfont","mticonfont","marketicon"  !important;}
-/* ju.taobao.com */.ju-groupbar>.backtop>a:nth-child(n) , .mod-filter>.search>form:nth-child(n)>button:nth-child(n) , .cat-menu-h>p.ju-icon-juhuasuan>a:nth-child(n) , tbody>tr.h2:nth-child(n)>td:nth-child(n)>p:nth-child(n) , .feedback>.J_feedback>span:nth-child(n) , .ju-groupbar>.mbclientli>a.mbclient , h1.logo>.ju-logo>div[class^="ju-icon-"]{font-family: "ju-font"  !important;}
+/* ju.taobao.com */DIV.price-block.clearfix>SPAN.price>SPAN.i , .ju-groupbar>.backtop>a:nth-child(n) , .mod-filter>.search>form:nth-child(n)>button:nth-child(n) , .cat-menu-h>p.ju-icon-juhuasuan>a:nth-child(n) , tbody>tr.h2:nth-child(n)>td:nth-child(n)>p:nth-child(n) , .feedback>.J_feedback>span:nth-child(n) , .ju-groupbar>.mbclientli>a.mbclient , h1.logo>.ju-logo>div[class^="ju-icon-"]{font-family: "ju-font"  !important;}
+/* ai.taobao.com *//* L */DIV.con-wrap.clearfix>DIV.quick-links.clearfix>a[class*="atbfont"] , DIV.con-wrap.clearfix>DIV.ai-logo>A.logo.atbfont{font-family: atbfont10  !important;}
 /* itercast.com */span.fui-logo-text{font-family: "IterCast-Icon"  !important;}
 /* github.com */span.diffstat-bar , span.diff-added{font-family: "octicons"  !important;}
 /* html5test.com */.pointsPanel h2>span , .pointsPanel h2>strong , #indexbutton , #loading>div{font-family: "League Gothic","html5test"  !important;}
 /* 2345.com *//* L */.these_col_1>.tool_ul>li>a>ins , DIV.module_t>span>a>ins , DIV.module_t>a>ins , .category_in>div.panel:nth-child(n)>p>ins>a , #rightToolBox>dd>ins>a , .cnxh_hd>#J_gul_cata>a>ins{font-family: "2345"  !important;}
 /* 2345.com *//* D */#content>#left>.kzjx h2 a{margin: 0px 7.5px  !important;}
-/* sports.163.com/nba *//* CD */span.nba_matchnav_score , .pbody{font-family: "System","SimSun"  !important;margin: 1px auto  !important;}
+/* sports.163.com/nba *//* CD */span.nba_matchnav_score , .pbody{font-family: "System","mingliu"  !important;margin: 1px auto  !important;}
 /* w3cplus.com */#go_top{font-family: "w3cplus"  !important;}
 /* designgala.com */DIV.textwidget>.social>li>a{font-family: "JustVectorRegular"  !important;}
 /* etao.com */.s-btn-container>input{font-family: "globalheader"  !important;}
@@ -30,8 +31,8 @@
 /* detail.tmall.com */.tb-booth>.tm-video-stop>b , .tb-booth>.tm-video-stop>s , DIV.hd>a.more.unmore>s , .tm-shopPromotion-title>a.more>s , .tb-amount-widget>.mui-amount-btn>SPAN[class^="mui-amount-"] , #J_TabBar>.tm-shop-list>.tm-shop-list-new{font-family: "tm-detail-font"  !important;}
 /* godaddy.com */li>a>.caret:before , div>div>.close:before{font-family: "uxfont","whoisyourdaddy"  !important;}
 /* dragonporn.ldblog.jp */span.omatome-icnfont-button>span>.omatome-icn-hatena , span.omatome-icnfont-button>span>span.omatome-icn-facebook , span.omatome-icnfont-button>span>span.omatome-icn-twitter{font-family: "omatome_ico"  !important;}
-/* wenku.baidu.com */p[class^="reader-word-"]{font-family: "Corbel","Gabriola","Times New Roman Italic","Times New Roman","91c5a3bbfd0a79563c1e72030080001","Nimbus Roman No9 L","SimHei","SimSun","NSimSun","Symbol","Microsoft JhengHei UI","Microsoft JhengHei","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei Mono","Hiragino Sans GB"  !important;letter-spacing:-4px  !important;}
-/* abort Markdown *//* maxiang.info/dillinger.io/zybuluo.com/stackedit.io/mahua.jser.me/github.com div[class^=ace_]>div>*>span[class^=ace_]{font-family: "Inconsolata-g","Inconsolata","SimHei","KaiTi","SimSun"  !important;} */
+/* wenku.baidu.com */p[class^="reader-word-"]{font-family: "Corbel","Gabriola","Times New Roman Italic","Times New Roman","91c5a3bbfd0a79563c1e72030080001","Nimbus Roman No9 L","SimHei","mingliu","Nmingliu","Symbol","Microsoft JhengHei UI","Microsoft JhengHei","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei Mono","Hiragino Sans GB"  !important;letter-spacing:-4px  !important;}
+/* abort Markdown *//* maxiang.info/dillinger.io/zybuluo.com/stackedit.io/mahua.jser.me/github.com div[class^=ace_]>div>*>span[class^=ace_]{font-family: "Inconsolata-g","Inconsolata","SimHei","KaiTi","mingliu"  !important;} */
 /* acgdb.com */#top #top-options>label , .mediaviewer-inset>.wrapper>.close:before , .mediaviewer>.wrapper>.body .panel .share , .mediaviewer-overlay>.wrapper>.body .nav a , .form-login>div p a[acgdb-tip="新浪微博"] , .form-login>div p a[acgdb-tip="騰訊微博"] , .slideshow2>.wrap>label span em , #quickfacts> .nav a span , #acgdb-picviewer>.top>.switches label{font-family: "acgdb"  !important;}
 /* firefox.net.cn *//* S */.wrap>.main_wrap>.bread_crumb , .main_wrap>.forum_page>.bbs_info_box{padding: 62px 1px 10px 20px  !important;}
 /* firefox.net.cn *//* S */body>.wrap>.search_type_wrap>.search_type{padding: 62px 0px 20px 170px  !important;}
@@ -65,19 +66,38 @@
 /* lengxiaohua.cn *//* D */#layMain>#contentTop>.articleTab{float: inherit  !important;}
 /* zybuluo.com *//* D */#preview-button-bar>#preview-button-row>.dropdown{margin-right: auto  !important;}
 /* deviantart.com *//* L */tr>#oh-menu-friends>#friendslink , tr>#oh-menu-collect>#collectlink{font-family: "feedfont"  !important;}
+/* jr.ifeng.com *//* Y */#indexBanner>.quick_login>.index_login>p{text-align: left  !important;}
+/* jr.ifeng.com *//* Y */#indexBanner>.quick_login>.index_login>p>a{font-weight: bold  !important;color: yellow  !important;}
+/* jr.ifeng.com *//* Y */.wrap>#indexBanner>.quick_login>.index_login{right: 68px  !important;}
+/* jr.ifeng.com *//* Y */DIV.pull-right>ul>li.login-status>a[href*=login] , DIV.pull-right>ul>li>a[href*=register]{font-weight: bold  !important;background: yellow  !important;}
+/* jr.ifeng.com *//* Y */div.header>div.header-bar>div.container>div.pull-right{margin-right: 33%  !important;}
+/* jr.ifeng.com *//* Y */.containerWrap>DIV.container>.p2p-navbar{margin-right: 15%  !important;}
+/* jr.ifeng.com *//* Y */.financing-list-wrapper>.breadcrumbs>.pull-right {margin-right: 58%  !important;}
+/* jr.ifeng.com *//* Y */.financing-list>DIV.container>.financing-list-wrapper{margin-left: 1%  !important;}
+/* jr.ifeng.com *//* Y */HTML.mq-xs.mq-sm.mq-md.mq-lg.mq-gfb>BODY#page-financing>DIV#dialog-1.dialog{margin-top: -6%  !important;}
+/* jr.ifeng.com *//* Y */DIV.container>.account-balance>a[href*=login]{margin-right: 16%  !important;}
+/* jr.ifeng.com *//* Y */.wrap>.financing-steps>DIV.container{padding: 0px 0px  !important;}
+/* jr.ifeng.com *//* Y */HTML.mq-xs.mq-sm.mq-md.mq-lg.mq-gfb>#page-financing>#fixed-tool-box , HTML.mq-xs.mq-sm.mq-md.mq-lg.mq-gfb>#page-index>#fixed-tool-box{top: 35%  !important;right: 88px  !important;}
+/* jr.ifeng.com *//* Y */UL.nav.navbar-nav>li>a[href*="18.ifeng.com"]>em{display: none  !important;}
+/* jr.ifeng.com *//* Y */tr>TD.text>A#unamelink:before{content: "\6295\8d44\4eba\3010 "  !important;}
+/* jr.ifeng.com *//* Y */tr>TD.text>A#unamelink:after{content: "\3011\6b63\5728\54a8\8be2\ff1a"  !important;}
+/* jr.ifeng.com *//* Y */tr>td>div#typingdiv:before{content: "\51e4\51f0\91d1\878d\5ba2\670d\ff1a"  !important;}
+/* jr.ifeng.com *//* Y */td>a>IMG.tplimage{display: none  !important;}
+/* jr.ifeng.com *//* Y */tr>TD.text>A#unamelink{margin-right: 368px  !important;}
+/* hao123.com *//* C */DIV.g_clr.baritem>DIV.category>SPAN.split{font-family: "Arial" , "Helvetica"  !important;}
 /* 擴展 *//* 啟用便攜字體 */
-/* 范圍：*/}/* 非火狐瀏覽器，使用時要刪除這行代碼 */
-/* stylish edit box CodeMirror */.CodeMirror-scroll{font-family: "Source Code Pro","Consolas","Menlo","Monaco","DejaVu Sans Mono","Liberation Mono","Nimbus Roman No9 L","Times New Roman","Courier New","Microsoft JhengHei UI","Microsoft JhengHei","Microsoft YaHei UI","Microsoft YaHei","SimHei","SimSun","KaiTi","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei Mono","Hiragino Sans GB"  !important;font-size:14px  !important;line-height:15pt  !important;}
+/* 範圍：*/}/* 非火狐瀏覽器，使用時要刪除這行代碼 */
+/* stylish edit box CodeMirror */.CodeMirror-scroll{font-family: "Source Code Pro","Consolas","Menlo","Monaco","DejaVu Sans Mono","Liberation Mono","Nimbus Roman No9 L","Times New Roman","Courier New","Microsoft JhengHei UI","Microsoft JhengHei","Microsoft YaHei UI","Microsoft YaHei","SimHei","mingliu","KaiTi","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei Mono","Hiragino Sans GB"  !important;font-size:14px  !important;line-height:15pt  !important;}
 /* 擴展 *//*::-moz-selection{background: #3399FF  !important;color: #FFFFFF  !important;}/* 自定義鼠標選中字體顏色 */
 /* 擴展 *//**{text-shadow: 0.02em 0.02em 0.05em #999999  !important;}/* 自定義字體陰影特效 */
-/* 以下為說明，無需復制 */
+/* 以下為說明，無需複製 */
 /* 0123456789 *//* abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ *//* `~!@#$%^&*()-=_+[]\{}|;':",./<>? */
 /*
 01.常見字體集
 有襯：serif
 無襯：sans-serif
 等寬：monospace
-簡體：Microsoft YaHei/SimSun/NSimSun/FZSongS/方正宋體S-超大字符集/宋體-方正超大字符集/Hiragino Sans GB/WenQuanYi Zen Hei/WenQuanYi Zen Hei Mono/WenQuanYi Micro Hei/WenQuanYi Micro Hei Mono/仿宋_GB2312/楷體_GB2312/SimHei/FangSong/KaiTi/Droid Sans Fallback/Microsoft Himalaya/Microsoft Yi Baiti/浪漫雅圓/XHei-5th
+簡體：Microsoft YaHei/mingliu/Nmingliu/FZSongS/方正細明體S-超大字符集/細明體-方正超大字符集/Hiragino Sans GB/WenQuanYi Zen Hei/WenQuanYi Zen Hei Mono/WenQuanYi Micro Hei/WenQuanYi Micro Hei Mono/仿宋_GB2312/標楷體/SimHei/FangSong/KaiTi/Droid Sans Fallback/Microsoft Himalaya/Microsoft Yi Baiti/浪漫雅圓/XHei-5th
 繁體：Microsoft JhengHei/XinGothic/XinGothic CiticPress/XinGothic-Pleco W7/XinGothic-Pleco W4/XinGothic-ZhangYue W6/XinGothic-ZhangYue W4/XinGothic-TC W5/MingLiU/PMingLiU/DFKai-SB
 日文：Meiryo/MS Gothic/MS PGothic/MS Mincho/MS PMincho
 韓文：Malgun Gothic/Batang/BatangChe/Dotum/DotumChe/Gulim/GulimChe/Gungsuh/GungsuhChe

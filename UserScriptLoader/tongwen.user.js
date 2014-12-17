@@ -23,6 +23,7 @@
 // @include        http://www.css88.com/*
 // @include        https://raw.githubusercontent.com/*
 // @include        file://*
+// @include        http://www.firefoxfan.com/*
 // ==/UserScript==
 
 var TongWen = {};

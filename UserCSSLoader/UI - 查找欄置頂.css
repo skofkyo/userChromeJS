@@ -1,0 +1,18 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+@-moz-document url(chrome://browser/content/browser.xul) {
+/*查找欄置頂*/
+findbar{
+    position:fixed;
+    top:60px;/*距離頂部位置 自己調整*/
+    right:0px;/*靠左還是靠右right 靠左改成left*/
+    border-left:1px solid #b2b2b2;
+    border-bottom:1px solid #b2b2b2;
+    border-right:1px solid #b2b2b2;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+}
+.findbar-container{
+    background:none;
+}
+
+}

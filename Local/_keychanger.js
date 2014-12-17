@@ -54,7 +54,8 @@ keys['F+Alt'] = function() {
 				var Clipboard = readFromClipboard();
 				gFindBar._findField.value = readFromClipboard();
 				$& HighlightText();
-				gFindBar.close();
+				setTimeout(function(){gFindBar.close();}, 10000);
+				//gFindBar.close();
 			};
 //頁面尋找選取文字否則開啟並定位到findbar或關閉findbar
 keys['F+Ctrl'] = function() {
@@ -74,7 +75,8 @@ keys['F+Ctrl'] = function() {
 				if (select) {
 					gFindBar._findField.value = select;
 					$& HighlightText();
-					gFindBar.close();
+					setTimeout(function(){gFindBar.close();}, 10000);
+					//gFindBar.close();
 					content.document.getSelection().removeAllRanges();
 				} else if (gFindBar.hidden) {
 					gFindBar._findField.value = "";
@@ -82,6 +84,7 @@ keys['F+Ctrl'] = function() {
 					gFindBar.toggleHighlight(1);
 					$& HighlightText();
 					gFindBar._findField.focus();
+					setTimeout(function(){gFindBar.close();}, 180000);
 					/*
 					XULBrowserWindow.statusTextField.label = "開啟並定位到findbar";
 					setTimeout('XULBrowserWindow.statusTextField.label = ""',1500);

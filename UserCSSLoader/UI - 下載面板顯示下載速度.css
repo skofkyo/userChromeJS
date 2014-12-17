@@ -1,0 +1,9 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+.download-state:after{
+content:attr(statusTip)!important;
+color:#4A4A4A!important;
+display:-moz-box!important;
+position:absolute!important;
+top:62px!important;
+left:52px!important;
+}
