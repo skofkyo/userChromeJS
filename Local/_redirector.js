@@ -94,8 +94,4 @@ rules = [
 		to: "http://static.hdslb.com/miniloader.swf?aid=482215&page=1",
 		regex: true
 	},
-<<<<<<< HEAD
 ];
-=======
-];
->>>>>>> origin/master

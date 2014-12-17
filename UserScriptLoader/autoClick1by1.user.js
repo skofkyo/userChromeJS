@@ -41,13 +41,10 @@
             elements: ['.bigp_nav2 > form > input[value="stop"]'],//所有参数为要点击的按钮的css3 selector
             delay: 500
         },
-<<<<<<< HEAD
         'repaik': {
             startReg: /^http:\/\/www\.repaik\.com\/$/,
             elements: ['a[onclick="hdMsg()"]']
         },
-=======
->>>>>>> origin/master
         /*'repaik': {
             startReg: /http:\/\/www\.repaik\.com\/forum\.php\?mod=viewthread&tid=\d+/i,
             elements: ['a.btn_s_close']
@@ -69,7 +66,6 @@
             elements: ['ul.qdsmile > li#ch','table[class="tfm"] input[value="2"]','.tr3 > div:nth-child(2) > a > img']
         },
         'soft8': {
-<<<<<<< HEAD
             startReg: /http:\/\/\www\.soft8\.me\/\w+\/.+\.html/i,
             elements: ['a[onclick]','#dlbutton > div > ol:nth-child(2) > a[onclick]'],
             autoClose: true
@@ -81,22 +77,11 @@
         },
         '2121club': {
             startReg: /http:\/\/\www\.2121\.club\/\w+\.html/,
-=======
-            startReg: /http:\/\/\www\.soft8\.me\/Files\//i,
-            elements: ['a[onclick']
-        },
-        '2121club': {
-            startReg: /http:\/\/\www\.2121\.club\/(.*)\.html/,
->>>>>>> origin/master
             elements: ['button[onclick]'],
             autoClose: true
         },
         'mimima': {
-<<<<<<< HEAD
             startReg: /http:\/\/\w+\.mimima\.com\/link\.php/i,
-=======
-            startReg: /http:\/\/(.*)\.mimima\.com\/link\.php/i,
->>>>>>> origin/master
             elements: ['td[valign="bottom"] input[valign="bottom"]'],
             autoClose: true
         },
@@ -128,11 +113,7 @@
              autoClose: true
         },
         'azofreeware1': {
-<<<<<<< HEAD
             startReg: /http:\/\/9xdd\.com\/\_dl\_/i,
-=======
-            startReg: /http:\/\/9xdd\.com\/\_dl/i,
->>>>>>> origin/master
             elements: ['h2 > a[href]']
         },
     };
@@ -163,8 +144,4 @@
     /*document.onreadystatechange = function () {
         autoClick1by1();
     }*/
-<<<<<<< HEAD
 })();
-=======
-})();
->>>>>>> origin/master
