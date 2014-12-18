@@ -21,10 +21,10 @@
 
 (function() {
 
-	var Mode = 0;//0為新增按鈕 1為三道槓按鈕右鍵選單
-	var icon = 0; // 當模式為新增按鈕時 0為火狐圖標 1為三道槓圖標 2為三槓動畫圖標
-	var picon = 0;// 當模式為三道槓右鍵選單時 0不變 1為火狐圖標 2為三槓動畫圖標
-	var hidden = false; //當模式為新增按鈕時是否隱藏原三槓按鈕 true 隱藏 false 不隱藏
+	var Mode = 0;//0為新增可拖動按鈕 1為三道槓按鈕右鍵選單
+	var icon = 0; // 當模式為新增可拖動按鈕時 0為火狐圖標 1為三道槓圖標 2為三槓動畫圖標
+	var picon = 0;// 當模式為三道槓按鈕右鍵選單時 0不變 1為火狐圖標 2為三槓動畫圖標
+	var hidden = false; //當模式為新增可拖動按鈕時是否隱藏原三道槓按鈕 true 隱藏 false 不隱藏
 	
 	if (Mode == 0) {
 		CustomizableUI.createWidget({
