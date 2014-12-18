@@ -21,11 +21,7 @@
 
 (function() {
 
-<<<<<<< HEAD
 	var icon = 0; // 0為火狐圖標 1為三槓動畫圖標
-=======
-	var icon = 1; // 0為火狐圖標 1為三槓動畫圖標
->>>>>>> origin/master
 
 	CustomizableUI.createWidget({
 		defaultArea: CustomizableUI.AREA_NAVBAR,
