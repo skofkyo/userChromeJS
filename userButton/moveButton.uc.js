@@ -58,6 +58,7 @@ var moveButton = {
         //{ id: "EncodeTool", bar: "urlbar-icons", pos: 1},
         //{ id: "dta-manager-button", bar: "urlbar-icons", pos: 2},
         { id: "abp-toolbarbutton", bar: "urlbar-icons", pos: 3},
+        { id: "ublock-button", bar: "urlbar-icons", pos: 3},
         //{ id: "userChromeJsManagerMenuBtn", bar: "urlbar-icons", pos: 4},
         //{ id: "userChromebtnMenu", bar: "urlbar-icons", pos: 4},
         //{ id: "stylish-toolbar-button", bar: "urlbar-icons", pos: 5},

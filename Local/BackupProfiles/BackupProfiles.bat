@@ -14,6 +14,7 @@ del %BackDir%\chrome\UserScriptLoader\temp\ /s /q
 xcopy "%BackDir%\adblockedge" %TempFolder%\adblockedge\ /s /y /i
 xcopy "%BackDir%\chrome" %TempFolder%\chrome\  /s /y /i
 xcopy "%BackDir%\extensions" %TempFolder%\extensions\ /s /y /i
+xcopy "%BackDir%\extension-data" %TempFolder%\extension-data\ /s /y /i
 xcopy "%BackDir%\scriptish_scripts" %TempFolder%\scriptish_scripts\ /s /y /i
 
 ::以下是檔案

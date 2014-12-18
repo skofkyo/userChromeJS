@@ -18,7 +18,8 @@
 // @include http://9xdd.com/_dl*
 // @include http://9xdd.com/_dl_*/_MediaFire_*mediafire.htm
 // @include http://softblog.tw/*
-// @include http://bbs.kafan.cn/thread-*-*-*.html
+// @include http://bbs.kafan.cn/*
+// @include http://g.mozest.com/*
 // @include http://www.repaik.com/
 // @downloadURL    https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
 // @updateURL      https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
@@ -53,6 +54,14 @@
             startReg: /http:\/\/bbs\.kafan\.cn\/thread-\d+-\d+-\d+\.html/,
             elements: ['a.btn_s_close']
         },*/
+        'kafan': {
+            startReg: /http:\/\/bbs\.kafan\.cn\/forum-\d+-\d+.html/,
+            elements: ['img[src="http://a.ikafan.com/image/common/collapsed_no.gif"]']
+        },
+        'mozest': {
+            startReg: /https?:\/\/g\.mozest\.com\//i,
+            elements: ['#sidebar_img.collapsed_no']
+        },
         'pcauto': {
             startReg: /http:\/\/\w+\.pcauto\.com\.cn\/.+\.html/i,
             elements: ['div.pageViewGuidedd > a[rel="nofollow"]']

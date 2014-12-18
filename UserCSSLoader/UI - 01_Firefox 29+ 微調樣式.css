@@ -221,6 +221,7 @@ border: none !important;
 */
 #urlbar-icons #downloads-button {-moz-box-ordinal-group: 0 !important;}
 #urlbar-icons #abp-toolbarbutton {-moz-box-ordinal-group: 1 !important;}
+#urlbar-icons #ublock-button {-moz-box-ordinal-group: 1 !important;}
 #urlbar-icons #userChromebtnMenu {-moz-box-ordinal-group: 2 !important;}
 #urlbar-icons #usercssloader-menu {-moz-box-ordinal-group: 3 !important;}
 #urlbar-icons #UserScriptLoader-icon {-moz-box-ordinal-group: 4 !important;}
