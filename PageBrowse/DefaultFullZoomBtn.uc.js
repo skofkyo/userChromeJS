@@ -336,7 +336,7 @@ var FullZoom = {
     const ioService = Components.classes['@mozilla.org/network/io-service;1']
                       .getService(Components.interfaces.nsIIOService);
     if (!!aURI && !this.localFolderSpecific) {
-      if (/^file:/i.test(aURI.spec) || /^about:/i.test(aURI.spec)) {
+      if (/^file:/i.test(aURI.spec) || /^about:/i.test(aURI.spec) || /^chrome:/i.test(aURI.spec)) {
         let tmp = aURI.spec.split('/');
         tmp.pop();
         let url = tmp.join('/');

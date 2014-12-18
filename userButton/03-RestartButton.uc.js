@@ -29,7 +29,10 @@
             switch (event.button) {
             case 0:
                Services.appinfo.invalidateCachesOnRestart()||Application.restart();
-                break;
+               break;
+            case 2:
+               Application.restart();
+               break;
             }
         }
     });
