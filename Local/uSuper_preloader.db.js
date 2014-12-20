@@ -333,14 +333,15 @@ var SITEINFO = [{
     },
 
     // ========================= baidu 其它 ================================================
+    /*
     {
         name: '百度貼吧列表',
         url: /^http:\/\/tieba\.baidu\.(cn|com)\/f/i,
         nextLink: '//div[@class="pager clearfix"]/descendant::a[@class="next"]',
         preLink: '//div[@class="pager clearfix"]/descendant::a[@class="pre"]',
         autopager: {
-            pageElement: '//ul[@id="thread_list"]/li',
-            replaceE: 'css;#frs_list_pager',
+            pageElement: 'css;#thread_list',
+            replaceE: 'css;.thread_list_bottom.clearfix',
             useiframe: true,
             newIframe: true
                 // filter: function(pages) {
@@ -374,7 +375,7 @@ var SITEINFO = [{
             //     pb.ForumListV3.initial();
             // }
         }
-    }, {
+    }, */{
         name: '百度吧內搜索',
         url: /^http:\/\/tieba\.baidu\.com\/f\/search/i,
         siteExample: 'http://tieba.baidu.com/f/search/',

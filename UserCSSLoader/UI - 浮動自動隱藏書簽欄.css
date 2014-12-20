@@ -5,6 +5,11 @@
   visibility: hidden !important;
   width: auto !important;
   position: fixed !important;      
+  /*
+  left:20% !important;      
+  right:20% !important;      
+  text-align: center !important;     
+  */ 
   /*margin-top: 1px !important;*/
   /*background:-moz-linear-gradient(rgba(255,255,255,.9), rgba(102,204,255,.9)) !important;  位置，背景色*/
   /*-moz-transition: visibility .6s, opacity .6s ease-out !important;*/

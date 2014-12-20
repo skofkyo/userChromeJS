@@ -24,6 +24,7 @@
 // @include        https://raw.githubusercontent.com/*
 // @include        file://*
 // @include        http://www.firefoxfan.com/*
+// @include        http://tieba.baidu.com/f?kw=firefox*
 // ==/UserScript==
 
 var TongWen = {};

@@ -21,6 +21,7 @@
 // @include http://bbs.kafan.cn/*
 // @include http://g.mozest.com/*
 // @include http://www.repaik.com/
+// @include *zippyshare.com*
 // @downloadURL    https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
 // @updateURL      https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
 // @note         允许自定义网站的点击延迟时间
@@ -80,8 +81,8 @@
             autoClose: true
         },
         'softblog': {
-            startReg: /http:\/\/softblog\.tw\/potplayer\.html/,
-            elements: ['a[href="http://www.soft8.me/Media/3/650.html"]'],
+            startReg: /http:\/\/softblog\.tw\/potplayer64\.html/,
+            elements: ['a[href="http://www.soft8.me/Media/3/515.html"]'],
             autoClose: true
         },
         '2121club': {
@@ -124,6 +125,11 @@
         'azofreeware1': {
             startReg: /http:\/\/9xdd\.com\/\_dl\_/i,
             elements: ['h2 > a[href]']
+        },
+        'zippyshare': {
+            startReg: /http:\/\/\w+\.zippyshare\.com\/v\/\d+\/file\.html$/,
+            elements: ['#downloadB'],
+             autoClose: true
         },
     };
     function autoClick1by1(){

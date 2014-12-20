@@ -67,14 +67,6 @@ rules = [
 		to: "$1",
 		wildcard: true,
 	},
-	/*
-	{
-	name: "kafan",
-	from: /http:\/\/bbs\.kafan\.cn\/thread\-([0-9])\-([0-9])\-([0-9]).html/,
-	to: "http://bbs.kafan.cn/forum.php?mod=viewthread&tid=$1&extra=page%3D1",
-	regex: true
-	},
-	*/
 	{
 		name: "微剋多資訊",
 		from: "http://www.microduo.tw/plugin.php?id=dxksst_link:link&dxksst=*",
@@ -88,10 +80,9 @@ rules = [
 		regex: true
 	},
 	{
-		//測試地址：http://bbs.colg.cn/thread-3334951-1-1.html
-		name: "B站外鏈",
-		from: /^http:\/\/static\.hdslb\.com\/miniloader\.swf\?aid\=781381\&page\=1/,
-		to: "http://static.hdslb.com/miniloader.swf?aid=482215&page=1",
-		regex: true
+		name: "硬是要學",
+		from: "http://www.soft4fun.net/scan/redir.php?url=*",
+		to: "$1",
+		wildcard: true,
 	},
 ];
