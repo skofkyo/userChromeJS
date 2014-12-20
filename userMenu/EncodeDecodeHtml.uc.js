@@ -6,7 +6,7 @@
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.13
+// @version              2014.12.20
 // @startup        
 // @shutdown       
 // @config         
@@ -37,7 +37,7 @@
 		EncodeTool.setAttribute("type", "menu");
 		
 		var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){'
-			 +'#EncodeDecodeHtml .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADAUlEQVR42mWTW0iTYRzGNYtwbURSkBbtZje7DOsuIigkbAhWHpdOnTqttGwHrVlpJzoS1VQ0c8sDobVzq3TfqgvZdKdIhW2wahdeGINM3dzV3qfvk5Vu/eHhhe99n9/7vf9DWtp6pCfWTRvWzQltStlLT0sNlUrFDYVCSqfT+d5oNgcGNJqwzmhcnp2bW/b5/eFJuz1gslje60wmpVSp5CaZeTze1pnZuZ8ut4d4PF/ibrc37nS6iGN6mpgtFmKlKOJwOOJulyvucbnI7MzMT8bzD5Cbm8uaoGyR8QkbmZx0IPjtOyKRCObn59Hb14cWqRSdN29iQK2GzWYj1MdPEcazDhAIWFYaYDK/o2+axtLSMlZXo/D7A3it1aKjsxO19fWQt7ZCq9OSCYpKBjC/Q9lsC5Z3H4idBiwu/kYkGoXP78Po2Bjar11DTW0tFK1t0Ov1hKKohaQnMJnec+lpsKBRTh52P4fT8wU/foTgdruheamBTKFAUbkQp0Q1ONFwiWTLngUT1VkHfLq1O5hfdozwikXYdeYiOHVKZFa1IfO4GJxDJdh1rAy8k+XIr8gjn+9k/w/gttwK1ghzyWNxDoaadmC0jY1XUg4GK9lQF7LxojgLjyr3Qiw6QLiy2/8DMi88DrIKzxLW6RawKy6D1dABjvgKOCfqsO2wEOyj1WAVnAOrqIlktjxJBjAJufuka2F/mYTklDYhq0oBTuN1sMVKsAUScI4IsTNPhH2nG3FQdJ48UPUspPSBgPVh3BoZGhohPaou9HZ3o6+3F/fu30dVNZ04gQAlxUWQy6QYGR4m49aUMtKxzfzWEjWZLWRqyomVlQhisRgCgUQf3LiBOomELmMr3mi1xESfZTx/zVto8fUGY3StD+xT8V+LiyQajRKfz0dGx0ZJ+9WrpFosJnKFIq4zGIjeYGAA/IR3bcK28/n8fKlUNtjf/+Kr1+sN04MVo/sgrtZo4lK5PFZUWhoWVlR8bW5uHmTOMp4N05k0ohm0OLSyaXETyk58y0gd5z+RasELwMhMQQAAAABJRU5ErkJggg==)}'
+			 +'#EncodeDecodeHtml .toolbarbutton-icon {list-style-image:url('+image16+')}'
 			 +'}';
 		var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
 		var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
@@ -60,38 +60,38 @@
                     label: "Unicode轉換",
                     tooltiptext: "Unicode轉換",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAE7klEQVRYhcWXa2yTVRjHT1sZkvEBgobb7oyutylEI0YTHRclCCZGIYaoCx+UoCQkxJAo0RkSjRIjVwl4xflBICbqB/liTAyJKHjhksyYsPc97WrZ1sHK1rVrt77v+fnhfXtb22FMCSd5PrT9P+f8nv855+3zCim83M4QUniRDl9pVEoqp51OL7xIR+U1hBQedLG0JKTwlJ1MF+4y2rabQLRVXENIl5/QnBWE5hZHsOaeUgiHl9CcB/I6Oy84815bWw7CQ2jW8pL5Q3NWIF1+RKRtHUZ0GDOewBwdsyKeIPrUNjRRh3QFLAtFG7I2QEaG89oRS5s+dwlZE0A6pjjhCqCJekb2fooZT2DE4rn5jegwkbZ1iIhvPSo9ydQRfWZ7WQDj2nCJFmB41140sRjpap8CUMfIwW4AVIFepSeJ+NYjIt71qMQ4KAWmaYVSRJ9+pTzAQDSvVQoME0yFGU8Qrl+J7liCdPqLAfZ/AUqhJjO5PJUYJ+LNAiRTNpayAioDDA7ltdlhGACMdX+LJuoJugLFAPuOg2miJiYtrWmixpJVBACrMqD/kU400WDluQJoYjGjR74qu20R/4YqAhgWQPr8ZeQMN9LlRbr86KKR4Z3vkb7QQ+qXC6TPXSJ9/jKpM78RblpdRYACiOsv7yk4kD400UivmF8SUrirDGBaB9KIDBK6+0F0hxspWhlY+yI33vmY2BuHiHUdJvbWEWK7D9B310NVBihwIX7sJJpoRBeNjH50qqw0EniySgBK5S+5fUVVeoKr92/kimMeI/u7UZkMKjUBkxnIGKjRBBHPE7fAgQIXUmf/pFcsYPTAl1ZKxsjlqWSqCtfQvnoTF//GjCeK8pUNMbB2K7E3D94igIz1ABp5/zNiXYeKqs8+8SZ6rjDW/V3Rd1UHiB89gaxxY4QHgLwz2aFSEwUfbgHA2PFvuCLmEt38qm2/UbAgxeM/A2zcjuYoBPAga9sxhq6XOvDJ1+iOJnTRwvj3Z+ytqABRAuDfUAyQyQBwfefb9IoFBGcuQ97Rju5y0zf/YVRyvDyAaEZ3tPKP7wnMeLJov6d1ILzwUdRYMv+jaYKC9O89yDsDaGIRumimV8xj+PV9ls7eY5XJgFKMHj2BJuoI1iyjVywk1nW41IVKALqzmfEfz9r/7XaCaYlSZy8SfXYHA49tYeSDz/MV5a6apb/20m40sQg5ox3p9BCc3c7kX71FV7UiQK9YxNDmXXZFRomw4rAtNsIDBGuX2Y1pvgcYXLvVduEmANLhQc7yk/6jxxJMZooXyVZQaKepcrBDW15DE/XWYbVbsaDLjyYaSJw8XZpbAuD0o4sWwi2ryISu5qkNM38rCqPApdieD63mwzmlG3b60R0t9NV3YI6OWVtqny1M638jDyC8SGcATTTR19pB8vRP01sPmDfiXNvWVX7xXEPajibqGN75rlVxditKHCikFq3oopnoph2M//AzKpUust2IDBI/doqwe43VcGSbz0pvUE4P0uUm/eulkiJUasLqiqdaJx0+NFGPLpYSbllD/5pO+ld3cnXFJkKz70MTDeiipWjPp4PQxVL66jsYeHwL/Sufp3/VC/Sv6qS/4zmCtcunABT081L40MUSNNFgL9qEFG6kyz995SXhQxetuXny0YgUbRUAco74ct1t1p3/9RbsyM7jL47c2/FtjH8Bo93LTMPQzVkAAAAASUVORK5CYII=",
-					oncommand: 'Unicode();',
+                    oncommand: 'Unicode();',
                 },
                 //{label: "sep"}, 
                 {
                     label: "Javascript/HTML 格式化",
                     tooltiptext: "Javascript/HTML 格式化",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAhklEQVQ4jbWTQQrFIAxEc6LGG2WpCB7AhbjIterZ5q/8SEUbaDswEMnMW0WityQieJQTEVggy9y46PPVJoDVW0CMEVd5722AlNJU7goh3AMA4OQDzfG/2Bzj5AMAbIDmeAL0twmw0/eAWuuynHNeA0aIqk7lUsq+TEQ0hlZW1fs/Y76+N/QDfH54UpD++6YAAAAASUVORK5CYII=",
-					oncommand: 'JavaScriptBeautify();',
+                    oncommand: 'JavaScriptBeautify();',
                 },
                 {
                     label: "CSS格式化",
                     tooltiptext: "CSS格式化",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2UlEQVQ4jb2SMQuDMBCF/buunV2dXbs6d3UVB4cMDgodRAoqKlpUCCIaSpDXoUQQo1YKPchy3H15d+8U/BjKUUHLOCLKzgOCZoBGMqhOPD/DL9EyfgwwwxqqE+N6fyKiDBFl0L1izu0C7LyTFloJherEIFW/DRj5hIub4uKmGPm0UibLLQDidzOsZZNJYwEw/FIq82uA2Paebf8BbI2Q9699gPBaI9lq43beSZe7AATNMKvQSAYrobg9Wmgkg+4VxzYCAKn6xfkKW2XNUgDwORhxwluNu4Az8QZ5ZdIo1LKRXQAAAABJRU5ErkJggg==",
-					oncommand: 'CssBeautify();',
+                    oncommand: 'CssBeautify();',
                 },
                 {
                     label: "檔案Base64編碼",
                     tooltiptext: "檔案Base64編碼",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAK6ElEQVRYhb2XaVRUV7qGDyBoBKc4BiccY3Jjorka03Zid9K2nWhsQUGsgmLQYh5FVNR26LSKQgFVTAXFPMoMymgxqCgiCDIoijIIKgJXW00nJrdv3+6nf5wCkrX6R37c2z/2Wmd/Z62z3/2d/T37/YRdSj3+/UMfSbgB0ghDhH/34hKVPtLwcdhEGGETOeH/W4A+EpX+jxYXd20TOR7bqDeQqY3HBEhUBrqhj0Rl8H8iYGeogFWowK6RXUcaYRM1AdvoicjUJtjFTBYFWCsFtisEdoQIWIYKWAQLSJT62IQbjg6JUtyJVGUwGpOqxuli434yFzdiiDxmOs6a2UgjDLGNegM79STsYyZjFzMZ+9gpOGimIexQ6OGVsIjWvgpudhdR15nJtXvpWIUKbA4Ux5ZAgZ2hAlKVPhbBAl+eFuPmQQISlT5bz4qxbUECUpUB1kqBz/8ocLJgI0OvevBIMmNHmIBFmMB2lYAsZhKOcdNxjJ+OIFUZYh5kRP2DbHLrj3OmaDOtfVoCMlaTW3+cwsZT5Fw/ym71NLYFCRzLXk/prRAKGk6iKDbHPFggRruH0lsKThVs4qszAvKYmeTf+JqChj/x6PkdPJLN8Mt4j+JbIWTWH0aeOAf7uKnsSZqDYBNuyFdnBPJunOC/vnlIW18FmwMFnGPn8Or1IOm1/lTf1lDYeArPxOU8en4bRbGM2rupXGyLJumyD829JZwulNA12MCZom00dOWTXX+UnBvHePHdAKfPf8GL7wa40KLg/lA9XcON2MVNRZ5sKgrYHChQ1qKiqDGQ4zkbOX8zCIeoSTT1nMcm3JDTBZsoaQ5BWWpFc28J6/8gsEuph3/qGu48riaiwoZVBwS0bdFc7UzjwdPrSCLGYRv1Bj3DTSTX+vLD/3yLukZO4lUfKjs0uKQuQJ4yF8EyRA/3+EU8/nMHHY8vUXMnhacv7xN0/iuGXnUTV+XMxdZI+p+146KZw7XODJp7i2nvr6Sg4U/4p67i3pMrNPWU0NRbjIN6Jhl1AdwbuEpTbzEvXw+S1/g1ZW3hNPeV0thbRGl7OPKUuTinLUSwDtPDNmI8zprZuMXNxTtpMY7Rk7GLnIhT7Ewco6ewR/0mLprZ7FKKleKZsBDXOFN2KMSKkarG4Zm4EKswAWuVAVYqAc+UJbgnm+GaPB/PtCXYxBpzIHcNAfnrcE6dj3PaQlwzFunKMEwYrVmrUEGch4nPI3HLUGGUZDtCBCxDBBEsulNvFSZgGzkBWbQx9jGTsVFPxEY9EdtYExzip+OUMg+HxJk4Js/GJd0M14zFuJ1bOiZgu0L8qHmw+CxV6evq2wibcKNROElV47DVxUbq3jZiPHbRJthFmyBTG2MfOxXHuBl4pS/DJ/Md5MmmOKfOxy19Me6ZS3HNXILbuaW4Z7+NsF0h4Jv8Nm39Whq68mnozudo1vpRQZsDBbacETPyrzggDR/HNoXA1mABK5WAg2Ya9rFT2BImEFS+neG/PMQ/ZzWyhGnYJExBlvQmrplL8MhegUfOOwgSpQFWIUZ0DTYQUmzB8ZzPefz8DlLVRHyTl1PYeIrUK37IIk34fZDAsexf/oQD20MENNXOlLepOFuyDcsIAc/UpZy/FcyFlhCevLzHvtwPOVz0KeV3osm7dQrv3JW4ZS/HO28lglRlwLazAjd7CjmRs4FPjwnceJBLYo0Hgy+7KGw8Q+fANdr7texLXUX/szYUxXbU3k1F2x5DypW9tPSVE1RiQ89wE6EV1jQ9LCa/+TQFtwJ5+XoQhdaaF68HKe+IpvtZEz3PW3DNXoZ3wQdjAlr6yjia9Quslcbce1JL+tX9fP/XvxBeJkNT5URW3dekXvGmsbtA5IBKnwMZa+l4fAl11W4+PiFQ3RHP9e5cuoYbcUychTxlLg+ft5LRcIQf/vYdCdf3kn7zCJe60vAt/FAUsCNED5+k5Qy96qblYRm3H1WScXU/FgoDKtvVNHTlU/8gh4KGU8gipnL9fjbNvSW091dSePM0B8+tofNpHbf6ymnpL8clZQE5jX/k/lA9LY8qePX9MEWtCrT3NLQ+qaT5UTnazji8Cz7At+g/RQ7IIsbjFDsT9/j5OMfOxjxYPHQWwQIeCQvxTDRDotLHMlQ8mJ6JZrgnzGenSmBnuB4OmmnsO/c+Ms0k7OKnIYufin/uh/jlrsY353325a9BnrGAY6UbOVH+BT6Fq/Ap+pC9F9b+iANhYxywDTdCotRHqjLAUlfzIwyQKPV1wNETaz52CnaxU7CNNWFP4myckk1xTl2AU+o8dqeaIk+fj2vWUrzyVuKeuwLX3Lfx1S3uV/zxv/ADIWJ5jd3zOg6M+IFwQ2RRE7FXT8IuZhL2sVPYEz8Tp6S3kCebIk8xxSVtIfbJM/DPX8vBovW4Z6/AK38lXvkrCSjZgN+Fj/ArXse+0vU6P5C4iNa+cpp7L3Czp4i4KhcsQ/QxDxa9wFc6DkiUelgoBLYpBMxDBSRRRjhoprIzygCraANkcZNxSTPDPmkGaTcO0T5QTdtANYcubMAxcx4Zzcf44W/fcVy7GZ/iNewv/1T0A9uCjLjRlUdarT8umsUMvuzCKXYWZ4q2UtBwkuTL3thFmmAVqsfJgo2jV+3hnHVI1cYk1vpQ0qYkqHw71rETCK2S8uL1U1IbAgi48Amu2cs5WPwpw98+5MX3Q5ystsC3ZC0HKn6l8wOBAudvnuX+0zqaeop49k0fu5T6HMn6iKRLAXQPNZB0yZudYQa8fD3Ija48Op5c5kTBZ5S3R9L/59vkN53m7//4X06VbSW76Wu+/e8X1PXm0T5Qg0vOMjoGa7k1oKXtaQ0R113wKVnLQe1nOj9wWuBiaxSZ1wKwDJnF7UeVZNUdoqRZgarMjvZ+rfguzJj8xpMkXtnH3YErKC9KuD9Yz82HF1Bc3EnlXQ2BFeak3ThI59B1diYa8/SbByiv2NP0uJzmJxf59q8vKLqrxLtkDYcqN/7IDzy/w70nV6m5k0nLw1LOFFnwYLCeyx0pdA5c4/ajas6e30LvcDPa23F0DzdyttScE0W/oXOwjtr76TT3l3KqfCue2StoH6jh3lAd13pz8ClcjTx3CVmtJ3n2+jH5dxT4lH7EoapNY37ARTMb1zhTvJPMsI8yYetZAZtwQ7wSzZBFTMA17i3sok2Qa2bgn/k+zommSNVvYKuZhFuaGYcLP8En+z1cMhbhkrkYj5x3OVq6EY+8/8CncBV+xes4pv2S41VbOFa1mYPazzhU9dsxDoxAZkfIyM1ngHWYOLfWMUISYYg0cjySKCNksZPYnTATedJb7Emag2PyLJzSFuB2bhke2SvwzH0Xt9wV+BSuZu/5NfgVr2NvyTr8ytbjX7GBgMqNHK7e9KPGRKk/OnYpR7qZsbk0XOxoRuDjEPcmjvEzRPikzMUlbaHOZOgE5L2HT/4HY9Ap+Rj/sk84UPErDmo/J6Dqtxyu+eLnt2ZiZzMBmdoYO52A3Qkz2ZM0B6eUeaLFylyMW9YyPHLewSvvPbwLVukEfMS+kl+wv/wTDlz8NQGVv+FQ9SaOXPry5woQM2AbNQGZ2kSXgensTpiFPPktnFLniTYrcwnuWcvxzHkHr7yV+BSuwleX/n2l69lfvoGD2l+L6a/5HUcub/6ZAlT6o+2VTG2CvWYqjnHT2Z04C3myKU6p83FJN8MtU7RZnjnv4pX//tj/L/kY/7Jfsr9iw0/S/4fLW/gnOY9q0VdP/v0AAAAASUVORK5CYII=",
-					oncommand: 'FileEncodeToBase64URL();',
+                    oncommand: 'FileEncodeToBase64URL();',
                 },
                 {
                     label: "文字Base64解碼/編碼",
                     tooltiptext: "Base64解碼/編碼",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAPUlEQVQ4jWNggID/ZGKKNMMNGUQGIAN0cTx8worIMoAsF+DyAgF5omyhLAzoYwC+aCTaAIoT0oAZQIkhDAASUV2xvpc9qgAAAABJRU5ErkJggg==",
-					oncommand: 'Base64DecodeandEncode();',
+                    oncommand: 'Base64DecodeandEncode();',
                 },
                 {
                     label: "URL解碼/編碼",
                     tooltiptext: "URL解碼/編碼",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC80lEQVRYhe2UW0gUURjHPwspupARgi89R0S99NBb2EPQQ09RRFIQEcquWJurrqu7zsw5Z2Y3U9OVyltUkqbZVQoKKexKT4VGdEHLVcjW3VlbU9dNt38PuTJKgWj1ND/4MzBwft+c831niExMTEwMyLIolBXuZ0yAMRWcqeBcheAqBNcguGhgjG39Jw5Jkquam1sxMRFDPP4D8Xh8JlNTv579/f0oL6sAY8L6u+ILdrhKFPeVKy2YnJzEt9FRhMM69DkJD4cRnZhALBZD5WkfmJttMhZfsCMzM3OFUD0I6SFERiK43d6O3x1feVkFurq7MBYdQ29vL7jMzyaKL8pRWOjadfFSI75Gwuh6/Qq59vy3KSkp24locyK2E/ZWReFQFAGFiWm5+CWfKaBBcA0q16AKDarwoCDP0WrwbNm3b79SVenDkB6AruvgCu8hh6Mo58bNmwiGB/H4ySPY7QVtRJSc2J3NZkvxeEsRjcYwPh6dd6LRGDThgaFLSUS0WpaUYN9AD4b0QQimRsluL7C2XWvDl5Afz188hdPpum7srcViWevxliIY8WNw+P28Exzpn/sBRERJsqT4e/veIRAagMq175SVlb2ztr4eDx/fR0/fOzCuQpblNMOiJXl5jqaFtMBZWHx59hXluyvKTiOg+/Hm/UswmQ9QamrqKoUJ1NRVYyDwAR0POsC5OjNAjAm4XSWQJAXXb1xF57N7OFVxEgcPHLqb6G9ycvI2a3YO3JITHZ13UNdQh9xcO1wuadYQVvvOoPv1KwSGP6H1WjOcjqImIqKlOTnHyn3VVeCqhM/BjxgZC2N0PDIrkdEQghE/Gpsa4NG8yMjI2GHY3KIdaywWa4uqafCWqqg9X41z9T7cutsykwuNNfCWqpBlGUcOH80nouVz+rsox1IiWrdnz177cduJ7sQddrtKUFzshttVAqaIuCXLej89PX0XEa2cnmoji3YkTb9cT0QbyfAfmM4GIkojomX0Z/6Gw8TExMTk//ITMvlwcO0adboAAAAASUVORK5CYII=",
-					oncommand: 'URLDE();',
+                    oncommand: 'URLDE();',
                 },
                 {
                     label: "線上圖片編輯",
