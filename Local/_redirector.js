@@ -85,4 +85,10 @@ rules = [
 		to: "$1",
 		wildcard: true,
 	},
+	{
+		name: "mozest",
+		from: "https://g.mozest.com/",
+		to: "http://g.mozest.com/",
+		wildcard: true,
+	},
 ];

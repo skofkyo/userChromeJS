@@ -22,6 +22,8 @@
 // @include http://g.mozest.com/*
 // @include http://www.repaik.com/
 // @include *zippyshare.com*
+// @include http*://docs.google.com/uc?id=*
+// @include http*://my.pcloud.com/*
 // @downloadURL    https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
 // @updateURL      https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
 // @note         允许自定义网站的点击延迟时间
@@ -118,7 +120,7 @@
             autoClose: true
         },
         'azofreeware2': {
-            startReg: /(.*)MediaFire(.*)mediafire/i,
+            startReg: /.*MediaFire.*mediafire/i,
             elements: ['a[title="按此由MediaFire下載！"]'],
              autoClose: true
         },
@@ -129,7 +131,17 @@
         'zippyshare': {
             startReg: /http:\/\/\w+\.zippyshare\.com\/v\/\d+\/file\.html$/,
             elements: ['#downloadB'],
-             autoClose: true
+            autoClose: true
+        },
+        'googledocs': {
+            startReg: /^https?:\/\/docs\.google\.com\/uc\?id\=\w+\&export\=download$/,
+            elements: ['#uc-download-link'],
+            autoClose: true
+        },
+        'pcloud': {
+            startReg: /https?:\/\/my\.pcloud\.com\/publink\/show\?code\=\w+/i,
+            elements: ['.publinkResponsive > a[download]'],
+            autoClose: true
         },
     };
     function autoClick1by1(){
@@ -153,7 +165,7 @@
         }, delay);
         setTimeout(function(){
             if(autoClose) window.close();
-        }, delay+2000);     
+        }, delay+3000);     
     }
     autoClick1by1();
     /*document.onreadystatechange = function () {

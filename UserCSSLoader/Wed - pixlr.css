@@ -1,0 +1,12 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document url(http://apps.pixlr.com/editor/) {
+
+    .ad-wrap {
+        display: none !important;
+    }
+
+    body {
+        padding-right: 0px !important;
+    }
+}

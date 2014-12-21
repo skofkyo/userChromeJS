@@ -29,7 +29,6 @@ CTRL + 右鍵：移除擴展
 		SHOW_USERDISABLED:	true, // 顯示禁用的 (無効のアドオンを表示するか)
 		SHOW_APPDISABLED:	false, // 顯示不兼容的 (互換性のないアドオンを表示するか)
 		AUTO_RESTART:		false, // 啟用/停用擴展後立即重新啟動瀏覽器(無需重啟擴展除外) (アドオンの有効/無効時に自動で再起動するか(再起動不要アドオンは除外される))
-		ICON_URL:			'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADyUlEQVQ4jUXM/VMTdADA4a/kkM2Ul8GQgbyDkrzUpUZ2FqAwbGCXioaAdqPUAb4AzonGi4IDBk4EREYyUPBIPRB8yZdMJTyqS0NTBmF6liR3kgd2GqB3ffqh7nr+gEf07pI0D9Ur7g0edb812Oxx++FRz96hNp9bQ6d9f/rhE3lfj8qjve9DnxO9q7xPWpN82/rW+HX0afw7bq/1v3Y50k0lBgzSDi6GQtc86F4A1ih4FAejCVj1YdyNd+WpzpenO2bxrGgO42WhYJ7LRO1cvonx2Cj6CyWHJo76MPZFIC/PhzDSEsbPWh8GMwO5s8abHrUca4o7v6zz4sEmXx7qAnmyew7PDaF0LlKmiv4CiWWiQcl4izcvvnyNG4luXFRMwhoyhd4Ie27GO3MnwZWBFHcefDqTXzf58njnbP7MD/4vyLepHzc7M3FEydhxPzrfduScQnA1eDLfzpNyPdqBm3Fy+tRyBpbIub9GyaNtAYzmBNEZqdQIa65N/ViVPX+ZnXl5zIN7W9055yvj69en0x0t5/twGdZ3p3EmPZSGuniurQvi91R3RrIC/g0G84SFfTZQbcdYnTNjzR6MVHrzsjmA/hQXujwFv815hSbTInY+2c7pHeEMqu0Z1XpxY6H7x6Jnp8TCHsFwqZQR0zRe1Dvx7Lgn4ydmcDdK0K0UDPhP5lxqEOWnEuiOcuPuO68ysETBmUWKNBGs0RwIL62hzLiMCYOAQzKGa6ei/dxAZNMl0jPjOFIwHXNNMHvb1dQdVNFSq+ZwYxyaLU5bhEgyVIvSfkqNK6BYwH4bqBIsbTqB6AH/qt3MN28ioiaD/Ob3MHQlUNazDtPtVFR5julClqKvluS2otpTwOPCKVAk6CwOIKjhCp6nhvFrvY/ywt+4XJ0gtlKLseUtys8up+KrFSzfLs8QsuRtBxS6KqT5rcwvMpFUkkNgZTsKy48EHPmO2ef/IOTqc7yvQ6jJRL45CEObGuPZpf8HLpuNKPQ1SPJOMqn4Cg77LuNdcwk/SxeuhlZmHLqD095rxOa/z2f1weS1LKbopIplevlGIUvS1crT9uCSZcJVX4NbQSMzS47hVXUBj6YBQnRJxGQFEp8TxuYKLzLNb5JzOILCtmg+0DumC1my7rCDJhenDYU4ZZTgnFWBa85B3HY1IjXcIEy3kvU5As3uqaw1+JBqnEVG9RvoLOEszZ5mFHYfZS6Urd5aIE3culKanJ0oTcxOtF29Pcl21bZlnslq/YL1bhWxWmFYrJ1cEp0mKY9Jsy2O0doaVel2lpgNdlH/AMh2OJbhO5RfAAAAAElFTkSuQmCC',
 
 		sort: {
 			enabled: 0,
@@ -50,7 +49,8 @@ CTRL + 右鍵：移除擴展
 				switch (event.button) {
           	      case 2:
           		      BrowserOpenAddonsMgr()
-         		       e.preventDefault();
+          		      event.stopPropagation();
+          		      e.preventDefault();
           		      break;
 					}
 				}
@@ -61,7 +61,7 @@ CTRL + 右鍵：移除擴展
 		btn.setAttribute("context", "_child");
 
 		var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){'
-			 +'#eom-button .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACbklEQVQ4jY2Sz2sTQRTHv292drOpbZJWycaGxPoDWsVAMdRiPfXQgqe2ogge4smzeFAED60n/S8Ez2IPHgQ9CCLFQyvYIgjWFgu1gULTZLvt7s5mnocmMTQUHJjDzHzn8/3Om0c4ZmQvjfR63t79KIpsAERE2rbtj9ury5/bdfI4QBD4D9JOZravrw9EhCDw8WdzcxdA738BLMuqO04aQhjNNRKJPZSP6MRxgHPnLzxXKnrMzCAihGG4kEylLh7V0dGNU+cLb3p6emZitg0CIe04sCwL5a0tKKXAzGAwdisVRUJMdQDODl/nwaFBEAkQNT0YzACzhtYMrTXCMMDXpaU5mbt8Nem67iMAsr+/f45IwJQmSBCI/vGZGawZmjV0XUOIw9fLKIpKuXz+KWsN3/eteFcXTFM2EhCI0HBnMGsEYfhdmnIKUb0Uj8fL0veDZCaTQcyKQUXqoWVakNKEaCQgosblw+grKytffi5++gVgFgAksxa2bcM0TcS74jCEAcMQEEJ0AKIogud5bnvNZCwWCwkEaRgwDLlgGMZYO6C9BkQE0zRHAOD00JUbSqmqSKZS7zTrH74frLpu7ebGxm8YhgEhRMeUUsJxnLGh0fG1RCLx1vf9iY5vHJ2c5kKh0Iz/jYAPDBww8yAzz2itTdYaUb2O+fn5uY5WJgCCCDuVCmrVaun961fLzbPJ2/cW87lcUQvRauEWYHz6rmXb9skgCDwiOqHCEGvr608mbpWeAcC+5xXK5fLwmXy+ZdLd3a1bgIGBgbp/cKCUUneI6Fo2m0W1VtvMpNP7mhnbwE42m31BRCBmKKXcYrH48i9hlQ1TdRL6wwAAAABJRU5ErkJggg==)}'
+			 +'#eom-button .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=)}'
 			 +'}';
 		var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
 		var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
@@ -332,7 +332,6 @@ CTRL + 右鍵：移除擴展
 		}
 	];
 	var css = '\
-		#eom-button dropmarker {display:none;}\
 		#eom-menugroup .menu-iconic-icon {margin-left:2px;}\
 		.addon-disabled > .menu-iconic-left {filter:url("chrome://mozapps/skin/extensions/extensions.svg#greyscale")}\
 		.addon-disabled label {opacity:0.8;}\

@@ -26,12 +26,14 @@
 					command: 'toggleSidebar("viewHistorySidebar");',
 					favicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACWklEQVQ4jYWTT2sTYRDGf7ywLDT+gYUVEfQiLHQPFhoF8SIeYqDHlBxaCLlE8dTGg/WuHyIkrfXwNr2EpNa2h573kNQ2bVTipYGWFi9+gYRNs+PlXUir4nOcmeeZGWYeuAwFPAaWEonESjKZXE8mk+uJRGIFWDI5xT9wF3iZzWY32+322XA4HInBxcXF6Ojo6Hx2dvYT8NLUXiZbllVpNBrf5D9oNBrfLMuqAPfGx35Rr9e/x0WtVus0l8ttOY6z6jjOai6X29rf3z8dE/kOvIjXmc5kMhtRFImISKlU2jP7vu/1er+Oj49/Ae+At6VSaU9EJIoiyWQyG8A0wOtms3kSdzbkG0A57giUTWyp1Wqdiog0m80T4DW2bS+HYTgUEZmbm/sMPDKrXRUAeDQ/P78lIhKG4dC27WV831+LCx3H+QAkrgpMTEysAPeBa47jrMbxyclJjed5Og64rrsKXDcCbw4ODs5ERHZ2dn4Ar4Cbrut+jOs9z9NYllUZDAahiEg+n98GnhiBh7ZtL9dqta+j0SjKZrObwLN8Pr8tIjIYDEJzThaDIOiJiHQ6nXOlVBm4ZUTuAIWZmZl6pVL5opQqdzqdcxGRIAh6wCLAVDqdrkfmjtVq9dCIPDVCt4HnSqlytVo9NGeM0ul0HZiKH6mgtW7Hu3W73Z/FYnHX9/013/fXisXibrfb/RnntdZtoDDuC1cpVdZat+NJ/oYoiiKtddtM6F71gwsUUqlULQiCXr/fD2Niv98PgyDopVKpmun8B3ncFw+ABaVU2fM87XmeNh0XTO6SnX8DZ1DDGCS7xp8AAAAASUVORK5CYII=',
 				},
+				/*
 				{
 					id: 'SidebarStylishtogglebutton',
 					name: 'Stylish',//Stylish
 					command: 'toggleSidebar("viewStylishSidebar");',
 					favicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAAOwQAADsEBuJFr7QAAAAd0SU1FB9sJEwETHfi6mzAAAAIVSURBVDjLpZNPaJJxGICfbzjXEiJRcaCQkWQgHUwclSBWc0ZFjSQWsyDqEASxS4tuptiC1lUKlqOD1SljpqMtwpGsQiYuolFEuLHL4GuLr6JNa9/XQRyJ87Tn+r6/5/fy/hEAhU2gAkhOXWwIlL4s8X1pBZWqhZv9L3jldTTkHJksVgX/83L0M/fuTGG1WrFYLMjyX+x2O8fezqIVFGL7drNd3VpfQY3XE1+ZeLpIPp/H5XLViSuVCtFolFLqCY5mgsT9acaeZ3G5XMiyTKFQQJIkzGYzNpsNk8nEr416UEOQt67/HAqFmJ1PceCQBZ8vRfceKz+1Bi63tTYKTrtHADAYDOsBj8dD+nqa0ccZACyV3/S2rQJb6gQtADPDA8wMD+DcqSOXywHg8/koFotIkkQ2m0V1tIcTbz6yXP7TKKhx69JxAoEAiUSCcrkMgEajwev1EovFSGUy3P4031wwt7iMKIqYdRe4ekXH2d7DhMNhRFEEoKurC3nHruaCc4OPMBqNDN6VcXeucqM/x4oUIRKJrOfo9frmU1Cr1ZRKJZLJJOPj4zxIlNBqtYTD1U1VFIUf5TXmh55VH+y31AtkWaa9vZ1gMEgwGGxY3Xg8zsGe880ruHbGg9PpxO/343A46OjoQBAEFhYWSGfG2GbrpLP7ZHPBKfdeQg+HmJ78QPG9gvhNQRCgr2+NkXdzG16jsNlz/gcHerkUp11MYQAAAABJRU5ErkJggg==',
 				},
+				*/
 				{
 					id: 'Sidebaraddonsbutton',
 					name: '\u9644\u52A0\u5143\u4EF6\u7BA1\u7406\u54E1',//附加元件管理員
@@ -559,7 +561,7 @@
 	}
   var B = document.querySelector("#SidebarBookmarkstogglebutton");
   var H = document.querySelector("#SidebarHistorytogglebutton");
-  var S = document.querySelector("#SidebarStylishtogglebutton");
+  //var S = document.querySelector("#SidebarStylishtogglebutton");
   var D = document.querySelector("#Sidebardownloadsbutton");
   var A = document.querySelector("#Sidebaraddonsbutton");
   var T = document.querySelector("#translatebutton");
@@ -578,13 +580,13 @@
 						if (event.button == 2) {document.querySelector("#menu_showAllHistory").click();} 
 					},
 					false);
-    S.addEventListener("mouseover", function(event){t = setTimeout(function (event) {S.click();}, 400);}, false);
-    S.addEventListener("mouseout", function(event){clearTimeout(t);}, false);
-    S.addEventListener("click",
-					function(event) {
-						if (event.button == 2) {stylishOverlay.openManage()} 
-					},
-					false);
+    //S.addEventListener("mouseover", function(event){t = setTimeout(function (event) {S.click();}, 400);}, false);
+    //S.addEventListener("mouseout", function(event){clearTimeout(t);}, false);
+    //S.addEventListener("click",
+	//				function(event) {
+	//					if (event.button == 2) {stylishOverlay.openManage()} 
+	//				},
+	//				false);
     D.addEventListener("mouseover", function(event){t = setTimeout(function (event) {D.click();}, 400);}, false);
     D.addEventListener("mouseout", function(event){clearTimeout(t);}, false);
     D.addEventListener("click",

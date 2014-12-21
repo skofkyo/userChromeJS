@@ -3477,6 +3477,14 @@ var SITEINFO = [{
         autopager: {
             pageElement: 'css;.content',
         },
+    }, {
+        siteName: 'subom',
+        url: /http:\/\/www\.subom\.net\/(search|newsubs)/i,
+        siteExample: 'http://www.subom.net/search/Gone%20Girl/',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;[id^="subs"],[class^="subs_list"]',
+        },
     },
 
 ];

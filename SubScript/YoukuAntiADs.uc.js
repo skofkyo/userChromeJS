@@ -6,12 +6,12 @@
 // @author          harv.c
 // @homepage        http://haoutil.tk
 // @version         14.12.06.12
-// @downloadUrl     http://git.oschina.net/halflife/list/raw/master/YoukuAntiADsL.uc.js
+// @downloadUrl     http://git.oschina.net/halflife/list/raw/master/YoukuAntiADs.uc.js
 // ==/UserScript==
 (function() {
     // YoukuAntiADs, request observer
     function YoukuAntiADs() {};
-    var refD = 'file:///' + Components.classes['@mozilla.org/file/directory_service;1'].getService(Components.interfaces.nsIProperties).get("ProfD", Components.interfaces.nsILocalFile).path + '/chrome/Local/swf/';
+    var refD = 'http://minggo.coding.io/swf/';
     YoukuAntiADs.prototype = {
     SITES: {
         'youku_loader': {
