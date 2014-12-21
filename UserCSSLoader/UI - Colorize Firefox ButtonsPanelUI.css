@@ -1,8 +1,11 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 @-moz-document url(chrome://browser/content/browser.xul),
-  url(chrome://global/content/customizeToolbar.xul){
+  url(chrome://global/content/customizeToolbar.xul),
+  url(about:addons){
+
 
 /*BLUE*/
+
   #save-page-button .toolbarbutton-icon,
   #developer-button .toolbarbutton-icon,
   #preferences-button .toolbarbutton-icon,
@@ -16,6 +19,7 @@
   }
 
 /*LIME*/
+
   #context-back,
   #context-forward,
   #back-button .toolbarbutton-icon, 
@@ -57,6 +61,7 @@
   }
 
 /*ROYAL*/
+
   #context-reload,
   #history-button .toolbarbutton-icon,
   #history-panelmenu .toolbarbutton-icon,
@@ -94,6 +99,7 @@
 
 
 /*GOLD*/
+
   #password-notification-icon,
   #home-button .toolbarbutton-icon,
   #open-file-button .toolbarbutton-icon,
@@ -119,6 +125,7 @@
   }
 
 /*PURPLE*/
+
   #privatebrowsing-button .toolbarbutton-icon,
   #print-button .toolbarbutton-icon { 
     filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'invert\'>\
@@ -130,6 +137,7 @@
   }
 
 /*AZURE*/
+
   #context-bookmarkpage,  
   /*#PanelUI-menu-button .toolbarbutton-icon, */
   #nav-bar-overflow-button .toolbarbutton-icon,

@@ -10,19 +10,41 @@
         
         
     .category[selected="true"] {
-            border-width:0 0 0 5px !important;
             border-left-color:#E78700 !important;
             border-radius: 0 !important;
             font-weight: bold;
             font-family: 微軟正黑體 !important;
-        color:#FFF !important;
-        background-color:yellowgreen !important;
+            color:#FFF !important;
+            background-color:yellowgreen !important;
+    }
+    
+    .category {
+            border-width:0 0 0 5px !important;
     }
     
 .category-icon,.category-name{
 margin-top: -2px !important;
 }
 
+#category-extension .category-icon,
+#category-plugin .category-icon{ 
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'invert\'>\
+    <feColorMatrix in='SourceGraphic' type='matrix' values=\
+    '0.38 0.3 0.3 0.0 0.3 \
+    0.3 0.38 0.3 0.0 0.3 \
+    0.3 0.3 0.38 0.0 0.3 \
+    0.0 0.0 0.0 1.0 0.0'/></filter></svg>#invert") !important;
+  }
+
+#category-extension[selected="true"] .category-icon,
+#category-plugin[selected="true"] .category-icon{ 
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'invert\'>\
+    <feColorMatrix in='SourceGraphic' type='matrix' values=\
+    '0.38 0.3 0.3 0.0 0.7 \
+    0.3 0.38 0.3 0.0 0.7 \
+    0.3 0.3 0.38 0.0 0.7 \
+    0.0 0.0 0.0 1.0 0.0'/></filter></svg>#invert") !important;
+  }
 /*================附加元件管理員背景樣式================*/
       
 .addon:not([selected]):hover {background: -moz-linear-gradient( hsla(100,65%,94%,.6) 0px, hsla(100,35%,80%,.6) 100%) border-box !important;}
