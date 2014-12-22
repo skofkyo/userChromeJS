@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Direct Google
 // @namespace    http://userscripts.org/users/92143
-// @version      1.0
+// @version      1.1
 // @description  Removes Google search redirects and exposes "Cached" links. 
 // @include      /^https?://(www|news|maps)\.google\./
 // @author       zanetu
@@ -82,16 +82,17 @@ function modifyGoogle() {
 		})
 	}
 	//remove legacy search redirects; should be done last as shopping uses the same url pattern
-	$('a[href*="/url?url="]').each(function() {
-		var m = this.href.match(/\/url\?url\=(http.*?)(\&|$)/i)
+	$('a[href*="/url?"]').each(function() {
+		var m = this.href.match(/\/url\?(?:url|q)\=(http.*?)(\&|$)/i)
 		if(m && m[1]) {
 			this.href = decodeURIComponent(m[1])
 		}
 	})
 	//expose cached links
-	$('li.action-menu-item.ab_dropdownitem a[href^="http://webcache.googleusercontent."]').each(
+	$('div[role="menu"] ul li a[href^="http://webcache.googleusercontent."]').each(
 		function() {
-			$(this).closest('div.action-menu.ab_ctl')
+			this.style.display = 'inline'
+			$(this).closest('div.action-menu.ab_ctl, div._nBb')
 			.after(' <a href="https' + this.href.substring(4) + '">(https)</a> ')
 			.after($(this))
 		}

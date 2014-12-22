@@ -3,21 +3,6 @@
 
 #toolbar-menubar[autohide="true"] {display:none !Important;}
 
-.menu-iconic-text{
-    margin-top: -1px !important;
-    padding-right:6px !important;
-}
-.menu-iconic-text{
-    margin-top: -1px !important;
-    padding-right:6px !important;
-}
-.anobtn.menu-iconic .menu-iconic-text,
-.anobtn.menuitem-iconic .menu-iconic-text
-{
-    margin-top: -3px !important;
-    padding-right:6px !important;
-}
-
 #FirefoxBtnpopup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
     margin-top: -5px !important;
 }
@@ -37,7 +22,7 @@ splitmenu {
 menu, 
 menuitem, 
 splitmenu {
-    height: 25px !important;
+    height: 24px !important;
 }
 
 /*For Firefox 32's combined (back, forward, reload, bookmark) menuitems*/

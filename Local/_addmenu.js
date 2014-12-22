@@ -101,8 +101,6 @@ new function() {
             condition: "select",
             image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABo0lEQVQ4ja2TO4siQRSFC5lJOlUjEQQDE8FYRREFBUEwMDEcEJPGH2BsZiQoBgaiYCoiBv4FwRZDTQQROxE0sum2H3wT7EzDrLvs80Z1LnW+OkXVFcAr8Aas+f1af3hexcfib+tN/OHJT0mEbdvouo6u6xiGAeBq0zRxHMfVjuNgmqarbdtGbLdbMpkMQgh6vR6O41AoFBBCMBwOOZ1OJBIJcrkcqqoym83wer2Uy2V2ux0C4Hg88vLywnw+B0DTNEKhEN1uF4BsNsvtdgPg8XiQTCaxLAvgGwCgWq2SSqXcyw0GA4LBINPplHa77fYnkwn9ft/VLmCz2SCEYLVaAWBZFuFwmFgshq7rrqFYLKJp2jPgM2qlUnG1LMv4fD43rqIoNJvNL8/wBbBcLvF4PBwOBwBKpRJ+v5/xeAxAvV5HVdWfAwCi0SiyLLNYLOh2u7RaLSKRCJfLhVqt9v32Z8BoNEKSJPL5PIZhcL1ekSSJeDyOoii/BpimSSAQoNPpuL1Go0E6nX4yfwKevvJ+v8dxHFff73fO5/OP/Ov/Mkz/NM7vB+B52iVL10sAAAAASUVORK5CYII=",
         }, {
-            condition: "select",
-        }, {
             label: "subom字幕庫",
             tooltiptext: "左鍵：字幕搜尋選取文字 (新分頁前景)\n右鍵：字幕搜索剪貼簿文字 (新分頁前景)",
             image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABWklEQVQ4jW2TW47FIAxDHfrgLhZ6968pOfORtKWjqVSJoGCM7cgBGDiAg/uJAz7AGcBgePa4E40AP+AgBqgYpoJJmBmSWGzFJDTtybJWQUUACAaLCjJxMn3+zzIJSAWpACMATGJwou+G2o71SmkVO7ZcfyjHB7UdfTcGJ6YSDC5EHNR2St+wI4GOJf62ol6wXlHfo1fCGQiHJYtoWJNvCDs/a2TlDBbdGgQaDHTELTAeEM9DtwPhjNmSAA4ygfN6u/qOtTV0aCv6hjY6KgA2M7iLo0bT98/hvmPHFuC9Ml8aALbc1CJMnrTP13OCQdo3M7hEnIUiBbySCqC+Yr0+IjrILzQnqPYalrX1tjEs3Sg97A0bS4QqNCivIJXjQ2kfrNfX299B0pPEK5rXQP1J8qs4CQGXJ8qgkgMyD0wOkOVgXXt2D5PByBzAz31TODCNMCNHO13xR1gHfgFv0qfjmordvwAAAABJRU5ErkJggg==",
@@ -113,6 +111,20 @@ new function() {
                         break;
                     case 2:
                         gBrowser.selectedTab = gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(readFromClipboard()));
+                        break;
+                }
+            },
+        }, {
+            label: "opensubtitles",
+            tooltiptext: "左鍵：字幕搜尋選取文字 (新分頁前景)\n右鍵：字幕搜索剪貼簿文字 (新分頁前景)",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoElEQVQ4jdWT0Q3DIAxEbwVW8AqswAqZxSuwgldgFlbwCl7h+oXVKKkqJelHkSwQh57ubAEAvFngWlfOzwBuR3gMYGZpb4yR9yLCiEgtIo4AVaWZpTDGoKoSAOecbK0RAEspdPcjwN0pIim8P3T3BHyMEBEspewAy2prLe27O2ut3yOYGXvvBJD7gp1GWLnPmjjn3DVx27YfjfEy4L//wguf2NOhL0+T5QAAAABJRU5ErkJggg==",
+            onclick: function(e) {
+                switch (e.button) {
+                    case 0:
+                        gBrowser.selectedTab = gBrowser.addTab("http://www.opensubtitles.org/zt/search2/sublanguageid-zht,chi,zhe/moviename-" + encodeURIComponent(getBrowserSelection()));
+                        break;
+                    case 2:
+                        gBrowser.selectedTab = gBrowser.addTab("http://www.opensubtitles.org/zt/search2/sublanguageid-zht,chi,zhe/moviename-" + encodeURIComponent(readFromClipboard()));
                         break;
                 }
             },

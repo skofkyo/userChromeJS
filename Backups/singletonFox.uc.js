@@ -21,7 +21,7 @@
 
     //³æµ¡¤f¼Ò¦¡
     (function() {
-      if (TU_getPref("extensions.tabutils.singleWindowMode", false)) {
+      if (getPref("extensions.tabutils.singleWindowMode", false)) {
         var win = (function() {
           var winEnum = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator).getZOrderDOMWindowEnumerator("navigator:browser", true);
           while (winEnum.hasMoreElements()) {
@@ -32,7 +32,7 @@
         })();
 
         if (win) {
-          TU_hookFunc((gBrowserInit.onLoad + gBrowserInit._delayedStartup).toString().match(/^.*{|if \(uriToLoad.*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*}|}$/g).join("\n"), // Bug 756313 [Fx19]
+          hookFunc((gBrowserInit.onLoad + gBrowserInit._delayedStartup).toString().match(/^.*{|if \(uriToLoad.*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*}|}$/g).join("\n"), // Bug 756313 [Fx19]
             ["{", "var uriToLoad = window.arguments && window.arguments[0];"],
             ["gBrowser.loadTabs(specs, false, true);", "this.gBrowser.loadTabs(specs, false, false);"],
             ["loadOneOrMoreURIs(uriToLoad);", "this.gBrowser.loadTabs(uriToLoad.split('|'), false, false);"],
@@ -44,50 +44,50 @@
       }
 
       tabutils._tabPrefObserver.singleWindowMode = function() {
-        if (TU_getPref("extensions.tabutils.singleWindowMode", false)) {
-          if (TU_getPref("browser.link.open_external", 3) == 2)
-            TU_setPref("browser.link.open_external", 3);
-          if (TU_getPref("browser.link.open_newwindow") == 2)
-            TU_setPref("browser.link.open_newwindow", 3);
-          if (TU_getPref("browser.link.open_newwindow.override.external") == 2) // Bug 509664 [Fx10]
-            TU_setPref("browser.link.open_newwindow.override.external", 3);
-          if (TU_getPref("browser.link.open_newwindow.restriction") != 0)
-            TU_setPref("browser.link.open_newwindow.restriction", 0);
+        if (getPref("extensions.tabutils.singleWindowMode", false)) {
+          if (getPref("browser.link.open_external", 3) == 2)
+            setPref("browser.link.open_external", 3);
+          if (getPref("browser.link.open_newwindow") == 2)
+            setPref("browser.link.open_newwindow", 3);
+          if (getPref("browser.link.open_newwindow.override.external") == 2) // Bug 509664 [Fx10]
+            setPref("browser.link.open_newwindow.override.external", 3);
+          if (getPref("browser.link.open_newwindow.restriction") != 0)
+            setPref("browser.link.open_newwindow.restriction", 0);
         }
       };
 
-      TU_hookCode("OpenBrowserWindow", "{", function() {
-        if (TU_getPref("extensions.tabutils.singleWindowMode", false))
+      hookCode("OpenBrowserWindow", "{", function() {
+        if (getPref("extensions.tabutils.singleWindowMode", false))
           return BrowserOpenTab() || gBrowser.getLastOpenedTab();
       });
 
-      TU_hookCode("undoCloseWindow", "{", function() {
-        if (TU_getPref("extensions.tabutils.singleWindowMode", false))
+      hookCode("undoCloseWindow", "{", function() {
+        if (getPref("extensions.tabutils.singleWindowMode", false))
           return undoCloseTab(aIndex);
       });
 
-      TU_hookCode("openNewWindowWith", "{", function() {
-        if (TU_getPref("extensions.tabutils.singleWindowMode", false))
+      hookCode("openNewWindowWith", "{", function() {
+        if (getPref("extensions.tabutils.singleWindowMode", false))
           return openNewTabWith(aURL, aDocument, aPostData, null, aAllowThirdPartyFixup, aReferrer);
       });
 
-      TU_hookCode("openLinkIn", /(?=.*getTopWin.*)/, function() {
-        if (where == "window" && TU_getPref("extensions.tabutils.singleWindowMode", false))
+      hookCode("openLinkIn", /(?=.*getTopWin.*)/, function() {
+        if (where == "window" && getPref("extensions.tabutils.singleWindowMode", false))
           where = "tab";
       });
 
-      TU_hookCode("nsBrowserAccess.prototype.openURI", /(?=switch \(aWhere\))/, function() {
-        if (aWhere == Ci.nsIBrowserDOMWindow.OPEN_NEWWINDOW && TU_getPref("extensions.tabutils.singleWindowMode", false))
+      hookCode("nsBrowserAccess.prototype.openURI", /(?=switch \(aWhere\))/, function() {
+        if (aWhere == Ci.nsIBrowserDOMWindow.OPEN_NEWWINDOW && getPref("extensions.tabutils.singleWindowMode", false))
           aWhere = Ci.nsIBrowserDOMWindow.OPEN_NEWTAB;
       });
 
-      TU_hookCode("gBrowser.replaceTabWithWindow", "{", function() {
-        if (["_onDragEnd", "onxbldragend"].indexOf(arguments.callee.caller.name) > -1 && TU_getPref("extensions.tabutils.singleWindowMode", false))
+      hookCode("gBrowser.replaceTabWithWindow", "{", function() {
+        if (["_onDragEnd", "onxbldragend"].indexOf(arguments.callee.caller.name) > -1 && getPref("extensions.tabutils.singleWindowMode", false))
           return null;
       });
 
       tabutils.addEventListener(window, "popupshown", function(event) {
-        var singleWindowMode = TU_getPref("extensions.tabutils.singleWindowMode", false);
+        var singleWindowMode = getPref("extensions.tabutils.singleWindowMode", false);
         [
           "menu_newNavigator",
           "historyUndoWindowMenu",
