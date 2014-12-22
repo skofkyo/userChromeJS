@@ -695,6 +695,8 @@
   var userChromejsScriptOptionsMenu = {
     //あまり使わないメニューのリスト
     menues: [
+    'ucjsMouseGestures',
+    'ucjsSuperDrag',
     'EncodeDecodeHtml',
     'InspectElement-menuitem',
 	'toolsbar_KeyChanger_rebuild',
