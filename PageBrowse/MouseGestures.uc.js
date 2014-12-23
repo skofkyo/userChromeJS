@@ -102,7 +102,7 @@ location == "chrome://browser/content/browser.xul" && (function () {
 			}
 		},
 		handleEvent: function (event) {
-				if (event.ctrlKey || event.shiftKey || event.altKey) {return;}//按住ctrl,shift,alt鍵不起效
+			if (event.ctrlKey || event.shiftKey || event.altKey) {return;}//按住ctrl,shift,alt鍵不起效
 			switch (event.type) {
 			case "mousedown":
 				if(/object|embed/i.test(event.target.localName)) return;

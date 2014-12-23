@@ -107,6 +107,7 @@ var ucjsSuperDrag = {
 		}
 	},
 	handleEvent: function(event){
+	if (event.ctrlKey || event.shiftKey || event.altKey) {return;}//按住ctrl,shift,alt鍵不起效
 	    switch (event.type) {
 	    case "dragstart":
 	    	{

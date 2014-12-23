@@ -75,7 +75,7 @@ GESTURES = {
 			name: "Google搜索選取文字(背景)[不辨識URL]",
 			cmd: function(event) {
 				gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(getBrowserSelection())) &&
-					content.document.getSelection().removeAllRanges();
+				content.document.getSelection().removeAllRanges();
 			}
 		},
 		D: {
@@ -102,7 +102,7 @@ GESTURES = {
 				var gbs = getBrowserSelection();
 				var edgsel = event.dataTransfer.getData("text/unicode"); //选中的文字
 				self.seemAsURL(gbs) && setTimeout('gBrowser.addTab(getBrowserSelection()) && content.document.getSelection().removeAllRanges();', 0) ||
-					gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(selection || gbs)) && content.document.getSelection().removeAllRanges();
+				gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(selection || gbs)) && content.document.getSelection().removeAllRanges();
 			}
 		},
 	},
