@@ -42,7 +42,7 @@
 
 <script type="application/javascript" xmlns="http://www.w3.org/1999/xhtml"><![CDATA[
   "use strict";
-  var Mode = 1;//0為可拖動工具按鈕 1為網址列按鈕 2為工具選單按鈕
+  var Mode = 1;//0為可拖動工具按鈕 1為網址列按鈕 2為工具選單
   var userChromejs = {
 // --- config ---
     editor: "",//為空則用 view_source.editor.path
