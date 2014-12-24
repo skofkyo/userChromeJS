@@ -844,7 +844,7 @@ menuitem[command="Browser:RestoreLastSession"]
 
 #sync-tabs-menuitem,
 menuitem[command="BrowserOpenSyncTabs();"]
-{list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABhElEQVRYhe2VP0vEMBjG3+OSvFX8LIIOgjh4iIO4uCg4Ojn4KWKS+wwu/sPR3cXNnknuwEVwEgT14FBE8HBxujoVS0hpbSM49IF36Nv2eX7pnzcAJSUsXvIe6WR7HQ6kw4Fke7xHVqXFi7K+pSU125QWb0VMlqShp9KwYbcfJd1+lCjNnqVlx0KTRaXxbl+3N4ID7J3DjLL0NQ3NK6XZaPcGpv8gnA26/SiRBifS4MQNzvaVpToohNT0LA3iMcyKKzrnArh9ZdhRkHAe04VskIjJMtdkxQXw9XlM52sDSIOHRe8993sweFAbQGh8qAxg8f7XgUkCrSSBVnqsLH5Ki19VShkc5/nmrJZtK4NjafBDDaa2AAB2TiCqU3m+XinL3n/+Z/oGAFD18aeV5+uV7+YQAL5eA9AANAD/E0Ba+pJepDQbhQLw+foBrtvrwrAnZdmj7JG1YAAe39IKAVBLDUC6t7vG7t6fd742QKqilQVfeQPQALgqGqelx21lgIJxWnXcfgMuNZ9IjqeDCAAAAABJRU5ErkJggg==) !important;}
+{list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAASElEQVQ4jWNgQANLjln+RxcjRg5D4apTrv+XHLNEwURrhtHomgkagq4JF6adAWQBdD8S6wI4e9SA/1gDdODTAbpCkhMQXQ0AAEsuZja4+pi7AAAAAElFTkSuQmCC) !important;}
 
 #historyUndoMenu
 {list-style-image: url(chrome://global/skin/icons/wrap.png) !important;}

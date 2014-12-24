@@ -638,6 +638,7 @@
         //var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();
         //var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};
         //var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));
+        
         var editor = gPrefService.getCharPref("view_source.editor.path");
         var appfile = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);appfile.initWithPath(editor);
         var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
@@ -764,7 +765,7 @@
 						  id="userChromejs-edit"\
 						  tooltiptext="編輯user.js"\
 						  class="menuitem-iconic"\
-						  oncommand="userChromejs.Openchromedir();"/>\
+						  oncommand="userChromejs.userjsEditor();"/>\
 				<menuseparator id="uc-menuseparator"/>\
 		</menupopup>\
 	';
