@@ -54,8 +54,8 @@
 	}
 
     EncodeToolitem = {
-        add: function(menus, parent) {
-            var menus = [
+        add: function(amenu, parent) {
+            var amenu = [
                 {
                     label: "Unicode轉換",
                     tooltiptext: "Unicode轉換",
@@ -115,7 +115,7 @@
                     label: "打開html資料夾",
                     tooltiptext: "打開html資料夾",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACbklEQVQ4jY3RSU+TURSA4f4Lty78AWz8Ba5caFwoCHxAIZRGpZZZhTIPggs1KpJolARCgCvYIJMyI2ngg9YOUIggWhAoZWhLKYMFfF2U1ECJ8STv7twnNzkKkz7BY+lIYuJdHGZ9AtPdahyjurBmB7TYPyiVitMz3a+GnUf4ncU4xtOwtCdh6bzNkv0FYAx1GDAw2Z5IONCn5mi7KpiviiNfJV5HPrKQwJ79N+drrG3Ks4HDrUoOvJUceB9y4AkmC4l9cwaHtqwQYtYnhAP2XjUBdwW/No/bCCYLCb8xjX1zRggwvY8/A+hJYX+9nL21cvZc5ey6yth1lSELCe/YXXZN6SFgoiUuHJj6lMKOs4ydlVL8K6X4l4PJQmJ1JBW/MY2jqWx+T2UjC+lsYHupBN/PEnyLxWwtBJOFhKPvFu5RLQFrFgFrFqNNsRgaYiJOAJMfVXgdRXh/FOH5XoR7vhD3fCGykJjpVLEynIrflMmOJY/VL48xNMac/IWtW4X7WyGbcwVszBawbLnHwngmspAwtiSxMJDK5lg6vulqAEYaok8BXclsfM1nbUaHy65DFhKGRomh+jgm29UsDWtZ/qxl3focgOH6mycBa2cyLruO1ck8nNZcZCHR+SqatppoTHo1cz0a5no1DPVp0AxqGKyLOgV0JOO05bJsfsCS6T6ykNC/jKLpaST9dYnYOu6EMraq6K+N9JwAZBFrtnWpWBzPYUHOQRYStRWXeZZ3ieYnV+h9G3ncDU/vm+tp3TXXzoedcrRZKppoiWemLxVjawKZyotahUJxLmzxX2MQMRFjInZQFpJHVF+98L/v/gDacTCAI1Mk9gAAAABJRU5ErkJggg==",
-                    oncommand: 'var file = Cc["@mozilla.org/file/directory_service;1"].getService(Ci.nsIProperties).get("UChrm", Ci.nsILocalFile);file.append("Local");file.append("html");file.launch();',
+                    oncommand: 'var file = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("UChrm", Components.interfaces.nsILocalFile);file.append("Local");file.append("html");file.launch();',
                 },
             ]
 
@@ -123,18 +123,18 @@
             menupopup.setAttribute("id", "EncodeDecodeHtmlPopup");
             EncodeTool.appendChild(menupopup);
 
-            for (var i = 0; i < menus.length; i++) {
-                if (menus[i].label == "sep") {
+            for (var i = 0; i < amenu.length; i++) {
+                if (amenu[i].label == "sep") {
                     var menuseparator = document.createElement("menuseparator");
                     menupopup.appendChild(menuseparator);
                 } else {
                     var menuitem = document.createElement("menuitem");
-                    menuitem.setAttribute("label", menus[i].label);
-                    menuitem.setAttribute("tooltiptext", menus[i].tooltiptext);
-                    menuitem.setAttribute("image", menus[i].image);
+                    menuitem.setAttribute("label", amenu[i].label);
+                    menuitem.setAttribute("tooltiptext", amenu[i].tooltiptext);
+                    menuitem.setAttribute("image", amenu[i].image);
                     menuitem.setAttribute("class", "menuitem-iconic");
-                    menuitem.setAttribute("oncommand", menus[i].oncommand);
-                    //menuitem.setAttribute("onclick", menus[i].onclick);
+                    menuitem.setAttribute("oncommand", amenu[i].oncommand);
+                    //menuitem.setAttribute("onclick", amenu[i].onclick);
                     menupopup.appendChild(menuitem);
                 }
                 
@@ -145,20 +145,29 @@
 })();
 
 function Unicode() {
-	gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\Unicode.html");
+	var PATH = '/chrome/Local/html/Unicode.html';
+	var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
 function JavaScriptBeautify() {
-	gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\JavaScriptBeautify.html");
+	var PATH = '/chrome/Local/html/JavaScriptBeautify.html';
+	var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
 function CssBeautify() {
-	gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\CssBeautify.html");
+	var PATH = '/chrome/Local/html/CssBeautify.html';
+	var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
 function FileEncodeToBase64URL() {
-	gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\FileEncodeToBase64URL.html");
+	var PATH = '/chrome/Local/html/FileEncodeToBase64URL.html';
+	var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
 function Base64DecodeandEncode() {
-	gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\Base64DecodeandEncode.html");
+	var PATH = '/chrome/Local/html/Base64DecodeandEncode.html';
+	var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
 function URLDE() {
-	gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\URLDE.html");
+	var PATH = '/chrome/Local/html/URLDE.html';
+	var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));gBrowser.selectedTab = gBrowser.addTab(file.path);
 }
+
+
+

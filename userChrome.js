@@ -67,6 +67,7 @@
 "TabMixPlus",
 "userMenu",
 "userButton",
+"userButton29+",
 "PageBrowse",
 "ToolbarScript",
 "downloadPlus",
