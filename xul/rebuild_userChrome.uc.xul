@@ -7,7 +7,7 @@
 // @description    Clear the cache of scripts for userChrome.js, Open a new window
 // @description    userChrome.js用のスクリプトのキャッシュをクリアーし,新しいウインドウを開く
 // @include        main
-// @compatibility  Firefox 3.5b4pre 3.6a1pre 4.0b7pre
+// @compatibility  Firefox 29+
 // @author         Alice0775
 // @homepageURL    https://github.com/alice0775/userChrome.js/blob/master/rebuild_userChrome.uc.xul
 // @version        2014/07/08 00:00 by ywzhaiqi 添加中鍵打開主頁或下載鏈接和 Ctrl + 中鍵複選啟用/停用
@@ -42,12 +42,11 @@
 
 <script type="application/javascript" xmlns="http://www.w3.org/1999/xhtml"><![CDATA[
   "use strict";
+  var Mode = 1;//0為可拖動工具按鈕 1為網址列按鈕 2為工具選單
   var userChromejs = {
 // --- config ---
-    //editor: "/usr/bin/gedit",
-	//dannylee
-	UIPREF: "userChromeJS.rebuildUI.showtoolbutton",
-	ShowToolButton: true,
+    editor: "",//為空則用 view_source.editor.path
+    //editor: "C:\\WINDOWS\\system32\\notepad.exe",
 // --- config ---
     _statusDisplay: null,
     get statusDisplay() {
@@ -88,19 +87,6 @@
       //   this.addonbar.addEventListener('drop', this ,true);
       // }
       this.addPrefListener(userChromejs.readLaterPrefListener); // 登錄處理
-
-		//dannylee
-		var menuitem = $("menu_ToolsPopup").insertBefore($C("menu", {
-			id: "userChromejs_Tools_Menu",
-			label: "userChromeJS 管理器",
-			class: "menu-iconic",
-			image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPY6AKSCms+x+SkPMfREOFwACXOAYYNQBVITrGJQ7CUO0IA0jFUO0QA3BhkEJs4iAM1Y4bgBTBDIAKkQYGlwHYMFQZbgBSBDIAF4Yqww3QbUTHUGWUAAYGAEyi7ERKirMnAAAAAElFTkSuQmCC"
-		}), $("menu_preferences"));
-
-		//dannylee
-		if (!gPrefService.prefHasUserValue(this.UIPREF)) {
-			gPrefService.setBoolPref(this.UIPREF, true);
-		}
     },
 
     Openchromedir: function() {
@@ -432,8 +418,6 @@
       topMenuitems.forEach(function(menuitem) {
         parentMenuPopup.appendChild(menuitem);
       });
-
-      $("showToolsMenu").setAttribute("label", "UC腳本管理器顯示為" + (userChromejs.ShowToolButton ? "選單" : "按鈕"));
     },
 
     clickDirMenu: function(event) {
@@ -635,22 +619,6 @@
       appStartup.quit(appStartup.eRestart | appStartup.eAttemptQuit);
     },
 
-	//dannylee
-	toggleUI: function(tag) {
-		if (tag > 0) {
-			gPrefService.setBoolPref(this.UIPREF, !gPrefService.getBoolPref(this.UIPREF));
-		}
-		userChromejs.ShowToolButton = gPrefService.getBoolPref(userChromejs.UIPREF);
-		window.setTimeout(function() {
-			$("userChromejs_Tools_Menu").hidden = userChromejs.ShowToolButton;
-			$("userChromebtnMenu").hidden = !userChromejs.ShowToolButton;
-			if (!userChromejs.ShowToolButton) {
-				$("userChromejs_Tools_Menu").appendChild($("userChromejs_options"));
-			} else {
-				$("userChromebtnMenu").appendChild($("userChromejs_options"));
-			}
-		}, 10);
-	},
 
 	setEditor: function() {
 		var fp = Components.classes['@mozilla.org/filepicker;1']
@@ -670,6 +638,7 @@
         //var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();
         //var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};
         //var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));
+        
         var editor = gPrefService.getCharPref("view_source.editor.path");
         var appfile = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);appfile.initWithPath(editor);
         var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
@@ -695,6 +664,8 @@
   var userChromejsScriptOptionsMenu = {
     //あまり使わないメニューのリスト
     menues: [
+    'ucjsMouseGestures',
+    'ucjsSuperDrag',
     'EncodeDecodeHtml',
     'InspectElement-menuitem',
 	'toolsbar_KeyChanger_rebuild',
@@ -709,7 +680,7 @@
     timer: null,
 
     run: function() {
-		userChromejs.toggleUI(0);
+		$("userChromebtnMenu").appendChild($("userChromejs_options"));
       //DOMの構築が完了するのを待ってからメニューを移動させる(5秒間隔で最大50回までトライ)
       this.timer = setInterval(function(self) {
         if (++self.count > self.maxcount || self.moveMenu())
@@ -734,44 +705,77 @@
       return this.menues.length == 0 ? true : false;
     },
   }
+  
+  /*   改為29+可移動按鈕   */
+	if (Mode == 0) {
+		CustomizableUI.createWidget({
+			defaultArea: CustomizableUI.AREA_NAVBAR,
+			id: "userChromebtnMenu",
+			label: "userChromeJS 管理器",
+		});
+		var userChromebtnMenu = document.getElementById('userChromebtnMenu');
+		userChromebtnMenu.setAttribute('type', 'menu');
+	} else if (Mode == 1) {
+		CustomizableUI.createWidget({
+			defaultArea: CustomizableUI.AREA_NAVBAR,
+			id: "userChromebtnMenu",
+			label: "userChromeJS 管理器",
+		});
+		var userChromebtnMenu = document.getElementById('userChromebtnMenu');
+		userChromebtnMenu.setAttribute('type', 'menu');
+		document.getElementById('urlbar-icons').appendChild(userChromebtnMenu);
+	} else if (Mode == 2) {
+		var userChromebtnMenu = document.createElement("menu");
+		userChromebtnMenu.setAttribute("id", "userChromebtnMenu");
+		userChromebtnMenu.setAttribute("label", "userChromeJS 管理器");
+		userChromebtnMenu.setAttribute("class", "menu-iconic");
+		userChromebtnMenu.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPY6AKSCms+x+SkPMfREOFwACXOAYYNQBVITrGJQ7CUO0IA0jFUO0QA3BhkEJs4iAM1Y4bgBTBDIAKkQYGlwHYMFQZbgBSBDIAF4Yqww3QbUTHUGWUAAYGAEyi7ERKirMnAAAAAElFTkSuQmCC");
+		var dev = document.getElementById("devToolsSeparator");
+		dev.parentNode.insertBefore(userChromebtnMenu, dev)
+	}
+    var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){'
+         +'#userChromebtnMenu .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPY6AKSCms+x+SkPMfREOFwACXOAYYNQBVITrGJQ7CUO0IA0jFUO0QA3BhkEJs4iAM1Y4bgBTBDIAKkQYGlwHYMFQZbgBSBDIAF4Yqww3QbUTHUGWUAAYGAEyi7ERKirMnAAAAAElFTkSuQmCC)}'
+         +'}';
+    var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
+    var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+    sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
+
+  	var xml = '\
+		<menupopup id="userChromejs_options"\
+			  onpopupshowing="userChromejs.onpopup();"\
+			  context="">\
+				<menugroup id="uc-menugroup">\
+					<menuitem label="重新啟動瀏覽器"\
+							  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB3klEQVQ4jY2Tv2tTURTHv+/dvCQ13Yo4iEgHcSgiUmxJ7rn38Rpb6dRBMkknBxEREcfSv6AgUuLQJu+dm3bSDBmKU+kURBwcnJwcxKFIEQcRKQ7HIUnzg/eww9m+38/53nPPgYh4k4Xt1UKxFUaBs4+DxDyDi+7hZfVSqnbSCEcbiM0JmGSsYvqrHLWLDTubCkB9YQas3w9N5lg5OlCO2nD0aQT2s+ii6hgAO/MBHHV7nSo/VJPWsTMfjHYq7dNNJOZdP82v/K6eOwMETE8H9DyXb6S9VUQ8vChPITFHYBI46oqIh9qbmgLrr2CSIDGPssyDmnplr4DpT08fLWJ6V8/1o//G1krpfwAR8ZSjds+jN5Hj6jKc/ZZrhYfnMYuI58dmE0zis2Gc1zQ2i1gPAQVevuY7ve87+1o5OoCjQ8VhZzpZvZj5BKZOf5AbyO1Fd8eXxhwPviitig07C66cgkmC5p1byHNYGwWoJFrLjL61UkKsuz2dORIRD8rZBxMre5J39v7kIgVJtIjEfBzsSyHW10XEg+/oOWL6coHD22DzYQjT35HYt2DqgO3n0QZwkT5LFewtraO+dHVwTH7WMXHl1He2hVb5cuY1jp9zNULTPkRsnqhGtIb6wkya9h9E7yW7D/Yw1AAAAABJRU5ErkJggg=="\
+							  id="userChromejs_restartApp"\
+							  class="menuitem-iconic"\
+							  oncommand="userChromejs.restartApp();"/>\
+					<menuitem label="打開腳本目錄"\
+							  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABfElEQVQ4jc3M2yuDARzG8Z+7/RMo5da/wNiFkFIulBIXSgmlkCSHYmQmZMzGsDVtQ05Jhrxz2LIoucHeOcwONcbrkNO7eVzMYSn1vnee+lw+X6J/sVT58ZtU7kIsWSfrlMlPkgQFMjrYsGHrCsad66jta9SafLy0/Zj/HY5FRERpzTpJepsrMr4ZhH7rSjCp3IW0Zp2EMrtYZHaxyFJ86maR/UvOF6X7W3Z3FOX2uKFcDmHEdotRJoaN+5OW4aBYCiGv9xSU33+GPusN6sxB1JiEqTMH0Wu9QcHAGahw8ByqdQ6tcyFRBtZuUaS+AJVoPdBs3kG5womisd2jdNQDKhu7hN7+CI3tQRSD/RHlE15QpcGLqb1nTO4+iTK1/4xqow9Ua/Lz8wcvWDx8FWX+4AX1Fj9PTTOBhWGGe1894rHhCv+JYX+sHfFQM1ykZTZgpiqVI6Va69xvtPgjjdMBCNFg8YcrVA578ZAjmYgojojiiSiBiBIFSvj8xH0A+JJkUOT6edEAAAAASUVORK5CYII="\
+							  id="userChromejs_openChromeFolder"\
+							  class="menuitem-iconic"\
+							  oncommand="userChromejs.Openchromedir();"/>\
+				</menugroup>\
+				<menuitem label="userChrome.js"\
+						  id="userChromejs-edit"\
+						  tooltiptext="編輯userChrome.js"\
+						  class="menuitem-iconic"\
+						  oncommand="userChromejs.userChromejsEditor();"/>\
+				<menuitem label="user.js"\
+						  id="userChromejs-edit"\
+						  tooltiptext="編輯user.js"\
+						  class="menuitem-iconic"\
+						  oncommand="userChromejs.userjsEditor();"/>\
+				<menuseparator id="uc-menuseparator"/>\
+		</menupopup>\
+	';
+
+    var range = document.createRange();
+    range.selectNodeContents(document.getElementById('mainPopupSet'));
+    range.collapse(false);
+    range.insertNode(range.createContextualFragment(xml.replace(/\n|\t/g, '')));
+    range.detach();
+
   userChromejsScriptOptionsMenu.run();
   ]]></script>
-	<toolbarpalette id="urlbar-icons">
-		<toolbarbutton id="userChromebtnMenu"
-					   label="userChromeJS 管理器"
-					   tooltiptext="userChromeJS 管理器"
-					   image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPY6AKSCms+x+SkPMfREOFwACXOAYYNQBVITrGJQ7CUO0IA0jFUO0QA3BhkEJs4iAM1Y4bgBTBDIAKkQYGlwHYMFQZbgBSBDIAF4Yqww3QbUTHUGWUAAYGAEyi7ERKirMnAAAAAElFTkSuQmCC"
-					   class="toolbarbutton-1 chromeclass-toolbar-additional"
-					   type="menu"
-					   removable="true"
-					   popup="userChromejs_options">
-			<menupopup id="userChromejs_options"
-					   onpopupshowing="userChromejs.onpopup();"
-					   context="">
-				<menugroup id="uc-menugroup">
-					<menuitem label="重新啟動瀏覽器"
-							  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB3klEQVQ4jY2Tv2tTURTHv+/dvCQ13Yo4iEgHcSgiUmxJ7rn38Rpb6dRBMkknBxEREcfSv6AgUuLQJu+dm3bSDBmKU+kURBwcnJwcxKFIEQcRKQ7HIUnzg/eww9m+38/53nPPgYh4k4Xt1UKxFUaBs4+DxDyDi+7hZfVSqnbSCEcbiM0JmGSsYvqrHLWLDTubCkB9YQas3w9N5lg5OlCO2nD0aQT2s+ii6hgAO/MBHHV7nSo/VJPWsTMfjHYq7dNNJOZdP82v/K6eOwMETE8H9DyXb6S9VUQ8vChPITFHYBI46oqIh9qbmgLrr2CSIDGPssyDmnplr4DpT08fLWJ6V8/1o//G1krpfwAR8ZSjds+jN5Hj6jKc/ZZrhYfnMYuI58dmE0zis2Gc1zQ2i1gPAQVevuY7ve87+1o5OoCjQ8VhZzpZvZj5BKZOf5AbyO1Fd8eXxhwPviitig07C66cgkmC5p1byHNYGwWoJFrLjL61UkKsuz2dORIRD8rZBxMre5J39v7kIgVJtIjEfBzsSyHW10XEg+/oOWL6coHD22DzYQjT35HYt2DqgO3n0QZwkT5LFewtraO+dHVwTH7WMXHl1He2hVb5cuY1jp9zNULTPkRsnqhGtIb6wkya9h9E7yW7D/Yw1AAAAABJRU5ErkJggg=="
-							  id="userChromejs_restartApp"
-							  class="menuitem-iconic"
-							  oncommand="userChromejs.restartApp();"/>
-					<menuitem label="打開腳本目錄"
-							  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABfElEQVQ4jc3M2yuDARzG8Z+7/RMo5da/wNiFkFIulBIXSgmlkCSHYmQmZMzGsDVtQ05Jhrxz2LIoucHeOcwONcbrkNO7eVzMYSn1vnee+lw+X6J/sVT58ZtU7kIsWSfrlMlPkgQFMjrYsGHrCsad66jta9SafLy0/Zj/HY5FRERpzTpJepsrMr4ZhH7rSjCp3IW0Zp2EMrtYZHaxyFJ86maR/UvOF6X7W3Z3FOX2uKFcDmHEdotRJoaN+5OW4aBYCiGv9xSU33+GPusN6sxB1JiEqTMH0Wu9QcHAGahw8ByqdQ6tcyFRBtZuUaS+AJVoPdBs3kG5womisd2jdNQDKhu7hN7+CI3tQRSD/RHlE15QpcGLqb1nTO4+iTK1/4xqow9Ua/Lz8wcvWDx8FWX+4AX1Fj9PTTOBhWGGe1894rHhCv+JYX+sHfFQM1ykZTZgpiqVI6Va69xvtPgjjdMBCNFg8YcrVA578ZAjmYgojojiiSiBiBIFSvj8xH0A+JJkUOT6edEAAAAASUVORK5CYII="
-							  id="userChromejs_openChromeFolder"
-							  class="menuitem-iconic"
-							  oncommand='userChromejs.Openchromedir();'/>
-				</menugroup>
-				<menuitem label="userChrome.js"
-						  id="userChromejs-edit"
-						  tooltiptext="編輯userChrome.js"
-						  class="menuitem-iconic"
-						  oncommand="userChromejs.userChromejsEditor();"/>
-				<menuitem label="user.js"
-						  id="userChromejs-edit"
-						  tooltiptext="編輯user.js"
-						  class="menuitem-iconic"
-						  oncommand="userChromejs.userjsEditor();"/>
-				<menuseparator id="uc-menuseparator"/>
-			</menupopup>
-		</toolbarbutton>
-	</toolbarpalette>
 </overlay>
