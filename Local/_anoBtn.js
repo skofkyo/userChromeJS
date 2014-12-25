@@ -2,6 +2,16 @@
  *此處為按鈕設置
  *************************************************************************************/
 var anobtnset = {
+	//※AnotherButton29+.uc.js按鈕寫於腳本內 不適用此處設定
+	//※必須設置	按鈕與哪個id相鄰，alltabs-button，back-button等
+	intags: "tabbrowser-tabs",
+	//※AnotherButton29+.uc.js按鈕寫於腳本內 不適用此處設定
+	//※必須設置	按鈕與目標id關系，之前（before）或者之後(after)
+	orientation: "before",
+	//※AnotherButton29+.uc.js按鈕圖標寫於腳本內 不適用此處設定
+	//※必須設置	按鈕圖標
+	image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABmElEQVRIic3Vz2ddURAH8I+IqqonKqqioiKLyiKqIqKqqqoi3iKL6qKriKguKp56qioekUVVFhEVVfef7eLMbY/z7i8N1S/jcmfm+z0zd+Zc/gMsYQs7hW1hdB3iFTzDBhYb/Dewiae4O5R0NZ47eNgTuxgxLzCLZyfWcRqBS/FuIcT2NFcxwj6+osIEtyJvDvsRNMVB2BRXmWATFrCNi8g/llo3h8MIKO207UQFlnEeOWcaKj5pEajwOSrq6/NmlrOeOzY6yGu7xKMege2sipe5o609tX3R/R1qvMpyDmVt6mpPhaMB5KXAhTRRnQI/cB/3BpAv43WR+7uCc80CPyNxCHb9GdUK33LntEWgCvEnWMNYmqgj3C4ExkXeJHfudQg0VXUgta7GzRDN48a5wEoP6VWU/wEPipOPoj2XRc5qEedjh8BMsTiBO+EryU8aYq1F+V2VfJLa+Rxv8b0lrnUh3/QIDLH3beSkuT2+BvlMtlxdIn1XR5NNzI9uJx5LV3Uf8Zn0U/pr1Av2Tpq0ibQHu+ZH9t/jF5XwjtYY3gV/AAAAAElFTkSuQmCC",
+
 	//菜單彈出方向，不設置就默認,參考 https://developer.mozilla.org/en-US/docs/XUL/PopupGuide/Positioning
 	position: "",
 };
@@ -161,14 +171,15 @@ var anomenu = [
             switch (event.button) {
             case 1:
 				var editor = gPrefService.getCharPref("view_source.editor.path");
-				var appfile = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);appfile.initWithPath(editor);
+				var appfile = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
+				appfile.initWithPath(editor);
 				var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
 				process.init(appfile);
 				process.run(false, [Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\BackupProfiles\\BackupProfiles.bat"], 1);
                 break;
             case 2:
 				event.preventDefault(); 
-				var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+				var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
 				file.initWithPath("D:\\FirefoxBackup");
 				file.launch();
                 break;
