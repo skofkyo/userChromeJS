@@ -6,7 +6,7 @@
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.25
+// @version              2014.12.26
 // @startup        
 // @shutdown       
 // @config         
@@ -28,23 +28,29 @@
 
 	if (type == 0) {
 		CustomizableUI.createWidget({
-			defaultArea: CustomizableUI.AREA_NAVBAR,
 			id: "EncodeDecodeHtml",
-			label: "編碼工具",
-			tooltiptext: "編碼工具",
+			type: 'custom',
+			defaultArea: CustomizableUI.AREA_NAVBAR,
+			onBuild: function(aDocument) {
+				var toolbarbutton = aDocument.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'toolbarbutton');
+				var props = {
+					id: "EncodeDecodeHtml",
+					class: "toolbarbutton-1 chromeclass-toolbar-additional",
+					label: "編碼工具",
+					tooltiptext: "編碼工具",
+					removable: "true",
+					type: 'menu',
+					style: "list-style-image: url("+image16+")",
+				};
+				for (var p in props) {
+					toolbarbutton.setAttribute(p, props[p]);
+				};
+				return toolbarbutton;
+			}
 		});
 		var EncodeTool = document.getElementById("EncodeDecodeHtml");
-		EncodeTool.setAttribute("type", "menu");
-		
-		var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){'
-			 +'#EncodeDecodeHtml .toolbarbutton-icon {list-style-image:url('+image16+')}'
-			 +'}';
-		var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
-		var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
-		sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
-
 	} else if (type == 2) {
-		EncodeTool = document.createElement("menu");
+		var EncodeTool = document.createElement("menu");
 		EncodeTool.setAttribute("id", "EncodeDecodeHtml");
 		EncodeTool.setAttribute("label", "編碼工具");
 		EncodeTool.setAttribute("class", "menu-iconic");
