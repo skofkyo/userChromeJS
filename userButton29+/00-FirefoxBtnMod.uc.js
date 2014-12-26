@@ -6,7 +6,7 @@
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.19
+// @version              2014.12.26
 // @startup        
 // @shutdown       
 // @config         
@@ -30,10 +30,23 @@
 		CustomizableUI.createWidget({
 			defaultArea: CustomizableUI.AREA_NAVBAR,
 			id: "Firefox-button-mod",
-			label: "Firefox",
+			type: 'custom',
+			onBuild: function(aDocument) {
+				var toolbarbutton = aDocument.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'toolbarbutton');
+				var props = {
+					id: "Firefox-button-mod",
+					class: "toolbarbutton-1 chromeclass-toolbar-additional",
+					label: "Firefox",
+					removable: "true",
+					type: "menu",
+				};
+				for (var p in props) {
+					toolbarbutton.setAttribute(p, props[p]);
+				};
+				return toolbarbutton;
+			}
 		});
 		var FirefoxBtnMod = document.getElementById('Firefox-button-mod');
-		FirefoxBtnMod.setAttribute('type', 'menu');
 		var FirefoxBtnpopup = document.createElement("menupopup");
 		FirefoxBtnpopup.setAttribute("id", "FirefoxBtnpopup");
 		FirefoxBtnMod.appendChild(FirefoxBtnpopup);
@@ -47,8 +60,7 @@
 			document.getElementById("FirefoxBtnpopup").openPopupAtScreen(event.screenX, event.screenY, true);
 			event.preventDefault();
 		}, false);
-	};
-	
+	};	
 	function menuadd() {
 		var n, Item, FavIDs;
 		FavIDs = [

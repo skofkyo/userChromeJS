@@ -602,7 +602,6 @@ USL.init = function() {
 	CustomizableUI.createWidget({
 		defaultArea: CustomizableUI.AREA_NAVBAR,
 		id: "UserScriptLoader-icon",
-		label: "UserScriptLoader",
 	});
 	USL.isready = false;
 	var overlay = '\
@@ -1332,3 +1331,10 @@ function addStyle(css) {
 	color:gray!important;\
 }\
 '.replace(/[\r\n\t]/g, ''));
+var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
++ '#UserScriptLoader-icon .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIzSURBVDhPhVNNSFRRFD5LdxqtSxkj4gUZg4TmT0/HqGhhZTsXU5laiGhUDP5OpRlBNeZPY5HdMjKTcnBRRptp51KthaBOd4yidi1n+XXOeY06GMyFw7n3nO/73nn3nEuUZXVXUVGvS231BygW8JHNhtd8VxXlMynCZlsOEY7tIbgFauGsAkIMuwQx/mqaiNp9hGulFD9RSLbGR7n/FWLyghAjdTvQXEwIHiQ0+AlXD3tW56jgkQxyTwXV9lRSTOx1+36kFvuAlQdYeFGvVYiXs8Qln8YKT4U6Azl/xlv9Clby6iCQeAR8ewI7d109ElGOD3G+X3GCF54KDF/yY3bgJExTIYMiCjZT52EmGoH1VzBvmnh/gYUec/6h4gQvPE+gtQyToTLM9VUCayOAfQq3zUVeeR7wY2Zzb41WJri34QCEpwIXK3ZaEZiPnvJKTz4H7SXQLgJ+fdzcr09oFfPR0yogPBU47qNgZ3UOUku3NwTM6GWY0Xbg9yeY6BWYkRb+nZcqkFoagOCFpwKhGsqVtmHlPga7zuDL+5vA90ku/x3wc5Zths9T+PrhFoa6z2pH5CI3WikC6Q4k471oOFqEoLMb/SUOxkod3GXf6OSjmePJzze0UxkCosQDFI91FLP6PW0XEmN6mbDP2Ma9DsgFc5WCE3zGMP17MFZatDx9zmvn2rBHEs+zsTzNreW8vA/Bbxtl+RUe3zuhclpNv4WtXuKaZ1y2B1XAgBI2d4vJWeLb1l8Iw62jtqs6OwAAAABJRU5ErkJggg==)!important;}' 
++ '#UserScriptLoader-icon[state="disable"] .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI6SURBVDhPhZPfS1NhGMe9E7yw6KaVYcNOa65tLjMda9VhxRoLz5aUghcZuygZtkVIDRl+xxARGUNkRMSIiOhihITEEBGRERFjSIzDkCHSRX9I5/voRstgBx7eX9/v533e93lPR0ebb9RnP62pzpER54WJ/r4z8XZ6WX945+qJkOq8q6muuG/YCrtyFlaziXGrLeDICMMMt7OvYYTL2ovAdduUQ+mJK4rS+V9QSB14SuOjsAp1yAKPS4F3UIHfY5MYsvWi32w632LWPI5LoRvOCUYiOolyaQ16ZQMf3ixKFmw55jzXG1r6BHTfd+VVakYTccNc293C3s9tFNfyRrsj/VplExUDQh319AlgbjqI/OJjPI+EZSeKV3NprKymsV/7jtzrBaOfakKoo54+AcwbtOWX41hKRsGd69UdxBIxWAYt+FWvNPv1aknWl5IzyM1Pgj4B3LvpiBPwNps8BOgldJu60XWqC78Pqs3+vv5NsqCOAPoEcPliz0DY55Lz7R0BssspZDNpAaxkF5Axxg1ApfQF1NMngEBA6WTZ9HIRW18/Ihzwwe8eRkQLIjY+hidjGoJeNx4E/dgufpJ74kU2S0lAowKJF9NYL+TlGLzAg9oPabn7+uc85majUqkWAEmjqmsqNRuRLFgunpWXyYtjK2U0jqeXN0Ad9S2P6fCHccVZosK7jKRZ290UE1vdgBbeZ6TU1FF/7CnzKOo1y+2g1/6MKf4bnOc6de1+qJOG4JwR5r+CY84f+/4AS9dVtRJZF3sAAAAASUVORK5CYII=)!important;}' 
++ '}';
+var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
+var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);

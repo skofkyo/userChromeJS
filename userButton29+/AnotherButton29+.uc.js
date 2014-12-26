@@ -21,15 +21,27 @@
 (function() {
 
 	var icon = 0; // 0為火狐圖標 1為三槓動畫圖標
-
+	
 	CustomizableUI.createWidget({
 		defaultArea: CustomizableUI.AREA_NAVBAR,
 		id: "anobtn",
-		label: "Anobtn",
+		type: 'custom',
+		onBuild: function(aDocument) {
+			 var toolbarbutton = aDocument.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'toolbarbutton');
+			 var props = {
+				id: "anobtn",
+				class: "toolbarbutton-1 chromeclass-toolbar-additional",
+				label: "Anobtn",
+				removable: "true",
+				type: "menu",
+			 };
+			 for (var p in props) {
+				toolbarbutton.setAttribute(p, props[p]);
+			 };
+			 return toolbarbutton;
+		  }   
 	});
-	var anobtn = document.getElementById('anobtn');
-	anobtn.setAttribute('type', 'menu');
-	
+
 	if (icon == 0) {
 		var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
 		+ '#anobtn .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAADQElEQVQ4jZXT24sbVRwH8Ekyk9mZySTbZLu7brWxILuK74agooIo/i0iIsqAL4IgilIURcSKlqJ155LJPZtmL0ldt8YWFhQfvDzYmpxkkmzu2Uu73c18fZhMspWieODLeTqf8/3NcCjqf67Q9bb30eLRM4s3hq8tbQ8vL24Pf332p+70vx5aSjbF4He3nwtuHr0R3DpeDl4b/nG2aA6DRRMP/2ji3HUT524M8WKx7x8fejxH/HO53vOzuYF0em1PXVjfvzi/cSjN5g8xV7iL+atHWNg8xpnvhzizZeLBLRMPXTNx9gcT4WLfTwVixmNCsnmTT3VMMdOFd6WP6Su7mFndzc+u7Ukz6wewchuzG3cwlz/E/NW7eGAEL2wOLcir10NsbAdT8Sb4ZBuedBdipgd/tpcP5AbSqdwe7PhX9xBY3cfM+gFOb9yB3XYMuaMNsLEG2NgOuEQLQqoDX7qb92V7knelD2+2D1+2D192AF92gOkruyN4H4G1A4RzfT/F6STE6DUweh0WaLXzJJt5MdmRPOkOPOnuOGLGauzN9OBb6WM6O5hALs0AHbEwGxRijbwQb0lcogUu0QKfbIFPtsEn2xBSbQipDoSUdUk4R/wUq5FHGLWiTqlVmYsYl3nduOTWa18J0drrvrjxgife+MwTr38ixHc+EuLN82Ki+YGY2nnPm2q940013/Yk2m+FNcJRovLnIqtVE+5IJerWKppbqypTevVbMWq8yUdqL7G68SWr17/go/XPeb32qRCrfyzo9Q+5eOO8EG+8L0br74Y1wlGcfCvkVCtwKhU41SpcahUuzQCrGQV3pCrRkdpo7JOjW+PbeSJWCVCcfCvkUCqgFALHCHOqVbCqUaAjVcmlGaDtjNERONrHkFOxGjlOhFEqBVolkt3Qzr2gtY8hSiZwyAQOZRJGIQVaJZLdcDL2BKYjNdCaYUHiNzeX6OXSb5RcPqbkMiiZgJIJaIUUnMtEshs6T4x98lu6bGjy0n8XRbn8NKuUXmXk0tesUrrgXCbSpOlkbOvnTNB7oPuthQvbvKiWnmSV0iuMXL7EKOVfHAo5+if8n9B98fQ2L2p/hVm5/DKjlC/SCvn5qUzp1N/awan9OSOqjQAAAABJRU5ErkJggg==)}' 
@@ -324,7 +336,7 @@
 		fstream.close();
 		return data;
 	}
-	setTimeout(function() {
-		anobtn.reload(true);
-	}, 100);
+	//setTimeout(function() {
+	//	anobtn.reload(true);
+	//}, 100);
 })();

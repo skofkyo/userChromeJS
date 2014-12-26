@@ -108,7 +108,6 @@ window.UCL = {
 		CustomizableUI.createWidget({
 			defaultArea: CustomizableUI.AREA_NAVBAR,
 			id: "usercssloader-menu",
-			label: "UserCSSLoader",
 		});
 		var overlay = '\
 			<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" \
@@ -781,3 +780,10 @@ function log() { Application.console.log(Array.slice(arguments)); }
 	color:gray!important;\
 }\
 '.replace(/[\r\n\t]/g, ''));
+var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
++ '#usercssloader-menu .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAARklEQVQ4jWNgYGD4TyFm+L/uaBJezMDA8H+vgyEGHk4GEIPxGnBhdikKZmBg+P/vEyscjxrASjglEmPAvBMPMPBwMoASDADElRSk+LLlQAAAAABJRU5ErkJggg==)!important;}' 
++ '#usercssloader-menu[state="disable"] .toolbarbutton-icon {list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAARElEQVQ4je3SsQkAMAgAwd/V3RzAARzEZUwXCAEjpAsprv3qAfISaWYlIEVk81Kgowyo6gLIiJh+IM4ndgLuvnkpcGMAOeYtnkwr+88AAAAASUVORK5CYII=)!important;}' 
++ '}';
+var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
+var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
