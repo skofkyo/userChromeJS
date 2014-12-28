@@ -40,6 +40,7 @@
 					removable: "true",
 					overflows: "false",
 					type: "menu",
+					popup: "FirefoxBtnpopup",
 				};
 				for (var p in props) {
 					toolbarbutton.setAttribute(p, props[p]);
