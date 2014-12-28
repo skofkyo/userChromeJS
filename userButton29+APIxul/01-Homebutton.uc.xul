@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name           Home-button.uc.xul
 // @namespace      https://github.com/skofkyo/userChromeJS
-// @description    quickProxy
+// @description    首頁按鈕
 // @include        main
 // @compatibility  Firefox 29+
 // @author         skofkyo
