@@ -30,7 +30,7 @@
 				id: "Re-Start-button",
 				class: "toolbarbutton-1 chromeclass-toolbar-additional",
 				label: "重新啟動",
-				tooltiptext: "重新啟動並清除緩存",
+				tooltiptext: "左鍵：重新啟動並清除緩存\n中鍵：重新啟動但停用附加元件\n右鍵：重新啟動",
 				removable: "true",
 				overflows: "false",
 				type: 'button',
@@ -50,6 +50,9 @@
 			switch (event.button) {
 				case 0:
 					Services.appinfo.invalidateCachesOnRestart() || Application.restart();
+					break;
+				case 1:
+					safeModeRestart();
 					break;
 				case 2:
 					Application.restart();
