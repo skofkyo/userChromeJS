@@ -117,6 +117,7 @@ window.UCL = {
 							   class="toolbarbutton-1" \
 							   type="menu" \
 							   removable="true" \
+							   overflows="false"\
 							   onclick="UCL.iconClick(event);" >\
 					<menupopup id="usercssloader-menupopup"\
 							   onclick="event.preventDefault(); event.stopPropagation();" >\

@@ -22,6 +22,85 @@ CTRL + 中鍵：複製擴展 ID 和圖標地址（如果可用）到剪貼板
 CTRL + 右鍵：移除擴展
 */
 (function() {
+
+	// 来自 User Agent Overrider 扩展
+	const ToolbarManager = (function() {
+		let layoutWidget = function(document, button, isFirstRun) {
+			let toolbox = document.getElementById('navigator-toolbox');
+			toolbox.palette.appendChild(button);
+			let container = null;
+			let toolbars = document.getElementsByTagName('toolbar');
+			let id = button.getAttribute('id');
+			for (let i = 0; i < toolbars.length; i += 1) {
+				let toolbar = toolbars[i];
+				if (toolbar.getAttribute('currentset').indexOf(id) !== -1) {
+					container = toolbar;
+				}
+			}
+			if (!container) {
+				if (isFirstRun) {
+					container = document.getElementById('nav-bar');
+				} else {
+					return;
+				}
+			}
+			let nextNode = null;
+			let currentSet = container.getAttribute('currentset');
+			let ids = (currentSet === '__empty') ? [] : currentSet.split(',');
+			let idx = ids.indexOf(id);
+			if (idx !== -1) {
+				for (let i = idx; i < ids.length; i += 1) {
+					nextNode = document.getElementById(ids[i]);
+					if (nextNode) {
+						break;
+					}
+				}
+			}
+			container.insertItem(id, nextNode, null, false);
+			if (ids.indexOf(id) === -1) {
+				container.setAttribute('currentset', container.currentSet);
+				document.persist(container.id, 'currentset');
+			}
+		};
+		let addWidget = function(window, widget, isFirstRun) {
+			try {
+				layoutWidget(window.document, widget, isFirstRun);
+			} catch(error) {
+				console.log(error);
+			}
+		};
+		let removeWidget = function(window, widgetId) {
+			try {
+				let widget = window.document.getElementById(widgetId);
+				widget.parentNode.removeChild(widget);
+			} catch(error) {
+				console.log(error);
+			}
+		};
+		let exports = {
+			addWidget: addWidget,
+			removeWidget: removeWidget,
+		};
+		return exports;
+	})();
+
+
+	function $(id, doc) (doc || document).getElementById(id);
+
+	function $C(name, attr) {
+		var el = document.createElement(name);
+		if (attr) {
+			Object.keys(attr).forEach(function(n) {
+				if (typeof attr[n] === 'function') {
+					el.addEventListener(n, attr[n], false);
+				} else {
+					el.setAttribute(n, attr[n]);
+				}
+			});
+		}
+		return el;
+	}
+	
 	EOM = {
 		ADDON_TYPES: ['extension', 'plugin'], // 顯示的項目類型 (表示するアイテムの種類)
 		SHOW_VERSION: true, // 顯示版本 (ヴァージョンを表示するか)
@@ -40,6 +119,20 @@ CTRL + 右鍵：移除擴展
 		},
 
 		init: function() {
+        let button = $C('toolbarbutton', {
+            id: "eom-button",
+            class: 'toolbarbutton-1 chromeclass-toolbar-additional',
+            label: "Extension Options Menu",
+            tooltiptext: "左鍵：擴展及插件選單\n右鍵：打開擴展管理員",
+			type: "menu",
+			removable: "true",
+			overflows: "false",
+			popup: "eom-button-popup",
+			style: "list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=)",
+			onclick: 'eom.onClick(event);',
+        });
+        ToolbarManager.addWidget(window, button, true);
+		/*
 			CustomizableUI.createWidget({
 				defaultArea: CustomizableUI.AREA_NAVBAR,
 				id: "eom-button",
@@ -52,6 +145,7 @@ CTRL + 右鍵：移除擴展
 						label: "Extension Options Menu",
 						tooltiptext: "左鍵：擴展及插件選單\n右鍵：打開擴展管理員",
 						removable: "true",
+						overflows: "false",
 						type: "menu",
 						context: '_child',
 						style: "list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=)",
@@ -63,7 +157,7 @@ CTRL + 右鍵：移除擴展
 					return toolbarbutton;
 				}
 			});
-
+		*/
 			eom = {
 				onClick: function(event) {
 					switch (event.button) {

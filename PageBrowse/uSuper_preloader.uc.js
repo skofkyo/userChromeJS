@@ -128,6 +128,7 @@ var ns = window.uSuper_preloader = {
                 id: "uSuper_preloader-icon",
                 class: "toolbarbutton-1",
                 type: "context",
+                overflows: "false",
                 onclick: "if (event.button != 2) uSuper_preloader.iconClick(event);",
                 context: "uSuper_preloader-popup",
                 image: BUTTON_IMG_ENABLE

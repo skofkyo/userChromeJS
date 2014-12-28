@@ -51,6 +51,83 @@
 // ==/UserScript==
 
 (function (css) {
+// 来自 User Agent Overrider 扩展
+const ToolbarManager = (function() {
+	let layoutWidget = function(document, button, isFirstRun) {
+		let toolbox = document.getElementById('navigator-toolbox');
+		toolbox.palette.appendChild(button);
+		let container = null;
+		let toolbars = document.getElementsByTagName('toolbar');
+		let id = button.getAttribute('id');
+		for (let i = 0; i < toolbars.length; i += 1) {
+			let toolbar = toolbars[i];
+			if (toolbar.getAttribute('currentset').indexOf(id) !== -1) {
+				container = toolbar;
+			}
+		}
+		if (!container) {
+			if (isFirstRun) {
+				container = document.getElementById('nav-bar');
+			} else {
+				return;
+			}
+		}
+		let nextNode = null;
+		let currentSet = container.getAttribute('currentset');
+		let ids = (currentSet === '__empty') ? [] : currentSet.split(',');
+		let idx = ids.indexOf(id);
+		if (idx !== -1) {
+			for (let i = idx; i < ids.length; i += 1) {
+				nextNode = document.getElementById(ids[i]);
+				if (nextNode) {
+					break;
+				}
+			}
+		}
+		container.insertItem(id, nextNode, null, false);
+		if (ids.indexOf(id) === -1) {
+			container.setAttribute('currentset', container.currentSet);
+			document.persist(container.id, 'currentset');
+		}
+	};
+	let addWidget = function(window, widget, isFirstRun) {
+		try {
+			layoutWidget(window.document, widget, isFirstRun);
+		} catch(error) {
+			console.log(error);
+		}
+	};
+	let removeWidget = function(window, widgetId) {
+		try {
+			let widget = window.document.getElementById(widgetId);
+			widget.parentNode.removeChild(widget);
+		} catch(error) {
+			console.log(error);
+		}
+	};
+	let exports = {
+		addWidget: addWidget,
+		removeWidget: removeWidget,
+	};
+	return exports;
+})();
+
+
+function $(id, doc) (doc || document).getElementById(id);
+
+function $C(name, attr) {
+	var el = document.createElement(name);
+	if (attr) {
+		Object.keys(attr).forEach(function(n) {
+			if (typeof attr[n] === 'function') {
+				el.addEventListener(n, attr[n], false);
+			} else {
+				el.setAttribute(n, attr[n]);
+			}
+		});
+	}
+	return el;
+}
 
 const GLOBAL_EXCLUDES = [
 	"chrome:*"
@@ -599,10 +676,16 @@ USL.getFocusedWindow = function () {
 };
 //urlbar-icons PlacesToolbar
 USL.init = function() {
-	CustomizableUI.createWidget({
-		defaultArea: CustomizableUI.AREA_NAVBAR,
+	let button = $C('toolbarbutton', {
 		id: "UserScriptLoader-icon",
+		class: 'toolbarbutton-1 chromeclass-toolbar-additional',
+		label: "UserScriptLoader",
+		type: "menu",
+		removable: "true",
+		overflows: "false",
+		popup: "UserScriptLoader-popup",
 	});
+	ToolbarManager.addWidget(window, button, true);
 	USL.isready = false;
 	var overlay = '\
 		<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" \
@@ -611,6 +694,7 @@ USL.init = function() {
 						   label="UserScriptLoader" \
 						   class="toolbarbutton-1" \
 						   type="menu" \
+						   overflows="false"\
 						   onclick="USL.iconClick(event);" \
 						   removable="true" >\
 				<menupopup id="UserScriptLoader-popup" \

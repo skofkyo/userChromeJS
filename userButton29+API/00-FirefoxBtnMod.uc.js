@@ -38,6 +38,7 @@
 					class: "toolbarbutton-1 chromeclass-toolbar-additional",
 					label: "Firefox",
 					removable: "true",
+					overflows: "false",
 					type: "menu",
 				};
 				for (var p in props) {

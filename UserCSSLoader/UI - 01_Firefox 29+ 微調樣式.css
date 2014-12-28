@@ -47,6 +47,10 @@
     height: 16px !important;
 }
 
+#navigator-toolbox #eom-button .toolbarbutton-icon{
+    margin-right: 2px !important;
+}
+
 #navigator-toolbox #anobtn .toolbarbutton-icon{
     width: 16px !important;
     height: 16px !important;
@@ -213,18 +217,18 @@ border: none !important;
 
 #showLocationModEx {-moz-box-ordinal-group: 0 !important;}
 /*
-#nav-bar-customization-target #anobtn {-moz-box-ordinal-group: 0 !important;}
+#nav-bar-customization-target #Firefox-button-mod {-moz-box-ordinal-group: 0 !important;}
 #nav-bar-customization-target #Home-button {-moz-box-ordinal-group: 1 !important;}
 #nav-bar-customization-target #Sidebar-button {-moz-box-ordinal-group: 2 !important;}
 #nav-bar-customization-target #Re-Start-button {-moz-box-ordinal-group: 3 !important;}
 #nav-bar-customization-target #eom-button {-moz-box-ordinal-group: 4 !important;}
-#nav-bar-customization-target #secureLoginButton {-moz-box-ordinal-group: 5 !important;}
-#nav-bar-customization-target #RFC-button {-moz-box-ordinal-group: 6 !important;}
-#nav-bar-customization-target #searchClipboard-button {-moz-box-ordinal-group: 7 !important;}
-#nav-bar-customization-target #urlbar-container {-moz-box-ordinal-group: 8 !important;}
-#nav-bar-customization-target #downloadbar-ddnbr {-moz-box-ordinal-group: 9 !important;}
-#nav-bar-customization-target #ProfD-button {-moz-box-ordinal-group: 99 !important;}
-#nav-bar-customization-target #openPreferences-button {-moz-box-ordinal-group: 100 !important;}
+#nav-bar-customization-target #anobtn {-moz-box-ordinal-group: 5 !important;}
+#nav-bar-customization-target #secureLoginButton {-moz-box-ordinal-group: 6 !important;}
+#nav-bar-customization-target #RFC-button {-moz-box-ordinal-group: 7 !important;}
+#nav-bar-customization-target #searchClipboard-button {-moz-box-ordinal-group: 8 !important;}
+#nav-bar-customization-target #urlbar-container {-moz-box-ordinal-group: 9 !important;}
+#nav-bar-customization-target #ProfD-button {-moz-box-ordinal-group: 10 !important;}
+#nav-bar-customization-target #openPreferences-button {-moz-box-ordinal-group: 11 !important;}
 */
 #urlbar-icons #downloads-button {-moz-box-ordinal-group: 0 !important;}
 #urlbar-icons #abp-toolbarbutton {-moz-box-ordinal-group: 1 !important;}

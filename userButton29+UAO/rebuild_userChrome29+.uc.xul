@@ -42,9 +42,100 @@
 
 <script type="application/javascript" xmlns="http://www.w3.org/1999/xhtml"><![CDATA[
   "use strict";
+    	// 来自 User Agent Overrider 扩展
+	const ToolbarManager = (function() {
+		let layoutWidget = function(document, button, isFirstRun) {
+			let toolbox = document.getElementById('navigator-toolbox');
+			toolbox.palette.appendChild(button);
+			let container = null;
+			let toolbars = document.getElementsByTagName('toolbar');
+			let id = button.getAttribute('id');
+			for (let i = 0; i < toolbars.length; i += 1) {
+				let toolbar = toolbars[i];
+				if (toolbar.getAttribute('currentset').indexOf(id) !== -1) {
+					container = toolbar;
+				}
+			}
+			if (!container) {
+				if (isFirstRun) {
+					container = document.getElementById('nav-bar');
+				} else {
+					return;
+				}
+			}
+			let nextNode = null;
+			let currentSet = container.getAttribute('currentset');
+			let ids = (currentSet === '__empty') ? [] : currentSet.split(',');
+			let idx = ids.indexOf(id);
+			if (idx !== -1) {
+				for (let i = idx; i < ids.length; i += 1) {
+					nextNode = document.getElementById(ids[i]);
+					if (nextNode) {
+						break;
+					}
+				}
+			}
+			container.insertItem(id, nextNode, null, false);
+			if (ids.indexOf(id) === -1) {
+				container.setAttribute('currentset', container.currentSet);
+				document.persist(container.id, 'currentset');
+			}
+		};
+		let addWidget = function(window, widget, isFirstRun) {
+			try {
+				layoutWidget(window.document, widget, isFirstRun);
+			} catch(error) {
+				console.log(error);
+			}
+		};
+		let removeWidget = function(window, widgetId) {
+			try {
+				let widget = window.document.getElementById(widgetId);
+				widget.parentNode.removeChild(widget);
+			} catch(error) {
+				console.log(error);
+			}
+		};
+		let exports = {
+			addWidget: addWidget,
+			removeWidget: removeWidget,
+		};
+		return exports;
+	})();
+
+
+	function $(id, doc) (doc || document).getElementById(id);
+
+	function $C(name, attr) {
+		var el = document.createElement(name);
+		if (attr) {
+			Object.keys(attr).forEach(function(n) {
+				if (typeof attr[n] === 'function') {
+					el.addEventListener(n, attr[n], false);
+				} else {
+					el.setAttribute(n, attr[n]);
+				}
+			});
+		}
+		return el;
+	}
+	let button = $C('toolbarbutton', {
+		id: "userChromebtnMenu",
+		class: 'toolbarbutton-1 chromeclass-toolbar-additional',
+		tooltiptext: "userChromeJS 管理器",
+		type: "menu",
+		removable: "true",
+		overflows: "false",
+		popup: "userChromejs_options",
+		style: "list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPY6AKSCms+x+SkPMfREOFwACXOAYYNQBVITrGJQ7CUO0IA0jFUO0QA3BhkEJs4iAM1Y4bgBTBDIAKkQYGlwHYMFQZbgBSBDIAF4Yqww3QbUTHUGWUAAYGAEyi7ERKirMnAAAAAElFTkSuQmCC)",
+	});
+	ToolbarManager.addWidget(window, button, true);
+
   var userChromejs = {
 // --- config ---
-    //editor: "/usr/bin/gedit",
+	editor: "", // 為空則用 view_source.editor.path
+	//editor: "C:\\WINDOWS\\system32\\notepad.exe",
+	//editor: "/usr/bin/gedit",
 	//dannylee
 	UIPREF: "userChromeJS.rebuildUI.showtoolbutton",
 	ShowToolButton: true,
@@ -94,7 +185,7 @@
 			id: "userChromejs_Tools_Menu",
 			label: "userChromeJS 管理器",
 			class: "menu-iconic",
-			image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACk0lEQVQ4ja3RW0hTARwG8A+nEIIxI9DwyQtCarKj7vhkWEwj8AKahNR6siAispce6k2y9VJvIblpkBOt4xGU5ko0RKZuecMLedlxTk0ym7Y5TcvL10OmKwuC+uB7/fG/AP8jarWaERERNBgMDxsbG4uMRuMdQRB4WH2MGdog0gvuuL+XbnDLDW66wQNAeXl5mSzLeUajsVQQhHW1+gjFtPgNn6d2Yl6pdM4rlc53U8/G/a4T/q2/A9RMS0tfXfR86ZpwLjgmnAuOMYU27/TZpe0/AQ0NDbkmk+nGPpC25vF47Iqi9CmK0jfh9PV4p7OWDwCRkZEsKysz1NfXF1VUVNzaA7TatSXvcs+Uy9WruFy9k9P+bt9M9vLO3C9AXFwcBUGgKIrMyMhgYmIij4aFMT05+fPk0NDAQGfn8LDNNjzUNdb/seekd90eAKiCwxkVFc2EhOPUaDTUiiLjYmKYAvAMwHyAJQDvAqwE2IwgOqDaB87nH2JRgbhaUFj8tbi4ePWiXv8pLyfHJwDMBli4C5QDNAG0AOxHwATcACcHr483NXeNWSyWPovV2tnUKPekAMwCeCk01HNPp7M8ysxsq9Hp2pp1urYOne71PjAPvum44jLXWTslSbJLsuyoNdf0pQA8BbBUo3FY7fZkyWrNrNutuaUl+zfAyy5Jeu4IBE4DvJaUNNTQ3p77RJb1JlnWV8qy/rEslfwEdLffdFY9dXSY617ZzPWtturqpr0VLoSE+G+npg4+EIRRo1Y7Kmm1o62i+HYP2JoBl8fD19+PxPs+jMSuLI7Grrjt0f6U3SOeA3gZoAFgFcAWgAOBR9x0g9szIGfBnVmQc+DqGPgDKAJ4FeB9gFXBwXyhUrFXFfDGf8k3RzmjBlDWo+YAAAAASUVORK5CYII="
+			image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPY6AKSCms+x+SkPMfREOFwACXOAYYNQBVITrGJQ7CUO0IA0jFUO0QA3BhkEJs4iAM1Y4bgBTBDIAKkQYGlwHYMFQZbgBSBDIAF4Yqww3QbUTHUGWUAAYGAEyi7ERKirMnAAAAAElFTkSuQmCC"
 		}), $("menu_preferences"));
 
 		//dannylee
@@ -667,23 +758,23 @@
 		}
 	},
 	userChromejsEditor: function() {
-        //var PATH = '/chrome/Local/Notepad2/Notepad2.exe';
-        //var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();
-        //var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};
-        //var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));
-        
-        var editor = gPrefService.getCharPref("view_source.editor.path");
-        var appfile = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);appfile.initWithPath(editor);
-        var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
-        process.init(appfile);
-        process.run(false, [Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\userChrome.js"], 1);
+		//var PATH = '/chrome/Local/Notepad2/Notepad2.exe';
+		//var handleRelativePath = function(path) {if (path) {path = path.replace(/\//g, '\\').toLocaleLowerCase();
+		//var ProfD = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get("ProfD", Ci.nsILocalFile).path;return ProfD + path;}};
+		//var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);file.initWithPath(handleRelativePath(PATH));
+
+		var editor = gPrefService.getCharPref("view_source.editor.path");
+		var appfile = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);appfile.initWithPath(editor);
+		var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
+		process.init(appfile);
+		process.run(false, [Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\userChrome.js"], 1);
 	},
 	userjsEditor: function() {
-        var editor = gPrefService.getCharPref("view_source.editor.path");
-        var appfile = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);appfile.initWithPath(editor);
-        var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
-        process.init(appfile);
-        process.run(false, [Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + "\\user.js"], 1);
+		var editor = gPrefService.getCharPref("view_source.editor.path");
+		var appfile = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);appfile.initWithPath(editor);
+		var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
+		process.init(appfile);
+		process.run(false, [Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + "\\user.js"], 1);
 	},
   }
   
@@ -698,8 +789,8 @@
   var userChromejsScriptOptionsMenu = {
     //あまり使わないメニューのリスト
     menues: [
-    'EncodeDecodeHtml',
-    'InspectElement-menuitem',
+	'EncodeDecodeHtml',
+	'InspectElement-menuitem',
 	'toolsbar_KeyChanger_rebuild',
 	'RefererChanger',
 	'redirector-icon',
@@ -737,65 +828,64 @@
       return this.menues.length == 0 ? true : false;
     },
   }
-	CustomizableUI.createWidget({
-		defaultArea: CustomizableUI.AREA_NAVBAR,
-		id: "userChromebtnMenu",
-	});
-  
+
   userChromejsScriptOptionsMenu.run();
   ]]></script>
-		<toolbarbutton id="userChromebtnMenu"
-					   label="userChromeJS 管理器"
-					   tooltiptext="userChromeJS 管理器"
-					   image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPY6AKSCms+x+SkPMfREOFwACXOAYYNQBVITrGJQ7CUO0IA0jFUO0QA3BhkEJs4iAM1Y4bgBTBDIAKkQYGlwHYMFQZbgBSBDIAF4Yqww3QbUTHUGWUAAYGAEyi7ERKirMnAAAAAElFTkSuQmCC"
-					   class="toolbarbutton-1 chromeclass-toolbar-additional"
-					   type="menu"
-					   removable="true"
-					   popup="userChromejs_options">
-			<menupopup id="userChromejs_options"
-					   onpopupshowing="userChromejs.onpopup();"
-					   context="">
-				<menugroup id="uc-menugroup">
-					<menuitem label="重新啟動瀏覽器"
-							  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB3klEQVQ4jY2Tv2tTURTHv+/dvCQ13Yo4iEgHcSgiUmxJ7rn38Rpb6dRBMkknBxEREcfSv6AgUuLQJu+dm3bSDBmKU+kURBwcnJwcxKFIEQcRKQ7HIUnzg/eww9m+38/53nPPgYh4k4Xt1UKxFUaBs4+DxDyDi+7hZfVSqnbSCEcbiM0JmGSsYvqrHLWLDTubCkB9YQas3w9N5lg5OlCO2nD0aQT2s+ii6hgAO/MBHHV7nSo/VJPWsTMfjHYq7dNNJOZdP82v/K6eOwMETE8H9DyXb6S9VUQ8vChPITFHYBI46oqIh9qbmgLrr2CSIDGPssyDmnplr4DpT08fLWJ6V8/1o//G1krpfwAR8ZSjds+jN5Hj6jKc/ZZrhYfnMYuI58dmE0zis2Gc1zQ2i1gPAQVevuY7ve87+1o5OoCjQ8VhZzpZvZj5BKZOf5AbyO1Fd8eXxhwPviitig07C66cgkmC5p1byHNYGwWoJFrLjL61UkKsuz2dORIRD8rZBxMre5J39v7kIgVJtIjEfBzsSyHW10XEg+/oOWL6coHD22DzYQjT35HYt2DqgO3n0QZwkT5LFewtraO+dHVwTH7WMXHl1He2hVb5cuY1jp9zNULTPkRsnqhGtIb6wkya9h9E7yW7D/Yw1AAAAABJRU5ErkJggg=="
-							  id="userChromejs_restartApp"
-							  class="menuitem-iconic"
-							  oncommand="userChromejs.restartApp();"/>
-					<menuitem label="打開腳本目錄"
-							  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABfElEQVQ4jc3M2yuDARzG8Z+7/RMo5da/wNiFkFIulBIXSgmlkCSHYmQmZMzGsDVtQ05Jhrxz2LIoucHeOcwONcbrkNO7eVzMYSn1vnee+lw+X6J/sVT58ZtU7kIsWSfrlMlPkgQFMjrYsGHrCsad66jta9SafLy0/Zj/HY5FRERpzTpJepsrMr4ZhH7rSjCp3IW0Zp2EMrtYZHaxyFJ86maR/UvOF6X7W3Z3FOX2uKFcDmHEdotRJoaN+5OW4aBYCiGv9xSU33+GPusN6sxB1JiEqTMH0Wu9QcHAGahw8ByqdQ6tcyFRBtZuUaS+AJVoPdBs3kG5womisd2jdNQDKhu7hN7+CI3tQRSD/RHlE15QpcGLqb1nTO4+iTK1/4xqow9Ua/Lz8wcvWDx8FWX+4AX1Fj9PTTOBhWGGe1894rHhCv+JYX+sHfFQM1ykZTZgpiqVI6Va69xvtPgjjdMBCNFg8YcrVA578ZAjmYgojojiiSiBiBIFSvj8xH0A+JJkUOT6edEAAAAASUVORK5CYII="
-							  id="userChromejs_openChromeFolder"
-							  class="menuitem-iconic"
-							  oncommand='userChromejs.Openchromedir();'/>
-				</menugroup>
-				<menu label="管理選單"
-						  class="menu-iconic"
-						  image="data:image/png;base64,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">
-					<menupopup>
-						<menuitem label="設置全局腳本編輯器"
-								  id="userChromejs_setEditor"
-								  accesskey="S"
-								  class="menuitem-iconic"
-								  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADrUlEQVRYhc2WX2gbdQDHv0VWBVEQmT6oOBREhL4NBJ/UJwVRRHzIELF7GIIvbsJAK1wZMvBBhjJB2jRri45WMI0M2cOQtWvTbrZraDFpe8nljxfTS5rcJdckd03/fH1Ib7bLXZtLKviDz9P9fvf5HD/udwf8D8dJAJ42eBXAU+0EeLa3t7m1teUaXde5tramj4yM9O8+yIMtBWxubtI0TdfEYjGapklN07iyshJuNaLlgMXFRZJsO8JTq9VoGIZrFhYWaI12IjwbGxusVCquCYVC3DtsIpoPKJfLrrk/YG9EIBAYAvBMUwGmabYUMD8/3xBgReRyuTKA15sO0HXdNZFIhF6vlz09PQ0MDg4S9XOiuYBSqeQaRVEYDoc5NzfXQDQabT7AMAwWi8UjxTAMK6Bj6dObJwB0OAZUq1VqmnakVKtVAvgg9cWdIbU3zOyXoXk4vJqearVKVVWPFF3XOXXGP632hmlx+Z0LL9sGVCoV5vP5I0NRFAqCwA1zg2vTMtXeMIMf/3oLwHO2AeVy+cjkmUyGgiDQMAzKsszgVJCTZ8ZmAbwB4AnHgFwu1zaWPBm5wdDdO/T7/RQEgQDeBfAsgGOOAdlsti3S6TTlvi7WUmP869Z5Dl9635KfAvC8kxwAPOvr61QUpWVkWabc18UdeYw7C+e57n/Mkn8P4EUADznJAcCj6zpXV1dbIpVK7ZPv/PY4fd2dDATGCODsYfJ7AZlMxjXJZNJW/tOPQ4xEIgTw4WFyAPCUSiWm02lXJBIJW/nwkI8zMzPM5/PNH8XFYrG+j00Sj8cd5dPT04zH4ywWi/9NgCRJtvLBQR+DwWD9uiy7D0ilUocSjUZt5VeuDHBqaorRaPTeXFcBmqYxmUweiCiKlPu6GPv9W27e/Vfu89Xloijum69pmruARCLhiCiKDA+f5Yq3m7f7PqF09TX6ujs5MODl5OQkRVFsWOMm4JSqqozH47aIosjwz19xfeISzdkB/u3/vC739nNiYoLLy8u261RVtU7BA8cxAKcLhQIlSWogFosxNHubpZvfkOI1UrxG8fp39Hr7OT4+zqWlJdt1kiSxUCgQwGkccAR3AHgEwLlarcZCodBANpvlLz9cJJcD3FwK8M8bQxwdHWUoFKKiKLZrLGq1GgGc23XY/g1ZAe8BEABcsOHrN0+ekD776K0/Hu584DqAqwAuA7joMH8vwu69HQOsLXgUwHEAT9rwAoC3Uf+WvwLgJQBPO8y9n+O79963Bf8ASJPkODW6iqsAAAAASUVORK5CYII="
-								  oncommand="userChromejs.setEditor();"/>
-						<menuitem label="UC腳本管理器顯示為選單"
-								  id="showToolsMenu"
-								  accesskey="T"
-								  class="menuitem-iconic"
-								  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACdklEQVRYhe3V30tTYQDG8cdA7xIKpJv0IoL6A4RgF3ZRkyKkAn9tCpki/aCSgowgmJZQlBhIkUZXXQVRIdiNXRhRmJGNjDKCuTkdU3FzO7935nmfLpqVuZ1i7EQXvfC5Pc8X3gMv8P/8OJUAPH9JZbYAj2VZXFlZcZRlWcxErA9Ip9M0DMNR6XT6Hw4wTZO6rjvKNM3cAalUiqqqOiqVStkHKIriKNsAwzAoy7KjDMOwD5AkyVG2AbquM5FIOErX9X84QNM0xuNxR2maljtAVVXGYjFHqaqaO0BRFC4tLTlKURT7gMXFRUf9NmBhYcFRtgGyLHN+ft5RsiznDpAkidFotKD8k1Psv/eE/skpRqNRSpKUOyCZTDISiRRU3+Ajdgy/5f4jPRwZHWcymbQPmJubK6h9zd28NCN47kWANcdv8PHTl7kDEokEZ2dn89I78JDVTd1ZnfooePqTYOdknPUXBojNrsGcAeFwOC/VTd28EhX0RdY6HxBsnRBsHhc8+UHw4meNO49eDaKi/gyADWsClpeXGQqF8lLd1MWOKcF2/1otE4KeMcG6V4Le14LH3gt2Biy6e4e+YGvd4XUBwWAwL25vF9v934bseMYE299ZrLqWJSAej3N6ejovbq/vjwIan2vc1nJzJtsVeGOxGAOBQF6u33pAt9eX1eoVNIzEePDsHWKT6+6vP2AxgDbTNAv++h1o6WHrhGDjUJg1J/o4/OwNAbRlNgEARQA2AqgF4ANwuaBKd43suT0qFVUcCqF4+/3MRm1ms+jngB0AXACqAOwumJLyBpTt7UdJeUPm267M1veA1SsoBVAGYIvDyjJbxQDwFbhm+zBHKLZMAAAAAElFTkSuQmCC"
-								  oncommand="userChromejs.toggleUI(1);"/>
-					</menupopup>
-				</menu>
-				<menuitem label="userChrome.js"
-						  id="userChromejs-edit"
-						  tooltiptext="編輯userChrome.js"
+	<toolbarbutton id="userChromebtnMenu"
+				   label="userChromeJS 管理器"
+				   tooltiptext="userChromeJS 管理器"
+				   image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPY6AKSCms+x+SkPMfREOFwACXOAYYNQBVITrGJQ7CUO0IA0jFUO0QA3BhkEJs4iAM1Y4bgBTBDIAKkQYGlwHYMFQZbgBSBDIAF4Yqww3QbUTHUGWUAAYGAEyi7ERKirMnAAAAAElFTkSuQmCC"
+				   class="toolbarbutton-1 chromeclass-toolbar-additional"
+				   type="menu"
+				   removable="true"
+				   overflows="false"
+				   popup="userChromejs_options">
+		<menupopup id="userChromejs_options"
+				   onpopupshowing="userChromejs.onpopup();"
+				   context="">
+			<menugroup id="uc-menugroup">
+				<menuitem label="重新啟動瀏覽器"
+						  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB3klEQVQ4jY2Tv2tTURTHv+/dvCQ13Yo4iEgHcSgiUmxJ7rn38Rpb6dRBMkknBxEREcfSv6AgUuLQJu+dm3bSDBmKU+kURBwcnJwcxKFIEQcRKQ7HIUnzg/eww9m+38/53nPPgYh4k4Xt1UKxFUaBs4+DxDyDi+7hZfVSqnbSCEcbiM0JmGSsYvqrHLWLDTubCkB9YQas3w9N5lg5OlCO2nD0aQT2s+ii6hgAO/MBHHV7nSo/VJPWsTMfjHYq7dNNJOZdP82v/K6eOwMETE8H9DyXb6S9VUQ8vChPITFHYBI46oqIh9qbmgLrr2CSIDGPssyDmnplr4DpT08fLWJ6V8/1o//G1krpfwAR8ZSjds+jN5Hj6jKc/ZZrhYfnMYuI58dmE0zis2Gc1zQ2i1gPAQVevuY7ve87+1o5OoCjQ8VhZzpZvZj5BKZOf5AbyO1Fd8eXxhwPviitig07C66cgkmC5p1byHNYGwWoJFrLjL61UkKsuz2dORIRD8rZBxMre5J39v7kIgVJtIjEfBzsSyHW10XEg+/oOWL6coHD22DzYQjT35HYt2DqgO3n0QZwkT5LFewtraO+dHVwTH7WMXHl1He2hVb5cuY1jp9zNULTPkRsnqhGtIb6wkya9h9E7yW7D/Yw1AAAAABJRU5ErkJggg=="
+						  id="userChromejs_restartApp"
 						  class="menuitem-iconic"
-						  oncommand="userChromejs.userChromejsEditor();"/>
-				<menuitem label="user.js"
-						  id="userChromejs-edit"
-						  tooltiptext="編輯user.js"
+						  oncommand="userChromejs.restartApp();"/>
+				<menuitem label="打開腳本目錄"
+						  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABfElEQVQ4jc3M2yuDARzG8Z+7/RMo5da/wNiFkFIulBIXSgmlkCSHYmQmZMzGsDVtQ05Jhrxz2LIoucHeOcwONcbrkNO7eVzMYSn1vnee+lw+X6J/sVT58ZtU7kIsWSfrlMlPkgQFMjrYsGHrCsad66jta9SafLy0/Zj/HY5FRERpzTpJepsrMr4ZhH7rSjCp3IW0Zp2EMrtYZHaxyFJ86maR/UvOF6X7W3Z3FOX2uKFcDmHEdotRJoaN+5OW4aBYCiGv9xSU33+GPusN6sxB1JiEqTMH0Wu9QcHAGahw8ByqdQ6tcyFRBtZuUaS+AJVoPdBs3kG5womisd2jdNQDKhu7hN7+CI3tQRSD/RHlE15QpcGLqb1nTO4+iTK1/4xqow9Ua/Lz8wcvWDx8FWX+4AX1Fj9PTTOBhWGGe1894rHhCv+JYX+sHfFQM1ykZTZgpiqVI6Va69xvtPgjjdMBCNFg8YcrVA578ZAjmYgojojiiSiBiBIFSvj8xH0A+JJkUOT6edEAAAAASUVORK5CYII="
+						  id="userChromejs_openChromeFolder"
 						  class="menuitem-iconic"
-						  oncommand="userChromejs.userjsEditor();"/>
-				<menuseparator id="uc-menuseparator"/>
-			</menupopup>
-		</toolbarbutton>
+						  oncommand='userChromejs.Openchromedir();'/>
+			</menugroup>
+			<menu label="管理選單"
+					  class="menu-iconic"
+					  image="data:image/png;base64,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">
+				<menupopup>
+					<menuitem label="設置全局腳本編輯器"
+							  id="userChromejs_setEditor"
+							  accesskey="S"
+							  class="menuitem-iconic"
+							  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADrUlEQVRYhc2WX2gbdQDHv0VWBVEQmT6oOBREhL4NBJ/UJwVRRHzIELF7GIIvbsJAK1wZMvBBhjJB2jRri45WMI0M2cOQtWvTbrZraDFpe8nljxfTS5rcJdckd03/fH1Ib7bLXZtLKviDz9P9fvf5HD/udwf8D8dJAJ42eBXAU+0EeLa3t7m1teUaXde5tramj4yM9O8+yIMtBWxubtI0TdfEYjGapklN07iyshJuNaLlgMXFRZJsO8JTq9VoGIZrFhYWaI12IjwbGxusVCquCYVC3DtsIpoPKJfLrrk/YG9EIBAYAvBMUwGmabYUMD8/3xBgReRyuTKA15sO0HXdNZFIhF6vlz09PQ0MDg4S9XOiuYBSqeQaRVEYDoc5NzfXQDQabT7AMAwWi8UjxTAMK6Bj6dObJwB0OAZUq1VqmnakVKtVAvgg9cWdIbU3zOyXoXk4vJqearVKVVWPFF3XOXXGP632hmlx+Z0LL9sGVCoV5vP5I0NRFAqCwA1zg2vTMtXeMIMf/3oLwHO2AeVy+cjkmUyGgiDQMAzKsszgVJCTZ8ZmAbwB4AnHgFwu1zaWPBm5wdDdO/T7/RQEgQDeBfAsgGOOAdlsti3S6TTlvi7WUmP869Z5Dl9635KfAvC8kxwAPOvr61QUpWVkWabc18UdeYw7C+e57n/Mkn8P4EUADznJAcCj6zpXV1dbIpVK7ZPv/PY4fd2dDATGCODsYfJ7AZlMxjXJZNJW/tOPQ4xEIgTw4WFyAPCUSiWm02lXJBIJW/nwkI8zMzPM5/PNH8XFYrG+j00Sj8cd5dPT04zH4ywWi/9NgCRJtvLBQR+DwWD9uiy7D0ilUocSjUZt5VeuDHBqaorRaPTeXFcBmqYxmUweiCiKlPu6GPv9W27e/Vfu89Xloijum69pmruARCLhiCiKDA+f5Yq3m7f7PqF09TX6ujs5MODl5OQkRVFsWOMm4JSqqozH47aIosjwz19xfeISzdkB/u3/vC739nNiYoLLy8u261RVtU7BA8cxAKcLhQIlSWogFosxNHubpZvfkOI1UrxG8fp39Hr7OT4+zqWlJdt1kiSxUCgQwGkccAR3AHgEwLlarcZCodBANpvlLz9cJJcD3FwK8M8bQxwdHWUoFKKiKLZrLGq1GgGc23XY/g1ZAe8BEABcsOHrN0+ekD776K0/Hu584DqAqwAuA7joMH8vwu69HQOsLXgUwHEAT9rwAoC3Uf+WvwLgJQBPO8y9n+O79963Bf8ASJPkODW6iqsAAAAASUVORK5CYII="
+							  oncommand="userChromejs.setEditor();"/>
+					<menuitem label="UC腳本管理器顯示為選單"
+							  id="showToolsMenu"
+							  accesskey="T"
+							  class="menuitem-iconic"
+							  image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACdklEQVRYhe3V30tTYQDG8cdA7xIKpJv0IoL6A4RgF3ZRkyKkAn9tCpki/aCSgowgmJZQlBhIkUZXXQVRIdiNXRhRmJGNjDKCuTkdU3FzO7935nmfLpqVuZ1i7EQXvfC5Pc8X3gMv8P/8OJUAPH9JZbYAj2VZXFlZcZRlWcxErA9Ip9M0DMNR6XT6Hw4wTZO6rjvKNM3cAalUiqqqOiqVStkHKIriKNsAwzAoy7KjDMOwD5AkyVG2AbquM5FIOErX9X84QNM0xuNxR2maljtAVVXGYjFHqaqaO0BRFC4tLTlKURT7gMXFRUf9NmBhYcFRtgGyLHN+ft5RsiznDpAkidFotKD8k1Psv/eE/skpRqNRSpKUOyCZTDISiRRU3+Ajdgy/5f4jPRwZHWcymbQPmJubK6h9zd28NCN47kWANcdv8PHTl7kDEokEZ2dn89I78JDVTd1ZnfooePqTYOdknPUXBojNrsGcAeFwOC/VTd28EhX0RdY6HxBsnRBsHhc8+UHw4meNO49eDaKi/gyADWsClpeXGQqF8lLd1MWOKcF2/1otE4KeMcG6V4Le14LH3gt2Biy6e4e+YGvd4XUBwWAwL25vF9v934bseMYE299ZrLqWJSAej3N6ejovbq/vjwIan2vc1nJzJtsVeGOxGAOBQF6u33pAt9eX1eoVNIzEePDsHWKT6+6vP2AxgDbTNAv++h1o6WHrhGDjUJg1J/o4/OwNAbRlNgEARQA2AqgF4ANwuaBKd43suT0qFVUcCqF4+/3MRm1ms+jngB0AXACqAOwumJLyBpTt7UdJeUPm267M1veA1SsoBVAGYIvDyjJbxQDwFbhm+zBHKLZMAAAAAElFTkSuQmCC"
+							  oncommand="userChromejs.toggleUI(1);"/>
+				</menupopup>
+			</menu>
+			<menuitem label="userChrome.js"
+					  id="userChromejs-edit"
+					  tooltiptext="編輯userChrome.js"
+					  class="menuitem-iconic"
+					  onclick="if (event.button !== 0) {userChromejs.userChromejsEditor();}"
+					  oncommand="userChromejs.userChromejsEditor();"/>
+			<menuitem label="user.js"
+					  id="userChromejs-edit"
+					  tooltiptext="編輯user.js"
+					  class="menuitem-iconic"
+					  onclick="if (event.button !== 0) {userChromejs.userjsEditor();}"
+					  oncommand="userChromejs.userjsEditor();"/>
+			<menuseparator id="uc-menuseparator"/>
+		</menupopup>
+	</toolbarbutton>
 </overlay>

@@ -32,6 +32,7 @@
 				label: "側邊欄開關",
 				tooltiptext: "左鍵：書籤側邊攔\n右鍵：歷史側邊攔",
 				removable: "true",
+				overflows: "false",
 				type: 'button',
 				style: "list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABzklEQVQ4jcWQz0/aYBzGv1f/Ci8KcYGIvzYcRhCVAqWFUt6W/rB929ESutEMPEyDO5iMmOwf8OjBg38javLssK1xELjuST6HJ/k83zd5if571jcy083M/mwze4BU9j3S2x+Q3s4nbOUO8W638A9bOx+Rzh7M1jcyU8rly7NSrYOHx6fSw+NTqVht49v3qVOsqS+THz+NSsuEpPsLVBUbO4flVzoW2lCsPk7qDGWRQWQckuah8QfmRLD7lwuYwQjFahtUbmjQP8UQdY665qLjRmBuBLnro84cSLqHptlLaFkBOjyCGY5wKmmgM7kL1Rng6vbOAJBS7BCKHQJAahlXt3eG6gxwJndBlaYJkXEAWCMiqqkOaqqDVR8PYE1kHJWmCRIUG0L7IhkIig1BsVceICIS2he/varqoPrmxfm+LIlXZxx1xpPBfF+WxGvoPhq6nwzm+7IknmQGkM0gGUhmAOlNXxb5r9eyQjB/iHQuXyAiUt0IqhutPJDaOzpi/hAtKwQ1zeDZi29w3rJwKnfhxRN48QQnoobdwvkC+8cCKooFL76BbPReSXMH92b/8sUIxzCCEfjwGnx4jW7vKzru5wUY/wIjHMMKx88aH9z/AnRJPbZJkdIWAAAAAElFTkSuQmCC)",
 				onclick: 'Sidebar.onClick(event);',

@@ -534,6 +534,5 @@ css('\
 ')
 
 //page({
-//        label: 'test',
-//    oncommand:function(){gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\Unicode.html");}
+//        id: 'tools-menu',
 //	})

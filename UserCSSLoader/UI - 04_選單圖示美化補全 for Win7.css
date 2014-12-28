@@ -517,7 +517,7 @@ menuitem[label="切換成完整模式"][oncommand="_dlbar_modeToggle();"]
 */
 #nav-bar #secureLoginButton .toolbarbutton-icon{
     margin-top: 2px !important;
-    margin-left: 2px !important;
+    /*margin-left: 2px !important;*/
 }
 #secureLoginJavascriptProtectionContextItem [checked="false"],
 #secureLoginJavascriptProtectionToolsMenuItem [checked="false"]
