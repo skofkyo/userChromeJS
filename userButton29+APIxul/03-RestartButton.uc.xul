@@ -23,7 +23,7 @@
 				onBuild: function(aDocument) {
 					var toolbaritem = aDocument.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'toolbarbutton');
 					var props = {
-						id: 'Home-button',
+						id: 'Re-Start-button',
 						class: "toolbarbutton-1 chromeclass-toolbar-additional",
 						label: "重新啟動",
 						tooltiptext: "左鍵：重新啟動並清除緩存\n中鍵：重新啟動但停用附加元件\n右鍵：重新啟動",
