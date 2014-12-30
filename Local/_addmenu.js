@@ -101,6 +101,20 @@ new function() {
             condition: "select",
             image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABo0lEQVQ4ja2TO4siQRSFC5lJOlUjEQQDE8FYRREFBUEwMDEcEJPGH2BsZiQoBgaiYCoiBv4FwRZDTQQROxE0sum2H3wT7EzDrLvs80Z1LnW+OkXVFcAr8Aas+f1af3hexcfib+tN/OHJT0mEbdvouo6u6xiGAeBq0zRxHMfVjuNgmqarbdtGbLdbMpkMQgh6vR6O41AoFBBCMBwOOZ1OJBIJcrkcqqoym83wer2Uy2V2ux0C4Hg88vLywnw+B0DTNEKhEN1uF4BsNsvtdgPg8XiQTCaxLAvgGwCgWq2SSqXcyw0GA4LBINPplHa77fYnkwn9ft/VLmCz2SCEYLVaAWBZFuFwmFgshq7rrqFYLKJp2jPgM2qlUnG1LMv4fD43rqIoNJvNL8/wBbBcLvF4PBwOBwBKpRJ+v5/xeAxAvV5HVdWfAwCi0SiyLLNYLOh2u7RaLSKRCJfLhVqt9v32Z8BoNEKSJPL5PIZhcL1ekSSJeDyOoii/BpimSSAQoNPpuL1Go0E6nX4yfwKevvJ+v8dxHFff73fO5/OP/Ov/Mkz/NM7vB+B52iVL10sAAAAASUVORK5CYII=",
         }, {
+            label: "射手網(偽)",
+            tooltiptext: "左鍵：字幕搜尋選取文字 (新分頁前景)\n右鍵：字幕搜索剪貼簿文字 (新分頁前景)",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADcElEQVQ4jW2TW0zTdxzFj0ORhDTMC5rYYEh8YCQ+YLy0W6YEYTG+LUHUZNGwB5kPxvDQgLiEkMw1AZsIblzKrdxWaNFx90K4ClUqpQ4LJGyuKNlYucwwxpC2/9/37M2ExM/75zx9DvABhrOzEzuOHk35OTHxCxtQbtfpPicZAQBFQNKHnPeM5+RkPz5zpncwPX2wDvDUA//WAN5fzOb+P9686Xvd3j5m37vXXrN9+6dbxAdnzyZbgR/vJSQsLD59ysDoKOt27GAdwCqAnrw8kmRgZIRNMTGsBVaaIiO/BQDU7tv32ZzT+fdsVRUdBw5sLgwMhEiGvfn5WjWgqoDwRH5+SCkVfnLlSrgcCNoA6TEYCAAoBSyTZjNJvpssKtL6LlzQ3vp86sHp06wFVDVAb0GBkBTX1avSEhcn9ZGRoY4jRzQAQAXQN3D+vBKlQv/4/WpheFjNVlQoKyDVgFgBeVlYSJJqbW6OofV19dJiCd8/fDgEALAC9x6lpIiIhMZzcjTvrVuaz2KR+uhoPrl8WfwOBzdWVkSJCElZnZ2V/vR0rcdoJAaBj61AS4/BwODaWui32lo1XVKiLb94IYsuF0kqktxcXaWIyExZGRv37FE1gHQfO7YCu073STnQ0XXiRHhjaSk8ZbGohaEhtehySafBwO5Tp8R56BCn7twhSRm8eFHKgLAjNlZ5cnO/QxGQXKfTjftbW4PB1VVtvrNTtFCI3vx8aUtK4mhWFpvj4uizWEhSXFlZYgWkVa9fJxmFQuDroUuXZpYmJtZHMjPVXwMD6r9AQN5OT8tGIECSMnP3Ln23b5OkuE0mVQnQsWvXqtPpjMBXQGpTbOzjruPHfYvPnonf4VDjJpMsj4+LJy9PepKTad+/n9PFxSSpxkwmZQWkLSFh3pmREQEAqALss5WVG0tud8gWHS2eGzf4qqFBjV27xodpafwB4FRxMUVEnt+8Ga4EpMto7HifcRmQ4YyP37BFRLyrBoJLbrf2uq1Naz54UP3Z2yu/2mxc9nhIUk2azZuVAPtPnhze8oX2pKSf7sfH0xYVRU9uLqdLSlgJsEWvp9/ppBYOUwsG+dxkom3nzqAlNfXLLQO/O50xrxobv+82GktLgeqGyMjOum3bvM27d8879Hq6r1/nSGam62Famn3w3LlvAKCgoOCj/wFAqy0Z5ZaacgAAAABJRU5ErkJggg==",
+            onclick: function(e) {
+                switch (e.button) {
+                    case 0:
+                        gBrowser.selectedTab = gBrowser.addTab("http://sub.makedie.me/search2/" + encodeURIComponent(getBrowserSelection()));
+                        break;
+                    case 2:
+                        gBrowser.selectedTab = gBrowser.addTab("http://sub.makedie.me/search2/" + encodeURIComponent(readFromClipboard()));
+                        break;
+                }
+            },
+        }, {
             label: "subom字幕庫",
             tooltiptext: "左鍵：字幕搜尋選取文字 (新分頁前景)\n右鍵：字幕搜索剪貼簿文字 (新分頁前景)",
             image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABWklEQVQ4jW2TW47FIAxDHfrgLhZ6968pOfORtKWjqVSJoGCM7cgBGDiAg/uJAz7AGcBgePa4E40AP+AgBqgYpoJJmBmSWGzFJDTtybJWQUUACAaLCjJxMn3+zzIJSAWpACMATGJwou+G2o71SmkVO7ZcfyjHB7UdfTcGJ6YSDC5EHNR2St+wI4GOJf62ol6wXlHfo1fCGQiHJYtoWJNvCDs/a2TlDBbdGgQaDHTELTAeEM9DtwPhjNmSAA4ygfN6u/qOtTV0aCv6hjY6KgA2M7iLo0bT98/hvmPHFuC9Ml8aALbc1CJMnrTP13OCQdo3M7hEnIUiBbySCqC+Yr0+IjrILzQnqPYalrX1tjEs3Sg97A0bS4QqNCivIJXjQ2kfrNfX299B0pPEK5rXQP1J8qs4CQGXJ8qgkgMyD0wOkOVgXXt2D5PByBzAz31TODCNMCNHO13xR1gHfgFv0qfjmordvwAAAABJRU5ErkJggg==",
@@ -536,3 +550,21 @@ css('\
 //page({
 //        id: 'tools-menu',
 //	})
+/*
+page([
+{
+  label: '生成网址二维码',
+  tooltiptext: '生成网址二维码',
+  onclick: function openView()
+  {
+    var sl = (screen.width) / 2 - 250;
+    var st = (screen.height) / 2 - 100;
+    var url = addMenu.convertText('%RLINK_OR_URL%');
+    theURL = 'http://chart.apis.google.com/chart?cht=qr&chs=400x400&chl=' + url;
+    theDes = 'status:no;center:no;dialogTop:' + st + ';dialogLeft:' + sl + ';help:no;minimize:no;maximize:no;dialogWidth:400px;scroll:no;dialogHeight:400px;border:think';
+    var rv = self.showModalDialog(theURL, '&Oacute;&brvbar;&Oacute;&Atilde;&frac12;&Uacute;&Auml;&iquest;&ETH;&Aring;&Iuml;&cent;', theDes);
+    //window.open(theURL, '二维码', config='height=400,width=400');
+  },
+}
+])
+*/

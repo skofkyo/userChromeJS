@@ -111,4 +111,7 @@ sites = {
     'imgdino.com' : 'http://imgdino.com/',
     'xindm.cn' : 'http://www.xindm.cn/',
     'img.liufen.com': 'http://www.liufen.com.cn/',
+    'crifan.com': 'http://www.crifan.com/',
+    'zol.com.cn' : '@FORGE',
+    'uploadhouse.com' : '@FORGE', 
 };

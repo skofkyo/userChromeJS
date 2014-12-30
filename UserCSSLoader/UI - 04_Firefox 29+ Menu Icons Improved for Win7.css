@@ -521,19 +521,21 @@ menuitem[label="Properties"]
 {list-style-image: url(chrome://global/skin/icons/information-16.png) !important;}
 
 /* ::::::::::::::::::::::::::::::::::::::::::::: Downloads Manager::::::::::::::::::::::::::::::::::::::::::::::::: */
-
+.downloadPauseMenuItem,
 #menuitem_pause,
 menuitem[oncommand="performCommand('cmd_pause');"],
 menuitem[cmd="cmd_pause"]
 {list-style-image: url(chrome://mozapps/skin/downloads/downloadButtons.png) !important;
 -moz-image-region: rect(0px, 48px, 16px, 32px) !important;}
 
+.downloadResumeMenuItem,
 #menuitem_resume,
 menuitem[oncommand="performCommand('cmd_resume');"],
 menuitem[cmd="cmd_resume"]
 {list-style-image: url(chrome://mozapps/skin/downloads/downloadButtons.png) !important;
 -moz-image-region: rect(0px, 16px, 16px, 0px) !important;}
 
+.downloadCancelMenuItem,
 #menuitem_cancel,
 menuitem[oncommand="performCommand('cmd_cancel');"],
 menuitem[cmd="cmd_cancel"]

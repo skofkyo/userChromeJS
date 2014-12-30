@@ -24,6 +24,7 @@
 // @include *zippyshare.com*
 // @include http*://docs.google.com/uc?id=*
 // @include http*://my.pcloud.com/*
+// @include http://uploadingit.com/file/*
 // @downloadURL    https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
 // @updateURL      https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
 // @note         允许自定义网站的点击延迟时间
@@ -141,6 +142,12 @@
         'pcloud': {
             startReg: /https?:\/\/my\.pcloud\.com\/publink\/show\?code\=\w+/i,
             elements: ['.publinkResponsive > a[download]'],
+            autoClose: true
+        },
+        'uploadingit': {
+            startReg: /http:\/\/uploadingit\.com\/file\/\w+\//i,
+            elements: ['#downloadButton'],
+            delay: 11000,
             autoClose: true
         },
     };
