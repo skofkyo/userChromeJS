@@ -5,7 +5,7 @@
 // @namespace      https://github.com/skofkyo/userChromeJS
 // @description    重新啟動按鈕
 // @include        main
-// @compatibility  Firefox 29+
+// @compatibility  Firefox 29+ 
 // @author         skofkyo
 // @version        2014.12.28
 // ==/UserScript==
