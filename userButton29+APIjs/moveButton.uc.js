@@ -58,13 +58,15 @@ var moveButton = {
         //{ id: "EncodeTool", bar: "urlbar-icons", pos: 1},
         //{ id: "dta-manager-button", bar: "urlbar-icons", pos: 2},
         { id: "abp-toolbarbutton", bar: "urlbar-icons", pos: 3},
+        { id: "ublock0-button", bar: "urlbar-icons", pos: 3},
         //{ id: "ublock-button", bar: "urlbar-icons", pos: 3},
         //{ id: "userChromeJsManagerMenuBtn", bar: "urlbar-icons", pos: 4},
         { id: "userChromebtnMenu", bar: "urlbar-icons", pos: 4},
         //{ id: "stylish-toolbar-button", bar: "urlbar-icons", pos: 5},
         { id: "usercssloader-menu", bar: "urlbar-icons", pos: 5},
-        //{ id: "scriptish-button", bar: "urlbar-icons", pos: 6},
+        { id: "scriptish-button", bar: "urlbar-icons", pos: 6},
         { id: "UserScriptLoader-icon", bar: "urlbar-icons", pos: 6},
+        { id: "greasemonkey-tbb", bar: "urlbar-icons", pos: 6},
         { id: "uSuper_preloader-icon", bar: "urlbar-icons", pos: 7},
         //{ id: "foxyproxy-toolbar-icon", bar: "urlbar-icons", pos: 8},
         //{ id: "redirector-icon", bar: "urlbar-icons", pos: 9},
@@ -74,8 +76,8 @@ var moveButton = {
         
     ],
 
-    interval: 500, // 0.2秒间隔
-    maxcount: 100, // 最大100回，至少 interval * maxcount 秒
+    interval: 100, // 0.2秒间隔
+    maxcount: 1000, // 最大100回，至少 interval * maxcount 秒
     count: 0,
     timer: null,
 
