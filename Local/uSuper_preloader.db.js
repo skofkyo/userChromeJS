@@ -73,7 +73,7 @@ var SITEINFO_D = {
         iloaded: false, //是否在iframe完全load後操作..否則在DOM完成後操作
         itimeout: 0, //延時多少毫秒後,在操作..
         remain: 1, //剩餘頁面的高度..是顯示高度的 remain 倍開始翻頁..
-        maxpage: 99, //最多翻多少頁..
+        maxpage: 999, //最多翻多少頁..
         ipages: [false, 2], //立即翻頁,第一項是控制是否在js加載的時候立即翻第二項(必須小於maxpage)的頁數,比如[true,3].就是說JS加載後.立即翻3頁.
         separator: true //顯示翻頁導航..(推薦顯示.)
     }
@@ -337,11 +337,10 @@ var SITEINFO = [{
     {
         name: '百度貼吧列表',
         url: /^http:\/\/tieba\.baidu\.(cn|com)\/f/i,
-        nextLink: '//div[@class="pager clearfix"]/descendant::a[@class="next"]',
-        preLink: '//div[@class="pager clearfix"]/descendant::a[@class="pre"]',
+        nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;#thread_list',
-            replaceE: 'css;.thread_list_bottom.clearfix',
+            pageElement: 'css;.skin_normal',
+            //replaceE: 'css;.thread_list_bottom.clearfix',
             useiframe: true,
             newIframe: true
                 // filter: function(pages) {
@@ -363,11 +362,10 @@ var SITEINFO = [{
         name: '百度貼吧帖子',
         url: /^http:\/\/tieba\.baidu\.com\/p/i,
         siteExample: 'http://tieba.baidu.com/p/918674650',
-        nextLink: '//ul[@class="l_posts_num"]/descendant::a[text()="下一頁"]',
-        preLink: '//ul[@class="l_posts_num"]/descendant::a[text()="上一頁"]',
+        nextLink: 'auto;',
         autopager: {
-            pageElement: "id('j_p_postlist')", // "css;.l_post"
-            replaceE: "css;.l_posts_num > .l_pager",
+            pageElement: 'css;.skin_normal',
+            //replaceE: "css;.l_posts_num > .l_pager",
             useiframe: true,
             newIframe: true,
             // filter: function(pages){
@@ -375,7 +373,7 @@ var SITEINFO = [{
             //     pb.ForumListV3.initial();
             // }
         }
-    }, */{
+    },*/ {
         name: '百度吧內搜索',
         url: /^http:\/\/tieba\.baidu\.com\/f\/search/i,
         siteExample: 'http://tieba.baidu.com/f/search/',
@@ -404,10 +402,18 @@ var SITEINFO = [{
     }, {
         name: '百度文庫搜索',
         url: /^http:\/\/wenku\.baidu\.com\/search\?/i,
-        exampleUrl: 'http://wenku.baidu.com/search?word=firefox&lm=0&od=0&fr=top_home',
+        exampleUrl: 'http://tieba.baidu.com/i/336636939/forum',
         nextLink: '//div[@class="page-content"]/a[@class="next"]',
         autopager: {
             pageElement: '//div[@class="search-result"]',
+        }
+    }, {
+        name: 'I',
+        url: /^http:\/\/tieba\.baidu\.com\/i\/\d+\/forum/,
+        exampleUrl: 'http://wenku.baidu.com/search?word=firefox&lm=0&od=0&fr=top_home',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;#container',
         }
     },
 
@@ -1562,16 +1568,6 @@ var SITEINFO = [{
             //replaceE: "css;#page, .page"
         }
     },
-    /*
-    {name: '重灌狂人',
-        url: /^http:\/\/briian\.com\//i,
-        exampleUrl: 'http://briian.com/category/android/android-photos-draw',
-        nextLink: 'auto;',
-        autopager: {
-            pageElement: 'id("content")',
-        }
-    },
-    */
     {
         name: 'Sublime text - Packages',
         url: '^https://sublime\\.wbond\\.net/browse',
@@ -2840,11 +2836,11 @@ var SITEINFO = [{
         },
     }, {
         siteName: 'GDaily',
-        url: /http:\/\/www\.gdaily\.org\//i,
-        siteExample: 'http://www.gdaily.org/',
+        url: /http:\/\/gdaily\.org\//i,
+        siteExample: 'http://daily.org/',
         nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;div.blog-posts > .date-outer',
+            pageElement: 'css;#content [id^="post"]',
             //				useiframe:true,
         },
     }, {
@@ -2858,13 +2854,13 @@ var SITEINFO = [{
         },
     }, {
         siteName: '重灌狂人',
-        url: /http:\/\/briian\.com\//i,
+        url: /https:\/\/briian\.com\//i,
         siteExample: 'http://briian.com/',
         nextLink: 'auto;',
         autopager: {
-            remain: 3,
-            pageElement: 'css;.post',
-            HT_insert: ['css;#wp_page_numbers', 1],
+            //remain: 3,
+            pageElement: 'css;#content [id^="post"]',
+            HT_insert: ['css;.pagination', 1],
         },
     }, {
         siteName: '㊣軟體玩家',
@@ -2881,7 +2877,7 @@ var SITEINFO = [{
         siteExample: 'http://www.soft4fun.net/',
         nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;div#front-list > article',
+            pageElement: 'css;div#front-list > section',
             HT_insert: ['css;.navigation', 1],
         },
     }, {
@@ -2890,8 +2886,8 @@ var SITEINFO = [{
         siteExample: 'http://softblog.tw/',
         nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;.postwrap',
-            //HT_insert:['css;#multinav2',1],		
+            pageElement: 'css;#content [id^="post"]',
+            HT_insert:['css;.wp-pagenavi',1],		
         },
     }, {
         siteName: '★Portableware~綠色軟體集散區☆',
@@ -2903,11 +2899,30 @@ var SITEINFO = [{
         },
     }, {
         siteName: '動漫花園資源網',
-        url: /http:\/\/share\.dmhy\.org\//i,
+        url: /https:\/\/share\.dmhy\.org\//i,
         siteExample: 'http://share.dmhy.org/',
         nextLink: 'auto;',
         autopager: {
             pageElement: '//div[@class="table clear"]',
+            useiframe: true,
+        },
+    }, {
+        siteName: '動漫花園資源網',
+        url: /http:\/\/share\.popgo\.org\//i,
+        siteExample: 'http://share.popgo.org/',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;#index_maintable',
+            useiframe: true,
+        },
+    }, {
+        siteName: '爱恋动漫BT下载',
+        url: /http:\/\/www\.kisssub\.org\//i,
+        siteExample: 'http://www.kisssub.org/',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;.box.clear.rounded',
+            HT_insert: ['css;.pages.clear', 1],
             useiframe: true,
         },
     }, {
@@ -3352,12 +3367,21 @@ var SITEINFO = [{
         },
     }, {
         siteName: 'JAV Torrent 掲示板',
-        url: /^https?:\/\/www\.freedl\.org\//i,
-        siteExample: 'http://www.freedl.org/treebbs2rss/treebbs2rss/tree.php?mode=expn&page=2',
+        url: /^https?:\/\/www\.freedl\.org\/treebbs2rss\/treebbs2rss\/tree\.php\?mode\=(tree|expn|dump)/i,
+        siteExample: 'http://www.freedl.org/treebbs2rss/treebbs2rss/tree.php?mode=tree',
         nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;body center div > a[name]',
-            HT_insert: ['css;HTML > BODY > CENTER > DIV > CENTER:nth-child(34),HTML > BODY > CENTER > DIV > CENTER:nth-child(21)', 1],
+            pageElement: 'css;body center div > a[name],.list',
+            //separator: false,
+        },
+    }, {
+        siteName: 'JAV Torrent 掲示板',
+        url: /^https?:\/\/www\.freedl\.org\/treebbs2rss\/treebbs2rss\/tree\.php\?mode\=root/i,
+        siteExample: 'http://www.freedl.org/treebbs2rss/treebbs2rss/tree.php?mode=root',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;.bgc',
+            separator: false,
         },
     }, {
         siteName: '綠軟家園',
@@ -3454,6 +3478,15 @@ var SITEINFO = [{
             pageElement: 'css;#iBody',
         },
     }, {
+        siteName: '無限動漫',
+        url: /^https?:\/\/new\.comicvip\.com\/show\//i,
+        siteExample: 'http://new.comicvip.com/show/cool-11874.html?ch=6#',
+        nextLink: 'css;#next2',
+        autopager: {
+            useiframe: true,
+            pageElement: 'css;#TheImg',
+        },
+    }, {
         siteName: '大ACG時代 NEW',
         url: /http:\/\/www\.flamefox\.org\//i,
         siteExample: 'http://www.flamefox.org/',
@@ -3484,6 +3517,33 @@ var SITEINFO = [{
         nextLink: 'auto;',
         autopager: {
             pageElement: 'css;[id^="subs"],[class^="subs_list"]',
+        },
+    }, {
+        siteName: 'wnacg',
+        url: /http:\/\/www\.wnacg\.com\/photos\-view\-id\-\d+\.html/,
+        siteExample: 'http://www.wnacg.com/photos-view-id-945033.html',
+        nextLink: 'css;#imgarea > a',
+        autopager: {
+            pageElement: 'css;.photo',
+            separator: false,
+            ipages: [false, 5],
+        },
+    }, {
+        siteName: 'greasyfork',
+        url: /https:\/\/greasyfork\.org\//i,
+        siteExample: 'https://greasyfork.org/zh-TW/scripts',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;#browse-script-list',
+        },
+    }, {
+        siteName: '漫畫台',
+        url: /http:\/\/www\.manhuatai\.com\/.*\/.*\.html/i,
+        siteExample: 'http://www.manhuatai.com/doupocangqiong/1ce.html',
+        nextLink: 'auto;',
+        autopager: {
+            useiframe: true,
+            pageElement: 'css;.mh_comiclist.tc',
         },
     },
 
@@ -3617,7 +3677,8 @@ var prePageKey = [
     '上一張', '上一張', '上一幅', '上一章', '上一節', '上一節', '上一篇',
     '前一頁', '前一頁',
     '後退', '後退', '上篇',
-    'previous', 'previous Page', '前へ', '前のページ', '前ページ'
+    'previous', 'previous Page', '前へ', '前のページ', '前ページ',
+    '前の 20 件','前の 15 件','前の 10 件','前の 5 件'
 ];
 
 //下一頁關鍵字
@@ -3628,7 +3689,8 @@ var nextPageKey = [
     '下一張', '下一張', '下一幅', '下一章', '下一節', '下一節', '下一篇',
     '後一頁', '後一頁',
     '前進', '下篇', '後頁', '往後',
-    'Next', 'Next Page', '次へ', '次のページ', '次ページ'
+    'Next', 'Next Page', '次へ', '次のページ', '次ページ',
+    '次の 20 件','次の 15 件','次の 10 件','次の 5 件'
 ];
 
 
