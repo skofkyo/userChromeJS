@@ -43,15 +43,16 @@
 				},
 				{
 					id: 'Sidebardownloadsbutton',
-					name: '\u4E0B\u8F09',//下載
-					url: 'chrome://browser/content/downloads/contentAreaDownloadsView.xul',
+					name: '\u4E0B\u8F09',//下載about:downloads
+					url: 'about:downloads',
+					//url: 'chrome://browser/content/downloads/contentAreaDownloadsView.xul',
 					command: 'SidebarButtonNoHidden();',
 					favicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA/ElEQVQ4je2RTUrDQBhAH+mpXAtZBB2EIZCURrPJJbLTjYgnyB20tIreZA6QRSEkuCjmZyYKukkgxKbpAXzwrYb3+JgP/nIGxEAymrh7myVWSu1+Riildl1klmQs93Sb/AcOcAk8MjjZTKCfO+Acy7KSoig+p6Qp0jT9AG4BrqIoem/b9vtUWWvd+r7/AtgAC+AmDMM3Y8zXnNw0jXFddwsEnUsfuQ6C4FVrPRmp69pIKTfACrDGn7kAAs/ztk3TtGO5qiojhFgDy0PyMLKSUm7quja9XJaldhznGfCPyT0WsBRCrPM832dZtrdt+wnwTpGHEQE8APfAxZT8C+pTrhFnReUNAAAAAElFTkSuQmCC',
 				},
 				{
 					id: 'translatebutton',
 					name: '谷歌翻译',
-					url: 'http://translate.google.com/#auto/zh-TW/',
+					url: 'https://translate.google.com/m/translate#auto/zh-TW/',
 					favicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVQ4jY2SP4viQBiHX0UQWz/AXb+VX8Iu/YqFhdhcd5BKEOTKC9jJFYrFgo3FIjYiCRauhTCQDMp4bJFklzCuLJLOWNj8rpDMJt7u7Q08xQzze953/hAR0el4QJLw8KR4fXkE/Wtch01zjP6gmxLsd9uPJafjAf1BF82WjmZLR61eRa1eVfNmS4cMxP8JksGk6FPB6XjAii1Qq1fBBYMMBL79+InvDIrbB0CzIpSmQHF0RnF0vkiTFxZX7A+6MOzwU0FxdEZKYJpj1fp1eO5KzF0JzYreF/iekzr77QMUhh2q1zDsUIULPQl6fXkEFww53cWKLWCaY3DBVMuaFWHuSsT7fM/5W5DTXYUMBGQgUJoCpelFst9tcc84DDuE7znQrAiFnrwIkuGY/W6rBIYdQgYC7RmHZkXwPQf3jL8JiCglISLKVCaqzfhZfc9RcMFwc/eMfGd9EWQbS+R0F9nGEtnGEpnKBJnKJFWxPNygPNygPePggqE942nBdTjG9xyUhxvVcqEnsWILrNjiTfCRJN9ZI99Zp8LxWsy73ztTmYCI6ObuGV/7Tym+/PqtICL6A7F/dNYyWabFAAAAAElFTkSuQmCC'
 				},
 				/*
