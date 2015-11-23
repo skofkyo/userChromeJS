@@ -17,10 +17,10 @@ xcopy "%BackDir%\extensions" %TempFolder%\extensions\ /s /y /i
 ::書籤的備份檔案
 ::xcopy "%BackDir%\bookmarkbackups" %TempFolder%\bookmarkbackups\ /s /y /i
 ::μblock設定
-::xcopy "%BackDir%\extension-data" %TempFolder%\extension-data\ /s /y /i
+xcopy "%BackDir%\extension-data" %TempFolder%\extension-data\ /s /y /i
 ::使用者腳本
-::xcopy "%BackDir%\scriptish_scripts" %TempFolder%\scriptish_scripts\ /s /y /i
-::xcopy "%BackDir%\gm_scripts" %TempFolder%\gm_scripts\ /s /y /i
+xcopy "%BackDir%\scriptish_scripts" %TempFolder%\scriptish_scripts\ /s /y /i
+xcopy "%BackDir%\gm_scripts" %TempFolder%\gm_scripts\ /s /y /i
 ::搜尋引擎資料夾
 ::xcopy "%BackDir%\searchplugins" %TempFolder%\searchplugins\ /s /y /i
 ::::::::::::::::::::以下是檔案::::::::::::::::::::
@@ -76,7 +76,7 @@ set hour=%time:~,2%
 if "%time:~,1%"==" " set hour=%time:~1,1%
 set backupTime=%date:~0,4%-%date:~5,2%-%date:~8,2%,%hour%-%time:~3,2%-%time:~6,2% 
 ::設置備份文件路徑以及文件名
-set ArchiveName=d:\FirefoxBackup\Profiles_pcx%ver%_%date:~0,4%-%date:~5,2%-%date:~8,2%[%hour%h-%time:~3,2%m-%time:~6,2%s].7z
+set ArchiveName=d:\FirefoxBackup\Profiles_Firefox_%ver%_%date:~0,4%-%date:~5,2%-%date:~8,2%[%hour%h-%time:~3,2%m-%time:~6,2%s].7z
 rem 開始備份
 7z.exe u -up1q3r2x2y2z2w2 %ArchiveName% "%TempFolder%"
 @echo 備份完成！刪除臨時文件夾
