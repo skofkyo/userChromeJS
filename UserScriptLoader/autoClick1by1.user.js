@@ -1,67 +1,70 @@
-// ==UserScript==
-// @name  网页自动化系列点击
-// @namespace  autoClick1by1.jasonshaw
-// @version    0.3
-// @description  匹配的任意url，顺序逐个点击设定的obj，任意不存在则彻底停止
-// @include http://*.kdslife.com/show/photo/*.html
-// @include http://www.repaik.com/forum.php?mod=viewthread*
-// @include http://*.pcauto.com.cn/*/*/*/*.html
-// @include http://bbs.pinggu.org/plugin.php?id=dsu_paulsign:sign*
-// @include http://www.repaik.com/plugin.php?id=dsu_paulsign:sign*
-// @include http://www.soft8.me/*/*.html*
-// @include http://www.2121.club/*.html
-// @include http://*.mimima.com/link.php?ref=*
-// @include http://www.jptorrent.org/link.php*
-// @include http://99files.net/download.html?id=*
-// @include http://www.365shares.net/storage/*
-// @include http://www.datafilehost.com/d/*
-// @include http://9xdd.com/_dl*
-// @include http://9xdd.com/_dl_*/_MediaFire_*mediafire.htm
-// @include http://softblog.tw/*
-// @include http://bbs.kafan.cn/*
-// @include http://g.mozest.com/*
-// @include http://www.repaik.com/
-// @include *zippyshare.com*
-// @include http*://docs.google.com/uc?id=*
-// @include http*://my.pcloud.com/*
-// @include http://uploadingit.com/file/*
-// @downloadURL    https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
-// @updateURL      https://github.com/jasonshaw/userscript/blob/master/autoClick1by1.user.js
-// @note         允许自定义网站的点击延迟时间
-// @note         允许自定义网站的是否在系列点击之后关闭网页
-// @note         增加脚本运行判断，解决个别页面动态加载问题，比如睿派克签到
-// @note         支持kds阻止相册自动翻页
-// @note         支持睿派克、人大论坛自动等自动签到
-// @note         支持卡饭、睿派克自动关闭侧栏
-// @note         支持太平洋汽车本页展开全部内容
-// @run-at       document-end
-// @copyright  2014+, jasonshaw
+// @name 網頁自動化系列點擊
+// @namespace autoClick1by1.jasonshaw
+// @version 0.5
+// @description 匹配的任意url，順序逐個點擊設定的obj，任意不存在則徹底停止
+// @include http://*
+// @include https://*
+// @downloadURL https://raw.githubusercontent.com/jasonshaw/userscript/master/autoClick1by1.user.js
+// @updateURL https://raw.githubusercontent.com/jasonshaw/userscript/master/autoClick1by1.user.js
+// @note 允許在配置中直接給出dom元素 而替代css3 selector數組，參數直接為函數，返回值即dom元素數組
+// @note 允許是定standby狀態，用於要點擊的內容依賴頁面初始加載後的動態加載才能運行的情況，默認直接運行系列化點擊，否則等待動態加載後運行
+// @note 允許自定義網站的點擊延遲時間
+// @note 允許自定義網站的是否在系列點擊之後關閉網頁
+// @note 增加腳本運行判斷，解決個別頁面動態加載問題，比如睿派克簽到
+// @note 支持kds阻止相冊自動翻頁
+// @note 支持睿派克、人大論壇自動等自動簽到
+// @note 支持卡飯、睿派克自動關閉側欄
+// @note 支持太平洋汽車本頁展開全部內容
+// @grant GM_openInTab
+// @run-at document-end
+// @copyright 2014+, jasonshaw
 // ==/UserScript==
-(function(){
-    var autoClose = false,delay = 500;
-    var prefs = {
-        'kds': {
-            startReg: /http:\/\/model\.kdslife\.com\/show\/photo\/\d+\.html/i,//定义href正则
-            autoClose: true,//config中dom.allow_scripts_to_close_windows  需要为true, 存在风险，请谨慎使用
-            elements: ['.bigp_nav2 > form > input[value="stop"]'],//所有参数为要点击的按钮的css3 selector
-            delay: 500
-        },
-        'repaik': {
-            startReg: /^http:\/\/www\.repaik\.com\/$/,
-            elements: ['a[onclick="hdMsg()"]']
-        },
-        /*'repaik': {
-            startReg: /http:\/\/www\.repaik\.com\/forum\.php\?mod=viewthread&tid=\d+/i,
-            elements: ['a.btn_s_close']
-        },
-        'kafan': {
-            startReg: /http:\/\/bbs\.kafan\.cn\/thread-\d+-\d+-\d+\.html/,
-            elements: ['a.btn_s_close']
-        },*/
-        'kafan': {
-            startReg: /http:\/\/bbs\.kafan\.cn\/forum-\d+-\d+.html/,
-            elements: ['img[src="http://a.ikafan.com/image/common/collapsed_no.gif"]']
-        },
+(function() {
+	var autoClose = false,
+		delay = 700,
+		standby = false;
+	var prefs = {
+		'rutracker': {
+			startReg: /^http:\/\/rutracker\.org\/forum\/viewtopic\.php\?t=.*/i, //定義href正則
+			elements: function() {
+				return document.querySelectorAll('div[class="sp-head folded"]');
+			}, //不為數組而是函數時，直接提供一個捕獲所有點擊元素的函數方法
+			delay: 500
+		}, //壇友 amf需要增加的，自動展開折疊的帖子，不要用壇友直接刪除這個規則
+		'kds': {
+			standby: false, //定義是否，存在等待
+			startReg: /http:\/\/model\.kdslife\.com\/show\/photo\/\d+\.html/i, //定義href正則
+			autoClose: true, //config中dom.allow_scripts_to_close_windows 需要為true, 存在風險，請謹慎使用
+			elements: ['.bigp_nav2 > form > input[value="stop"]'], //所有參數為要點擊的按鈕的css3 selector
+			delay: 500
+		}, //寬帶山美圖庫阻止自動播放，方便autopager翻頁
+		'repaik': {
+			startReg: /http:\/\/www\.repaik\.com\/forum\.php\?mod=viewthread&tid=\d+/i,
+			elements: ['a.btn_s_close']
+		}, //睿派克關閉側欄
+		'repaik1': {
+			standby: false, //這裡的自動簽到，就是動態加載，需要等待簽到所需的dom元素和js加載和執行完畢，再運行自動化點擊實現簽到
+			autoClose: true,
+			startReg: /http:\/\/www\.repaik\.com\/plugin\.php\?id=dsu_paulsign:sign/,
+			elements: ['ul.qdsmile > li#ch', 'table[class="tfm"] input[value="2"]', '.tr3 > div:nth-child(2) > a > img']
+		}, //睿派克自動簽到
+		'repaik2': {
+			startReg: /http:\/\/www\.repaik\.com\/$/,
+			elements: ['a[href$="plugin.php?id=dsu_paulsign:sign"]']
+		}, //睿派克自動跳轉到簽到
+		'pcauto': {
+			startReg: /http:\/\/\w+\.pcauto\.com\.cn\/.+\.html/i,
+			elements: ['div.pageViewGuidedd > a[rel="nofollow"]']
+		},
+		//'kafan': {
+		//	startReg: /http:\/\/bbs\.kafan\.cn\/(thread-\d+-\d+-\d+\.html|forum.php\?mod=viewthread.*)/,
+		//	elements: ['a.btn_s_close']
+		//}, //kafan關閉側欄
+		//'kafan1': {
+		//	startReg: /http:\/\/bbs\.kafan\.cn\/.*/,
+		//	elements: ['a#pper_a']
+		//}, //kafan每日簽到
+
         'mozest': {
             startReg: /https?:\/\/g\.mozest\.com\//i,
             elements: ['#sidebar_img.collapsed_no']
@@ -79,9 +82,8 @@
             elements: ['ul.qdsmile > li#ch','table[class="tfm"] input[value="2"]','.tr3 > div:nth-child(2) > a > img']
         },
         'soft8': {
-            startReg: /http:\/\/\www\.soft8\.me\/\w+\/.+\.html/i,
+            startReg: /http:\/\/appinc\.org\//i,
             elements: ['a[onclick]','#dlbutton > div > ol:nth-child(2) > a[onclick]'],
-            autoClose: true
         },
         'softblog': {
             startReg: /http:\/\/softblog\.tw\/potplayer64\.html/,
@@ -99,7 +101,7 @@
             autoClose: true
         },
         'jptorrent': {
-            startReg: /http:\/\/www\.jptorrent\.org\/link\.php/i,
+            startReg: /http:\/\/(www|host2)\.jptorrent\.org\/link\.php/i,
             elements: ['input[valign="bottom"]'],
             autoClose: true,
             delay: 5500
@@ -137,7 +139,6 @@
         'googledocs': {
             startReg: /^https?:\/\/docs\.google\.com\/uc\?id\=\w+\&export\=download$/,
             elements: ['#uc-download-link'],
-            autoClose: true
         },
         'pcloud': {
             startReg: /https?:\/\/my\.pcloud\.com\/publink\/show\?code\=\w+/i,
@@ -150,32 +151,51 @@
             delay: 11000,
             autoClose: true
         },
-    };
-    function autoClick1by1(){
-        var href = window.location.href,site = null,i = 0;
-        for (var key in prefs) if(prefs[key].startReg.test(href)) {site = key;break;}
-        if(site == null) return;
-        var elements = prefs[site].elements;
-        autoClose = prefs[site].autoClose || autoClose;
-        delay = prefs[site].delay || delay;
-        setTimeout(function(){
-            try {
-                var elements = prefs[site].elements;
-                //alert(elements);
-                while(elements[i]){
-                    var obj = document.querySelector(elements[i]);
-                    if(obj == null) return;
-                    obj.click();
-                    i++;
-                }
-            } catch(e){alert(e);}
-        }, delay);
-        setTimeout(function(){
-            if(autoClose) window.close();
-        }, delay+3000);     
-    }
-    autoClick1by1();
-    /*document.onreadystatechange = function () {
-        autoClick1by1();
-    }*/
+        'popgo': {
+            startReg: /http:\/\/share\.popgo\.org\//i,
+            elements: ['#bopen'],
+        },
+	}
+
+	function autoClick1by1() {
+		var href = window.location.href,
+			site = null,
+			i = 0;
+		for (var key in prefs)
+			if (prefs[key].startReg.test(href)) {
+				site = key;
+				break;
+			}
+			//alert(site);
+		if (site == null) return;
+		var elements = prefs[site].elements;
+		autoClose = prefs[site].autoClose || autoClose;
+		delay = prefs[site].delay || delay;
+		standby = prefs[site].standby || standby;
+		setTimeout(function() {
+			try {
+				if (elements instanceof Array) var els = prefs[site].elements;
+				else { //function
+					var els = prefs[site].elements();
+				}
+				while (els[i]) {
+					var obj = (prefs[site].elements instanceof Array) ? document.querySelector(els[i]) : els[i];
+					if (obj == null) return;
+					if (obj.tagName == "A" && obj.href.indexOf("javascript") < 0 && obj.onclick == "undefined") GM_openInTab(obj.href);
+					else obj.click();
+					i++;
+				}
+			} catch (e) {
+				alert(e);
+			}
+		}, delay);
+		setTimeout(function() {
+			if (autoClose) window.close();
+		}, delay + 2000);
+	}
+	if (standby) {
+		document.onreadystatechange = function() {
+			if (document.readyState == "complete") autoClick1by1();
+		}
+	} else autoClick1by1();
 })();
