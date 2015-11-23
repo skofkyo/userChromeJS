@@ -34,8 +34,11 @@ keys['u'] = function() {
 			};
 */
 //尋找文字前次出現的位置
+//keys['F4'] = function() {
+//				gFindBar.getElement("find-previous").click();
+//			};
 keys['F4'] = function() {
-				gFindBar.getElement("find-previous").click();
+				gBrowser.removeCurrentTab();
 			};
 //頁面尋找剪貼簿文字
 keys['F+Alt'] = function() {
@@ -106,17 +109,26 @@ keys['c+ctrl'] = function() {
 				goDoCommand('cmd_copy');
 				setTimeout('content.document.getSelection().removeAllRanges();',100);
 			};
+//全選並複製
+keys['c+ctrl+alt'] = function() {
+				goDoCommand('cmd_selectAll');
+				setTimeout('goDoCommand("cmd_copy");', 100);
+				setTimeout('content.document.getSelection().removeAllRanges();', 100);
+			};
 //google站內搜索關鍵字
 keys['f+ctrl+alt'] = function() {
 				var _document=document.commandDispatcher.focusedWindow.document;
 				var p=prompt('請輸入想要在當前域內搜尋的關鍵字('+_document.location.hostname+'):','');
 				if(p)_document.location.href='https://www.google.com/search?q=site:'+_document.location.href.split('/')[2]+' '+encodeURIComponent(p);
 			};
+keys['d+shift'] = function() {
+				ucjsDownloadsStatusModoki.toggleDownloadsStatusModokiBar()
+			};
 //不使用代理
 keys['Alt+1'] = function() {
 				gPrefService.setIntPref("network.proxy.type", 0);
 				XULBrowserWindow.statusTextField.label = "不使用代理";
-				setTimeout('XULBrowserWindow.statusTextField.label = ""',1500);
+				setTimeout('XULBrowserWindow.statusTextField.label = ""',3000);
 			};
 //全局代理切換為proxy.hinet.net : 80
 keys['Alt+2'] = function() {
@@ -124,7 +136,7 @@ keys['Alt+2'] = function() {
 				gPrefService.setCharPref("network.proxy.http", "proxy.hinet.net");
 				gPrefService.setIntPref("network.proxy.http_port", 80);
 				XULBrowserWindow.statusTextField.label = "全局代理切換為proxy.hinet.net : 80";
-				setTimeout('XULBrowserWindow.statusTextField.label = ""',1500);
+				setTimeout('XULBrowserWindow.statusTextField.label = ""',3000);
 				BrowserReloadSkipCache();
 			};
 //PAC自動代理 Unblock Youku
@@ -133,6 +145,6 @@ keys['Alt+3'] = function() {
 				//gPrefService.setCharPref("network.proxy.autoconfig_url", "https://github.com/whuhacker/Unblock-Youku-Firefox/raw/master/data/proxy.pac");
 				gPrefService.setCharPref("network.proxy.autoconfig_url", "http://yo.uku.im/proxy.pac");
 				XULBrowserWindow.statusTextField.label = "PAC自動代理 Unblock Youku";
-				setTimeout('XULBrowserWindow.statusTextField.label = ""',1500);
+				setTimeout('XULBrowserWindow.statusTextField.label = ""',3000);
 				BrowserReloadSkipCache();
 			};
