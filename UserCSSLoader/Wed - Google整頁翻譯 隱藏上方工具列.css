@@ -1,12 +1,14 @@
 @namespace url(http://www.w3.org/1999/xhtml);
 
 @-moz-document url-prefix("http://www.google.com.tw/translate?sl=auto&tl=zh-TW&u=") {
-
 #gb,#gt-c
 {display:none !important;}
-
 #contentframe {
 top: 0px!important;
 }
+}
 
+@-moz-document url-prefix("https://translate.google.com/m/") {
+.community-promo
+{display:none !important;}
 }
