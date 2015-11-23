@@ -10,3 +10,15 @@
         padding-right: 0px !important;
     }
 }
+
+@-moz-document url(https://pixlr.com/editor/) {
+
+    .ad-wrap {
+        display: none !important;
+    }
+
+    body {
+        padding-right: 0px !important;
+    }
+
+}
