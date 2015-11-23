@@ -1,73 +1,20 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 @-moz-document url-prefix("about:preferences") {
-    #dialogBox{
-        width: 800px !important;
-    }
-/* 背景 */
-    page {
-        background:#FFF !important;
-        padding:0 !important;
-    }
-    
-/* 前进后退 */
-    #header {
-        margin:0 !important;
-        height:50px !important;
-        width:200px !important;
-        padding:0 10px !important;
-        position:fixed;
-        z-index:99999;
-    }
-    
-    #header > .nav-button {
-        list-style-image:none !important;
-        background:none !important;
-        border:0 !important;
-        box-shadow:none !important;
-    }
-    
-    #back-btn,#forward-btn {
-        padding:0 !important;
-        height:50px !important;
-        width:50px !important;
-        line-height:50px;
-        font-size:50px;
-        color:#FFF;
-    }
-
-    #back-btn[disabled="true"],
-    #forward-btn[disabled="true"] {
-        opacity:0.3 !important;
-    }
-    
-    #forward-btn {
-        margin-left:70px !important;
-    }
-
-    #back-btn:before {
-        content:"<";
-    }
-
-    #forward-btn:after {
-        content:">";
-    }
 
 /* 选项卡 */
     #categories {
-        margin:0 !important;
         padding-top:60px !important;
         width:180px !important;
         background:#333 !important;
     }
     
     .category {
-        border:none !important;
-        border-radius:0 !important;
         color:#AAA !important;
     }
 
     /* 当前项 */
     .category[selected="true"] {
+        border-width: 0 0 0 5px !important;
         font-weight: bold;
         color:#FFF !important;
         background-color:yellowgreen !important;
@@ -131,13 +78,6 @@
     
     radio:active .radio-check-box1 {
         background:#478ADD !important;
-    }
-    
-    radio[selected="true"] .radio-check {
-        display:none !important;
-/*        height:0 !important;width:0 !important;
-        padding-left:4px;padding-top:4px;
-        background:deepskyblue !important;*/
     }
     
     radio[selected="true"] .radio-check-box1 {
