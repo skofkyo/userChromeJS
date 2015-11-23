@@ -143,8 +143,9 @@ var ns = window.saveUserChromeJS = {
 
 		var installBtn = doc.createElement("a");
 		installBtn.setAttribute("id", "uc-install-button");
-		installBtn.setAttribute("class", "minibutton");
-		installBtn.setAttribute("href", downURL);
+///		installBtn.setAttribute("class", "minibutton"); /// class 変更
+		installBtn.setAttribute("class", "btn btn-sm "); ///
+///		installBtn.setAttribute("href", downURL); /// OperaStyle_linkDragSelection.uc.js 使用時はフォーカスが外れる
 		installBtn.innerHTML = "Install";
 		installBtn.addEventListener("click", function(event){
 			event.preventDefault();
@@ -234,7 +235,7 @@ var ns = window.saveUserChromeJS = {
                     };
                 }
 
-                persist.saveURI(obj_URI, null, null, null, "", fp.file, null);
+                persist.saveURI(obj_URI, null, null, null, null, "", fp.file, null);
 			}
 		};
 		fp.open(callbackObj);
@@ -245,20 +246,20 @@ var ns = window.saveUserChromeJS = {
         var mainAction, secondActions;
         if(runWithoutRestart && isRun){
             mainAction = {
-                label: "立即运行（可能有问题，重启即可）",
+                label: "立即運行（可能有問題，重啟即可）",
                 accessKey: "R",
                 callback: function(){
                     ns.runScript(info.file, info.charset);
                 }
             };
             secondActions = [{
-                label: "立即重启",
+                label: "立即重啟",
                 accessKey: "R",
                 callback: ns.restartApp
             }];
         }else{
             mainAction = {
-                label: "立即重启",
+                label: "立即重啟",
                 accessKey: "R",
                 callback: ns.restartApp
             };
@@ -267,7 +268,7 @@ var ns = window.saveUserChromeJS = {
 
         var showedMsg = ns.popupNotification({
             id: "userchromejs-install-popup-notification",
-            message: "'" + info.fileName + "' 安装完毕",
+            message: "'" + info.fileName + "' 安裝完畢",
             mainAction: mainAction,
             secondActions: secondActions,
             options: {
