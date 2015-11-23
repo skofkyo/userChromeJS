@@ -42,6 +42,10 @@
 
 <script type="application/javascript" xmlns="http://www.w3.org/1999/xhtml"><![CDATA[
   "use strict";
+  	CustomizableUI.createWidget({
+		defaultArea: CustomizableUI.AREA_NAVBAR,
+		id: "userChromebtnMenu",
+	});
   var userChromejs = {
 // --- config ---
 	editor: "", // 為空則用 view_source.editor.path
@@ -482,7 +486,7 @@
 
       var platform = window.navigator.platform.toLowerCase();
       if(platform.indexOf('win') > -1) {
-        UI.charset = 'GB2312';//Shift_JIS
+        UI.charset = 'BIG5';//Shift_JIS
       }else{
         UI.charset =  'UTF-8';
       }
@@ -739,10 +743,6 @@
       return this.menues.length == 0 ? true : false;
     },
   }
-	CustomizableUI.createWidget({
-		defaultArea: CustomizableUI.AREA_NAVBAR,
-		id: "userChromebtnMenu",
-	});
   
   userChromejsScriptOptionsMenu.run();
   ]]></script>
