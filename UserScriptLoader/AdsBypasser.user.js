@@ -3,31 +3,58 @@
 // @namespace      AdsBypasser
 // @description    Bypass Ads
 // @copyright      2012+, Wei-Cheng Pan (legnaleurc)
-// @version        5.9.2
+// @version        5.42.0
 // @license        BSD
 // @homepageURL    https://adsbypasser.github.io/
 // @supportURL     https://github.com/adsbypasser/adsbypasser/issues
-// @icon           https://raw.githubusercontent.com/adsbypasser/adsbypasser/v5.9.2/img/logo.png
+// @icon           https://raw.githubusercontent.com/adsbypasser/adsbypasser/v5.42.0/img/logo.png
 // @grant          unsafeWindow
 // @grant          GM_xmlhttpRequest
+
 // @grant          GM_addStyle
 // @grant          GM_getResourceText
 // @grant          GM_getResourceURL
+
 // @grant          GM_getValue
 // @grant          GM_openInTab
 // @grant          GM_registerMenuCommand
 // @grant          GM_setValue
 // @run-at         document-start
-// @resource       alignCenter https://raw.githubusercontent.com/adsbypasser/adsbypasser/v5.9.2/css/align_center.css
-// @resource       scaleImage https://raw.githubusercontent.com/adsbypasser/adsbypasser/v5.9.2/css/scale_image.css
-// @resource       bgImage https://raw.githubusercontent.com/adsbypasser/adsbypasser/v5.9.2/img/imagedoc-darknoise.png
+
+// @resource       alignCenter https://raw.githubusercontent.com/adsbypasser/adsbypasser/v5.42.0/css/align_center.css
+// @resource       scaleImage https://raw.githubusercontent.com/adsbypasser/adsbypasser/v5.42.0/css/scale_image.css
+// @resource       bgImage https://raw.githubusercontent.com/adsbypasser/adsbypasser/v5.42.0/img/imagedoc-darknoise.png
+
 // @include        http://*
 // @include        https://*
 // ==/UserScript==
 
-var _ = typeof module !== 'undefined' ? module.exports : {};
-(function () {
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    var bluebird = require('bluebird');
+    module.exports = factory(context, bluebird.Promise);
+  } else {
+    var P = null;
+    if (context.unsafeWindow.Future) {
+      P = function (fn) {
+        return context.unsafeWindow.Future.call(this, function (fr) {
+          fn(fr.resolve.bind(fr), fr.reject.bind(fr));
+        });
+      };
+    } else if (context.PromiseResolver) {
+      P = function (fn) {
+        return new context.Promise(function (pr) {
+          fn(pr.resolve.bind(pr), pr.reject.bind(pr));
+        });
+      };
+    } else {
+      P = context.Promise;
+    }
+    factory(context, P);
+  }
+}(this, function (context, Promise) {
   'use strict';
+  var _ = context._ = {};
   function setupStack () {
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, this.constructor);
@@ -135,7 +162,7 @@ var _ = typeof module !== 'undefined' ? module.exports : {};
     var result;
     any(this._c, function (value, index, self) {
       var tmp = fn(value, index, self);
-      if (tmp !== _.nop) {
+      if (tmp !== _.none) {
         result = {
           key: index,
           value: value,
@@ -194,756 +221,983 @@ var _ = typeof module !== 'undefined' ? module.exports : {};
       return fn.apply(this, args.concat(slice.call(arguments)));
     };
   };
+  _.D = function (fn) {
+    return new Promise(fn);
+  };
+  _.parseJSON = function (json) {
+    try {
+      return JSON.parse(json);
+    } catch (e) {
+      _.warn(e);
+    }
+    return _.none;
+  };
+  _.isString = function (value) {
+    return (typeof value === 'string') || (value instanceof String);
+  };
   _.nop = function () {
   };
+  _.none = _.nop;
+  _.wait = function (msDelay) {
+    return _.D(function (resolve, reject) {
+      setTimeout(resolve, msDelay);
+    });
+  };
   function log (method, args) {
+    if (_._quiet) {
+      return;
+    }
     args = Array.prototype.slice.call(args);
-    if (typeof args[0] === 'string' || args[0] instanceof String) {
+    if (_.isString(args[0])) {
       args[0] = 'AdsBypasser: ' + args[0];
     } else {
       args.unshift('AdsBypasser:');
     }
     var f = console[method];
     if (typeof f === 'function') {
-      f.apply(console, $.inject(args));
+      f.apply(console, args);
     }
   }
+  _._quiet = false;
   _.info = function () {
     log('info', arguments);
   };
   _.warn = function () {
     log('warn', arguments);
   };
-})();
+  return _;
+}));
 
-var $;
-(function () {
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context) {
+      var core = require('./core.js');
+      return factory(context, core);
+    };
+  } else {
+    context.$ = factory(context, context._);
+  }
+}(this, function (context, _) {
   'use strict';
-  function bootstrap (context) {
-    var _ = context._;
-    var window = context.window;
-    var unsafeWindow = context.unsafeWindow;
-    var GM = context.GM;
-    var document = window.document;
-    var DomNotFoundError = _.AdsBypasserError.extend({
-      name: 'DomNotFoundError',
-      constructor: function (selector) {
-        DomNotFoundError.super.constructor.call(this, _.T('`{0}` not found')(selector));
-      },
+  var window = context.window;
+  var document = window.document;
+  var DomNotFoundError = _.AdsBypasserError.extend({
+    name: 'DomNotFoundError',
+    constructor: function (selector) {
+      DomNotFoundError.super.constructor.call(this, _.T('`{0}` not found')(selector));
+    },
+  });
+  var $ = function (selector, context) {
+    if (!context || !context.querySelector) {
+      context = document;
+    }
+    var n = context.querySelector(selector);
+    if (!n) {
+      throw new DomNotFoundError(selector);
+    }
+    return n;
+  };
+  $.$ = function (selector, context) {
+    try {
+      return $(selector, context);
+    } catch (e) {
+      return null;
+    }
+  };
+  $.$$ = function (selector, context) {
+    if (!context || !context.querySelectorAll) {
+      context = document;
+    }
+    var ns = context.querySelectorAll(selector);
+    return _.C(ns);
+  };
+  $.toDOM = function(rawHTML) {
+    try {
+      var parser = new DOMParser();
+      var DOMHTML = parser.parseFromString(rawHTML, "text/html");
+      return DOMHTML;
+    } catch (e) {
+      throw new _.AdsBypasserError('could not parse HTML to DOM');
+    }
+  };
+  $.removeNodes = function (selector, context) {
+    $.$$(selector, context).each(function (e) {
+      e.parentNode.removeChild(e);
     });
-    var $ = function (selector, context) {
-      if (!context || !context.querySelector) {
-        context = document;
+  };
+  function searchScriptsByRegExp (pattern, context) {
+    var m = $.$$('script', context).find(function (s) {
+      var m = s.innerHTML.match(pattern);
+      if (!m) {
+        return _.none;
       }
-      var n = context.querySelector(selector);
-      if (!n) {
-        throw new DomNotFoundError(selector);
-      }
-      return n;
-    };
-    $.$ = function (selector, context) {
-      try {
-        return $(selector, context);
-      } catch (e) {
-        return null;
-      }
-    };
-    $.$$ = function (selector, context) {
-      if (!context || !context.querySelectorAll) {
-        context = document;
-      }
-      var ns = context.querySelectorAll(selector);
-      return _.C(ns);
-    };
-    function deepJoin (prefix, object) {
-      return _.C(object).map(function (v, k) {
-        var key = _.T('{0}[{1}]')(prefix, k);
-        if (typeof v === 'object') {
-          return deepJoin(key, v);
-        }
-        return _.T('{0}={1}').apply(this, [key, v].map(encodeURIComponent));
-      }).join('&');
+      return m;
+    });
+    if (!m) {
+      return null;
     }
-    function toQuery (data) {
-      if (typeof data === 'string') {
-        return data;
+    return m.payload;
+  }
+  function searchScriptsByString (pattern, context) {
+    var m = $.$$('script', context).find(function (s) {
+      var m = s.innerHTML.indexOf(pattern);
+      if (m < 0) {
+        return _.none;
       }
-      if (data instanceof String) {
-        return data.toString();
-      }
-      return _.C(data).map(function (v, k) {
-        if (typeof v === 'object') {
-          return deepJoin(k, v);
-        }
-        return _.T('{0}={1}').apply(this, [k, v].map(encodeURIComponent));
-      }).join('&');
+      return m;
+    });
+    if (!m) {
+      return null;
     }
-    function ajax (method, url, data, headers, callback) {
-      var l = document.createElement('a');
-      l.href = url;
-      var reqHost = l.hostname;
-      headers.Host = reqHost || window.location.host;
-      headers.Origin = window.location.origin;
-      headers.Referer = window.location.href;
-      headers['X-Requested-With'] = 'XMLHttpRequest';
-      var controller = GM.xmlhttpRequest({
+    return m.value.innerHTML;
+  }
+  $.searchScripts = function (pattern, context) {
+    if (pattern instanceof RegExp) {
+      return searchScriptsByRegExp(pattern, context);
+    } else if (_.isString(pattern)) {
+      return searchScriptsByString(pattern, context);
+    } else {
+      return null;
+    }
+  };
+  return $;
+}));
+
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context, GM) {
+      var core = require('./core.js');
+      return factory(context, GM, core);
+    };
+  } else {
+    factory(context, {
+      xmlhttpRequest: GM_xmlhttpRequest,
+    }, context._);
+  }
+}(this, function (context, GM, _) {
+  'use strict';
+  var window = context.window;
+  var document = window.document;
+  var $ = context.$ || {};
+  function deepJoin (prefix, object) {
+    return _.C(object).map(function (v, k) {
+      var key = _.T('{0}[{1}]')(prefix, k);
+      if (typeof v === 'object') {
+        return deepJoin(key, v);
+      }
+      return _.T('{0}={1}').apply(this, [key, v].map(encodeURIComponent));
+    }).join('&');
+  }
+  function toQuery (data) {
+    var type = typeof data;
+    if (data === null || (type !== 'string' && type !== 'object')) {
+      return '';
+    }
+    if (type === 'string') {
+      return data;
+    }
+    if (data instanceof String) {
+      return data.toString();
+    }
+    return _.C(data).map(function (v, k) {
+      if (typeof v === 'object') {
+        return deepJoin(k, v);
+      }
+      return _.T('{0}={1}').apply(this, [k, v].map(encodeURIComponent));
+    }).join('&');
+  }
+  function ajax (method, url, data, headers) {
+    var l = document.createElement('a');
+    l.href = url;
+    var reqHost = l.hostname;
+    var overrideHeaders = {
+      Host: reqHost || window.location.host,
+      Origin: window.location.origin,
+      Referer: window.location.href,
+      'X-Requested-With': 'XMLHttpRequest',
+    };
+    _.C(overrideHeaders).each(function (v, k, c) {
+      if (headers[k] === _.none) {
+        delete headers[k];
+      } else {
+        headers[k] = v;
+      }
+    });
+    var xhr = null;
+    var promise = _.D(function (resolve, reject) {
+      xhr = GM.xmlhttpRequest({
         method: method,
         url: url,
         data: data,
         headers: headers,
         onload: function (response) {
-          var headers = {
-            get: function (key) {
-              return this[key.toLowerCase()];
-            },
-          };
-          response.responseHeaders.split(/[\r\n]+/g).filter(function (v) {
-            return v.length !== 0;
-          }).map(function (v) {
-            return v.split(/:\s+/);
-          }).forEach(function (v) {
-            headers[v[0].toLowerCase()] = v[1];
-          });
-          callback(response.responseText, headers);
-        },
-      });
-      return controller;
-    }
-    $.toDOM = function(rawHTML) {
-      try {
-        var parser = new DOMParser();
-        var DOMHTML = parser.parseFromString(rawHTML, "text/html");
-        return DOMHTML;
-      } catch (e) {
-        throw new _.AdsBypasserError('could not parse HTML to DOM');
-      }
-    };
-    $.get = function (url, data, callback, headers) {
-      data = toQuery(data);
-      data = data!==''? '?' + data : '';
-      headers = headers || {};
-      return ajax('GET', url + data, '', headers, callback);
-    };
-    $.post = function (url, data, callback, headers) {
-      data = toQuery(data);
-      var h = {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Content-Length': data.length,
-      };
-      if (headers) {
-        _.C(headers).each(function (v, k) {
-          h[k] = v;
-        });
-      }
-      return ajax('POST', url, data, h, callback);
-    };
-    function go (path, params, method) {
-      method = method || 'post';
-      var form = document.createElement('form');
-      form.method = method;
-      form.action = path;
-      _.C(params).each(function (value, key) {
-          var input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = key;
-          input.value = value;
-          form.appendChild(input);
-      });
-      document.body.appendChild(form);
-      form.submit();
-    }
-    $.openLinkByPost = function (url, data) {
-      go(url, data, 'post');
-    };
-    $.openLink = function (to) {
-      if (!to) {
-        _.warn('false URL');
-        return;
-      }
-      var from = window.location.toString();
-      _.info(_.T('{0} -> {1}')(from, to));
-      window.top.location.replace(to);
-    };
-    $.openLinkWithReferer = function (to) {
-      if (!to) {
-        _.warn('false URL');
-        return;
-      }
-      var from = window.location.toString();
-      _.info(_.T('{0} -> {1}')(from, to));
-      var a = document.createElement('a');
-      a.href = to;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-    };
-    $.openImage = function (imgSrc) {
-      if (config.redirectImage) {
-        $.openLink(imgSrc);
-      }
-    };
-    $.removeAllTimer = function () {
-      var handle = window.setInterval(_.nop, 10);
-      while (handle > 0) {
-        window.clearInterval(handle--);
-      }
-      handle = window.setTimeout(_.nop, 10);
-      while (handle > 0) {
-        window.clearTimeout(handle--);
-      }
-    };
-    $.enableScrolling = function () {
-      var o = document.compatMode === 'CSS1Compat' ? document.documentElement : document.body;
-      o.style.overflow = '';
-    };
-    function toggleShrinking () {
-      this.classList.toggle('adsbypasser-shrinked');
-    }
-    function checkScaling () {
-      var nw = this.naturalWidth;
-      var nh = this.naturalHeight;
-      var cw = document.documentElement.clientWidth;
-      var ch = document.documentElement.clientHeight;
-      if ((nw > cw || nh > ch) && !this.classList.contains('adsbypasser-resizable')) {
-        this.classList.add('adsbypasser-resizable');
-        this.classList.add('adsbypasser-shrinked');
-        this.addEventListener('click', toggleShrinking);
-      } else {
-        this.removeEventListener('click', toggleShrinking);
-        this.classList.remove('adsbypasser-shrinked');
-        this.classList.remove('adsbypasser-resizable');
-      }
-    }
-    function scaleImage (i) {
-      var style = GM.getResourceText('scaleImage');
-      GM.addStyle(style);
-      if (i.naturalWidth && i.naturalHeight) {
-        checkScaling.call(i);
-      } else {
-        i.addEventListener('load', checkScaling);
-      }
-      var h;
-      window.addEventListener('resize', function () {
-        window.clearTimeout(h);
-        h = window.setTimeout(checkScaling.bind(i), 100);
-      });
-    }
-    function changeBackground () {
-      var bgImage = GM.getResourceURL('bgImage');
-      document.body.style.backgroundColor = '#222222';
-      document.body.style.backgroundImage = _.T('url(\'{0}\')')(bgImage);
-    }
-    function alignCenter () {
-      var style = GM.getResourceText('alignCenter');
-      GM.addStyle(style);
-    }
-    function injectStyle (d, i) {
-      $.removeNodes('style, link[rel=stylesheet]');
-      d.id = 'adsbypasser-wrapper';
-      i.id = 'adsbypasser-image';
-    }
-    $.replace = function (imgSrc) {
-      if (!config.redirectImage) {
-        return;
-      }
-      if (!imgSrc) {
-        _.warn('false url');
-        return;
-      }
-      _.info(_.T('replacing body with `{0}` ...')(imgSrc));
-      $.removeAllTimer();
-      $.enableScrolling();
-      document.body = document.createElement('body');
-      var d = document.createElement('div');
-      document.body.appendChild(d);
-      var i = document.createElement('img');
-      i.src = imgSrc;
-      d.appendChild(i);
-      if (config.alignCenter || config.scaleImage) {
-        injectStyle(d, i);
-      }
-      if (config.alignCenter) {
-        alignCenter();
-      }
-      if (config.changeBackground) {
-        changeBackground();
-      }
-      if (config.scaleImage) {
-        scaleImage(i);
-      }
-    };
-    $.removeNodes = function (selector, context) {
-      $.$$(selector, context).each(function (e) {
-        e.parentNode.removeChild(e);
-      });
-    };
-    function searchScriptsByRegExp (pattern, context) {
-      var m = $.$$('script', context).find(function (s) {
-        var m = s.innerHTML.match(pattern);
-        if (!m) {
-          return _.nop;
-        }
-        return m;
-      });
-      if (!m) {
-        return null;
-      }
-      return m.payload;
-    }
-    function searchScriptsByString (pattern, context) {
-      var m = $.$$('script', context).find(function (s) {
-        var m = s.innerHTML.indexOf(pattern);
-        if (m < 0) {
-          return _.nop;
-        }
-        return m;
-      });
-      if (!m) {
-        return null;
-      }
-      return m.value.innerHTML;
-    }
-    $.searchScripts = function (pattern, context) {
-      if (pattern instanceof RegExp) {
-        return searchScriptsByRegExp(pattern, context);
-      } else if (typeof pattern === 'string') {
-        return searchScriptsByString(pattern, context);
-      } else {
-        return null;
-      }
-    };
-    $.setCookie = function (key, value) {
-      var now = new Date();
-      now.setTime(now.getTime() + 3600 * 1000);
-      var tpl = _.T('{0}={1};path=/;');
-      document.cookie = tpl(key, value, now.toUTCString());
-    };
-    $.getCookie = function (key) {
-      var c = _.C(document.cookie.split(';')).find(function (v) {
-        var k = v.replace(/^\s*(\w+)=.+$/, '$1');
-        if (k !== key) {
-          return _.nop;
-        }
-      });
-      if (!c) {
-        return null;
-      }
-      c = c.value.replace(/^\s*\w+=([^;]+).+$/, '$1');
-      if (!c) {
-        return null;
-      }
-      return c;
-    };
-    $.resetCookies = function () {
-      var a = document.domain;
-      var b = document.domain.replace(/^www\./, '');
-      var c = document.domain.replace(/^(\w+\.)+?(\w+\.\w+)$/, '$2');
-      var d = (new Date(1e3)).toUTCString();
-      _.C(document.cookie.split(';')).each(function (v) {
-        var k = v.replace(/^\s*(\w+)=.+$/, '$1');
-        document.cookie = _.T('{0}=;expires={1};')(k, d);
-        document.cookie = _.T('{0}=;path=/;expires={1};')(k, d);
-        var e = _.T('{0}=;path=/;domain={1};expires={2};');
-        document.cookie = e(k, a, d);
-        document.cookie = e(k, b, d);
-        document.cookie = e(k, c, d);
-      });
-    };
-    $.captcha = function (imgSrc, cb) {
-      if (!config.externalServerSupport) {
-        return;
-      }
-      var a = document.createElement('canvas');
-      var b = a.getContext('2d');
-      var c = new Image();
-      c.src = imgSrc;
-      c.onload = function () {
-        a.width = c.width;
-        a.height = c.height;
-        b.drawImage(c, 0, 0);
-        var d = a.toDataURL();
-        var e = d.substr(d.indexOf(',') + 1);
-        $.post('http://www.wcpan.info/cgi-bin/captcha.cgi', {
-          i: e,
-        }, cb);
-      };
-    };
-    function injectClone (vaccine) {
-      var injected;
-      if (typeof cloneInto !== 'function') {
-        injected = vaccine;
-      } else {
-        injected = cloneInto(vaccine, unsafeWindow, {
-          cloneFunctions: true,
-          wrapReflectors: true,
-        });
-      }
-      return injected;
-    }
-    function injectFunction (vaccine) {
-      var injected;
-      if (typeof exportFunction !== 'function') {
-        injected = vaccine;
-      } else {
-        try {
-          injected = exportFunction(vaccine, unsafeWindow, {
-            allowCrossOriginArguments: true,
-          });
-        } catch(e) {
-          console.error(e);
-        }
-      }
-      return injected;
-    }
-    function injectReference () {
-      var injected;
-      if (typeof createObjectIn !== 'function') {
-        injected = {};
-      } else {
-        injected = createObjectIn(unsafeWindow);
-      }
-      return injected;
-    }
-    $.inject = function (vaccine) {
-      if (typeof vaccine === 'function') {
-        return injectFunction(vaccine);
-      } else if (typeof vaccine === 'undefined') {
-        return injectReference();
-      } else {
-        return injectClone(vaccine);
-      }
-    };
-    var patterns = [];
-    $.register = function (pattern) {
-      patterns.push(pattern);
-    };
-    function load () {
-      var tmp = {
-        version: GM.getValue('version', 0),
-        alignCenter: GM.getValue('align_center'),
-        changeBackground: GM.getValue('change_background'),
-        externalServerSupport: GM.getValue('external_server_support'),
-        redirectImage: GM.getValue('redirect_image'),
-        scaleImage: GM.getValue('scale_image'),
-      };
-      fixup(tmp);
-      save(tmp);
-      return tmp;
-    }
-    function save (c) {
-      GM.setValue('version', c.version);
-      GM.setValue('align_center', c.alignCenter);
-      GM.setValue('change_background', c.changeBackground);
-      GM.setValue('external_server_support', c.externalServerSupport);
-      GM.setValue('redirect_image', c.redirectImage);
-      GM.setValue('scale_image', c.scaleImage);
-    }
-    function fixup (c) {
-      var patches = [
-        function (c) {
-          var ac = typeof c.alignCenter !== 'undefined';
-          if (typeof c.changeBackground === 'undefined') {
-            c.changeBackground = ac ? c.alignCenter : true;
-          }
-          if (typeof c.scaleImage === 'undefined') {
-            c.scaleImage = ac ? c.alignCenter : true;
-          }
-          if (!ac) {
-            c.alignCenter = true;
-          }
-          if (typeof c.redirectImage === 'undefined') {
-            c.redirectImage = true;
+          response = (typeof response.responseText !== 'undefined') ? response : this;
+          if (response.status !== 200) {
+            reject(response.responseText);
+          } else {
+            resolve(response.responseText);
           }
         },
-        function (c) {
-          if (typeof c.externalServerSupport === 'undefined') {
-            c.externalServerSupport = false;
-          }
+        onerror: function (response) {
+          response = (typeof response.responseText !== 'undefined') ? response : this;
+          reject(response.responseText);
         },
-      ];
-      while (c.version < patches.length) {
-        patches[c.version](c);
-        ++c.version;
-      }
-    }
-    var config = null;
-    $.register({
-      rule: {
-        host: /^adsbypasser\.github\.io$/,
-        path: /^\/configure\.html$/,
-      },
-      ready: function () {
-        unsafeWindow.commit = $.inject(function (data) {
-          data.version = config.version;
-          _.C(data).each(function (v, k) {
-            config[k] = v;
-          });
-          setTimeout(function () {
-            save(data);
-          }, 0);
-        });
-        unsafeWindow.render($.inject({
-          version: config.version,
-          options: {
-            alignCenter: {
-              type: 'checkbox',
-              value: config.alignCenter,
-              label: 'Align Center',
-              help: 'Align image to the center if possible. (default: enabled)',
-            },
-            changeBackground: {
-              type: 'checkbox',
-              value: config.changeBackground,
-              label: 'Change Background',
-              help: 'Use Firefox-like image background if possible. (default: enabled)',
-            },
-            redirectImage: {
-              type: 'checkbox',
-              value: config.redirectImage,
-              label: 'Redirect Image',
-              help: [
-                'Directly open image link if possible. (default: enabled)',
-                'If disabled, redirection will only works on link shortener sites.',
-              ].join('<br/>\n'),
-            },
-            scaleImage: {
-              type: 'checkbox',
-              value: config.scaleImage,
-              label: 'Scale Image',
-              help: 'When image loaded, scale it to fit window if possible. (default: enabled)',
-            },
-            externalServerSupport: {
-              type: 'checkbox',
-              value: config.externalServerSupport,
-              label: 'External Server Support',
-              help: [
-                'Send URL information to external server to enhance features (e.g.: captcha resolving). (default: disabled)',
-                'Affected sites:',
-                'urlz.so (captcha)',
-              ].join('<br/>\n'),
-            },
-          },
-        }));
-      },
+      });
     });
-    function dispatchByObject (rule, url_6) {
-      var matched = {};
-      var passed = _.C(rule).all(function (pattern, part) {
-        if (pattern instanceof RegExp) {
-          matched[part] = url_6[part].match(pattern);
-        } else if (pattern instanceof Array) {
-          var r = _.C(pattern).find(function (p) {
-            var m = url_6[part].match(p);
-            return m || _.nop;
-          });
-          matched[part] = r ? r.payload : null;
-        }
-        return !!matched[part];
-      });
-      return passed ? matched : null;
-    }
-    function dispatchByRegExp (rule, url_1) {
-      return url_1.match(rule);
-    }
-    function dispatchByArray (byLocation, rules, url_1, url_3, url_6) {
-      var tmp = _.C(rules).find(function (rule) {
-        var m = dispatch(byLocation, rule, url_1, url_3, url_6);
-        if (!m) {
-          return _.nop;
-        }
-        return m;
-      });
-      return tmp ? tmp.payload : null;
-    }
-    function dispatchByString (rule, url_3) {
-      var scheme = /\*|https?|file|ftp|chrome-extension/;
-      var host = /\*|(\*\.)?([^\/*]+)/;
-      var path = /\/.*/;
-      var up = new RegExp(_.T('^({scheme})://({host})?({path})$')({
-        scheme: scheme.source,
-        host: host.source,
-        path: path.source,
-      }));
-      var matched = rule.match(up);
-      if (!matched) {
-        return null;
-      }
-      scheme = matched[1];
-      host = matched[2];
-      var wc = matched[3];
-      var sd = matched[4];
-      path = matched[5];
-      if (scheme === '*' && !/https?/.test(url_3.scheme)) {
-        return null;
-      } else if (scheme !== url_3.scheme) {
-        return null;
-      }
-      if (scheme !== 'file' && host !== '*') {
-        if (wc) {
-          up = url_3.host.indexOf(sd);
-          if (up < 0 || up + sd.length !== url_3.host.length) {
-            return null;
-          }
-        } else if (host !== url_3.host) {
-          return null;
-        }
-      }
-      path = new RegExp(_.T('^{0}$')(path.replace(/[*.\[\]?+#]/g, function (c) {
-        if (c === '*') {
-          return '.*';
-        }
-        return '\\' + c;
-      })));
-      if (!path.test(url_3.path)) {
-        return null;
-      }
-      return url_3;
-    }
-    function dispatchByFunction (rule, url_1, url_3, url_6) {
-      return rule(url_1, url_3, url_6);
-    }
-    function dispatch (byLocation, rule, url_1, url_3, url_6) {
-      if (rule instanceof Array) {
-        return dispatchByArray(byLocation, rule, url_1, url_3, url_6);
-      }
-      if (!byLocation) {
-        if (typeof rule !== 'function') {
-          return null;
-        }
-        return dispatchByFunction(rule, url_1, url_3, url_6);
-      }
-      if (rule instanceof RegExp) {
-        return dispatchByRegExp(rule, url_1);
-      }
-      if (typeof rule === 'string' || rule instanceof String) {
-        return dispatchByString(rule, url_3);
-      }
-      if (typeof rule === 'function') {
-        return null;
-      }
-      return dispatchByObject(rule, url_6);
-    }
-    function findHandler (byLocation) {
-      var url_1 = window.location.toString();
-      var url_3 = {
-        scheme: window.location.protocol.slice(0, -1),
-        host: window.location.host,
-        path: window.location.pathname + window.location.search + window.location.hash,
-      };
-      var url_6 = {
-        scheme: window.location.protocol,
-        host: window.location.hostname,
-        port: window.location.port,
-        path: window.location.pathname,
-        query: window.location.search,
-        hash: window.location.hash,
-      };
-      var pattern = _.C(patterns).find(function (pattern) {
-        var m = dispatch(byLocation, pattern.rule, url_1, url_3, url_6);
-        if (!m) {
-          return _.nop;
-        }
-        return m;
-      });
-      if (!pattern) {
-        return null;
-      }
-      var matched = pattern.payload;
-      pattern = pattern.value;
-      if (!pattern.start && !pattern.ready) {
-        return null;
-      }
-      return {
-        start: pattern.start ? _.P(pattern.start, matched) : _.nop,
-        ready: pattern.ready ? _.P(pattern.ready, matched) : _.nop,
-      };
-    }
-    function disableWindowOpen () {
-      unsafeWindow.open = _.nop;
-    }
-    function disableLeavePrompt () {
-      var seal = {
-        set: function () {
-          _.info('blocked onbeforeunload');
-        },
-      };
-      _.C([unsafeWindow, unsafeWindow.document.body]).each(function (o) {
-        if (!o) {
-          return;
-        }
-        o.onbeforeunload = undefined;
-        o.__defineSetter__('onbeforeunload', $.inject(seal.set));
-        var oael = o.addEventListener;
-        var nael = function (type) {
-          if (type === 'beforeunload') {
-            _.info('blocked addEventListener onbeforeunload');
-            return;
-          }
-          return oael.apply(this, arguments);
-        };
-        o.addEventListener = $.inject(nael);
-      });
-    }
-    $._main = function (isNodeJS) {
-      delete $._main;
-      if (isNodeJS) {
-        config = load();
-        return;
-      }
-      if (window.top !== window.self) {
-        return;
-      }
-      var handler = findHandler(true);
-      if (handler) {
-        config = load();
-        _.info('working on\n%s \nwith\n%o', window.location.toString(), config);
-        disableWindowOpen();
-        handler.start();
-        document.addEventListener('DOMContentLoaded', function () {
-            disableLeavePrompt();
-            handler.ready();
-        });
-      } else {
-        _.info('does not match location on `%s`, will try HTML content', window.location.toString());
-        document.addEventListener('DOMContentLoaded', function () {
-          handler = findHandler(false);
-          if (!handler) {
-            _.info('does not match HTML content on `%s`', window.location.toString());
-            return;
-          }
-          config = load();
-          _.info('working on\n%s \nwith\n%o', window.location.toString(), config);
-          disableWindowOpen();
-          disableLeavePrompt();
-          handler.ready();
-        });
-      }
+    promise.abort = function () {
+      xhr.abort();
     };
-    GM.registerMenuCommand('AdsBypasser - Configure', function () {
-      GM.openInTab('https://adsbypasser.github.io/configure.html');
-    });
-    return $;
+    return promise;
   }
-  if (typeof module !== 'undefined') {
-    module.exports = bootstrap;
+  $.get = function (url, data, headers) {
+    data = toQuery(data);
+    data = data ? '?' + data : '';
+    headers = headers || {};
+    return ajax('GET', url + data, '', headers);
+  };
+  $.post = function (url, data, headers) {
+    data = toQuery(data);
+    var h = {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'Content-Length': data.length,
+    };
+    if (headers) {
+      _.C(headers).each(function (v, k) {
+        h[k] = v;
+      });
+    }
+    return ajax('POST', url, data, h);
+  };
+  return $;
+}));
+
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context) {
+      var core = require('./core.js');
+      return factory(context, core);
+    };
   } else {
-    $ = bootstrap({
-      _: _,
-      window: window,
-      unsafeWindow: unsafeWindow,
-      GM: {
-        getValue: GM_getValue,
-        setValue: GM_setValue,
-        xmlhttpRequest: GM_xmlhttpRequest,
-        getResourceText: GM_getResourceText,
-        addStyle: GM_addStyle,
-        getResourceURL: GM_getResourceURL,
-        openInTab: GM_openInTab,
-        registerMenuCommand: GM_registerMenuCommand,
+    factory(context, context._);
+  }
+}(this, function (context, _) {
+  'use strict';
+  var window = context.window;
+  var document = window.document;
+  var $ = context.$ || {};
+  $.setCookie = function (key, value) {
+    var now = new Date();
+    now.setTime(now.getTime() + 3600 * 1000);
+    var tpl = _.T('{0}={1};path={2};');
+    document.cookie = tpl(key, value, window.location.pathname, now.toUTCString());
+  };
+  $.getCookie = function (key) {
+    var c = _.C(document.cookie.split(';')).find(function (v) {
+      var k = v.replace(/^\s*(\w+)=.+$/, '$1');
+      if (k !== key) {
+        return _.none;
+      }
+    });
+    if (!c) {
+      return null;
+    }
+    c = c.value.replace(/^\s*\w+=([^;]+).+$/, '$1');
+    if (!c) {
+      return null;
+    }
+    return c;
+  };
+  $.resetCookies = function () {
+    var a = document.domain;
+    var b = document.domain.replace(/^www\./, '');
+    var c = document.domain.replace(/^(\w+\.)+?(\w+\.\w+)$/, '$2');
+    var d = (new Date(1e3)).toUTCString();
+    _.C(document.cookie.split(';')).each(function (v) {
+      var k = v.replace(/^\s*(\w+)=.+$/, '$1');
+      document.cookie = _.T('{0}=;expires={1};')(k, d);
+      document.cookie = _.T('{0}=;path=/;expires={1};')(k, d);
+      var e = _.T('{0}=;path=/;domain={1};expires={2};');
+      document.cookie = e(k, a, d);
+      document.cookie = e(k, b, d);
+      document.cookie = e(k, c, d);
+    });
+  };
+  return $;
+}));
+
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context) {
+      var core = require('./core.js');
+      return factory(context, core);
+    };
+  } else {
+    factory(context, context._);
+  }
+}(this, function (context, _) {
+  'use strict';
+  var window = context.window;
+  var document = window.document;
+  var $ = context.$ || {};
+  var patterns = [];
+  $.register = function (pattern) {
+    patterns.push(pattern);
+  };
+  function dispatchByObject (rule, url_6) {
+    var matched = {};
+    var passed = _.C(rule).all(function (pattern, part) {
+      if (pattern instanceof RegExp) {
+        matched[part] = url_6[part].match(pattern);
+      } else if (pattern instanceof Array) {
+        var r = _.C(pattern).find(function (p) {
+          var m = url_6[part].match(p);
+          return m || _.none;
+        });
+        matched[part] = r ? r.payload : null;
+      }
+      return !!matched[part];
+    });
+    return passed ? matched : null;
+  }
+  function dispatchByRegExp (rule, url_1) {
+    return url_1.match(rule);
+  }
+  function dispatchByArray (byLocation, rules, url_1, url_3, url_6) {
+    var tmp = _.C(rules).find(function (rule) {
+      var m = dispatch(byLocation, rule, url_1, url_3, url_6);
+      if (!m) {
+        return _.none;
+      }
+      return m;
+    });
+    return tmp ? tmp.payload : null;
+  }
+  function dispatchByString (rule, url_3) {
+    var scheme = /\*|https?|file|ftp|chrome-extension/;
+    var host = /\*|(\*\.)?([^\/*]+)/;
+    var path = /\/.*/;
+    var up = new RegExp(_.T('^({scheme})://({host})?({path})$')({
+      scheme: scheme.source,
+      host: host.source,
+      path: path.source,
+    }));
+    var matched = rule.match(up);
+    if (!matched) {
+      return null;
+    }
+    scheme = matched[1];
+    host = matched[2];
+    var wc = matched[3];
+    var sd = matched[4];
+    path = matched[5];
+    if (scheme === '*' && !/https?/.test(url_3.scheme)) {
+      return null;
+    } else if (scheme !== url_3.scheme) {
+      return null;
+    }
+    if (scheme !== 'file' && host !== '*') {
+      if (wc) {
+        up = url_3.host.indexOf(sd);
+        if (up < 0 || up + sd.length !== url_3.host.length) {
+          return null;
+        }
+      } else if (host !== url_3.host) {
+        return null;
+      }
+    }
+    path = new RegExp(_.T('^{0}$')(path.replace(/[*.\[\]?+#]/g, function (c) {
+      if (c === '*') {
+        return '.*';
+      }
+      return '\\' + c;
+    })));
+    if (!path.test(url_3.path)) {
+      return null;
+    }
+    return url_3;
+  }
+  function dispatchByFunction (rule, url_1, url_3, url_6) {
+    return rule(url_1, url_3, url_6);
+  }
+  function dispatch (byLocation, rule, url_1, url_3, url_6) {
+    if (rule instanceof Array) {
+      return dispatchByArray(byLocation, rule, url_1, url_3, url_6);
+    }
+    if (typeof rule === 'function') {
+      if (byLocation) {
+        return null;
+      }
+      return dispatchByFunction(rule, url_1, url_3, url_6);
+    }
+    if (rule instanceof RegExp) {
+      return dispatchByRegExp(rule, url_1);
+    }
+    if (_.isString(rule)) {
+      return dispatchByString(rule, url_3);
+    }
+    return dispatchByObject(rule, url_6);
+  }
+  $._findHandler = function (byLocation) {
+    var url_1 = window.location.toString();
+    var url_3 = {
+      scheme: window.location.protocol.slice(0, -1),
+      host: window.location.host,
+      path: window.location.pathname + window.location.search + window.location.hash,
+    };
+    var url_6 = {
+      scheme: window.location.protocol,
+      host: window.location.hostname,
+      port: window.location.port,
+      path: window.location.pathname,
+      query: window.location.search,
+      hash: window.location.hash,
+    };
+    var pattern = _.C(patterns).find(function (pattern) {
+      var m = dispatch(byLocation, pattern.rule, url_1, url_3, url_6);
+      if (!m) {
+        return _.none;
+      }
+      return m;
+    });
+    if (!pattern) {
+      return null;
+    }
+    var matched = pattern.payload;
+    pattern = pattern.value;
+    if (!pattern.start && !pattern.ready) {
+      return null;
+    }
+    return {
+      start: pattern.start ? _.P(pattern.start, matched) : _.nop,
+      ready: pattern.ready ? _.P(pattern.ready, matched) : _.nop,
+    };
+  };
+  return $;
+}));
+
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context) {
+      var core = require('./core.js');
+      return factory(context, core);
+    };
+  } else {
+    factory(context, context._);
+  }
+}(this, function (context, _) {
+  'use strict';
+  var window = context.window;
+  var document = window.document;
+  var $ = context.$ || {};
+  function prepare (e) {
+    if (!document.body) {
+      document.body = document.createElement('body');
+    }
+    document.body.appendChild(e);
+  }
+  function get (url) {
+    var a = document.createElement('a');
+    a.href = url;
+    prepare(a);
+    a.click();
+  }
+  function post (path, params) {
+    params = params || {};
+    var form = document.createElement('form');
+    form.method = 'post';
+    form.action = path;
+    _.C(params).each(function (value, key) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+    });
+    prepare(form);
+    form.submit();
+  }
+  $.openLink = function (to, options) {
+    if (!_.isString(to) && !to) {
+      _.warn('false URL');
+      return;
+    }
+    options = options || {};
+    var withReferer = typeof options.referer === 'undefined' ? true : options.referer;
+    var postData = options.post;
+    var from = window.location.toString();
+    _.info(_.T('{0} -> {1}')(from, to));
+    if (postData) {
+      post(to, postData);
+      return;
+    }
+    if (withReferer) {
+      get(to);
+      return;
+    }
+    window.top.location.replace(to);
+  };
+  return $;
+}));
+
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context) {
+      var core = require('./core.js');
+      var ajax = require('./ajax.js');
+      var $ = ajax(context);
+      return factory(context, core, $);
+    };
+  } else {
+    factory(context, context._, context.$);
+  }
+}(this, function (context, _, $) {
+  'use strict';
+  var window = context.window;
+  var unsafeWindow = context.unsafeWindow || (0, eval)('this').window;
+  var document = window.document;
+  $.removeAllTimer = function () {
+    var handle = window.setInterval(_.nop, 10);
+    while (handle > 0) {
+      window.clearInterval(handle--);
+    }
+    handle = window.setTimeout(_.nop, 10);
+    while (handle > 0) {
+      window.clearTimeout(handle--);
+    }
+  };
+  $.captcha = function (imgSrc, cb) {
+    if (!$.config.externalServerSupport) {
+      return;
+    }
+    var a = document.createElement('canvas');
+    var b = a.getContext('2d');
+    var c = new Image();
+    c.src = imgSrc;
+    c.onload = function () {
+      a.width = c.width;
+      a.height = c.height;
+      b.drawImage(c, 0, 0);
+      var d = a.toDataURL();
+      var e = d.substr(d.indexOf(',') + 1);
+      $.post('http://www.wcpan.info/cgi-bin/captcha.cgi', {
+        i: e,
+      }, cb);
+    };
+  };
+  function clone (safe) {
+    if (safe === null || !(safe instanceof Object)) {
+      return safe;
+    }
+    if (safe instanceof String) {
+      return safe.toString();
+    }
+    if (safe instanceof Function) {
+      return exportFunction(safe, unsafeWindow, {
+        allowCrossOriginArguments: true,
+      });
+    }
+    if (safe instanceof Array) {
+      var unsafe = new unsafeWindow.Array();
+      for (var i = 0; i < safe.length; ++i) {
+        unsafe.push(clone(safe[i]));
+      }
+      return unsafe;
+    }
+    var unsafe = new unsafeWindow.Object();
+    _.C(safe).each(function (v, k) {
+      unsafe[k] = clone(v);
+    });
+    return unsafe;
+  }
+  var MAGIC_KEY = '__adsbypasser_reverse_proxy__';
+  $.window = (function () {
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+    if (!isFirefox) {
+      return unsafeWindow;
+    }
+    var decorator = {
+      set: function (target, key, value) {
+        if (key === MAGIC_KEY) {
+          return false;
+        }
+        if (target === unsafeWindow && key === 'open') {
+          var d = Object.getOwnPropertyDescriptor(target, key);
+          d.value = clone(value);
+          Object.defineProperty(target, key, d);
+        } else {
+          target[key] = clone(value);
+        }
+        return true;
       },
+      get: function (target, key) {
+        if (key === MAGIC_KEY) {
+          return target;
+        }
+        var value = target[key];
+        var type = typeof value;
+        if (value === null || (type !== 'function' && type !== 'object')) {
+          return value;
+        }
+        return new Proxy(value, decorator);
+      },
+      apply: function (target, self, args) {
+        args = Array.prototype.slice.call(args);
+        if (target === unsafeWindow.Object.defineProperty) {
+          args[0] = args[0][MAGIC_KEY];
+        }
+        if (target === unsafeWindow.Function.apply) {
+          self = self[MAGIC_KEY];
+          args[1] = Array.prototype.slice.call(args[1]);
+        }
+        if (target === unsafeWindow.document.querySelector) {
+          self = self[MAGIC_KEY];
+        }
+        var usargs = clone(args);
+        return target.apply(self, usargs);
+      },
+      construct: function (target, args) {
+        args = Array.prototype.slice.call(args);
+        args.unshift(undefined);
+        var usargs = clone(args);
+        var bind = unsafeWindow.Function.prototype.bind;
+        return new (bind.apply(target, usargs));
+      },
+    };
+    return new Proxy(unsafeWindow, decorator);
+  })();
+  return $;
+}));
+
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context, GM) {
+      var _ = require('lodash');
+      var core = require('./core.js');
+      var misc = require('./misc.js');
+      var dispatcher = require('./dispatcher.js');
+      var modules = [misc, dispatcher].map(function (v) {
+        return v.call(null, context, GM);
+      });
+      var $ = _.assign.apply(null, modules);
+      return factory(context, GM, core, $);
+    };
+  } else {
+    factory(context, {
+      getValue: GM_getValue,
+      setValue: GM_setValue,
+    }, context._, context.$);
+  }
+}(this, function (context, GM, _, $) {
+  'use strict';
+  var MANIFEST = [
+    {
+      name: 'version',
+      key: 'version',
+      default_: 0,
+      verify: function (v) {
+        return typeof v === 'number' && v >= 0;
+      },
+    },
+    {
+      name: 'alignCenter',
+      key: 'align_center',
+      default_: true,
+      verify: isBoolean,
+    },
+    {
+      name: 'changeBackground',
+      key: 'change_background',
+      default_: true,
+      verify: isBoolean,
+    },
+    {
+      name: 'externalServerSupport',
+      key: 'external_server_support',
+      default_: false,
+      verify: isBoolean,
+    },
+    {
+      name: 'redirectImage',
+      key: 'redirect_image',
+      default_: true,
+      verify: isBoolean,
+    },
+    {
+      name: 'scaleImage',
+      key: 'scale_image',
+      default_: true,
+      verify: isBoolean,
+    },
+    {
+      name: 'logLevel',
+      key: 'log_level',
+      default_: 1,
+      verify: function (v) {
+        return typeof v === 'number' && v >= 0 && v <= 2;
+      },
+    },
+  ];
+  var PATCHES = [
+    function (c) {
+      var ac = typeof c.alignCenter === 'boolean';
+      if (typeof c.changeBackground !== 'boolean') {
+        c.changeBackground = ac ? c.alignCenter : true;
+      }
+      if (typeof c.scaleImage !== 'boolean') {
+        c.scaleImage = ac ? c.alignCenter : true;
+      }
+      if (!ac) {
+        c.alignCenter = true;
+      }
+      if (typeof c.redirectImage !== 'boolean') {
+        c.redirectImage = true;
+      }
+    },
+    function (c) {
+      if (typeof c.externalServerSupport !== 'boolean') {
+        c.externalServerSupport = false;
+      }
+    },
+    function (c) {
+      if (typeof c.logLevel !== 'number') {
+        c.logLevel = 1;
+      }
+    },
+  ];
+  var window = context.window;
+  function isBoolean(v) {
+    return typeof v === 'boolean';
+  }
+  function createConfig () {
+    var c = {};
+    _.C(MANIFEST).each(function (m) {
+      Object.defineProperty(c, m.name, {
+        configurable: true,
+        enumerable: true,
+        get: function () {
+          return GM.getValue(m.key, m.default_);
+        },
+        set: function (v) {
+          GM.setValue(m.key, v);
+        },
+      });
+    });
+    return c;
+  }
+  function senityCheck (c) {
+    var ok = _.C(MANIFEST).all(function (m) {
+      return m.verify(c[m.name]);
+    });
+    if (!ok) {
+      c.version = 0;
+    }
+    return c;
+  }
+  function migrate (c) {
+    while (c.version < PATCHES.length) {
+      PATCHES[c.version](c);
+      ++c.version;
+    }
+    return c;
+  }
+  $.config = migrate(senityCheck(createConfig()));
+  $.register({
+    rule: {
+      host: /^adsbypasser\.github\.io$/,
+      path: /^\/configure\.html$/,
+    },
+    ready: function () {
+      $.window.commit = function (data) {
+        data.version = $.config.version;
+        _.C(data).each(function (v, k) {
+          $.config[k] = v;
+        });
+      };
+      $.window.render({
+        version: $.config.version,
+        options: {
+          alignCenter: {
+            type: 'checkbox',
+            value: $.config.alignCenter,
+            label: 'Align Center',
+            help: 'Align image to the center if possible. (default: enabled)',
+          },
+          changeBackground: {
+            type: 'checkbox',
+            value: $.config.changeBackground,
+            label: 'Change Background',
+            help: 'Use Firefox-like image background if possible. (default: enabled)',
+          },
+          redirectImage: {
+            type: 'checkbox',
+            value: $.config.redirectImage,
+            label: 'Redirect Image',
+            help: [
+              'Directly open image link if possible. (default: enabled)',
+              'If disabled, redirection will only works on link shortener sites.',
+            ].join('<br/>\n'),
+          },
+          scaleImage: {
+            type: 'checkbox',
+            value: $.config.scaleImage,
+            label: 'Scale Image',
+            help: 'When image loaded, scale it to fit window if possible. (default: enabled)',
+          },
+          externalServerSupport: {
+            type: 'checkbox',
+            value: $.config.externalServerSupport,
+            label: 'External Server Support',
+            help: [
+              'Send URL information to external server to enhance features (e.g.: captcha resolving). (default: disabled)',
+              'Affected sites:',
+              'setlinks.us (captcha)',
+            ].join('<br/>\n'),
+          },
+          logLevel: {
+            type: 'select',
+            value: $.config.logLevel,
+            menu: [
+              [0, '0 (quiet)'],
+              [1, '1 (default)'],
+              [2, '2 (verbose)'],
+            ],
+            label: 'Log Level',
+            help: [
+              'Log level in developer console. (default: 1)',
+              '0 will not print anything in console.',
+              '1 will only print logs on affected sites.',
+              '2 will print on any sites.',
+            ].join('<br/>\n'),
+          },
+        },
+      });
+    },
+  });
+  return $;
+}));
+
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context, GM) {
+      var _ = require('lodash');
+      var core = require('./core.js');
+      var dom = require('./dom.js');
+      var config = require('./config.js');
+      var link = require('./link.js');
+      var misc = require('./misc.js');
+      var modules = [dom, config, link, misc].map(function (v) {
+        return v.call(null, context, GM);
+      });
+      var $ = _.assign.apply(_, modules);
+      return factory(context, GM, core, $);
+    };
+  } else {
+    factory(context, {
+      getResourceText: GM_getResourceText,
+      addStyle: GM_addStyle,
+      getResourceURL: GM_getResourceURL,
+    }, context._, context.$);
+  }
+}(this, function (context, GM, _, $) {
+  'use strict';
+  var window = context.window;
+  var document = window.document;
+  $.openImage = function (imgSrc, options) {
+    options = options || {};
+    var replace = !!options.replace;
+    var referer = !!options.referer;
+    if (replace) {
+      replaceBody(imgSrc);
+      return;
+    }
+    if ($.config.redirectImage) {
+      $.openLink(imgSrc, {
+        referer: referer,
+      });
+    }
+  };
+  function enableScrolling () {
+    var o = document.compatMode === 'CSS1Compat' ? document.documentElement : document.body;
+    o.style.overflow = '';
+  };
+  function toggleShrinking () {
+    this.classList.toggle('adsbypasser-shrinked');
+  }
+  function checkScaling () {
+    var nw = this.naturalWidth;
+    var nh = this.naturalHeight;
+    var cw = document.documentElement.clientWidth;
+    var ch = document.documentElement.clientHeight;
+    if ((nw > cw || nh > ch) && !this.classList.contains('adsbypasser-resizable')) {
+      this.classList.add('adsbypasser-resizable');
+      this.classList.add('adsbypasser-shrinked');
+      this.addEventListener('click', toggleShrinking);
+    } else {
+      this.removeEventListener('click', toggleShrinking);
+      this.classList.remove('adsbypasser-shrinked');
+      this.classList.remove('adsbypasser-resizable');
+    }
+  }
+  function scaleImage (i) {
+    var style = GM.getResourceText('scaleImage');
+    GM.addStyle(style);
+    if (i.naturalWidth && i.naturalHeight) {
+      checkScaling.call(i);
+    } else {
+      i.addEventListener('load', checkScaling);
+    }
+    var h;
+    window.addEventListener('resize', function () {
+      window.clearTimeout(h);
+      h = window.setTimeout(checkScaling.bind(i), 100);
     });
   }
-})();
+  function changeBackground () {
+    var bgImage = GM.getResourceURL('bgImage');
+    document.body.style.backgroundColor = '#222222';
+    document.body.style.backgroundImage = _.T('url(\'{0}\')')(bgImage);
+  }
+  function alignCenter () {
+    var style = GM.getResourceText('alignCenter');
+    GM.addStyle(style);
+  }
+  function injectStyle (d, i) {
+    $.removeNodes('style, link[rel=stylesheet]');
+    d.id = 'adsbypasser-wrapper';
+    i.id = 'adsbypasser-image';
+  }
+  function replaceBody (imgSrc) {
+    if (!$.config.redirectImage) {
+      return;
+    }
+    if (!imgSrc) {
+      _.warn('false url');
+      return;
+    }
+    _.info(_.T('replacing body with `{0}` ...')(imgSrc));
+    $.removeAllTimer();
+    enableScrolling();
+    document.body = document.createElement('body');
+    var d = document.createElement('div');
+    document.body.appendChild(d);
+    var i = document.createElement('img');
+    i.src = imgSrc;
+    d.appendChild(i);
+    if ($.config.alignCenter || $.config.scaleImage) {
+      injectStyle(d, i);
+    }
+    if ($.config.alignCenter) {
+      alignCenter();
+    }
+    if ($.config.changeBackground) {
+      changeBackground();
+    }
+    if ($.config.scaleImage) {
+      scaleImage(i);
+    }
+  };
+  return $;
+}));
 
 $.register({
   rule: {
@@ -954,13 +1208,56 @@ $.register({
     'use strict';
     $.get('http://www.4server.info/find.php', {
       data: window.location.href,
-    }, function (data) {
+    }).then(function (data) {
       var d = $.toDOM(data);
       var c = $('meta[http-equiv=refresh]', d);
       var b = c.content.match(/URL=(.+)$/);
       var a = b[1];
       $.openLink(a);
     });
+  },
+});
+
+$.register({
+  rule: {
+    host: /^www\.anafile\.com$/,
+  },
+  ready: function () {
+    'use strict';
+    var b = $.$('#btn_download');
+    if (b) {
+      b.disabled = false;
+      $.removeNodes('div[align=center]');
+      return;
+    }
+    b = $('#plans_free form [type=submit]');
+    b.click();
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?arab\.sh$/,
+    path: /^\/\w+$/,
+  },
+  ready: function () {
+    'use strict';
+    var f = $('form[name=F1]');
+    setTimeout(function() {
+        f.submit();
+    }, 20000);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?coolrom\.com$/,
+    path: /^\/dlpop\.php$/,
+  },
+  ready: function () {
+    'use strict';
+    var matches = $.searchScripts(/<form method="POST" action="([^"]+)">/);
+    $.openLink(matches[1]);
   },
 });
 
@@ -972,6 +1269,9 @@ $.register({
       path: /\/[A-Z0-9]+/,
     },
     ready: function () {
+      if ($.$('#captcha')) {
+        return;
+      }
       var f = $.$('form[name=ccerure]');
       if (f) {
         var observer = new MutationObserver(function (mutations) {
@@ -1028,6 +1328,18 @@ $.register({
 
 $.register({
   rule: {
+    host: /^www\.fileproject\.com\.br$/,
+    path: /^\/files\/+/,
+  },
+  ready: function () {
+    'use strict';
+    var m = $.searchScripts(/<a id="down" href="([^"]+)">/);
+    $.openLink(m[1]);
+  },
+});
+
+$.register({
+  rule: {
     host: /^(www\.)?(firedrive|putlocker)\.com$/,
     path: /^\/file\/[0-9A-F]+$/,
   },
@@ -1035,6 +1347,17 @@ $.register({
     'use strict';
     var c = $('#confirm_form');
     c.submit();
+  },
+});
+
+$.register({
+  rule: {
+    host: /^iori\.us$/,
+  },
+  ready: function () {
+    'use strict';
+    var a = $('#wrapper .tombol a');
+    $.openLink(a.href);
   },
 });
 
@@ -1059,10 +1382,37 @@ $.register({
     var matches = $.searchScripts(/'slug':\s*'([^']+)',\s*'hoster':\s*'([^']+)'/);
     var slug = matches[1];
     var hoster = matches[2];
-    $.post('/get/link/', {'slug': slug, 'hoster': hoster}, function(response) {
-      var respJSON = JSON.parse(response);
+    $.post('/get/link/', {
+      'slug': slug,
+      'hoster': hoster
+    }).then(function(response) {
+      var respJSON = _.parseJSON(response);
       $.openLink(respJSON.url);
     });
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?larashare\.com$/,
+    path: /^\/do\.php$/,
+    query: /id=\d+/,
+  },
+  start: function () {
+    'use strict';
+    $.openLink(document.location.href.replace('id=','down='));
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?maxmirror\.com$/,
+    path: /^\/redirect\//,
+  },
+  ready: function () {
+    'use strict';
+    var l = $('#download_url > a');
+    $.openLink(l.href);
   },
 });
 
@@ -1105,14 +1455,83 @@ $.register({
 
 $.register({
   rule: {
-    host: /^1dl\.biz$/,
-    path: /^\/(\w)\.php$/,
-    query: /^\?(\d+)$/,
+    host: /^www\.multiupfile\.com$/,
+    path: /^\/f\//,
   },
   ready: function () {
     'use strict';
-    var a = $('div.tor a');
-    a.click();
+    var f = $('#yw0');
+    f.submit();
+  },
+});
+
+$.register({
+  rule: {
+    host: /^mylinkgen\.com$/,
+    path: /^\/p\/(.+)$/,
+  },
+  start: function (m) {
+    'use strict';
+    $.openLink('/g/' + m.path[1]);
+  },
+});
+$.register({
+  rule: {
+    host: /^mylinkgen\.com$/,
+    path: /^\/g\//,
+  },
+  ready: function () {
+    'use strict';
+    var a = $('#main-content a.btn.btn-default');
+    $.openLink(a.href);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?upmirror\.info$/,
+  },
+  ready: function () {
+    'use strict';
+    $.setCookie('user', 'ppp');
+    if ($.$('#countDownText')) {
+        $.openLink(document.location.toString());
+    }
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?vidto\.me$/,
+  },
+  ready: function () {
+    'use strict';
+    var f = $('#btn_download').form;
+    setTimeout(function() {
+        f.submit();
+    }, 6000);
+  },
+});
+
+$.register({
+  rule: [
+    {
+      host: /^1dl\.biz$/,
+      path: /^\/(\w)\.php$/,
+      query: /^\?([\d\/]+)$/,
+    },
+    {
+      host: /^img\.1dl\.biz$/,
+      path: /^\/(\w)\.php$/,
+      query: /^\?\w\/([\d\/]+)$/,
+    },
+  ],
+  ready: function () {
+    'use strict';
+    var a = $('.main-l a');
+    $.openImage(a.href, {
+      referer: true,
+    });
   },
 });
 
@@ -1140,8 +1559,31 @@ $.register({
 
 $.register({
   rule: [
+    {
+      host: /^a\.pomf\.se$/,
+      path: /^\/.+\.htm$/,
+      query: /^$/,
+    },
+    {
+      host: /^empireload\.com$/,
+      path: /^\/sexy\/.+\.htm$/,
+      query: /^$/,
+    },
+  ],
+  ready: function () {
+    'use strict';
+    var a = $.$('body > a');
+    if (a) {
+      $.openImage(a.href);
+      return;
+    }
+    $.removeNodes('#boxes, iframe');
+  },
+});
+
+$.register({
+  rule: [
     'http://*.abload.de/image.php?img=*',
-    'http://fastpic.ru/view/*.html',
     'http://www.imageup.ru/*/*/*.html',
     'http://itmages.ru/image/view/*/*',  // different layout same handler
   ],
@@ -1163,6 +1605,18 @@ $.register({
         a.href = a.textContent;
       }
     });
+  },
+});
+
+$.register({
+  rule: {
+    host: /^avenuexxx\.com$/,
+    path: /^\/archives\//,
+  },
+  ready: function () {
+    'use strict';
+    var i = $('#content img');
+    $.openImage(i.src);
   },
 });
 
@@ -1295,6 +1749,23 @@ $.register({
 
 $.register({
   rule: {
+    host: [
+      /^dailyss\.net$/,
+      /^(www\.)daily-img\.com$/,
+      /^(www\.)img-365\.com$/,
+      /^365-img\.com$/,
+    ],
+    path: /^\/image\/.+$/,
+  },
+  ready: function () {
+    'use strict';
+    var i = $('#image-viewer-container img');
+    $.openImage(i.src);
+  },
+});
+
+$.register({
+  rule: {
     host: /^(depic\.me|(www\.)?picamatic\.com)$/,
   },
   ready: function () {
@@ -1328,13 +1799,52 @@ $.register({
 
 $.register({
   rule: {
-    host: /^emptypix\.com|overdream\.cz$/,
-    path: /^\/image\//,
+    host: /^(www\.)?empireload\.com$/,
+    path: /^(\/images(\/files\/\w)?)\/.\.php$/,
+    query: /^\?link=(.+)$/,
   },
+  start: function (m) {
+    'use strict';
+    $.openImage(m.path[1] + '/link/' + m.query[1]);
+  },
+});
+
+$.register({
+  rule: [
+    {
+      host: [
+        /^emptypix\.com|overdream\.cz$/,
+        /^www\.sexseeimage\.com$/,
+      ],
+      path: /^\/image\//,
+    },
+    {
+      host: /^10\.imageleon\.com$/,
+      path: /^\/img-(.+)\.html$/,
+    },
+    {
+      host: /^sexyxpixels\.com$/,
+      query: /^\?v=/,
+    },
+  ],
   ready: function () {
     'use strict';
     var img = $('#full_image');
     $.openImage(img.src);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^fastpic\.ru$/,
+    path: /^\/view\//,
+  },
+  ready: function () {
+    'use strict';
+    var img = $('#picContainer #image');
+    $.openImage(img.src, {
+      referer: true,
+    });
   },
 });
 
@@ -1401,7 +1911,7 @@ $.register({
 
 $.register({
   rule: {
-    host: /^(www\.)?gallerynova\.se$/,
+    host: /^(www\.)?gallery(nova|sense)\.se$/,
     path: /^\/site\/v\//,
   },
   ready: function () {
@@ -1418,11 +1928,13 @@ $.register({
   ready: function (m) {
     'use strict';
     var confirm = $.searchScripts(/\$\("#confirmImage"\).val\("([^"]+)"\)/)[1];
-    $.post('/site/viewConfirmCode/' + m.path[1], {confirm: confirm}, function (rawJson) {
-    	var json = JSON.parse(rawJson);
-    	var decodedHTML = document.createTextNode(json.content).data;
-    	var imgURL = decodedHTML.match(/<a href="([^"]+)" target="_blank">/)[1];
-    	$.openImage(imgURL);
+    $.post('/site/viewConfirmCode/' + m.path[1], {
+      confirm: confirm
+    }).then(function (rawJson) {
+      var json = _.parseJSON(rawJson);
+      var decodedHTML = document.createTextNode(json.content).data;
+      var imgURL = decodedHTML.match(/<a href="([^"]+)" target="_blank">/)[1];
+      $.openImage(imgURL);
     });
   },
 });
@@ -1560,8 +2072,10 @@ $.register({
     'use strict';
     var i = $.$('div.t_tips2 div > img');
     if (!i) {
-      $.openLinkByPost('', {
-        _confirm: '',
+      $.openLink('', {
+        post: {
+          _confirm: '',
+        },
       });
       return;
     }
@@ -1582,8 +2096,10 @@ $.register({
   rule: 'http://www.imagebam.com/image/*',
   ready: function () {
     'use strict';
-    var o = $('#imageContainer img[id]');
-    $.replace(o.src);
+    var o = $('.image-container img[id]');
+    $.openImage(o.src, {
+      replace: true,
+    });
   },
 });
 
@@ -1608,9 +2124,11 @@ $.register({
     'use strict';
     var a = $.$('a[rel="lightbox"]');
     if (!a) {
-      $.openLinkByPost('', {
-        browser_fingerprint: '',
-        ads: '0',
+      $.openLink('', {
+        post: {
+          browser_fingerprint: '',
+          ads: '0',
+        },
       });
       return;
     }
@@ -1667,10 +2185,22 @@ $.register({
 })();
 
 $.register({
-  rule: {
-    host: /^imagescream\.com$/,
-    path: /^\/img\/soft\//,
-  },
+  rule: [
+    {
+      host: /^imagescream\.com$/,
+      path: /^\/img\/soft\//,
+    },
+    {
+      host: /^www\.picturescream\.com$/,
+      path: /^\/x\//,
+    },
+    {
+      host: [
+        /^picturescream\.asia$/,
+        /^uploadimage\.eu$/,
+      ],
+    },
+  ],
   ready: function () {
     'use strict';
     var i = $('#shortURL-content img');
@@ -1679,7 +2209,7 @@ $.register({
 });
 $.register({
   rule: {
-    host: /^(imagescream|anonpic|picturevip)\.com$/,
+    host: /^(imagescream|anonpic|picturevip)\.com|all-poster\.ru$/,
     query: /^\?v=/,
   },
   ready: function () {
@@ -1724,23 +2254,31 @@ $.register({
 
 (function () {
   'use strict';
-  function run () {
-    unsafeWindow.$ = undefined;
+  function run (rp) {
+    $.window.jQuery.prototype.append = undefined;
     var i = $('img.pic');
-    $.replace(i.src);
+    $.openImage(i.src, {
+      replace: rp,
+    });
   }
   $.register({
     rule: {
       host: /^imagenpic\.com$/,
       path: /^\/.*\/.+\.html$/,
     },
-    ready: run,
+    ready: _.P(run, true),
   });
   $.register({
     rule: {
-      host: /^image(twist|cherry)\.com$/,
+      host: /^imagecherry\.com$/,
     },
-    ready: run,
+    ready: _.P(run, true),
+  });
+  $.register({
+    rule: {
+      host: /^imagetwist\.com$/,
+    },
+    ready: _.P(run, false),
   });
 })();
 
@@ -1769,11 +2307,13 @@ $.register({
 $.register({
   rule: {
     host: /^imagezilla\.net$/,
-    path: /^\/show\/(.+)$/,
   },
-  start: function (m) {
+  ready: function () {
     'use strict';
-    $.openImage('/images2/' + m.path[1]);
+    var i = $('#photo');
+    $.openImage(i.src, {
+      referer: true,
+    });
   },
 });
 
@@ -1798,18 +2338,6 @@ $.register({
 });
 
 $.register({
-  rule: {
-    host: /^img\.acianetmedia\.com$/,
-    path: /^\/(image\/)?[^.]+$/,
-  },
-  ready: function () {
-    'use strict';
-    var img = $('#full_image, #shortURL-content img');
-    $.openImage(img.src);
-  },
-});
-
-$.register({
   rule: 'http://img1.imagilive.com/*/*',
   ready: function () {
     'use strict';
@@ -1820,6 +2348,24 @@ $.register({
     }
     var i = $('#page > img:not([id])');
     $.openImage(i.src);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^img24\.org$/,
+  },
+  ready: function () {
+    'use strict';
+    var f = $.$('img.img-polaroid + form');
+    if (f) {
+      f.submit();
+      return;
+    }
+    f = $('img.img-polaroid');
+    $.openImage(f.src, {
+      referer: true,
+    });
   },
 });
 
@@ -1845,6 +2391,11 @@ $.register({
   },
   ready: function () {
     'use strict';
+    var i = $.$('input[onclick]');
+    if (i) {
+      $.window.Decode();
+      return;
+    }
     var i = $('#this_image');
     $.openImage(i.src);
   },
@@ -1900,7 +2451,11 @@ $.register({
 
 (function () {
   'use strict';
-  var host = /^(img(fantasy|leech)|imagedomino)\.com$/;
+  var host = [
+    /^(img(fantasy|leech|\.pornleech|smile|say|nemo)|imagedomino)\.com$/,
+    /^imageporn\.eu$/,
+    /^0img\.net$/,
+  ];
   $.register({
     rule: {
       host: host,
@@ -1917,8 +2472,8 @@ $.register({
       query: /^\?v=/,
     },
     ready: function () {
-      if (unsafeWindow.confirmAge) {
-        unsafeWindow.confirmAge(1);
+      if ($.window.confirmAge) {
+        $.window.confirmAge(1);
         return;
       }
       var i = $('#container-home img');
@@ -1944,105 +2499,90 @@ $.register({
 
 (function () {
   'use strict';
-  var pathRule = /^\/([^\/]+)\/[^\/]+\.[^\/]{3,4}$/;
-  $.register({
-    rule: {
-      host: [
-        /^((img(paying|mega))|imzdrop)\.com$/,
-        /^(www\.)?imgsee\.me$/,
-        /^imgclick\.net$/,
-      ],
-      path: pathRule,
-    },
-    ready: function () {
-      var i = $.$('img.pic');
-      if (!i) {
-        i = $('form');
-        i.submit();
-        return;
-      }
-      $.openImage(i.src);
-    },
-  });
-  $.register({
-    rule: {
-      host: /^imgrock\.net$/,
-      path: pathRule,
-    },
-    ready: function (m) {
-      var i = $.$('img.pic');
-      if (!i) {
-        $.openLinkByPost('', {
-          op: 'view',
-          id: m.path[1],
-          pre: 1,
-          next: 'Continue to Image...',
-        });
-        return;
-      }
-      $.openImage(i.src);
-    },
-  });
-})();
-
-(function () {
-  'use strict';
-  function handler () {
-    $.removeNodes('iframe');
-    var node = $.$('#continuetoimage > form input');
-    if (node) {
-      node.click();
-      node.click();
+  var pathRule = /^\/([0-9a-z]+)(\.|\/|$)/;
+  function go (id, pre, next) {
+    $.openLink('', {
+      post: {
+        op: 'view',
+        id: id,
+        pre: pre,
+        next: next,
+      },
+    });
+  }
+  function getNext1 (i) {
+    return i.value;
+  }
+  function getNext2 (i) {
+    var next = i.onclick && i.onclick.toString().match(/value='([^']+)'/);
+    if (next) {
+      next = next[1];
+      return next;
+    } else {
+      return i.value;
+    }
+  }
+  function helper (id, getNext) {
+    var i = $.$('input[name="next"]');
+    if (i) {
+      var next = getNext(i);
+      go(id, $('input[name="pre"]').value, next);
       return;
     }
-    var o = $('img[alt="image"]');
-    $.openImage(o.src);
+    i = $.$('img.pic');
+    if (i) {
+      $.openImage(i.src);
+      return;
+    }
+    _.info('do nothing');
   }
   $.register({
     rule: {
       host: [
-        /^(img(rill|next|savvy|\.spicyzilla|twyti|xyz)|image(corn|picsa)|www\.(imagefolks|imgblow)|hosturimage|img-zone|08lkk)\.com$/,
-        /^img(candy|master|-view|run)\.net$/,
-        /^imgcloud\.co|pixup\.us$/,
-        /^(www\.)?\.imgult\.com$/,
-        /^bulkimg\.info$/,
-        /^(image\.adlock|imgspot|teenshot)\.org$/,
-        /^img\.yt$/,
-        /^vava\.in$/,
+        /^img(paying|mega|zeus|monkey|trex)\.com$/,
+        /^(www\.)?imgsee\.me$/,
+        /^imgclick\.net$/,
+        /^(uploadrr|imageeer|imzdrop|www\.uimgshare)\.com$/,
+        /^imgdrive\.co$/,
+        /^cuteimg\.cc$/,
+        /^imgtiger\.org$/,
+        /^myimg\.club$/,
+        /^foxyimg\.link$/,
       ],
-      path: /^\/img-.*\.html$/,
+      path: pathRule,
     },
-    ready: handler,
+    ready: function (m) {
+      helper(m.path[1], getNext1);
+    },
   });
   $.register({
     rule: {
-      host: /^08lkk\.com$/,
-      path: /^\/\d+\/img-.*\.html$/,
+      host: [
+        /^img(rock|town)\.net$/,
+        /^imgmaze\.com$/,
+      ],
+      path: pathRule,
     },
-    start: function () {
-      unsafeWindow.setTimeout = $.inject(_.nop);
-      $.get(window.location.toString(), {}, function (data) {
-        var a = $.toDOM(data);
-        var bbcode = $.$('#imagecodes input', a);
-        bbcode = bbcode.value.match(/.+\[IMG\]([^\[]+)\[\/IMG\].+/);
-        bbcode = bbcode[1];
-        bbcode = bbcode.replace('small', 'big');
-        $.openImage(bbcode);
-      });
+    ready: function (m) {
+      var d = $.$('[id^=imageviewi] input[type=submit]:not([style])');
+      if (!d) {
+        helper(m.path[1], getNext1);
+        return;
+      }
+      d = d.parentNode;
+      d.submit();
+    },
+  });
+  $.register({
+    rule: {
+      host: /^chronos\.to$/,
+      path: pathRule,
+    },
+    ready: function (m) {
+      helper(m.path[1], getNext2);
     },
   });
 })();
-
-$.register({
-  rule: {
-    host: /^imgseeds\.com$/,
-  },
-  ready: function () {
-    'use strict';
-    var img = $('#img1');
-    $.openImage(img.src);
-  },
-});
 
 $.register({
   rule: {
@@ -2116,15 +2656,15 @@ $.register({
   $.register({
     rule: {
       host: [
-        /^(hentai-hosting|miragepics|funextra\.hostzi|img(rex|banana))\.com$/,
+        /^(hentai-hosting|miragepics|funextra\.hostzi|imgrex)\.com$/,
         /^bilder\.nixhelp\.de$/,
         /^imagecurl\.(com|org)$/,
         /^imagevau\.eu$/,
         /^img\.deli\.sh$/,
-        /^imgking\.us$/,
-        /^image(pong|back)\.info$/,
+        /^imagepong\.info$/,
         /^imgdream\.net$/,
-        /^photoup\.biz$/,
+        /^imgsicily\.it$/,
+        /^www\.imghere\.net$/,
       ],
       path: /^\/viewer\.php$/,
       query: /file=([^&]+)/,
@@ -2143,22 +2683,14 @@ $.register({
   });
   $.register({
     rule: {
-      host: /imageview\.me|244pix\.com|imgnip\.com|postimg\.net$/,
+      host: [
+        /img(nip|central|cream)\.com$/,
+        /imageview\.me|244pix\.com|postimg\.net$/,
+      ],
       path: /^\/viewerr.*\.php$/,
       query: /file=([^&]+)/,
     },
     start: helper,
-  });
-  $.register({
-    rule: {
-      host: /^catpic\.biz$/,
-      path: /^(\/\w)?\/viewer\.php$/,
-      query: /file=([^&]+)/,
-    },
-    start: function (m) {
-      var url = _.T('{0}/images/{1}');
-      $.openImage(url(m.path[1] || '', m.query[1]));
-    },
   });
   $.register({
     rule: [
@@ -2167,6 +2699,15 @@ $.register({
     ready: function () {
       var i = $('#main_img');
       $.openImage(i.src);
+    },
+  });
+  $.register({
+    rule: {
+      host: /(empireload|loadsanook)\.com$/,
+      query: /file=([^&]+)/,
+    },
+    start: function (m) {
+      $.openImage('files/' + m.query[1]);
     },
   });
 })();
@@ -2272,6 +2813,9 @@ $.register({
     'http://npicture.net/share-*.html',
     'http://www.onlinepic.net/share.php?id=*',
     'http://www.pixsor.com/share.php?id=*',
+    'http://www.pixsor.com/share-*.html',
+    'http://pixsor.com/XXX/share-*.html',
+    'http://holdthemoan.net/x/share-*.html',
   ],
   ready: function () {
     'use strict';
@@ -2333,6 +2877,21 @@ $.register({
 
 $.register({
   rule: {
+    host: /^(www\.)?pimpandhost\.com$/,
+    path: /^\/image\//,
+  },
+  ready: function () {
+    'use strict';
+    var a = $('#image_original');
+    var el = document.createElement('div');
+    el.innerHTML = a.value;
+    var img = $('img', el);
+    $.openImage(img.src);
+  },
+});
+
+$.register({
+  rule: {
     host: /^pixhub\.eu$/,
   },
   ready: function () {
@@ -2372,6 +2931,10 @@ $.register({
   },
   ready: function () {
     'use strict';
+    var a = $.$('body > center > a > img');
+    if(a){
+      $.openLink(a.parentNode.href);
+    }
     var i = $('body > center > img');
     $.openImage(i.src);
   },
@@ -2402,7 +2965,7 @@ $.register({
 
 $.register({
   rule: {
-    host: /^qrrro\.com$/,
+    host: /^(qrrro|greenpiccs)\.com$/,
     path: /^(\/images\/.+)\.html$/,
   },
   start: function (m) {
@@ -2414,6 +2977,14 @@ $.register({
 (function () {
   'use strict';
   function ready () {
+    $.removeNodes('iframe');
+    var node = $.$('#continuetoimage > form input');
+    if (node) {
+      setTimeout(function () {
+        node.click();
+      }, 1000);
+      return;
+    }
     var i = $('img[class^=centred]');
     $.openImage(i.src);
   }
@@ -2421,46 +2992,124 @@ $.register({
     rule: [
       {
         host: [
-          /^(image(decode|ontime)|(zonezeed|zelje|croft|myhot|dam)image|pic(\.apollon-fervor|stwist)|www\.imglemon|ericsony|imgpu|wpc8)\.com$/,
-          /^(img(serve|coin|fap)|gallerycloud)\.net$/,
+          /^image(ontime|corn|picsa)\.com$/,
+          /^(zonezeed|zelje|croft|myhot|bok|hostur|greasy)image\.com$/,
+          /^img(next|savvy|\.spicyzilla|twyti|xyz|devil|tzar|ban|pu|beer|wet|tornado|kicks|-pay|nimz|binbou)\.com$/,
+          /^img-(zone|planet)\.com$/,
+          /^www\.(imagefolks|img(blow|lemon))\.com$/,
+          /^(picstwist|ericsony|wpc8|uplimg|xxx\.pornprimehd|lexiit|thumbnailus|nimplus|newimagepost|xxximagenow)\.com$/,
+          /^((i|hentai)\.)?imgslip\.com$/,
+          /^(i|xxx)\.hentaiyoutube\.com$/,
+          /^(go|er)imge\.com$/,
+          /^(like\.)?08lkk\.com$/,
+          /^(www\.)?\.imgult\.com$/,
+          /^nudeximg\.com$/,
+          /imgseeds\.com$/,
+          /damimage\.com$/,
+          /imagedecode\.com$/,
+          /^img(serve|coin|fap|candy|master|-view|run|boom)\.net$/,
+          /^(gallerycloud|imagelaser|project-photo|pix-link|funimg|golfpit)\.net$/,
+          /^shotimg\.org$/,
+          /^img(studio|spot)\.org$/,
+          /^image(\.adlock|on|team)\.org$/,
+          /^(drag|teen|mega)image\.org$/,
+          /^teenshot\.org$/,
           /^(hotimages|55888)\.eu$/,
-          /^(imgstudio|dragimage|imagelook)\.org$/,
+          /^img(cloud|mag)\.co$/,
+          /^pixup\.us$/,
+          /^(bulkimg|photo-up)\.info$/,
+          /^img\.yt$/,
+          /^vava\.in$/,
+          /^(pixxx|picspornfree|imgload)\.me$/,
+          /^(porno-pirat|24avarii|loftlm)\.ru$/,
+          /^hotimage\.uk$/,
+          /^imgease\.re$/,
+          /^goimg\.xyz$/,
         ],
         path: /^\/img-.*\.html$/,
       },
       {
-        host: /^imgrun\.net$/,
+        host: [
+          /^img(run|twyti)\.net$/,
+          /^imgtwyti\.com$/,
+        ],
         path: /^\/t\/img-.*\.html$/,
+      },
+      {
+        host: /^imgking\.co$/,
+        path: /^\/img-.*\.htmls?$/,
+      },
+      {
+        host: /^imgbb\.net$/,
+        path: /^\/.-.+$/,
       },
     ],
     ready: ready,
   });
   $.register({
     rule: {
-      host: /^www.img(adult|taxi).com$/,
+      host: [
+        /^www\.img(taxi|adult)\.com$/,
+        /^www\.imgdrive\.net$/,
+      ],
       path: /^\/img-.*\.html$/,
     },
     start: function () {
-      var c = $.getCookie('user');
+      var c = $.getCookie('img_c_d') || $.getCookie('img_p_d');
       if (c) {
         return;
       }
-      $.setCookie('user', 'true');
-      window.location.reload();
+      $.post(window.location.href.toString(), {
+        cti: 1,
+        ref: '',
+        rc: 1,
+      }).then(function (data) {
+        window.location.reload();
+      });
     },
-    ready: ready,
+    ready: function () {
+      $.removeNodes('iframe');
+      var node = $.$('#continuetoimage > form input');
+      if (node) {
+        node.click();
+        node.click();
+        return;
+      }
+      $.resetCookies();
+      var i = $('img[class^=centred]');
+      $.openImage(i.src);
+    },
   });
+  function helper () {
+    $.window.setTimeout = _.nop;
+    return $.get(window.location.toString()).then(function (data) {
+      return $.toDOM(data);
+    });
+  }
   $.register({
     rule: {
       host: /^08lkk\.com$/,
       path: /^\/Photo\/img-.+\.html$/,
     },
     start: function () {
-      unsafeWindow.setTimeout = $.inject(_.nop);
-      $.get(window.location.toString(), {}, function (data) {
-        var a = $.toDOM(data);
-        var i = $('img[class^=centred]', a);
+      helper().then(function (page) {
+        var i = $('img[class^=centred]', page);
         $.openImage(i.src);
+      });
+    },
+  });
+  $.register({
+    rule: {
+      host: /^08lkk\.com$/,
+      path: /^\/\d+\/img-.*\.html$/,
+    },
+    start: function () {
+      helper().then(function (page) {
+        var bbcode = $.$('#imagecodes input', page);
+        bbcode = bbcode.value.match(/.+\[IMG\]([^\[]+)\[\/IMG\].+/);
+        bbcode = bbcode[1];
+        bbcode = bbcode.replace('small', 'big');
+        $.openImage(bbcode);
       });
     },
   });
@@ -2520,6 +3169,7 @@ $.register({
 $.register({
   rule: {
     host: /^www\.turboimagehost\.com$/,
+    path: /^\/p\//,
   },
   ready: function () {
     'use strict';
@@ -2533,7 +3183,9 @@ $.register({
   ready: function () {
     'use strict';
     var i = $('img');
-    $.replace(i.src);
+    $.openImage(i.src, {
+      replace: true,
+    });
   },
 });
 
@@ -2598,18 +3250,11 @@ $.register({
   },
   ready: function () {
     'use strict';
-    var rUrl = /window\.location='([^']+)';/;
-    var directUrl = $.$$('script').find(function (script) {
-     var m = rUrl.exec(script.innerHTML);
-      if (!m) {
-       return _.nop;
-      }
-      return m[1];
-    });
+    var directUrl = $.searchScripts(/window\.location='([^']+)';/);
     if (!directUrl) {
       throw new _.AdsBypasserError('script content changed');
     }
-    $.openLink(directUrl.payload);
+    $.openLink(directUrl[1]);
   },
 });
 
@@ -2633,7 +3278,7 @@ $.register({
   ready: function () {
     'use strict';
     $.removeNodes('iframe');
-    var f = unsafeWindow.fc;
+    var f = $.window.fc;
     if (!f) {
       throw new _.AdsBypasserError('window.fc is undefined');
     }
@@ -2654,6 +3299,22 @@ $.register({
     'use strict';
     var i = $('#original_url');
     $.openLink(i.value);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^ad2links\.com$/,
+    path: /^\/\w-.+$/,
+  },
+  ready: function () {
+    'use strict';
+    $.removeNodes('iframe');
+    $.openLinkByPost(window.location.toString(), {
+      post: {
+        image: 'Skip Ad.',
+      },
+    });
   },
 });
 
@@ -2690,7 +3351,11 @@ $.register({
 
 $.register({
   rule: {
-    host: /^(www\.)?adb\.ug$/,
+    host: [
+      /^(www\.)?adb\.ug$/,
+      /^(www\.)?lynk\.my$/,
+      /^adyou\.me$/,
+    ],
     path: /^(?!\/(?:privacy|terms|contact(\/.*)?|#.*)?$).*$/
   },
   ready: function () {
@@ -2701,15 +3366,15 @@ $.register({
       $.openLink(m[1]);
       return;
     }
-    m = $.searchScripts(/\{_args.+\}\}/);
+    m = $.searchScripts(/\{_args.+\}/);
     if (!m) {
       throw new _.AdsBypasserError('script content changed');
     }
     m = eval('(' + m[0] + ')');
     var url = window.location.pathname + '/skip_timer';
     var i = setInterval(function () {
-      $.post(url, m, function (text) {
-        var jj = JSON.parse(text);
+      $.post(url, m).then(function (text) {
+        var jj = _.parseJSON(text);
         if (!jj.errors && jj.messages) {
           clearInterval(i);
           $.openLink(jj.messages.url);
@@ -2721,6 +3386,10 @@ $.register({
 
 (function () {
   'use strict';
+  function getTokenFromRocketScript () {
+    var a = $.searchScripts(/var eu = '(?!false)(.*)'/);
+    return a ? a[1] : null;
+  }
   $.register({
     rule: {
       path: /\/locked$/,
@@ -2728,18 +3397,30 @@ $.register({
     },
     start: function (m) {
       $.resetCookies();
-      $.openLink('/' + m.query[1]);
+      var url = decodeURIComponent(m.query[1]);
+      if (url.match(/^http/)) {
+        $.openLink(url);
+      } else {
+        $.openLink('/' + url);
+      }
     },
   });
   $.register({
-    rule: function () {
-      var h = $.$('html[id="adfly_html"]');
-      var b = $.$('body[id="home"]');
-      if (h && b) {
-        return true;
-      } else {
-        return null;
-      }
+    rule: [
+      'http://u.shareme.in/*',
+      'http://server.sbenny.com/*',
+      function () {
+        var h = $.$('html[id="adfly_html"]');
+        var b = $.$('body[id="home"]');
+        if (h && b) {
+          return true;
+        } else {
+          return null;
+        }
+      },
+    ],
+    start: function () {
+      $.window.document.write = _.nop;
     },
     ready: function () {
       var h = $.$('#adfly_html'), b = $.$('#home');
@@ -2747,11 +3428,11 @@ $.register({
         return;
       }
       $.removeNodes('iframe');
-      unsafeWindow.cookieCheck = $.inject(_.nop);
-      h = unsafeWindow.eu;
+      $.window.cookieCheck = _.nop;
+      h = $.window.eu || getTokenFromRocketScript();
       if (!h) {
         h = $('#adfly_bar');
-        unsafeWindow.close_bar();
+        $.window.close_bar();
         return;
       }
       var a = h.indexOf('!HiTommy');
@@ -2772,7 +3453,7 @@ $.register({
       if (location.hash) {
         h += location.hash;
       }
-      $.openLinkWithReferer(h);
+      $.openLink(h);
     },
   });
   $.register({
@@ -2780,18 +3461,28 @@ $.register({
     ready: function () {
       $.removeNodes('iframe');
       $.resetCookies();
-      var script = $.$$('script').find(function (v) {
-        if (v.innerHTML.indexOf('var r_url') < 0) {
-          return _.nop;
-        }
-        return v.innerHTML;
-      });
-      var url = script.payload.match(/&url=([^&]+)/);
+      var script = $.searchScripts('var r_url');
+      var url = script.match(/&url=([^&]+)/);
       url = url[1];
-      $.openLinkWithReferer(url);
+      $.openLink(url);
     },
   });
 })();
+
+$.register({
+  rule: {
+    host: /^(www\.)?adfe\.es$/,
+    path: /^\/\w+$/,
+  },
+  ready: function () {
+    'use strict';
+    var f = $('#frmvideo');
+    if (!f.STEP4) {
+      return;
+    }
+    f.submit();
+  },
+});
 
 $.register({
   rule: 'http://adfoc.us/*',
@@ -2838,7 +3529,7 @@ $.register({
       $.openLink(a.href);
       return;
     }
-    a = unsafeWindow.fileLocation;
+    a = $.window.fileLocation;
     if (a) {
       $.openLink(a);
     }
@@ -2852,21 +3543,18 @@ $.register({
   ready: function () {
     'use strict';
     $.removeNodes('iframe');
-    var script = $.$$('script').find(function (v) {
-      if (v.innerHTML.indexOf('form') < 0) {
-        return _.nop;
-      }
-      return v.innerHTML;
-    });
+    var script = $.searchScripts('form');
     var p = /name='([^']+)' value='([^']+)'/g;
     var opt = {
       image: ' ',
     };
     var tmp = null;
-    while (tmp = p.exec(script.payload)) {
+    while (tmp = p.exec(script)) {
       opt[tmp[1]] = tmp[2];
     }
-    $.openLinkByPost('', opt);
+    $.openLink('', {
+      path: opt,
+    });
   },
 });
 
@@ -2895,6 +3583,34 @@ $.register({
 
 $.register({
   rule: {
+    host: /^al\.ly$/,
+  },
+  ready: function () {
+    'use strict';
+    $.removeNodes('iframe, #CashSlideDiv, #ct_catfish');
+    var a = $('#modal-shadow');
+    a.style.display = 'block';
+    a = $('#modal-alert');
+    a.style.left = 0;
+    a.style.top = 80;
+    a.style.display = 'block';
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?allkeyshop\.com$/,
+  },
+  ready: function (m) {
+    'use strict';
+    var matches = $.searchScripts(/window\.location\.href = "([^"]+)"/);
+    $.openLink(matches[1]);
+    $.removeAllTimer();
+  },
+});
+
+$.register({
+  rule: {
     host: /^anonymbucks\.com$/,
   },
   ready: function () {
@@ -2904,11 +3620,29 @@ $.register({
   },
 });
 
+$.register({
+  rule: {
+    host: [
+      /^(awet|sortir)\.in$/,
+      /^st\.benfile\.com$/,
+      /^st\.azhie\.net$/,
+    ],
+  },
+  ready: function () {
+    'use strict';
+    var m = $.searchScripts(/window\.location="([^"]*)";/);
+    $.openLink(m[1]);
+  },
+});
+
 (function () {
   'use strict';
   $.register({
     rule: {
-      host: /^bc\.vc$/,
+      host: [
+        /^bc\.vc$/,
+        /^linc\.ml$/,
+      ],
       path: /^.+(https?:\/\/.+)$/,
     },
     start: function (m) {
@@ -2925,28 +3659,18 @@ $.register({
     return script;
   }
   function searchScript (unzip) {
-    var content = $.$$('script').find(function (script) {
-      if (script.innerHTML.indexOf('make_log') < 0) {
-        return _.nop;
-      }
-      return script.innerHTML;
-    });
+    var content = $.searchScripts('make_log');
     if (content) {
       return {
         direct: false,
-        script: decompress(content.payload, unzip),
+        script: decompress(content, unzip),
       };
     }
-    content = $.$$('script').find(function (script) {
-      if (script.innerHTML.indexOf('click_log') < 0) {
-        return _.nop;
-      }
-      return script.innerHTML;
-    });
+    content = $.searchScripts('click_log');
     if (content) {
       return {
         direct: true,
-        script: decompress(content.payload, unzip),
+        script: decompress(content, unzip),
       };
     }
     throw _.AdsBypasserError('script changed');
@@ -2956,11 +3680,11 @@ $.register({
     var make_url = matches[1];
     var make_opts = eval('(' + matches[2] + ')');
     var i = setInterval(function () {
-      $.post(make_url, make_opts, function (text) {
+      $.post(make_url, make_opts).then(function (text) {
         if (dirtyFix) {
           text = text.match(/\{.+\}/)[0];
         }
-        var jj = JSON.parse(text);
+        var jj = _.parseJSON(text);
         if (jj.message) {
           clearInterval(i);
           $.openLink(jj.message.url);
@@ -2969,8 +3693,8 @@ $.register({
     }, 1000);
   }
   function knockServer2 (script) {
-    var post = unsafeWindow.$.post;
-    unsafeWindow.$.post = $.inject(function (a, b, c) {
+    var post = $.window.$.post;
+    $.window.$.post = function (a, b, c) {
       if (typeof c !== 'function') {
         return;
       }
@@ -2983,40 +3707,40 @@ $.register({
         };
         c(JSON.stringify(data));
       }, 1000);
-    });
+    };
     var matches = script.match(/\$.post\('([^']*)'[^{]+(\{opt:'make_log'[^}]+\}\}),/i);
     var make_url = matches[1];
     var make_opts = eval('(' + matches[2] + ')');
     function makeLog () {
         make_opts.opt = 'make_log';
-        post(make_url, $.inject(make_opts), $.inject(function (text) {
-          var data = JSON.parse(text);
+        post(make_url, make_opts, function (text) {
+          var data = _.parseJSON(text);
           _.info('make_log', data);
           if (!data.message) {
             checksLog();
             return;
           }
           $.openLink(data.message.url);
-        }));
+        });
     }
     function checkLog () {
       make_opts.opt = 'check_log';
-      post(make_url, $.inject(make_opts), $.inject(function (text) {
-        var data = JSON.parse(text);
+      post(make_url, make_opts, function (text) {
+        var data = _.parseJSON(text);
         _.info('check_log', data);
         if (!data.message) {
           checkLog();
           return;
         }
         makeLog();
-      }));
+      });
     }
     function checksLog () {
       make_opts.opt = 'checks_log';
-      post(make_url, $.inject(make_opts), $.inject(function () {
+      post(make_url, make_opts, function () {
         _.info('checks_log');
         checkLog();
-      }));
+      });
     }
     checksLog();
   }
@@ -3080,7 +3804,7 @@ $.register({
         /^(zpoz|ultry)\.net$/,
         /^(wwy|myam)\.me$/,
         /^ssl\.gs$/,
-        /^link\.tl$/,
+        /^lin(c\.ml|k\.tl)$/,
         /^hit\.us$/,
         /^shortit\.in$/,
         /^(adbla|tl7)\.us$/,
@@ -3143,6 +3867,17 @@ $.register({
 })();
 
 $.register({
+  rule: {
+    host: /^(www\.)?biglistofwebsites\.com$/,
+    path: /^\/go\/(\w+\.\w+)$/
+  },
+  start: function (m) {
+    'use strict';
+    $.openLink('http://' + m.path[1]);
+  },
+});
+
+$.register({
   rule: 'http://www.bild.me/bild.php?file=*',
   ready: function () {
     'use strict';
@@ -3165,10 +3900,58 @@ $.register({
     host: /^(www\.)?([a-zA-Z0-9]+\.)?binbox\.io$/,
     path: /\/o\/([a-zA-Z0-9]+)/,
   },
-  ready: function (m) {
+  start: function (m) {
     'use strict';
     var direct_link = window.atob(m.path[1]);
     $.openLink(direct_link);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^bk-ddl\.net$/,
+    path: /^\/\w+$/,
+  },
+  ready: function (m) {
+    'use strict';
+    var l = $('a.btn-block.redirect').href;
+    var b64 = l.match(/\?r=(\w+={0,2}?)/);
+    $.openLink(atob(b64[1]));
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?boxcash\.net$/,
+    path: /^\/[\w~]+$/,
+  },
+  ready: function () {
+    'use strict';
+    var m = $.searchScripts(/\'\/ajax_link\.php\',\s*\{key:\s*'(\w+)',\s*url:\s*'(\d+)',\s*t:\s*'(\d+)',\s*r:\s*'(\w*)'\}/);
+    if (!m) {
+      return;
+    }
+    $.post('/ajax_link.php', {
+      key: m[1],
+      url: m[2],
+      t: m[3],
+      r: m[4],
+    }).then(function (response) {
+      var l = response.match(/window(?:.top.window)\.location="([^"]+)"/);
+      $.openLink(l[1]);
+    });
+  },
+});
+$.register({
+  rule: {
+    host: /^(www\.)?boxcash\.net$/,
+    path: /^\/redirect\.html$/,
+    query: /url=(.+)$/,
+  },
+  start: function (m) {
+    'use strict';
+    var l = decodeURIComponent(m.query[1]);
+    $.openLink(l);
   },
 });
 
@@ -3226,8 +4009,7 @@ $.register({
   ready: function () {
     'use strict';
     $.removeNodes('iframe');
-    var linkHolder = $('#compteur');
-    var matches = linkHolder.innerHTML.match(/<a href=".*url=([^&"]+).*>/);
+    var matches = $.searchScripts(/<a href="http:\/\/(?:www.)?clictune\.com\/redirect\.php\?url=([^&]+)&/);
     var url = decodeURIComponent(matches[1]);
     $.openLink(url);
   },
@@ -3235,66 +4017,52 @@ $.register({
 
 $.register({
   rule: {
-    host: /^(www\.)?(coin-ads\.com|shortin\.tk)$/,
-    path: /^\/.+/,
+    host: /^clk\.im$/,
   },
-  ready: function () {
+  ready: function (m) {
     'use strict';
-    var m = $.searchScripts(/window\.location\.replace/);
-    if (m) {
-      return;
-    }
-    m = $.searchScripts(/countdownArea\.innerHTML = "([^"]+)"/);
-    if (!m) {
-      throw new _.AdsBypasserError('pattern changed');
-    }
-    m = m[1];
-    var d = $.$('#area');
-    if (d) {
-      d.innerHTML = m;
-      d = $('.skip', d);
-      d.click();
-      return;
-    }
-    d = $('#site');
-    $.openLink(d.src);
+    $.removeNodes('iframe');
+    var matches = $.searchScripts(/\$\("\.countdown"\)\.attr\("href","([^"]+)"\)/);
+    $.openLink(matches[1]);
   },
 });
 
-(function () {
-  'use strict';
-  $.register({
-    rule: {
-      host: /^(?:(\w+)\.)?(coinurl\.com|cur\.lv)$/,
-      path: /^\/[-\w]+$/
-    },
-    ready: function (m) {
-      $.removeNodes('iframe');
-      if (m.host[1] == null) {
-        var mainFrame = 'http://cur.lv/redirect_curlv.php?code=' + escape(window.location.pathname.substring(1));
-      } else {
-        var mainFrame = 'http://cur.lv/redirect_curlv.php?zone=' + m.host[1] + '&name=' + escape(window.location.pathname.substring(1));
+$.register({
+  rule: {
+    host: /^(?:(\w+)\.)?(coinurl\.com|cur\.lv)$/,
+    path: /^\/([-\w]+)$/
+  },
+  ready: function (m) {
+    'use strict';
+    $.removeNodes('iframe');
+    var host = 'http://cur.lv/redirect_curlv.php';
+    var param = m.host[1] === undefined ? {
+      code: m.path[1],
+    } : {
+      zone: m.host[1],
+      name: m.path[1],
+    };
+    $.get(host, param).then(function(mainFrameContent) {
+      try {
+        var docMainFrame = $.toDOM(mainFrameContent);
+      } catch (e) {
+        throw new _.AdsBypasserError('main frame changed');
       }
-      $.get(mainFrame, {}, function(mainFrameContent) {
-        try {
-          var docMainFrame = $.toDOM(mainFrameContent);
-        } catch (e) {
-          throw new _.AdsBypasserError('main frame changed');
-        }
-        var rExtractLink = /onclick="open_url\('([^']+)',\s*'go'\)/;
-        var innerFrames = $.$$('frameset > frame', docMainFrame).each(function (currFrame) {
-          var currFrameAddr = window.location.origin + '/' + currFrame.getAttribute('src');
-          $.get(currFrameAddr, {}, function(currFrameContent) {
-            var aRealLink = rExtractLink.exec(currFrameContent);
-            if (aRealLink == null || aRealLink[1] == null) {return;}
-            var realLink = aRealLink[1];
-            $.openLink(realLink);
-          });
+      var rExtractLink = /onclick="open_url\('([^']+)',\s*'go'\)/;
+      var innerFrames = $.$$('iframe', docMainFrame).each(function (currFrame) {
+        var currFrameAddr = currFrame.getAttribute('src');
+        $.get(currFrameAddr).then(function(currFrameContent) {
+          var aRealLink = rExtractLink.exec(currFrameContent);
+          if (aRealLink === undefined || aRealLink[1] === undefined) {
+            return;
+          }
+          var realLink = aRealLink[1];
+          $.openLink(realLink);
         });
       });
-    },
-  });
-})();
+    });
+  },
+});
 
 $.register({
   rule: {
@@ -3304,6 +4072,23 @@ $.register({
     'use strict';
     var input = $('input[name="enter"]');
     input.click();
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?cvc\.la$/,
+    path: /^\/\w+$/,
+  },
+  start: function () {
+    'use strict';
+    $.post(document.location.href, {
+      hidden: 24, // Either 24 or 276, but both seem to work anyway
+      image: ' ',
+    }).then(function (text) {
+      var matches = text.match(/window\.location\.replace\('([^']+)'\);/);
+      $.openLink(matches[1]);
+    });
   },
 });
 
@@ -3330,6 +4115,29 @@ $.register({
       return;
     }
     var a = $('#btn_open a');
+    $.openLink(a.href);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?dereferer\.website$/,
+    query: /^\?(.+)/,
+  },
+  start: function (m) {
+    'use strict';
+    $.openLink(m.query[1]);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^dikit\.in$/,
+  },
+  ready: function () {
+    'use strict';
+    $.removeNodes('iframe');
+    var a = $('.disclaimer a');
     $.openLink(a.href);
   },
 });
@@ -3372,6 +4180,17 @@ $.register({
 
 $.register({
   rule: {
+    host: /empireload\.com$/,
+    path: /^\/plugin\.php$/,
+    query: /^\?id=linkout&url=([^&]+)$/,
+  },
+  start: function (m) {
+    $.openLink(m.query[1]);
+  },
+});
+
+$.register({
+  rule: {
     host: [
     	/^ethi\.in$/,
     	/^st\.wardhanime\.net$/,
@@ -3408,10 +4227,36 @@ $.register({
       throw new _.AdsBypasserError('site changed');
     }
     m = m[1];
-    var interLink = '/go/' + m + '?a=' + window.location.hash.substr(1);
+    var interLink = '/go/' + m + '?fa=15466&a=' + window.location.hash.substr(1);
     setTimeout(function () {
       $.openLink(interLink);
     }, 6000);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^www\.forbes\.com$/,
+  },
+  ready: function () {
+    'use strict';
+    var o = $.window.ox_zones;
+    if (o) {
+      $.openLink(o.page_url);
+    }
+  },
+});
+
+$.register({
+  rule: {
+    host: /^www\.free-tv-video-online\.info$/,
+    path: /^\/interstitial2\.html$/,
+    query: /lnk=([^&]+)/,
+  },
+  start: function (m) {
+    'use strict';
+    var url = decodeURIComponent(m.query[1]);
+    $.openLink(url);
   },
 });
 
@@ -3434,6 +4279,36 @@ $.register({
     ready: function () {
       var f = $('iframe[name=fpage3]');
       $.openLink(f.src);
+    },
+  });
+})();
+
+(function () {
+  var hosts = /^gca\.sh|repla\.cr$/;
+  $.register({
+    rule: {
+      host: hosts,
+      path: /^\/adv\/\w+\/(.*)$/,
+      query: /^(.*)$/,
+      hash: /^(.*)$/,
+    },
+    start: function (m) {
+      'use strict';
+      var l = m.path[1] + m.query[1] + m.hash[1];
+      $.openLink(l);
+    },
+  });
+  $.register({
+    rule: {
+      host: hosts,
+    },
+    ready: function () {
+      'use strict';
+      $.removeNodes('iframe');
+      var jQuery = $.window.$;
+      setTimeout(function () {
+        jQuery("#captcha-dialog").dialog("open");
+      }, 1000);
     },
   });
 })();
@@ -3497,6 +4372,18 @@ $.register({
 
 $.register({
   rule: {
+    host: /^itw\.me$/,
+    path: /^\/r\//,
+  },
+  ready: function () {
+    'use strict';
+    var f = $('.go-form');
+    f.submit();
+  },
+});
+
+$.register({
+  rule: {
     host: /^ity\.im$/,
   },
   ready: function () {
@@ -3508,7 +4395,7 @@ $.register({
     }
     f = $.$$('frame').find(function (frame) {
       if (frame.src.indexOf('interheader.php') < 0) {
-        return _.nop;
+        return _.none;
       }
       return frame.src;
     });
@@ -3521,7 +4408,7 @@ $.register({
       throw new _.AdsBypasserError('site changed');
     }
     f = f[1];
-    var data = unsafeWindow.des('ksnslmtmk0v4Pdviusajqu', unsafeWindow.hexToString(f), 0, 0);
+    var data = $.window.des('ksnslmtmk0v4Pdviusajqu', $.window.hexToString(f), 0, 0);
     if (data) {
       $.openLink('http://ity.im/1104_21_50846_' + data);
     }
@@ -3536,6 +4423,24 @@ $.register({
     'use strict';
     var l = $('#textresult > a');
     $.openLink(l.href);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?leechbd\.tk$/,
+    path: /^\/Shortener\/(\w+)$/,
+  },
+  start: function (m) {
+    'use strict';
+    $.get('/Shortener/API/read/get', {id: m.path[1], type: 'json'}).then(function (text) {
+      var r = _.parseJSON(text);
+      if (r.success == true && r.data.full) {
+        $.openLink(r.data.full);
+      } else {
+        _.warn('API Error ' + r.error.code + ' : ' + r.error.msg);
+      }
+    });
   },
 });
 
@@ -3556,6 +4461,35 @@ $.register({
     'use strict';
     var f = $('form[style="font-weight:normal;font-size:12;font-family:Verdana;"]');
     $.openLink(f.action);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^link\.animagz\.org$/,
+  },
+  ready: function () {
+    'use strict';
+    var a = $('.redirect');
+    a = a.href.match(/\?r=(.+)$/);
+    a = atob(a[1]);
+    $.openLink(a);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?link\.im$/,
+    path: /^\/\w+$/,
+  },
+  start: function () {
+    'use strict';
+    $.post(document.location.href, {
+      image: 'Continue',
+    }).then(function (text) {
+      var m = text.match(/window\.location\.replace\('([^']+)'\)/);
+      $.openLink(m[1]);
+    });
   },
 });
 
@@ -3590,6 +4524,39 @@ $.register({
   },
 });
 
+(function () {
+  'use strict';
+  function sendRequest (opts) {
+    return $.post('/ajax/r.php', opts).then(function (data) {
+      if (data.length <= 1) {
+        return sendRequest(opts);
+      }
+      var a = $.toDOM(data);
+      a = $('a', a);
+      return a.href;
+    });
+  }
+  $.register({
+    rule: {
+      host: /^link5s\.com$/,
+      path: /^\/([^\/]+)$/,
+    },
+    ready: function (m) {
+      $.window.$ = null;
+      var i = $('#iframeID');
+      var opts = {
+        page: m.path[1],
+        advID: i.dataset.cmp,
+        u: i.dataset.u,
+      };
+      $.removeNodes('iframe');
+      sendRequest(opts).then(function (url) {
+        $.openLink(url);
+      });
+    },
+  });
+})();
+
 (function() {
   function ConvertFromHex (str) {
     var result = [];
@@ -3623,9 +4590,9 @@ $.register({
     return res;
   };
   var hostRules = [
-    /^(([\w]{8}|www)\.)?(allanalpass|cash4files|drstickyfingers|fapoff|freegaysitepass|(gone|tube)viral|(pic|tna)bucks|whackyvidz)\.com$/,
+    /^(([\w]{8}|www)\.)?(allanalpass|cash4files|drstickyfingers|fapoff|freegaysitepass|(gone|tube)viral|(pic|tna)bucks|whackyvidz|fuestfka)\.com$/,
     /^(([\w]{8}|www)\.)?(a[mn]y|deb|dyo|sexpalace)\.gs$/,
-    /^(([\w]{8}|www)\.)?(filesonthe|poontown|seriousdeals|ultrafiles|urlbeat)\.net$/,
+    /^(([\w]{8}|www)\.)?(filesonthe|poontown|seriousdeals|ultrafiles|urlbeat|eafyfsuh)\.net$/,
     /^(([\w]{8}|www)\.)?freean\.us$/,
     /^(([\w]{8}|www)\.)?galleries\.bz$/,
     /^(([\w]{8}|www)\.)?hornywood\.tv$/,
@@ -3637,21 +4604,26 @@ $.register({
   ];
   (function () {
     'use strict';
+    function generateRandomIP () {
+      return [0,0,0,0].map(function () {
+        return Math.floor(Math.random() * 256);
+      }).join('.');
+    }
     function findToken (context) {
-      var script = $.$$('script', context).find(function (n) {
-        if (n.innerHTML.indexOf('window[\'init\' + \'Lb\' + \'js\' + \'\']') < 0) {
-          return _.nop;
-        }
-        return n.innerHTML;
-      });
+      var script = $.searchScripts('    var f = window[\'init\' + \'Lb\' + \'js\' + \'\']', context);
       if (!script) {
         _.warn('pattern changed');
         return null;
       }
-      script = script.payload;
-      var m = script.match(/AdPopUrl\s*:\s*'.+\?ref=([\w\d]+)'/);
-      var token = m[1];
-      m = script.match(/=\s*(\d+);/);
+      var adurl = script.match(/AdUrl\s*:\s*'([^']+)'/);
+      if (!adurl) {
+        return null;
+      }
+      adurl = adurl[1];
+      var m1 = script.match(/AdPopUrl\s*:\s*'.+\?[^=]+=([\w\d]+)'/);
+      var m2 = script.match(/Token\s*:\s*'([\w\d]+)'/);
+      var token = m1[1] || m2[1];
+      var m = script.match(/=\s*(\d+);/);
       var ak = parseInt(m[1], 10);
       var re = /\+\s*(\d+);/g;
       var tmp = null;
@@ -3662,55 +4634,71 @@ $.register({
       return {
         t: token,
         aK: ak,
+        adurl: adurl,
       };
     }
     function sendRequest (token) {
-      _.info('sending token: %o', token);
-      var i = setInterval(function () {
-        $.get('/intermission/loadTargetUrl', token, function (text) {
-          var data = JSON.parse(text);
-          _.info('response: %o', data);
-          if (!data.Success && data.Errors[0] === 'Invalid token') {
-            _.info('got invalid token');
-            clearInterval(i);
-            $.get(window.location.toString(), {}, function (text) {
-              var d = $.toDOM(text);
-              var t = findToken(d);
-              sendRequest(t);
-            });
-            return;
-          }
-          if (data.Success && !data.AdBlockSpotted && data.Url) {
-            clearInterval(i);
-            $.openLinkWithReferer(data.Url);
-            return;
-          }
+      $.get(token.adurl);
+      delete token.adurl;
+      token.a_b = false;
+      _.info('waiting the interval');
+      return _.wait(5000).then(function () {
+        _.info('sending token: %o', token);
+        return $.get('/intermission/loadTargetUrl', token, {
+          'X-Requested-With': _.none,
+          Origin: _.none,
         });
-      }, 1000);
+      }).then(function (text) {
+        var data = _.parseJSON(text);
+        _.info('response: %o', data);
+        if (!data.Success && data.Errors[0] === 'Invalid token') {
+          _.warn('got invalid token');
+          return retry();
+        }
+        if (data.AdBlockSpotted) {
+          _.warn('adblock spotted');
+          return;
+        }
+        if (data.Success && !data.AdBlockSpotted && data.Url) {
+          return data.Url;
+        }
+      });
+    }
+    function retry () {
+      return $.get(window.location.toString(), {}, {
+        'X-Forwarded-For': generateRandomIP(),
+      }).then(function (text) {
+        var d = $.toDOM(text);
+        var t = findToken(d);
+        if (!t) {
+          return _.wait(1000).then(retry);
+        }
+        return sendRequest(t);
+      });
     }
     $.register({
       rule: {
         host: hostRules,
-        path: /^\/\w+\/url\/(.*)$/,
+        path: /^\/\w+\/url\/(.+)$/,
       },
       ready: function(m) {
         $.removeAllTimer();
         $.resetCookies();
         $.removeNodes('iframe');
-        if (!m.path[1]) {
-          throw new _.AdsBypasserError('wrong url pattern');
-        }
         var url = m.path[1] + window.location.search;
         var match = $.searchScripts(/UrlEncoded: ([^,]+)/);
         if (match && match[1] === 'true') {
           url = Encode(ConvertFromHex(url));
         }
-        $.openLinkWithReferer(url);
+        $.openLink(url);
       }
     });
     $.register({
       rule: {
         host: hostRules,
+      },
+      start: function () {
+        $.window.XMLHttpRequest = _.nop;
       },
       ready: function () {
         $.removeAllTimer();
@@ -3722,16 +4710,18 @@ $.register({
           return;
         }
         var token = findToken(document);
-        sendRequest(token);
+        sendRequest(token).then(function (url) {
+          $.openLink(url);
+        });
       },
     });
     $.register({
       rule: {
-        query: /^\?_lbGate=\d+$/,
+        query: /^(.*)[?&]_lbGate=\d+$/,
       },
-      start: function () {
+      start: function (m) {
         $.setCookie('_lbGatePassed', 'true');
-        $.openLink(window.location.pathname);
+        $.openLink(window.location.pathname + m.query[1]);
       },
     });
   })();
@@ -3739,17 +4729,78 @@ $.register({
 
 $.register({
   rule: {
-    host: /^linkshrink\.net$/,
-    path: /^\/[a-zA-Z0-9]+$/,
+    host: [
+      /^www\.linkdecode\.com$/,
+      /^www\.fastdecode\.com$/,
+    ],
+    path: /^\/$/,
+    query: /^\?(.+)$/,
+  },
+  ready: function (m) {
+    'use strict';
+    $.removeNodes('iframe');
+    var lnk = m.query[1];
+    if (m.query[1].match(/^https?:\/\//)) {
+    	$.openLink(lnk);
+    	return;
+    }
+    var b = $.$('#popup');
+    if (b && b.href) {
+      $.openLink(b.href);
+      return;
+    }
+    b = $('#m > .Visit_Link');
+    b = b.onclick.toString().match(/window\.open\(\'([^']+)\'/);
+    if (!b) {
+      throw new _.AdsBypasser('pattern changed');
+    }
+    lnk = b[1].match(/\?(https?:\/\/.*)$/);
+    if (lnk) {
+        $.openLink(lnk[1]);
+        return;
+    }
+    $.openLink(b[1]);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?linkdrop\.net$/,
   },
   ready: function () {
     'use strict';
-    var a = $.searchScripts(/class="bt" href="([^"]+)"/);
-    if (!a) {
-      _.warn('pattern changed');
-      return;
+    var matches = $.searchScripts(/\$\("a\.redirect"\)\.attr\("href","([^"]+)"\)\.text\("Continue"\);/);
+    if (!matches) {
+        return;
     }
-    $.openLinkWithReferer(a[1]);
+    var l = matches[1];
+    $.openLink(l);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^linkshrink\.net$/,
+    path: /^\/[a-zA-Z0-9]+$/,
+  },
+  start: function () {
+    'use strict';
+    $.window._impspcabe = 0;
+  },
+  ready: function () {
+    'use strict';
+    var l = $('#skip .bt');
+    $.openLink(l.href);
+  },
+});
+$.register({
+  rule: {
+    host: /^linkshrink\.net$/,
+    path: /=(.+)$/,
+  },
+  start: function (m) {
+    'use strict';
+    $.openLink(m.path[1]);
   },
 });
 
@@ -3823,6 +4874,18 @@ $.register({
 });
 
 $.register({
+  rule: {
+    host: /^(www\.)?loook\.ga$/,
+    path: /^\/\d+$/
+  },
+  ready: function (m) {
+    'use strict';
+    var a = $('#download_link > a.btn');
+    $.openLink(a.href);
+  },
+});
+
+$.register({
   rule: [
     'http://madlink.sk/',
     'http://madlink.sk/*.html',
@@ -3835,7 +4898,7 @@ $.register({
     $.removeNodes('iframe');
     $.post('/ajax/check_redirect.php', {
       link: m[1],
-    }, function (text) {
+    }).then(function (text) {
       $.openLink(text);
     });
   },
@@ -3844,14 +4907,27 @@ $.register({
 $.register({
   rule: {
     host: [
-      /^mant(a|e)p\.in$/,
+      /^mant[ae][pb]\.in$/,
       /^st\.oploverz\.net$/,
+      /^minidroid\.net$/,
     ],
   },
   ready: function () {
     'use strict';
     var a = $('a.redirect, a[target=_blank][rel=nofollow]');
     $.openLink(a.href);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^www\.mije\.net$/,
+    path: /^\/\w+\/(.+)$/,
+  },
+  start: function (m) {
+    'use strict';
+    var url = atob(m.path[1]);
+    $.openLink(url);
   },
 });
 
@@ -3925,16 +5001,42 @@ $.register({
 
 $.register({
   rule: {
+    host: /^(www\.)?ohleech\.com$/,
+    path: /^\/dl\/$/,
+  },
+  ready: function () {
+    'use strict';
+    $.window.startdl();
+  },
+});
+
+$.register({
+  rule: {
     host: /^www\.oni\.vn$/,
   },
   ready: function () {
     'use strict';
     $.removeNodes('iframe');
-    var url = $.searchScripts(/window\.location='([^']+)'/);
-    if (!url) {
+    var data = $.searchScripts(/data:"([^"]+)"/);
+    if (!data) {
       throw new _.AdsBypasserError('pattern changed');
     }
-    $.openLink(url[1]);
+    data = data[1];
+    $.get('/click.html', data).then(function (url) {
+      $.openLink(url);
+    });
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?ouo\.io$/,
+    path: /^\/go\/\w+$/,
+  },
+  ready: function (m) {
+    'use strict';
+    var a = $('#btn-main');
+    $.openLink(a.href);
   },
 });
 
@@ -3978,18 +5080,6 @@ $.register({
 });
 
 $.register({
-  rule: {
-    host: /^ref\.so$/,
-  },
-  ready: function () {
-    'use strict';
-    $.removeNodes('iframe');
-    var a = $('#btn_open a');
-    $.openLink(a.href);
-  },
-});
-
-$.register({
   rule: 'http://reffbux.com/refflinx/view/*',
   ready: function () {
     'use strict';
@@ -4004,7 +5094,7 @@ $.register({
       fp: 0,
       location: location,
       referer: '',
-    }, function (text) {
+    }).then(function (text) {
       var m = text.match(/'([^']+)'/);
       if (!m) {
         throw new _.AdsBypasserError('pattern changed');
@@ -4054,9 +5144,11 @@ $.register({
         return;
       }
     }
-    $.openLinkByPost('', {
-      hidden: '1',
-      image: ' ',
+    $.openLink('', {
+      path: {
+        hidden: '1',
+        image: ' ',
+      },
     });
   },
 });
@@ -4079,20 +5171,20 @@ $.register({
   ready: function () {
     'use strict';
     $.removeNodes('iframe');
-    var url = atob(unsafeWindow.fl);
+    var url = atob($.window.fl);
     $.openLink(url);
   },
 });
 
 $.register({
   rule: {
-    host: /^(www\.)?safelinkconverter2\.com$/,
-    path: /^\/decrypt-\d\/$/,
-    query: /id=(\w+==)/,
+    host: /^(www\.)?sa\.ae$/,
+    path: /^\/\w+\/$/,
   },
-  ready: function (m) {
+  ready: function () {
     'use strict';
-    $.openLink(window.atob(m.query[1]));
+    var m = $.searchScripts(/var real_link = '([^']+)';/);
+    $.openLink(m[1]);
   },
 });
 
@@ -4109,6 +5201,21 @@ $.register({
     }
     directUrl = directUrl[1];
     $.openLink(directUrl);
+  },
+});
+
+$.register({
+  rule: {
+    host: [
+      /^segmentnext\.com$/,
+      /^(www\.)?videogamesblogger.com$/,
+    ],
+    path: /^\/interstitial\.html$/,
+    query: /return_url=([^&]+)/,
+  },
+  start: function (m) {
+    'use strict';
+    $.openLink(decodeURIComponent(m.query[1]));
   },
 });
 
@@ -4152,14 +5259,9 @@ $.register({
   'use strict';
   function afterGotSessionId (sessionId) {
     var X_NewRelic_ID = $.searchScripts(/xpid:"([^"]+)"/);
-    var Fingerprint = unsafeWindow.Fingerprint;
-    var browserToken = null;
-    if (Fingerprint) {
-      browserToken = (new Fingerprint($.inject({canvas: !0}))).get();
-    } else {
-      browserToken = Math.round((new Date()).getTime() / 1000);
-    }
-    var data = "sessionId=" + sessionId + "&browserToken=" + browserToken;
+    var data = {
+      adSessionId: sessionId,
+    };
     var header = {
       Accept: 'application/json, text/javascript',
     };
@@ -4167,22 +5269,60 @@ $.register({
       header['X-NewRelic-ID'] = X_NewRelic_ID;
     }
     var i = setInterval(function () {
-      $.get('/adSession/callback', data, function (text) {
-        var r = JSON.parse(text);
+      $.get('/shortest-url/end-adsession', data, header).then(function (text) {
+        var r = _.parseJSON(text);
         if (r.status == "ok" && r.destinationUrl) {
           clearInterval(i);
+          $.removeAllTimer();
           $.openLink(r.destinationUrl);
         }
-      }, header);
+      });
     }, 1000);
   }
+  var hostRules = /^sh\.st|(dh10thbvu|u2ks|jnw0)\.com|digg\.to$/;
   $.register({
     rule: {
-      host: /^sh\.st|dh10thbvu\.com|u2ks\.com$/,
+      host: hostRules,
+      path: /^\/freeze\/.+/,
+    },
+    ready: function () {
+      var o = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          if (mutation.target.getAttribute('class').match(/active/)) {
+            o.disconnect();
+            $.openLink(mutation.target.href);
+          }
+        });
+      });
+      o.observe($('#skip_button'), {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    },
+  });
+  $.register({
+    rule: {
+      host: hostRules,
+      path: /https?:\/\//,
+    },
+    start: function () {
+      var url = window.location.pathname + window.location.search + window.location.hash;
+      url = url.match(/(https?:\/\/.*)$/);
+      url = url[1];
+      $.openLink(url);
+    },
+  });
+  $.register({
+    rule: {
+      host: hostRules,
       path: /^\/[\d\w]+/,
+    },
+    start: function () {
+      $.window._impspcabe = 0;
     },
     ready: function () {
       $.removeNodes('iframe');
+      $.removeAllTimer();
       var m = $.searchScripts(/sessionId: "([\d\w]+)",/);
       if (m) {
         afterGotSessionId(m[1]);
@@ -4206,14 +5346,73 @@ $.register({
 
 $.register({
   rule: {
-    host: /^(www\.)?shortenurl\.tk$/,
+    host: /^(www\.)?shink\.in$/,
+    path: /^\/\w+$/,
+  },
+  ready: function () {
+    'use strict';
+    var f = $('#skip');
+    if (!$.$('#captcha')) {
+      f.submit();
+      return;
+    }
+    var envio = $("#envio");
+    envio.disabled = false;  
+    envio.style.visibility= "hidden";  
+    envio.style.display='none';
+    var envio2 = $("#envio2");
+    envio2.style.visibility= "visible";  
+    envio2.style.display='block';
+    $.window.$("#myModal").reveal();
+  },
+});
+
+$.register({
+  rule: {
+    host: [
+      /^(www\.)?shortenurl\.tk$/,
+      /^(www\.)?pengaman\.link$/,
+    ],
     path: /^\/\w+$/,
   },
   ready: function (m) {
     'use strict';
-    var l = $('a.btn-block.redirect').href;
-    var b64 = l.match(/\?r=(\w+={2})/); 
-    $.openLink(atob(b64[1]));
+    var l = $('a.btn-block.redirect');
+    $.openLink(l.href);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?shorti\.ga$/,
+    path: [
+      /^\/\w+$/,
+      /^\/url_redirector\.html$/,
+    ],
+  },
+  ready: function () {
+    'use strict';
+    var f = $.$$('frame');
+    var fl = f.find(function(value, key, self) {
+      if (value.getAttribute('class')) {
+        return _.none;
+      }
+      return 'Target frame found';
+    });
+    $.openLink(fl.value.src);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^www\.shortskip\.com$/,
+    path: /^\/short\.php$/,
+    query: /i=([^&]+)/,
+  },
+  start: function (m) {
+    'use strict';
+    var url = decodeURIComponent(m.query[1]);
+    $.openLink(url);
   },
 });
 
@@ -4222,26 +5421,13 @@ $.register({
     host: /^(www\.)?similarsites\.com$/,
     path: /^\/goto\/([^?]+)/
   },
-  ready: function (m) {
+  start: function (m) {
     'use strict';
     var l = m.path[1];
     if (!/^https?:\/\//.test(l)) {
       l = 'http://' + l;
     }
     $.openLink(l);
-  },
-});
-
-$.register({
-  rule: {
-    host: /^(www\.)?srelink\.com$/,
-    path: /^\/i\/\w+$/,
-  },
-  ready: function (m) {
-    'use strict';
-    $.removeNodes('iframe');
-    var matches = $.searchScripts(/href="([^"]+)">SKIP AD<\/a>/);
-    $.openLink(matches[1]);
   },
 });
 
@@ -4260,26 +5446,82 @@ $.register({
 
 $.register({
   rule: {
-    host: /^steamcommunity\.com$/,
-    path: /^\/linkfilter\/(.+)?$/,
-    query: /^(?:\?url=(.+))?$/,
+    host: /^(www\.)?supercheats\.com$/,
+    path: /^\/interstitial\.html$/,
+    query: /(?:\?|&)oldurl=([^&]+)(?:$|&)/,
   },
-  ready: function (m) {
+  start: function (m) {
     'use strict';
-    var target = m.path[1]? m.path[1]+document.location.search : m.query[1];
-    $.openLink(target);
+    $.openLink(m.query[1]);
   },
 });
 
 $.register({
-  rule: {
-    host: /^(www\.)?sylnk\.net$/,
-    query: /link=([^&]+)/
-  },
-  ready: function (m) {
+  rule: [
+    {
+      host: [
+        /^(www\.)?sylnk\.net$/,
+        /^dlneko\.(com|net)$/,
+      ],
+      query: /link=([^&]+)/,
+    },
+    {
+      host: /^(www\.)?compul\.in$/,
+      path: /^\/n\.php$/,
+      query: /v=([^&]+)/,
+    },
+    {
+      host: /^(www\.)?safelinkair\.com$/,
+      path: /^\/code$/,
+      query: /(?:\?|&)link=([a-zA-Z0-9=]+)(?:$|&)/,
+    },
+  ],
+  start: function (m) {
     'use strict';
     var rawLink = atob(m.query[1]);
     $.openLink(rawLink);
+  },
+});
+$.register({
+  rule: [
+    {
+      host: /^(www\.)?(link\.)?safelink(converter2?|s?review)\.com$/,
+      query: /id=(\w+=*)/,
+    },
+    {
+      host: [
+        /^(www\.)?dlneko\.com$/,
+        /^(satuasia|tawaku)\.com$/,
+        /^ww3\.manteb\.in$/,
+      ],
+      query: /go=(\w+=*)/,
+    },
+  ],
+  start: function (m) {
+    'use strict';
+    var l = atob(m.query[1]);
+    var table = {
+      '!': 'a',
+      ')': 'e',
+      '_': 'i',
+      '(': 'o',
+      '*': 'u',
+    };
+    l = l.replace(/[!)_(*]/g, function (m) {
+      return table[m];
+    });
+    $.openLink(l);
+  },
+});
+$.register({
+  rule: {
+    host: /^(www\.)?safelinkreview\.com$/,
+    path: /^\/\w+\/cost\/([\w\.]+)\/?$/,
+  },
+  start: function (m) {
+    'use strict';
+    var l = 'http://' + m.path[1];
+    $.openLink(l);
   },
 });
 
@@ -4308,6 +5550,19 @@ $.register({
 
 $.register({
   rule: {
+    host: /^(www\.)?totaldebrid\.org$/,
+    path:/\/l\/(l\.php)?$/,
+    query: /\?ads=([a-zA-Z0-9=]+)$/,
+  },
+  start: function (m) {
+    'use strict';
+    var l = atob(m.query[1]);
+    $.openLink(l);
+  },
+});
+
+$.register({
+  rule: {
     host: /^(www\.)?typ\.me$/,
   },
   ready: function (m) {
@@ -4323,7 +5578,7 @@ $.register({
     path: /^\/(?:(?:\d-)?(\d+)|index\.php)$/,
     query: /^(?:\?a=\d&c=(\d+))?$/
   },
-  ready: function (m) {
+  start: function (m) {
     'use strict';
     var linkId = m.path[1]?m.path[1]:m.query[1];
     var directLink = '/3-' + linkId;
@@ -4372,8 +5627,8 @@ $.register({
   },
   ready: function () {
     'use strict';
-    if (unsafeWindow && unsafeWindow.linkDestUrl) {
-      $.openLink(unsafeWindow.linkDestUrl);
+    if ($.window && $.window.linkDestUrl) {
+      $.openLink($.window.linkDestUrl);
       return;
     }
     var matches = document.body.innerHTML.match(/linkDestUrl = '(.+)'/);
@@ -4381,20 +5636,6 @@ $.register({
       $.openLink(matches[1]);
       return;
     }
-  },
-});
-
-$.register({
-  rule: {
-    host: /^(www\.)?(urlcow|miniurl)\.com$/,
-  },
-  ready: function () {
-    'use strict';
-    var m = $.searchScripts(/window\.location = "([^"]+)"/);
-    if (!m) {
-      throw new _.AdsBypasserError('site changed');
-    }
-    $.openLink(m[1]);
   },
 });
 
@@ -4423,25 +5664,35 @@ $.register({
 });
 
 $.register({
-  rule: 'http://urlz.so/l/*',
-  ready: function () {
+  rule: {
+    host: /^(www\.)?urlv2\.com$/,
+  },
+  ready: function (m) {
     'use strict';
-    var i = $.$('td > a');
-    if (i) {
-      i = i.href;
-      var m = i.match(/javascript:declocation\('(.+)'\);/);
-      if (m) {
-        i = atob(m[1]);
-      }
-      $.openLink(i);
+    if (window.location.pathname.indexOf('locked') >= 0) {
+      var path = window.location.pathname.replace('/locked', '');
+      $.openLink(path);
       return;
     }
-    i = $('img');
-    $.captcha(i.src, function (a) {
-      var b = $('input[name=captcha]');
-      var c = $('input[name=submit]');
-      b.value = a;
-      c.click();
+    var m = $.searchScripts(/jeton=([\w]+)/);
+    var l = 'http://urlv2.com/algo.php?action=passer&px=0&so=1&jeton=' + m[1];
+    window.setTimeout(function() {$.openLink(l)}, 5000);
+  },
+});
+
+$.register({
+  rule: {
+    host: /^(www\.)?victly\.com$/,
+    path: /^\/\w+$/,
+  },
+  start: function () {
+    'use strict';
+    $.post(document.location.href, {
+      hidden: '',
+      image: 'Skip+Ads',
+    }).then(function (text) {
+      var m = text.match(/window\.location\.replace\('([^']+)'\)/);
+      $.openLink(m[1]);
     });
   },
 });
@@ -4511,13 +5762,12 @@ $.register({
   ready: function () {
     'use strict';
     $.removeNodes('iframe');
-    var uniq = unsafeWindow.uniq || unsafeWindow.uniqi;
+    var uniq = $.window.uniq || $.window.uniqi;
     if (!uniq) {return;}
     var path = window.location.pathname;
     var url = _.T('{0}?ajax=true&adblock=false&old=false&framed=false&uniq={1}')(path, uniq);
     var getURL = function() {
-      $.get(url, {
-      }, function (text) {
+      $.get(url).then(function (text) {
         var goodURL = /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(text);
         if (goodURL) {
           $.openLink(text);
@@ -4570,18 +5820,26 @@ $.register({
     rule: {
       host: /^(www\.)?([a-zA-Z0-9]+\.)?binbox\.io$/,
       path: /\/([a-zA-Z0-9]+)/,
-      hash: /#([a-zA-Z0-9]+)/,
+      hash: /(?:#([a-zA-Z0-9]+))?/,
     },
     ready: function (m) {
-      var sjcl = unsafeWindow.sjcl;
+      var sjcl = $.window.sjcl;
       var paste_id = m.path[1];
       var paste_salt = m.hash[1];
-      var fake_user = 'binbox';
-      var API_URL = _.T('https://{0}.binbox.io/{1}.json')(fake_user, paste_id);
-      $.get(API_URL, "", function (pasteInfo) {
-        pasteInfo = JSON.parse(pasteInfo);
+      var API_URL = _.T('https://binbox.io/{0}.json')(paste_id);
+      $.get(API_URL, false, {
+        Origin: _.none,
+        Referer: _.none,
+        Cookie: 'referrer=1',
+        'X-Requested-With': _.none,
+      }).then(function (pasteInfo) {
+        pasteInfo = _.parseJSON(pasteInfo);
         if (!pasteInfo.ok) {
           throw new _.AdsBypasserError("error when getting paste information");
+        }
+        if (pasteInfo.paste.url) {
+          $.openLink(pasteInfo.paste.url);
+          return;
         }
         var raw_paste = sjcl.decrypt(paste_salt, pasteInfo.paste.text);
         if (isLink(raw_paste)) {
@@ -4598,4 +5856,136 @@ $.register({
   });
 })();
 
+$.register({
+  rule: {
+    host: /^(www\.)?pasted\.co$/,
+    path: /^\/\w+$/,
+  },
+  ready: function () {
+    'use strict';
+    $.removeNodes('#captcha_overlay');
+  },
+});
+
+(function (context, factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = function (context, GM) {
+      var _ = require('lodash');
+      var core = require('./core.js');
+      var misc = require('./misc.js');
+      var dispatcher = require('./dispatcher.js');
+      var modules = [misc, dispatcher].map(function (v) {
+        return v.call(null, context, GM);
+      });
+      var $ = _.assign.apply(_, modules);
+      return factory(context, GM, core, $);
+    };
+  } else {
+    factory(context, {
+      openInTab: GM_openInTab,
+      registerMenuCommand: GM_registerMenuCommand,
+    }, context._, context.$);
+  }
+}(this, function (context, GM, _, $) {
+  'use strict';
+  var window = context.window;
+  var document = window.document;
+  var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+  function disableWindowOpen () {
+    $.window.open = _.nop;
+    $.window.alert = _.nop;
+    $.window.confirm = _.nop;
+  }
+  function disableLeavePrompt (element) {
+    if (!element) {
+      return;
+    }
+    var seal = {
+      set: function () {
+        _.info('blocked onbeforeunload');
+      },
+    };
+    element.onbeforeunload = undefined;
+    if (isSafari) {
+      element.__defineSetter__('onbeforeunload', seal.set);
+    } else {
+      $.window.Object.defineProperty(element, 'onbeforeunload', {
+        configurable: true,
+        enumerable: false,
+        get: undefined,
+        set: seal.set,
+      });
+    }
+    var oael = element.addEventListener;
+    var nael = function (type) {
+      if (type === 'beforeunload') {
+        _.info('blocked addEventListener onbeforeunload');
+        return;
+      }
+      return oael.apply(this, arguments);
+    };
+    element.addEventListener = nael;
+  }
+  function changeTitle () {
+    document.title += ' - AdsBypasser';
+  }
+  function beforeDOMReady (handler) {
+    _.info('working on\n%s \nwith\n%s', window.location.toString(), JSON.stringify($.config));
+    disableLeavePrompt($.window);
+    disableWindowOpen();
+    handler.start();
+  }
+  function afterDOMReady (handler) {
+    disableLeavePrompt($.window.document.body);
+    changeTitle();
+    handler.ready();
+  }
+  function waitDOM () {
+    return _.D(function (resolve, reject) {
+      if (document.readyState !== 'loading') {
+        resolve();
+        return;
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        resolve();
+      });
+    });
+  }
+  $._main = function () {
+    var findHandler = $._findHandler;
+    delete $._main;
+    delete $._findHandler;
+    if (window.top !== window.self) {
+      return;
+    }
+    GM.registerMenuCommand('AdsBypasser - Configure', function () {
+      GM.openInTab('https://adsbypasser.github.io/configure.html');
+    });
+    var handler = findHandler(true);
+    if (handler) {
+      if ($.config.logLevel <= 0) {
+        _._quiet = true;
+      }
+      beforeDOMReady(handler);
+      waitDOM().then(function () {
+        afterDOMReady(handler);
+      });
+      return;
+    }
+    if ($.config.logLevel < 2) {
+      _._quiet = true;
+    }
+    _.info('does not match location on `%s`, will try HTML content', window.location.toString());
+    waitDOM().then(function () {
+      handler = findHandler(false);
+      if (!handler) {
+        _.info('does not match HTML content on `%s`', window.location.toString());
+        return;
+      }
+      beforeDOMReady(handler);
+      afterDOMReady(handler);
+    });
+  };
+  return $;
+}));
 $._main();
