@@ -1,4 +1,4 @@
-/* :::::::: Sub-Script/Overlay Loader v3.0.41mod ::::::::::::::: */
+/* :::::::: Sub-Script/Overlay Loader v3.0.48mod ::::::::::::::: */
 
 // automatically includes all files ending in .uc.xul and .uc.js from the profile's chrome folder
 
@@ -14,6 +14,14 @@
 // 4.Support window.userChrome_js.loadOverlay(overlay [,observer]) //
 // Modified by Alice0775
 //
+// Date 2015/06/28 13:00 about:preferences#privacy etc
+// Date 2014/12/28 19:00 workaround loading xul on second browser
+// Date 2014/12/13 21:00 remove a debug log
+// Date 2014/12/13 21:00 allow to load scripts into about: in dialog
+// Date 2014/12/13 21:00 require userchrome.js-0.8.014121301-Fx31.xpi
+// Date 2014/06/07 21:00 skip about:blank
+// Date 2014/06/07 19:00 turn off experiment by default
+// Date 2014/06/04 12:00 fixed possibility of shutdown crash Bug 1016875
 // Date 2014/05/19 00:00 delay 0, experiment
 // Date 2013/10/06 00:00 allow to load scripts into about:xxx
 // Date 2013/09/13 00:00 Bug 856437 Remove Components.lookupMethod, remove REPLACEDOCUMENTOVERLAY
@@ -52,7 +60,9 @@
 //
 
 (function(){
+  "use strict";
   // -- config --
+  const EXPERIMENT = false; //実験:するtrue, しない[false]
   const EXCLUDE_CHROMEHIDDEN = false; //chromehiddenなwindow(popup等)ではロード: しないtrue, する[false]
   const USE_0_63_FOLDER = false; //0.63のフォルダ規則を使う[true], 使わないfalse
   const FORCESORTSCRIPT = false; //強制的にスクリプトをファイル名順でソートするtrue, しない[false]
@@ -60,14 +70,12 @@
   const REPLACECACHE = false; //スクリプトの更新日付によりキャッシュを更新する: true , しない:[false]
   //=====================USE_0_63_FOLDER = falseの時===================
   var UCJS      = new Array("UCJSFiles","userContent","userMenu"); //UCJS Loader 仕様を適用 (NoScriptでfile:///を許可しておく)
-  var UCJS      = new Array("UCJSFiles","userContent","userMenu"); //UCJS Loader 仕様を適用 (NoScriptでfile:///を許可しておく)
-  var arrSubdir = new Array("", "xul","withTabMixPlus"  ,  "userCrome.js.0.8","userContent",
+    var arrSubdir = new Array("", "xul","withTabMixPlus"  ,  "userCrome.js.0.8","userContent",
 "SubScript", 
 "UCJSFiles",
 "TabMixPlus",
 "userMenu",
 "userButton",
-"userButton29+APIjs",
 "PageBrowse",
 "ToolbarScript",
 "downloadPlus",
@@ -108,12 +116,13 @@
  */
 
 
-  //chromeでないならスキップ
-  if(!/^chrome:/i.test(location.href)) return;
+  //chrome/aboutでないならスキップ
+  if(!/^(chrome:|about:)/i.test(location.href)) return;
+  if(/^(about:(blank|newtab|home))/i.test(location.href)) return;
   //コモンダイアログに対するオーバーレイが今のところ無いので時間短縮のためスキップすることにした
   if(location.href =='chrome://global/content/commonDialog.xul') return;
+  if(location.href =='chrome://global/content/alerts/alert.xul') return;
   if(/.html?$/i.test(location.href)) return;
-
   window.userChrome_js = {
     USE_0_63_FOLDER: USE_0_63_FOLDER,
     UCJS: UCJS,
@@ -125,6 +134,7 @@
     BROWSERCHROME: BROWSERCHROME,
     EXCLUDE_CHROMEHIDDEN: EXCLUDE_CHROMEHIDDEN,
     REPLACECACHE: REPLACECACHE,
+    EXPERIMENT: EXPERIMENT,
     get hackVersion () {
       delete this.hackVersion;
       return this.hackVersion = "0.8";
@@ -459,6 +469,7 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
     },
 
     //window.userChrome_js.loadOverlay
+    shutdown: false,
     overlayWait:0,
     overlayUrl:[],
     loadOverlay: function(url, observer, doc){
@@ -502,6 +513,7 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
         };
         //if (this.INFO) this.debug("document.loadOverlay: " + url);
         try{
+          if (window.userChrome_js.shutdown) return;
           doc.loadOverlay(url, observer);
         } catch(ex){
           window.userChrome_js.error(url, ex);
@@ -512,14 +524,14 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
     //xulを読み込む
     runOverlays: function(doc){
       try {
-        var dochref = doc.location.href;
+        var dochref = doc.location.href.replace(/#.*$/, "");
       } catch (e) {
         return;
       }
 
       var overlay;
 
-      if( false && true ){ //← uc.jsでのloadOverlayに対応
+      if( !this.EXPERIMENT && true ){ //← uc.jsでのloadOverlayに対応
         for(var m=0,len=this.overlays.length; m<len; m++){
           overlay = this.overlays[m];
           if( overlay.filename != this.ALWAYSEXECUTE
@@ -562,7 +574,7 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
     //uc.jsを読み込む
     runScripts: function(doc){
       try {
-        var dochref = doc.location.href;
+        var dochref = doc.location.href.replace(/#.*$/, "");
       } catch (e) {
         return;
       }
@@ -679,6 +691,10 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
 
 
   var that = window.userChrome_js;
+  window.addEventListener("unload", function(){
+    that.shutdown = true;
+  },false);
+
   window.xxdebug = that.debug;
   //that.debug(typeof that.getScriptsDone);
   if(pref){
@@ -738,6 +754,40 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
       setTimeout(function(doc){that.runOverlays(doc);},0, doc);
     },0, doc);
   }else{
+    if (!that.EXPERIMENT) {
+      setTimeout(function(doc){
+        that.runScripts(doc);
+        //面倒だからFirefox 3 の場合はeditBookmarkOverlay.xulを先読みしておく
+        var delay = 0;
+        if (location.href === that.BROWSERCHROME &&
+            typeof StarUI != 'undefined' &&
+            !(StarUI._overlayLoading || StarUI._overlayLoaded)) {
+          // xxxx bug 726440
+          StarUI._overlayLoading = true;
+          that.loadOverlay(
+            "chrome://browser/content/places/editBookmarkOverlay.xul",
+            (function (aSubject, aTopic, aData) {
+              //XXX We just caused localstore.rdf to be re-applied (bug 640158)
+              if ("retrieveToolbarIconsizesFromTheme" in window)
+                retrieveToolbarIconsizesFromTheme();
+
+              // Move the header (star, title, button) into the grid,
+              // so that it aligns nicely with the other items (bug 484022).
+              let header = this._element("editBookmarkPanelHeader");
+              let rows = this._element("editBookmarkPanelGrid").lastChild;
+              rows.insertBefore(header, rows.firstChild);
+              header.hidden = false;
+
+              this._overlayLoading = false;
+              this._overlayLoaded = true;
+              //this._doShowEditBookmarkPanel(aItemId, aAnchorElement, aPosition);
+            }).bind(StarUI)
+          );
+          delay = 0;
+        }
+        setTimeout(function(doc){that.runOverlays(doc);}, delay, doc);
+      },0, doc);
+    } else {
       that.runScripts(doc);
       //面倒だからFirefox 3 の場合はeditBookmarkOverlay.xulを先読みしておく
       if (location.href === that.BROWSERCHROME &&
@@ -766,6 +816,7 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
         );
       }
       that.runOverlays(doc);
+    }
   }
   //Sidebar for Trunc
   if(location.href != that.BROWSERCHROME) return;
@@ -773,6 +824,7 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
     window.document.addEventListener("load",
       function(event){
         if (!event.originalTarget.location) return;
+        if(/^(about:(blank|newtab|home))/i.test(event.originalTarget.location.href)) return;
         if( !/^(about:|chrome:)/.test(event.originalTarget.location.href) )return;
         var doc = event.originalTarget;
         var href = doc.location.href;
@@ -821,5 +873,4 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
     }
   }
 })();
-
 //userChrome.import("stylish0.5_edit.uc.js", "UChrm");
