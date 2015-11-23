@@ -1,11 +1,11 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 /* 設置不顯示菜單欄的情況下，按下 alt 鍵時不會激活菜單欄。 */
-
 #toolbar-menubar[autohide="true"] {display:none !Important;}
 
 #FirefoxBtnpopup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
     margin-top: -5px !important;
 }
+#eom-menugroup .menu-iconic-icon {margin-right:-4px !Important;}
 
 menu,
 menuitem,
