@@ -85,9 +85,9 @@ var prefs={
         FW_offset: [10, 10],    // 偏離版邊的垂直和水平方向的數值..(單位:像素)
         FW_RAS: true,           // 點擊懸浮窗上的保存按鈕..立即刷新頁面;
     pauseA: true,            // 快速停止自動翻頁(當前模式為翻頁模式的時候生效.);
-        Pbutton: [0, 0, 0],     // 需要按住的鍵.....0: 不按住任何鍵;1: shift鍵;2: ctrl鍵; 3: alt鍵;(同時按3個鍵.就填 1 2 3)(一個都不按.就填 0 0 0)
+        Pbutton: [0, 2, 0],     // 需要按住的鍵.....0: 不按住任何鍵;1: shift鍵;2: ctrl鍵; 3: alt鍵;(同時按3個鍵.就填 1 2 3)(一個都不按.就填 0 0 0)
         mouseA: true,           // 按住鼠標左鍵..否則.雙擊;
-            Atimeout: 500,      // 按住左鍵時..延時.多少生效..(單位:毫秒);
+            Atimeout: 200,      // 按住左鍵時..延時.多少生效..(單位:毫秒);
         stop_ipage: true,       // 如果在連續翻頁過程中暫停.重新啟用後.不在繼續..連續翻頁..
 
     Aplus: true,             // 自動翻頁模式的時候..提前預讀好一頁..就是翻完第1頁,立馬預讀第2頁,翻完第2頁,立馬預讀第3頁..(大幅加快翻頁快感-_-!!)(建議開啟)..
@@ -254,6 +254,15 @@ var SITEINFO=[
         }
     },
     // ========= 自己蛋疼的 ================
+    {name: '火狐范',
+        url: /http:\/\/www\.firefoxfan\.com\//i,
+        siteExample: 'http://www.firefoxfan.com/',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;.excerpt',
+            useiframe: true,
+        },
+    }, 
     {name: '海芋小站',
         url: /http:\/\/www\.inote\.tw\//i,
         siteExample: 'http://www.inote.tw/',
@@ -3577,7 +3586,7 @@ var SITEINFO=[
             },
         },
         autopager:{
-            pageElement:'//div[@class="photo"]',
+            pageElement:'//div[@id="imgArea"]',
             useiframe:true,
         }
     },
