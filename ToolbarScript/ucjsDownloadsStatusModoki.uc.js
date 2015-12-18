@@ -75,7 +75,7 @@ var ucjsDownloadsStatusModoki = {
     menuitem.setAttribute("id", "toggle_downloadsStatusModokiBar");
     menuitem.setAttribute("type", "checkbox");
     menuitem.setAttribute("autocheck", false);
-    menuitem.setAttribute("label", "下載工具列");
+    menuitem.setAttribute("label", "下載狀態列");
     menuitem.setAttribute("checked", false);
     menuitem.setAttribute("accesskey", "D");
     menuitem.setAttribute("oncommand", "ucjsDownloadsStatusModoki.toggleDownloadsStatusModokiBar()");
@@ -267,6 +267,27 @@ var ucjsDownloadsStatusModoki = {
       #ucjsDownloadsStatusModoki-closebutton:hover { \
         list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABOElEQVR42qXVTU6EMBQHcBITPRtLdXCDOz6vQiFAomdwM3MfY1w4iXMBYOO4wfdvWtN0+iU2aUoo/fFK20cUGUqSJNdFUTxQfcnz/IPaM7ULta+4l2VZgmeikEIDbqm+l2W5uiqeIfjOCtEbryiKxgfpFWMw9gLcgqmoju3+ilRVpaM7dQE+1c5pmtamaaxY27brsixrXdfqNz3xhaKLVB8wjqMVlVjXdaapPwLcm6IYhuECdWEiygPAo21qEmWMeTEBHgF+uT5+3/cc9WECPAOcXQ8BATbPM48yBHzzYWgRqQ+VU977MPWeC5WLkoZgISjfNqaNDcw1NfQB1aI7xXF8w08L0tHWcywrDP08s38kB2ZMXxT20wbs2Zi+lAR7H5pgfzOMr4iFSrENxC/gG1VcH9Bn+wX8AO2I/tIbJNRrAAAAAElFTkSuQmCC"); \
       } \
+\
+      #ucjsDownloadsStatusModokidoview {\
+		margin-right: 0px !important;\
+		margin-left: 2px !important;\
+      }\
+\
+      #ucjsDownloadsStatusModokidoclear{\
+		margin-right: 0px !important;\
+		margin-left: 2px !important;\
+		min-width: 52px !important;\
+      }\
+\
+      #ucjsDownloadsStatusModokidoview .box-inherit.button-box{\
+		margin-right: -6px !important;\
+		margin-left: -8px !important;\
+      }\
+\
+      #ucjsDownloadsStatusModokidoclear .box-inherit.button-box{\
+		margin-right: -10px !important;\
+		margin-left: -10px !important;\
+      }\
      '.replace(/\s+/g, " ");
     var sspi = doc.createProcessingInstruction(
       'xml-stylesheet',
@@ -277,14 +298,22 @@ var ucjsDownloadsStatusModoki = {
       return doc.documentElement.getAttribute(name);
     };
 
-    var button = doc.createElement("button");
-    button.setAttribute("label", "清除");
-    button.setAttribute("accesskey", "C");
-    button.setAttribute("oncommand", "ucjsDownloadsStatusModoki_clearDownloads();");
+    var clearbutton = doc.createElement("button");
+    clearbutton.setAttribute("id", "ucjsDownloadsStatusModokidoclear");
+    clearbutton.setAttribute("label", " 清除");
+    clearbutton.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACh0lEQVQ4jZWRa0jTARTFTyoYWqSpJGpEFGJ9sZIekFGZ5aOHJBSRkJhEho5AqIVmrBrLuU3BjNK9tBeZFSYZgSn5RDJTVNTmNNLN5eaDfMxw/j19E8QsvZ/v78e59+DaUey/eRyGtCgMiCMRgZVOWhTMz6+4sUTkzvRoTN2IQPiKBOlRGClLXcPqDA8WJ7sxPRoGCeCkluNOngxe/xWII3BVFus0+TFtHaszPCg9jfF8Kb5qFKBajm3LCeGUFo0HkpOYLLvuzqLMVax6s3OuVB8wrs7CgWWfIkvEbU0m5porD9PWJ2Zp0obpwj0w6bPRplFAnCuDz5KwRoHzOhXs3Y0xHDYmsVEUwhL/tex6e5FWYyqbKsOmH+estutV0D+Uwn+xQI54rRK2imdB9oroIH7Yt5H27gQK1kQKthQKoxn8bc3kl6rwGX22y7ROhSfqezgkkcBpXpIrgmvhVnS9Cls/67BKKQwnUxiTUhgWURiKpcMczomBS7T1itlSHTn3Wus3oVXAujDJLcR/Kg2eEsayKFjjKdgSKAzFUhgM5UTPdlpafWls8KCpLYr9HZepV2JogeC+HH5P8zynHSMKzppD6TDtpb0vmKNdW2hu9mZPrQsNNc4c7DzL+vchDp0KLxb9ozAbHb0tFzhiOEZLqy8HmjxprHOlocaZhhpnmtpP0Nh8jnqV86RajoBFgkdyHHlZ4Gf/aUihsd5jHjQ2+NDSFcfOxjNzhTkuvwqycHDJWnUq1NeX756xdMfz++dAmjtO0fJNxLp3uxxaFQYLZAhcEgaAPBm8dEr0t9XGCD/a49hQvmOmKMfVrlOiOF8C73/C8xIpNmmUGNEpMaxVQqe+i81/2/sDdNth33v8JSgAAAAASUVORK5CYII=");
+    //clearbutton.setAttribute("accesskey", "C");
+    clearbutton.setAttribute("oncommand", "ucjsDownloadsStatusModoki_clearDownloads();");
+    var viewbutton = doc.createElement("button");
+    viewbutton.setAttribute("id", "ucjsDownloadsStatusModokidoview");
+    viewbutton.setAttribute("label", " 顯示所有下載");
+    viewbutton.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB8ElEQVQ4ja2T3UobURSFfYBcCT6FjyBD5sL8YUDDzAmjiRkzB6aZHzMz5M8ZGaPNiAFRaBBECSIEFARfQ/Aqb5ArW9TWNm2uCoXVm3rMlJCL0g3fxdmLtdjnsM/MzP8uousRarg71PTuqOn9+sMdNdwdouuRqeaiVosqhjsoN/ZRbx5hO+hgO+ig3jxCubEPxXAHRa0WnWgulKoZ1fLheG14rQ8Tcbw2VMtHoVTNhMemzmxerYxs9wCN3WM0do/x/PIjxGvfdg+QVysjQp1ZFrBK7UC1fFT9Q8bTl+8hxjXV8rFK7YAFZOVy36y14Hhtxt8B45pZayErl/ssQMhpP81aC5v1gPH4eRhiXDOq7yHktCELWJHUYclpotu7xafnb1Pp9m5RcppYkd6NWMASof2ivgXV8nF2eYOPT18ncnZ5A9XyUdS3sETo2xUSGTnIyiao6YKaLk4vrvHw+BLi9OKa6VnZRCIjvz0ilyJzi8u5kaRYkLU6ZK2Ok+4VM590r1hfUiwsLudGXIrMhXaBT0tiStiAWDCQVyvIqxV0znvonPfYWSwYSAkb4NOSOHEbo3ESiybJIE0UiOs61qiNNWpDXNeRJgqiSTLgEyQ50fxa8zwfWYgJe1xcvOcSIriECC4u3i/EhL15np/+mf6lfgO9LajrFSmAqQAAAABJRU5ErkJggg==");
+    viewbutton.setAttribute("oncommand", "ucjsDownloadsStatusModoki_doview();");
     var ref = doc.getElementById("downloadCommands");
     var vbox = doc.createElement("vbox");
     var box = vbox.appendChild(doc.createElement("hbox"));
-    box.appendChild(button);
+    box.appendChild(viewbutton);
+    box.appendChild(clearbutton);
     box.appendChild(doc.createElement("spacer")).setAttribute("flex", 1);
     //var textbox = doc.createElement("textbox");
     //textbox.setAttribute("id", "downloadFilter");
@@ -357,7 +386,20 @@ var ucjsDownloadsStatusModoki = {
       var richListBox = doc.getElementById("downloadsRichListBox");
       richListBox._placesView.searchTerm = filterString;
     };
-
+    win.ucjsDownloadsStatusModoki_doview = function ucjs_doview(e) {
+    	var tabCount = gBrowser.mPanelContainer.childNodes.length;
+    	for (var i = 0; i < tabCount; i++) {
+    		browser = gBrowser.getBrowserAtIndex(i);
+    		if (browser.currentURI.spec == 'about:downloads') {
+    			tab = gBrowser.mTabs[i];
+    			gBrowser.selectedTab = tab;
+    			ucjsDownloadsStatusModoki.toggleDownloadsStatusModokiBar();
+    			return;
+    		}
+    	}
+    	openUILinkIn('about:downloads', 'tab');
+    	ucjsDownloadsStatusModoki.toggleDownloadsStatusModokiBar();
+    };
     win.ucjsDownloadsStatusModoki_doClose = function ucjs_doClose() {
       top.ucjsDownloadsStatusModoki.hideDownloadsStatusModoki();
     };
