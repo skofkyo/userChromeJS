@@ -40,6 +40,20 @@ keys['u'] = function() {
 keys['F4'] = function() {
 				gBrowser.removeCurrentTab();
 			};
+keys['J+Ctrl'] = function() {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  browser = gBrowser.getBrowserAtIndex(i);
+				  if (browser.currentURI.spec == 'about:downloads'){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
+				//openUILinkIn('about:downloads', 'tab');
+				gBrowser.loadOneTab("about:downloads", null, null, null, false, false);
+				//loadOneTab( URL, referrerURI, charset, postData, loadInBackground, allowThirdPartyFixup )
+			};
 //頁面尋找剪貼簿文字
 keys['F+Alt'] = function() {
 				var Init_Find = true;
@@ -135,16 +149,16 @@ keys['Alt+2'] = function() {
 				gPrefService.setIntPref("network.proxy.type", 1);
 				gPrefService.setCharPref("network.proxy.http", "proxy.hinet.net");
 				gPrefService.setIntPref("network.proxy.http_port", 80);
-				XULBrowserWindow.statusTextField.label = "全局代理切換為proxy.hinet.net : 80";
-				setTimeout('XULBrowserWindow.statusTextField.label = ""',3000);
-				BrowserReloadSkipCache();
+				gBrowser.mCurrentBrowser.reload();
+				setTimeout('XULBrowserWindow.statusTextField.label = "全局代理切換為proxy.hinet.net : 80";',500);
+				setTimeout('XULBrowserWindow.statusTextField.label = ""',4000);
 			};
 //PAC自動代理 Unblock Youku
 keys['Alt+3'] = function() {
 				gPrefService.setIntPref("network.proxy.type", 2);
 				//gPrefService.setCharPref("network.proxy.autoconfig_url", "https://github.com/whuhacker/Unblock-Youku-Firefox/raw/master/data/proxy.pac");
 				gPrefService.setCharPref("network.proxy.autoconfig_url", "http://yo.uku.im/proxy.pac");
-				XULBrowserWindow.statusTextField.label = "PAC自動代理 Unblock Youku";
-				setTimeout('XULBrowserWindow.statusTextField.label = ""',3000);
-				BrowserReloadSkipCache();
+				gBrowser.mCurrentBrowser.reload();
+				setTimeout('XULBrowserWindow.statusTextField.label = "PAC自動代理 Unblock Youku";',500);
+				setTimeout('XULBrowserWindow.statusTextField.label = ""',4000);
 			};
