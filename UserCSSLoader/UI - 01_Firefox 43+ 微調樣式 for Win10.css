@@ -213,7 +213,7 @@ border: none !important;
 #notification-popup-box{
 background: none !important;
 max-width: 32px !important;
-margin-right: 0px !important; 
+margin-right: -2px !important; 
 }
 .notification-anchor-icon[showing="true"]{
 margin-left: -2px !important;
