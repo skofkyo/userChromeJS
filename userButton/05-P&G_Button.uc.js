@@ -20,6 +20,7 @@
 // ==/UserScript==
 
 /* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 貼上就瀏覽&貼上就搜索 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+/*
 (function() {
 
 	CustomizableUI.createWidget({
@@ -64,7 +65,7 @@
 	}
 
 })();
-
+*/
 
 (function() {
 
@@ -78,7 +79,7 @@
 				id: "searchClipboard-button",
 				class: "toolbarbutton-1 chromeclass-toolbar-additional",
 				label: "貼上就搜索",
-				tooltiptext: "左鍵：Google搜索剪貼簿文字\n中鍵：翻譯剪貼簿文字\n右鍵：Google站內搜索選取文字否則搜索剪貼簿文字",
+				tooltiptext: "左鍵：Google搜索剪貼簿文字如果是網址的話直接開啟\n中鍵：翻譯剪貼簿文字\n右鍵：Google站內搜索選取文字否則搜索剪貼簿文字",
 				removable: "true",
 				overflows: "false",
 				type: 'button',
@@ -97,7 +98,10 @@
 		onClick: function(event) {
 			switch (event.button) {
 				case 0:
-					gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(readFromClipboard()));
+				let url = readFromClipboard();
+				if (!/^(https?:\/\/)?([\w\-]+\.)+\w+/.test(url))
+					url = 'https://www.google.com.tw/search?q='+ encodeURIComponent(url);
+					openUILinkIn(url, 'tab');
 					break;
 				case 1:
 					var div = content.document.documentElement.appendChild(content.document.createElement("div"));
@@ -125,9 +129,9 @@
 					var selection = content.document.getSelection().toString();
 					var gbs = getBrowserSelection();
 					if (selection || gbs) {
-						loadURI("http://www.google.com/search?q=" + "site:" + content.location.host + " " + encodeURIComponent(selection || gbs));
+						loadURI("https://www.google.com.tw/search?q=" + "site:" + content.location.host + " " + encodeURIComponent(selection || gbs));
 					} else {
-						loadURI("http://www.google.com/search?q=" + "site:" + content.location.host + " " + encodeURIComponent(readFromClipboard()));
+						loadURI("https://www.google.com.tw/search?q=" + "site:" + content.location.host + " " + encodeURIComponent(readFromClipboard()));
 					}
 					break;
 			}
