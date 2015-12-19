@@ -212,11 +212,12 @@ border: none !important;
 }
 #notification-popup-box{
 background: none !important;
+min-width: 32px !important;
 max-width: 32px !important;
 margin-right: -2px !important; 
 }
 .notification-anchor-icon[showing="true"]{
-margin-left: -2px !important;
+margin-left: -4px !important;
 }
 #identity-box,#notification-popup-box {
 	border-radius: 12px 0px 0px 12px !important;
