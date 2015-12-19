@@ -7,10 +7,11 @@
 }
 #eom-menugroup .menu-iconic-icon {margin-right:-4px !Important;}
 
-menu,
-menuitem,
-menupopup,
-splitmenu {
+menupopup:not(.cui-widget-panel),
+menupopup:not(.cui-widget-panel) menu,
+menupopup:not(.cui-widget-panel) menuitem,
+menupopup:not(.cui-widget-panel) splitmenu
+ {
     background-color: #D7E2EC !important;
     -moz-appearance: none !important;
     /*
@@ -31,7 +32,7 @@ splitmenu {
     height: 36px !important;
 }
 /* Small Borders */
-menupopup {
+menupopup:not(.cui-widget-panel) {
     border: 1px solid #999 !important;
 }
 
@@ -49,9 +50,9 @@ menuseparator,#context-sep-navigation, #page-menu-separator,[tooltiptext^="囧rz
 display: none !important; 
 }
 
-menuitem[type="checkbox"]:hover,
-menu[_moz-menuactive="true"],
-menuitem[_moz-menuactive="true"],
+menupopup:not(.cui-widget-panel) menuitem[type="checkbox"]:hover,
+menupopup:not(.cui-widget-panel) menu[_moz-menuactive="true"],
+menupopup:not(.cui-widget-panel) menuitem[_moz-menuactive="true"],
 menupopup[_moz-menuactive="true"],
 splitmenu[_moz-menuactive="true"] {
     background-color: #4281F4 !important;
