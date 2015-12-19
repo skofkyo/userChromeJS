@@ -193,7 +193,7 @@ border: none !important;
 	box-shadow: 1px 0px 0px ,-1px 0px 0px !important;
 }
 
-/*隐藏后退按钮*/
+/*?藏后退按?*/
 #urlbar ::-moz-placeholder,
 #appcontent statuspanel[type*="status"],
 #back-button,#forward-button {
@@ -212,11 +212,12 @@ border: none !important;
 }
 #notification-popup-box{
 background: none !important;
+min-width: 32px !important;
 max-width: 32px !important;
 margin-right: -2px !important; 
 }
 .notification-anchor-icon[showing="true"]{
-margin-left: -2px !important;
+margin-left: -4px !important;
 }
 #identity-box,#notification-popup-box {
 	border-radius: 12px 0px 0px 12px !important;
@@ -226,7 +227,6 @@ margin-left: -2px !important;
 	border: none !important;
 	margin: 0 -2px 0 -6px !important;
 }
-
 
 /*==========Chrome分頁標籤列樣式==========
 
