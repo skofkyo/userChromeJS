@@ -1,5 +1,7 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
-#addMenu-rebuild,
-#anobtn_set
+
+/*#anobtn_set,*/
+/*#addMenu-rebuild,*/
+#reader-mode-button
 {display:none !important;}

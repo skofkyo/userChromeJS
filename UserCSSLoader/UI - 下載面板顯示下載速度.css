@@ -7,3 +7,21 @@ position:absolute!important;
 top:62px!important;
 left:52px!important;
 }
+
+/*==========調整下載管理員邊界==========*/
+
+@-moz-document url("about:downloads") {
+
+    #downloadsListEmptyDescription{
+    margin-top: -10px !important;
+    }
+	#downloadsRichListBox {
+		margin: -16px !important;
+	}
+}
+/*
+@-moz-document url("chrome://browser/content/downloads/contentAreaDownloadsView.xul") {
+    #downloadsListEmptyDescription{
+    margin-top: 0px !important;
+    }
+}*/

@@ -85,4 +85,25 @@ rules = [
 		to: "http://g.mozest.com/",
 		wildcard: true,
 	},
+    //{
+    //name: "flickr >> 原始大图",
+    //from: /^(https?:\/\/[^.]+\.staticflickr\.com\/\d\/\d+\/(?:(?!_b)[^.])+)(\.jpg)/i,
+    //to: "$1_b$2",
+    //regex: true
+    //},
+    {
+    name: "flickr >> 原始大图",
+    //state: false,
+    from: /^(https?:\/\/c\d\.staticflickr\.com\/\d\/\d+\/\d+_[^\._]+)(_[a-z])?(\.jpg)$/,
+    exclude: /^(https?:\/\/c\d\.staticflickr\.com\/\d\/\d+\/\d+_\w+)_b(\.jpg)$/,
+    to: "$1_b$3",
+    regex: true
+    },
+{
+name: "优酷收费视频 >> 脱裤视频",
+from: /^(http:\/\/v\.youku\.com\/v_show\/*)/i,
+to: "http://goapi.sturgeon.mopaas.com/player.php?url=$1",
+state: true,
+regex: true,
+}
 ];

@@ -5,8 +5,6 @@
 // @namespace      
 // @author         
 // @description    
-// @include        http://www.zhihu.com/*
-// @include        http://www.entertainment14.net/*
 // @include        http://*.zongheng.com/*
 // @include        http://*.qidian.com/*
 // @include        http://*.17k.com/chapter/*
@@ -17,10 +15,6 @@
 // @include        http://www.flamefox.org/*
 // @include        http://www.17k.com/*
 // @include        http://blog.xuite.net/*
-// @include        http://softwarespro.co/*
-// @include        https://greasyfork.org/*
-// @include        http://dorcel-handsoff.com/*
-// @include        http://www.avxfree.com/*
 // @run-at         document-end
 // ==/UserScript==
 function restore(){
@@ -38,20 +32,20 @@ function restore(){
 	}
 }
 
-function restore2() {
-    with(document.wrappedJSObject || document) {
-        onmouseup = null;
-        onmousedown = null;
-        oncontextmenu = null;
-    }
-    var arAllElements = document.getElementsByTagName('*');
-    for (var i = arAllElements.length - 1; i >= 0; i--) {
-        var elmOne = arAllElements[i];
-        with(elmOne.wrappedJSObject || elmOne) {
-            onmouseup = null;
-            onmousedown = null;
-        }
-    }
+function restore2(){
+with (document.wrappedJSObject || document) {
+onmouseup = null;
+onmousedown = null;
+oncontextmenu = null;
+}
+var arAllElements = document.getElementsByTagName('*');
+for (var i = arAllElements.length - 1; i >= 0; i--) {
+var elmOne = arAllElements[i];
+with (elmOne.wrappedJSObject || elmOne) {
+onmouseup = null;
+onmousedown = null;
+}
+}
 }
 
 window.addEventListener('load',restore,true);
@@ -68,5 +62,3 @@ function addGlobalStyle(css) {
 }
 
 addGlobalStyle("html, * {-moz-user-select:text!important;}");
-
-window.getSelection = function() { };

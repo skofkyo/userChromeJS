@@ -9,7 +9,7 @@ findbar{
     border-bottom:1px solid #b2b2b2;
     border-right:1px solid #b2b2b2;
     border-bottom-left-radius:5px;
-    border-bottom-right-radius:5px;
+    /*border-bottom-right-radius:5px;*/
 }
 .findbar-container{
     background:none;

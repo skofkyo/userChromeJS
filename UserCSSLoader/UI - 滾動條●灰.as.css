@@ -1,6 +1,7 @@
 /* AGENT_SHEET */
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
+@-moz-document url-prefix("http"),url-prefix("file"),url("about:addons"){
 /* Autohides scrollbar */
 scrollbar[orient="vertical"]:not(:hover),
 scrollbar[orient="horizontal"]:not(:hover) {
@@ -85,12 +86,13 @@ scrollbar[orient="vertical"] {
 scrollbar[orient="horizontal"] {
     padding: 0px 10px 3px 10px !important;
 }
+}
 @-moz-document regexp("(?!(chrome:)).*"){
 /* autohide */
 scrollbar:not(:hover),
 scrollbar:not(#foo):not(:hover)
 { 
   opacity: 0 !important; 
-  transition: all .5s !important; 
+  transition: all 0.5s !important; 
 }
 }

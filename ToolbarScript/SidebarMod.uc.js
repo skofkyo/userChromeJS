@@ -55,6 +55,12 @@
 					url: 'https://translate.google.com/m/translate#auto/zh-TW/',
 					favicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVQ4jY2SP4viQBiHX0UQWz/AXb+VX8Iu/YqFhdhcd5BKEOTKC9jJFYrFgo3FIjYiCRauhTCQDMp4bJFklzCuLJLOWNj8rpDMJt7u7Q08xQzze953/hAR0el4QJLw8KR4fXkE/Wtch01zjP6gmxLsd9uPJafjAf1BF82WjmZLR61eRa1eVfNmS4cMxP8JksGk6FPB6XjAii1Qq1fBBYMMBL79+InvDIrbB0CzIpSmQHF0RnF0vkiTFxZX7A+6MOzwU0FxdEZKYJpj1fp1eO5KzF0JzYreF/iekzr77QMUhh2q1zDsUIULPQl6fXkEFww53cWKLWCaY3DBVMuaFWHuSsT7fM/5W5DTXYUMBGQgUJoCpelFst9tcc84DDuE7znQrAiFnrwIkuGY/W6rBIYdQgYC7RmHZkXwPQf3jL8JiCglISLKVCaqzfhZfc9RcMFwc/eMfGd9EWQbS+R0F9nGEtnGEpnKBJnKJFWxPNygPNygPePggqE942nBdTjG9xyUhxvVcqEnsWILrNjiTfCRJN9ZI99Zp8LxWsy73ztTmYCI6ObuGV/7Tym+/PqtICL6A7F/dNYyWabFAAAAAElFTkSuQmCC'
 				},
+				{
+					id: 'youtubebutton',
+					name: 'Youtube',
+					url: 'https://m.youtube.com/#',
+					favicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABYklEQVQ4jcXTzUoCURjG8XdTnnN0Zs7Yh4JIVyAEXUm0DVp0AW26gILAFiWJFJrYwo9FErQxAoMsjJxoNhUDQbgecSPjJgYGnhaVTCO1aOMLv9Xz375EE797It7RwzUjKkxDF64RDeMvHT38/NnyMhERtXWevtPD+I+2ztPUksK80QX8bmMSdq2Ch6UUgptfSwqTmlL0r3QBv+uFOFzXxftggKf1NQT3b00p+tTQuHchBX5IxuE4DhzHwXA4xFupiMt4FMGuoXGPzqXAmGQMtm2P9Ho9vBznxzspQHWNI+g0MY9utztitlrILKbGurrGQVWVeVWNw6+SmINlWbAsC2f7e9iYlcirDMGuqjKPSgrvn6gcfqXYDB4NA7sry9gUIRQD+6hTeJ8KKjcLKoffkcqxyqawHWEIbgEm5RSWPlQZ/iOnsDRliHhWYeWswswv+M2BEnoddRG2s0U0PdE/JCKiD2TAbGlHU6nxAAAAAElFTkSuQmCC'
+				},
 				/*
 				{
 					name: 'Internal Commands',
@@ -383,7 +389,7 @@
 				if(SHBtn) {
 					var _sidebarBtn = document.createElement('toolbarbutton');
 					_sidebarBtn.setAttribute('type', 'button');
-					_sidebarBtn.setAttribute("tooltiptext","左键：后退\n中键：刷新\n右键：前进");
+					_sidebarBtn.setAttribute("tooltiptext","左键：上一頁\n中键：重新載入\n右键：下一頁");
 					_sidebarBtn.setAttribute("class", "toolbarbutton-1 chromeclass-toolbar-additional");
 					_sidebarBtn.setAttribute("image","data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABaSURBVDhPzYzJEcAwCAPpJ62kaHfmHCMzJEbi4Y/3BSuNbE/OdnScTuZSniIbKEdGSQ1k2UtZuKEdFijnfhIgepWtD6QCKPf3PAiUHVVQ2YdqAK+GDeDcCrMLOe2fMX6PACcAAAAASUVORK5CYII=");
 					_sidebarBtn.addEventListener("click",
@@ -511,7 +517,7 @@
 				if (this.operaLikeToggler) {
 					this.makeSplitter();
 				}
-				//this.addControlBtn();
+				this.addControlBtn();
 				this.modifySidebarClickBehaviour();
 				/*
 				var css = ('\
@@ -566,6 +572,8 @@
   var D = document.querySelector("#Sidebardownloadsbutton");
   var A = document.querySelector("#Sidebaraddonsbutton");
   var T = document.querySelector("#translatebutton");
+  var Y = document.querySelector("#youtubebutton");
+  
   
     B.addEventListener("mouseover", function(event){t = setTimeout(function (event) {B.click();}, 400);}, false);
     B.addEventListener("mouseout", function(event){clearTimeout(t);}, false);
@@ -608,5 +616,6 @@
     
     T.addEventListener("mouseover", function(event){t = setTimeout(function (event) {T.click();}, 400);}, false);
     T.addEventListener("mouseout", function(event){clearTimeout(t);}, false);
-
+    Y.addEventListener("mouseover", function(event){t = setTimeout(function (event) {Y.click();}, 400);}, false);
+    Y.addEventListener("mouseout", function(event){clearTimeout(t);}, false);
 })();

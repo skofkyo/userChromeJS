@@ -21,7 +21,7 @@
 // ==/UserScript==
 (function() {
 	var autoClose = false,
-		delay = 700,
+		delay = 500,
 		standby = false;
 	var prefs = {
 		'rutracker': {
@@ -139,6 +139,7 @@
         'googledocs': {
             startReg: /^https?:\/\/docs\.google\.com\/uc\?id\=\w+\&export\=download$/,
             elements: ['#uc-download-link'],
+            autoClose: true
         },
         'pcloud': {
             startReg: /https?:\/\/my\.pcloud\.com\/publink\/show\?code\=\w+/i,

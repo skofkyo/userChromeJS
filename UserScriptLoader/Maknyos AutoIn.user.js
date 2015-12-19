@@ -1,30 +1,28 @@
 // ==UserScript==
 // @name           Maknyos AutoIn
 // @namespace      http://userscripts.org/scripts/show/91629
-// @version        3.7.1
+// @version        3.3
 // @description    Auto submit to get link
 // @homepageURL    https://greasyfork.org/scripts/97
 // @author         Idx
-// @include        /^https?://maknyos.indowebster.com/*/
-// @include        /^https?://(.+\.)2shared.com/file/*/
+// @include        http://*.fileswap.com/*
+// @include        /^https?://(.+\.)2shared.com/*/
 // @include        /^https?://(.+\.)zippyshare.com/v/*/
-// @include        /^https?://(|www\.)fileswap.com/*/
 // @include        /^https?://(|www\.)mediafire.com/*/
 // @include        /^https?://(|www\.)sendspace.com/file/*/
+// @include        /^https?://(|www\.)firedrive.com/*/
 // @include        /^https?://(|www\.)uptobox.com/*/
 // @include        /^https?://(|www\.)howfile.com/file/*/
 // @include        /^https?://(|www\.)uppit.com/*/
 // @include        /^https?://(|\w+\.)idup.in/*/
+// @include        /^https?://(|www\.)sharebeast.com/*/
 // @include        /^https?://(|www\.)imzupload.com/*/
 // @include        /^https?://(|www\.)jumbofiles.com/*/
 // @include        /^https?://(|www\.)sendmyway.com/*/
 // @include        /^https?://(|www\.)tusfiles.net/*/
 // @include        /^https?://(|www\.)dropbox.com/s/*/
 // @include        /^https?://(|www\.)solidfiles.com/d/*/
-// @include        /^https?://(|www\.)yadi.sk/*/
-// @include        /^https?://(|www\.)datafilehost.com/d/*/
-// @include        /^https?://(|www\.)userscloud.com/*/
-// @include        /^https?://(|www\.)hulkload.com/*/
+// @include        /^https?://(|www\.)yadi.sk/i/*/
 // @include        /^https?://app.box.com/s/*/
 //
 // ==/UserScript==
@@ -55,10 +53,8 @@
     },
 
     invokeAction: function(){
-      if(this.action.invoked){
-        this.action.baseCleanUp();
+      if(this.action.invoked)
         this.action.invoked();
-      }
       return this;
     },
   };
@@ -89,23 +85,6 @@
     },
     set_href: function(x){
       location.href = x;
-    },
-
-    parse_handle_href: function(x){
-      var cucok, href;
-      if( "string" == typeof x )
-        href = x;
-      else if( "object" == typeof x )
-        href = x.getAttribute("href");
-
-      if( href && /\/handle\?/.test(href) ){
-        href = href.replace('&amp;', '&');
-        if( cucok = /\&?fl=((?:f|ht)tps?[^\&]+)/i.exec(href) )
-          href = decodeURIComponent(cucok[1]);
-        else
-          this.clog("parsing fail on href, missing param `fl=`");
-      }
-      return href;
     },
 
     // do waitwhat -> thenwhat
@@ -157,7 +136,7 @@
         else
         g('body').appendChild(iframe);
 
-      if( g('#'+idfrm) )
+      if( g('#idfrm') )
         this.clog("iframe created, src="+url);
       else
         this.clog("error while creating iframe");
@@ -183,44 +162,6 @@
       }
     },
 
-    // get codes of simple capcay code
-    scrap_simplecapcay: function(el_code){
-      var $code = $(el_code);
-      var codes=[], thecodes = [];
-      var $trycode = $code.closest("td").prev();
-      if( $trycode.length ){
-        $trycode.find(">div > span").each(function(){
-          var $me = $(this);
-          var pl = $me.css("paddingLeft").replace('px','');
-          thecodes.push({
-            'id': pl,
-            'val': $me.text()
-          })
-        });
-
-        thecodes.sort(function(a,b) {
-          return a.id - b.id;
-        });
-        for(var i=0, iL=thecodes.length; i<iL; i++)
-          codes.push( thecodes[i].val );
-
-        if( codes.length )
-          $code.val( codes.join("") );
-      }
-
-      return codes;
-    },
-
-    // basic cleanup document from anoying things
-    // eg. iframe, onclick body, etc
-    baseCleanUp: function(){
-      this.clog("killing frames..");
-      this.killframes();
-
-      this.clog("killing click events.");
-      this.killevents(null, 'click');
-    },
-
     // brutaly kill frames
     killframes: function(par){
       !par && (par = document);
@@ -231,42 +172,14 @@
       this.clog("killframes done");
     },
 
-    killevents: function(par, type, handle){
-      !type && (type = 'click');
-      !par && (par = document);
-      !handle && (handle = function(){});
-      var o = par.getElementsByTagName('*');
-      for(var i=o.length-1;i>=0;i--){
-        if ( o[i].removeEventListener ) {
-          o[i].removeAttribute("on"+type);
-          //W3C Standard    
-          o[i].removeEventListener( type, handle, true );
-        }
-      }
-      this.clog("killevents done");
-    },
-
-    isVisible: function (ele) {
-      // this.clog("visibility-test; clientWidth="+ele.clientWidth+'; clientHeight='+ele.clientHeight+'; opacity='+ele.style.opacity+'; visibility='+ele.style.visibility+'; offsetParent='+ele.offsetParent);
-      return true &&
-        // ele.clientWidth !== 0 &&
-        // ele.clientHeight !== 0 &&
-        ele.offsetParent !== null &&
-        ele.style.opacity !== 0 &&
-        ele.style.visibility !== 'hidden';
-    },
-
     show_alert: function(msg, force) {
       if(arguments.callee.counter) {
         arguments.callee.counter++
       }else {
         arguments.callee.counter = 1
       }
-      if("function" == typeof GM_log){
-        GM_log("(" + arguments.callee.counter + ") " + (typeof msg == "object" ? ">>" : msg));
-        if( typeof msg == "object" )
-          GM_log(msg);
-      }
+      if("function" == typeof GM_log)
+        GM_log("(" + arguments.callee.counter + ") " + msg);
       else
         console && console.log && console.log(msg);
       if( force == 0 )
@@ -275,57 +188,10 @@
     clog: function(x){
       if( !gvar.__DEBUG__ )
         return
-      this.show_alert(x);
+      x && this.show_alert(["string","number"].indexOf(typeof x) != -1 ? x : JSON.stringify(x))
     }
   };
   Actions.prototype.patterns = {
-    indowebster: {
-      rule: /maknyos\.indowebster\.com/,
-      run: function(){
-        this.clog('inside indowebster');
-
-        var that = this;
-        var waitFor, code, count, counter, countdown = g('#countdown');
-        var btn_free, f1form = g('form[name="F1"]');
-
-        if( f1form ){
-          counter = g('[id*="ountdow"]');
-          if( !this.isVisible(counter) ){
-
-            SimulateMouse(g('#btn_download'), "click", true);
-          }
-          else{
-            if( count = g('*', counter) ){
-              
-              setTimeout(function(){
-                
-                if( code = g('[name="code"]', f1form) ){
-                  that.scrap_simplecapcay( code );
-                  code.focus();
-                }
-
-              }, 123);
-
-              if( waitFor = parseInt( $(count).text() ) ){
-                this.clog("waiting for "+waitFor+' seconds');
-                this.waitforit(function(){
-
-                  return !that.isVisible( counter );
-                }, function(){
-                  SimulateMouse(g('#btn_download'), "click", true);
-                }, waitFor * 1000);
-              }
-            }
-          }
-        }
-        else if( btn_free = g('[name="method_free"]') ){
-          this.clog("commencing btn_free ");
-          SimulateMouse(btn_free, "click", true);
-        }
-      }
-    },
-
-
     sendspace: {
       rule: /sendspace\.com/,
       run: function(){
@@ -384,10 +250,12 @@
       rule: /\.fileswap\.com/,
       run: function(){
         this.clog('inside fileswap');
-        var tgtBtn = g('[id*="share_index_"][href*="/download/"]');
-        if( !tgtBtn )
+        var tgtBtn = null;
+        if( g("#share_index_dlslowbutton") )
+          tgtBtn = g("#share_index_dlslowbutton");
+        else if( g('[value="DOWNLOAD ALL"]') ){
           tgtBtn = g('[value="DOWNLOAD ALL"]');
-        
+        }
         tgtBtn && SimulateMouse(tgtBtn, "click", true);
       }
     },
@@ -397,35 +265,52 @@
       run: function(){
         this.clog('inside 2shared;');
 
-        var gotit = false, dlBtn=null, btns, that;
+        var that = this;
+        this.waitforit(function(){
 
-        that = this;
-        setTimeout(function(){
-          btns = xp('//*[contains(@id,"dlBtn") and not(contains(@style,"display:"))]', null);
+          return g("#dlBtn");
+        }, function(){
+          that.frameload(g("#dlBtn").getAttribute('href'))
+        }, 234);
+      }
+    },
 
-          if( btns.snapshotLength ){
-            if( btns.snapshotLength == 1 ){
-              gotit = true;
-              dlBtn = btns.snapshotItem(0);
-            }
-            else
-              for(var i=0, iL=btns.snapshotLength; i<iL; i++){
-                dlBtn = btns.snapshotItem(i);
-                that.clog(dlBtn);
-                if( that.isVisible(dlBtn) ){
-                  gotit = true;
-                  break;
-                }
-              }
-          }
+    firedrive: {
+      rule: /firedrive\.com/,
+      run: function(){
 
-          if( gotit && dlBtn ){
-            // this.frameload(dlBtn.getAttribute('href'));
-            that.set_href(dlBtn.getAttribute('href'));
+        var sTryWait, that = this;
+        var is_login = g('#profile_top_btn');
+        var btnDownload = ( is_login ? g('.external_download_button') : g('#prepare_continue_btn') );
+        var wait_for_it = function(btn){
+          if( btn.className.indexOf('prepare_btn_done') !== -1 ){
+            sTryWait && clearInterval( sTryWait );
+            SimulateMouse(btn, "click", true);
           }
           else
-            that.clog("unable finding download-button");
-        }, 345);
+            return false;
+        };
+        if( btnDownload ){
+          if( !is_login )
+            sTryWait = setInterval(function(){
+              wait_for_it(btnDownload);
+            }, 100);
+          else
+            SimulateMouse(btnDownload, "click", true);
+        }
+        else{
+          if( !is_login ){
+            setTimeout(function(){
+              btnDownload = g('a[href*="dl.firedrive.com"]');
+              that.frameload( btnDownload.getAttribute("href") );
+            }, 567)
+          }
+          else{
+              // step-1
+              if(btnDownload = g('#archive_download_button'))
+                SimulateMouse(btnDownload, "click", true);
+          }
+        }
       }
     },
 
@@ -434,6 +319,7 @@
       run: function(){
 
         this.clog('inside uptobox');
+
         var btnDownload = g('[type=submit][value*="ownload"]');
         if( btnDownload ){
           SimulateMouse(btnDownload, "click", true);
@@ -462,22 +348,7 @@
             }
           }
           else if( g('.button_upload') ){
-            // take-care of fake exe download
-            var link, rlink, el = g('.button_upload');
-            if( link = el.parentNode ){
-              rlink = getParameterByName("prod"+"uct_d"/*fo*/+"ownloa"+"d_url", link.getAttribute("href"));
-              
-              // hiding the-arse
-              if( rlink ){
-                rlink = 'http://blankrefer.com/?'+rlink;
-                this.frameload(rlink);
-              }
-              else{
-                // last-resort, key may changed.
-                SimulateMouse(link, "click", true);
-              }
-            }
-
+            SimulateMouse(g('.button_upload'), "click", true);
           }else{
             this.clog('tpl-changed, mismatch element');
           }
@@ -485,7 +356,7 @@
       }
     },
 
-    howfile: {
+    howfile: { // defect
       rule: /howfile\.com/,
       run: function(){
         this.clog('inside howfile');
@@ -539,16 +410,29 @@
       rule: /idup\.in|download\.idup\.in/,
       run: function(){
         this.clog('inside idup');
-        var btnDownload = xp('//form//button/*[contains(.,"e download")]', null, true);
+        var btnDownload;
 
-        if( btnDownload ){
-          btnDownload = btnDownload.parentNode;
-          btnDownload && SimulateMouse(btnDownload, "click", true);
+        if( btnDownload = g("#btn_download") ){
+          this.waitforit(function(){
+
+            return g("#btn_download");
+          }, function(){
+            btnDownload = g("#btn_download");
+            btnDownload && SimulateMouse(btnDownload, "click", true);
+          }, 10);
         }
         else{
           btnDownload = xp('//a[contains(.,"Download:")]',null,true)
           btnDownload && SimulateMouse(btnDownload, "click", true);
         }
+      }
+    },
+
+    sharebeast: {
+      rule: /sharebeast\.com/,
+      run: function(){
+        this.clog('inside sharebeast');
+        g(".download-file1") && SimulateMouse(g(".download-file1"), "click", true);
       }
     },
 
@@ -658,13 +542,10 @@
     dropbox: {
       rule: /dropbox\.com/,
       run: function(){
-        var btnDownload;
-        if( btnDownload = g('*[id*=download_button]') )
-            setTimeout(function(){
-              SimulateMouse(btnDownload, "click", true);
-            }, 123);
-        else
-          this.clog('dropbox: missing download button, page may changed');
+        var btnDownload = g('*[id*=download_button]');
+        btnDownload && setTimeout(function(){
+          SimulateMouse(btnDownload, "click", true);
+        }, 123);
       }
     },
     solidfiles: {
@@ -674,149 +555,32 @@
         that = this;
 
         that.clog('inside solidfiles, '+that.get_href());
-        setTimeout(function(){
-          that.killframes();
-          that.disableWindowOpen();
-        }, 123);
+        setTimeout(function(){ that.killframes() }, 123);
 
         // pick selector dat relevant and exist on several browsers
-        if( btnDownload = g('.btns>a') )
+        if( btnDownload = g('a[class*=direct-download]') )
           setTimeout(function(){
-            
-            if( href = that.parse_handle_href( btnDownload.getAttribute("href") ) )
-              btnDownload.setAttribute("href", href);
-
             SimulateMouse(btnDownload, "click", true)
           }, 125);
-        else
-          this.clog('solidfiles: missing download button, page may changed');
       }
     },
     yadi: {
       rule: /yadi\.sk/,
       run: function(){
-        var btnDownload, that = this;
+        var btnDownload;
 
-        that.clog('inside yadi, '+that.get_href());
         if( btnDownload = g('*[data-click-action="resource.download"]') ){
-          var triggered = !1;
 
           // proper content ready is required, since button used some ajax on it.
           document.addEventListener('DOMContentLoaded', function() {
-            if( !triggered )
-              setTimeout(function(){
-                SimulateMouse(btnDownload, "click", true)
-              }, 125);
-          }, false);
 
-          SimulateMouse(btnDownload, "click", true);
-          triggered = 1;
-        }
-        else
-          this.clog('yadi: missing download button, page may changed');
-      }
-    },
-    datafilehost: {
-      rule: /datafilehost\.com/,
-      run: function(){
-        var that, btnDownload;
-        that = this;
-
-        that.clog('inside datafilehost, '+that.get_href());
-        setTimeout(function(){ that.killframes() }, 123);
-
-        // pick selector dat relevant and exist on several browsers
-        if( btnDownload = xp('//a[contains(@href,"/get.php?") or contains(@class,"ownloa")]', null, true) )
-          setTimeout(function(){
-
-            if( href = that.parse_handle_href( btnDownload.getAttribute("href") ) )
-              btnDownload.setAttribute("href", href);
-
-            SimulateMouse(btnDownload, "click", true)
-          }, 125);
-        else
-          this.clog('datafilehost: missing download button, page may changed');
-      }
-    },
-    userscloud: {
-      rule: /userscloud\.com/,
-      run: function(){
-        var that=this, FORM;
-
-        that.clog('inside userscloud, '+that.get_href());
-        setTimeout(function(){ that.killframes() }, 123);
-
-        this.waitforit(function(){
-          return xp('//button[contains(@id, "ownlo") and not(contains(@disabled,"disabled"))]', null, true);
-        }, function(){
-          if( FORM = xp('//form[@name="F1"]', null, true) )
-            setTimeout(function(){ FORM.submit() }, 345);
-            
-        }, 100);
-      }
-    },
-    hulkload: {
-      rule: /hulkload\.com/,
-      run: function(){
-        var that = this, FORM, el;
-
-        that.clog('inside hulkload, '+that.get_href());
-        setTimeout(function(){ 
-          that.killframes();
-
-          var el_, els = xp('//*[contains(@id,"onsor")]', null);
-          that.clog("els="+els.snapshotLength);
-          if( els.snapshotLength ){
-            for(var i=0, iL=els.snapshotLength; i<iL; i++){
-              el_ = els.snapshotItem(i);
-              el_.parentNode.removeChild(el_);
-            }
-          }
-        }, 123);
-
-        this.waitforit(function(){
-          return xp('//*[contains(@id, "ownlo") and not(contains(@disabled,"disabled"))]', null, true);
-        }, function(){
-          if( FORM = xp('//form[@name="F1"]', null, true) ){
-            if( el = xp('//input[@name="code"]', null, FORM) ){
-
-              that.scrap_simplecapcay( el );
-              el.focus();
-
-              var counter, count, btn_download;
-
-              btn_download = g('#btn_download');
-              if( counter = g('[id*="ountdow"]') ){
-                if( !that.isVisible(counter) ){
-
-                  SimulateMouse(btn_download, "click", true);
-                }
-                else{
-                  if( count = g('*', counter) )
-                  if( waitFor = parseInt( $(count).text() ) ){
-                    that.clog("waiting for "+waitFor+' seconds');
-                    that.waitforit(function(){
-
-                      return !that.isVisible( counter );
-                    }, function(){
-                      SimulateMouse(btn_download, "click", true);
-                    }, waitFor * 1000);
-                  }
-                }
-              }
-
-            }
-            else
-              setTimeout(function(){ FORM.submit() }, 345);
-          }else
-          if( el = xp('//a[contains(@href,"kloa'+'d.co'+'m/fi'+'les/")]', null, true) ){
             setTimeout(function(){
-              SimulateMouse(el, "click", true)
+              SimulateMouse(btnDownload, "click", true)
             }, 125);
-          }
-        }, 100);
+          }, false);
+        }
       }
-    },
+    }
   };
   // end of patterns
 
@@ -833,19 +597,16 @@
 
     // is it an a element? try with iframe loader
     var is_error = null,
-      href = (elem && elem.getAttribute ? elem.getAttribute("href") : null);
+      href = elem.getAttribute("href");
 
     // make sure it's link, not some sumthin like: "javascript:;"
-    if( href && /^((?:(?:ht|f)tps?\:\/\/){1}\S+)/.test(href) ){
+    if( href && /^((?:(?:ht|f)tp(?:s?)\:\/\/){1}\S+)/.test(href) ){
       try{
-        MNy.action.clog("SimulateMouse trying href loaded to iFrame");
+        MNy.action.clog("SimulateMouse trying href");
         MNy.action.frameload(href);
 
         is_error = false;
       }catch(e){ is_error = true }
-    }
-    else{
-      MNy.action.clog("Element is either not link or invalid format. href="+href);
     }
     
 
@@ -860,21 +621,9 @@
       }catch(e) {}
     }
   }
-  function getParameterByName(name, the_url) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    if( isUndefined(the_url) )
-      the_url = location.search;
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-     results = regex.exec(the_url);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-  }
   function g(x, par){
     !par && (par = document);
     return ('string' == typeof x ? par.querySelector(x) : x);
-  }
-  function gAll(x, par){
-    !par && (par = document);
-    return ('string' == typeof x ? par.querySelectorAll(x) : x);
   }
   function xp(q, root, single) {
     if(root && typeof root == "string") {

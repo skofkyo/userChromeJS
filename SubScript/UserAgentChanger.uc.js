@@ -313,6 +313,7 @@ var ucjs_UAChanger = {
 		}
 		this.def_idx = i;
 		this.setImage(i);
+		gBrowser.mCurrentBrowser.reload();
 	},
 	// UA パネル畫像とツールチップを設定
 	setImage: function(i) {

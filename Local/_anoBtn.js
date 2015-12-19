@@ -4,7 +4,7 @@
 var anobtnset = {
 	//※AnotherButton29+.uc.js按鈕寫於腳本內 不適用此處設定
 	//※必須設置	按鈕與哪個id相鄰，alltabs-button，back-button等
-	intags: "tabbrowser-tabs",
+	intags: "",
 	//※AnotherButton29+.uc.js按鈕寫於腳本內 不適用此處設定
 	//※必須設置	按鈕與目標id關系，之前（before）或者之後(after)
 	orientation: "before",
@@ -40,7 +40,8 @@ var anomenu = [
         {
             label: "雲端硬碟",
             image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABfElEQVQ4ja2TP0vDUBTF8xH6EQJ2EJQmzUNEK5gmLoJDoZ0EoYMgCEKF0r63mAjN2FYQFHXo1KUiD7R54CARBItW6FRwyyfQgAaKdrhOrWmT/hG8cMffOZdzuBz33yNSzCcuNqHbVIdWcRxLDk0UQAxb8xc7UKPrPpHvZ6Uy3v0Gy4gRiFT3IFpIwvvjmk+k05DlkQISwzZiBKI0C2EtBUfVjYAr1FYwXCcZxAj0NqylIKylArJQ4etJ0YeCy4QkkzhegdniFsxoSavbVK2gQDsNmfecni97YcQIzJ1uA48TfKch80FXdJsK7dc2DCNGQGL5cs+AFiPluzME7asleLtfHQwUMWz5YJM4Is30O6/ofIiWBIeWBKAlAW5PJHipLoJtxmzOB9cxiAfnsLD7AMvZNiiGO3Ljhmtzkol1r4BYIVPBiuGCbHykBxqQrnMgZS+nguOGa/+2YOI0YgSE40OI5V4nwn137wi1/daKPtlZMVyIFz6tsT/xl/kByqC9TCzMcYYAAAAASUVORK5CYII=",
-            oncommand: 'gBrowser.selectedTab = gBrowser.addTab("https://drive.google.com/drive/#my-drive");',
+            //oncommand: 'gBrowser.selectedTab = gBrowser.addTab("https://drive.google.com/drive/#my-drive");',
+            oncommand: 'openUILinkIn("https://drive.google.com/drive/#my-drive", "tab");',
         },
         {
             label: "百度雲 網盤",

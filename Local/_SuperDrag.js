@@ -4,7 +4,7 @@ GESTURES = {
 			//搜索相似圖片(Google)[向上]
 			name: "搜索相似圖片(Google)",
 			cmd: function(event) {
-				gBrowser.addTab("http://www.google.com/searchbyimage?image_url=" + encodeURIComponent(event.dataTransfer.getData("application/x-moz-file-promise-url")));
+				gBrowser.addTab("https://www.google.com.tw/searchbyimage?image_url=" + encodeURIComponent(event.dataTransfer.getData("application/x-moz-file-promise-url")));
 			}
 		},
 		D: {
@@ -74,7 +74,7 @@ GESTURES = {
 			//Google搜索選取文字(背景)[不辨識URL][向上]
 			name: "Google搜索選取文字(背景)[不辨識URL]",
 			cmd: function(event) {
-				gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(getBrowserSelection())) &&
+				gBrowser.addTab("https://www.google.com.tw/search?q=" + encodeURIComponent(getBrowserSelection())) &&
 				content.document.getSelection().removeAllRanges();
 			}
 		},
@@ -91,7 +91,7 @@ GESTURES = {
 			cmd: function(event) {
 				var selection = content.document.getSelection().toString();
 				var gbs = getBrowserSelection();
-				gBrowser.selectedTab = gBrowser.addTab("http://translate.google.tw/translate_t?hl=zh-TW#auto|zh-TW|" + encodeURIComponent(selection || gbs));
+				gBrowser.selectedTab = gBrowser.addTab("https://translate.google.com.tw/?hl=zh-TW#auto|zh-TW|" + encodeURIComponent(selection || gbs));
 			}
 		},
 		R: {
@@ -102,7 +102,7 @@ GESTURES = {
 				var gbs = getBrowserSelection();
 				var edgsel = event.dataTransfer.getData("text/unicode"); //选中的文字
 				self.seemAsURL(gbs) && setTimeout('gBrowser.addTab(getBrowserSelection()) && content.document.getSelection().removeAllRanges();', 0) ||
-				gBrowser.addTab("http://www.google.com/search?q=" + encodeURIComponent(selection || gbs)) && content.document.getSelection().removeAllRanges();
+				gBrowser.addTab("https://www.google.com.tw/search?q=" + encodeURIComponent(selection || gbs)) && content.document.getSelection().removeAllRanges();
 			}
 		},
 	},

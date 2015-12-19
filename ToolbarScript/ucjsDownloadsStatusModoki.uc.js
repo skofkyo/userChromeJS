@@ -3,7 +3,7 @@
 // @namespace      http://space.geocities.yahoo.co.jp/gl/alice0775
 // @description    Downloads Status Modoki
 // @include        main
-// @charset              UTF-8
+// @charset        UTF-8
 // @compatibility  Firefox 26+
 // @author         Alice0775
 // @version        2015/05/08 00:00 remove padding due to Bug 1160734

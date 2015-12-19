@@ -277,8 +277,8 @@ var ucjsDownloadsStatusModoki = {
  \
       #ucjsDownloadsStatusModokidoclear .box-inherit.button-box, \
       #ucjsDownloadsStatusModokidoview .box-inherit.button-box { \
-        margin-right: -10px !important; \
-        margin-left: -10px !important; \
+        margin-right: -8px !important; \
+        margin-left: -8px !important; \
       } \
      '.replace(/\s+/g, " ");
     var sspi = doc.createProcessingInstruction(

@@ -5,7 +5,7 @@
 // @include         chrome://browser/content/browser.xul
 // @author          harv.c
 // @homepage        http://haoutil.tk
-// @version         14.12.06.12
+// @version         15.10.04.17
 // @downloadUrl     http://git.oschina.net/halflife/list/raw/master/YoukuAntiADs.uc.js
 // ==/UserScript==
 (function() {
@@ -14,12 +14,14 @@
     var refD = 'http://minggo.coding.io/swf/';
     YoukuAntiADs.prototype = {
     SITES: {
-        'youku_loader': {
-            'player': refD + 'loader.swf',
+        'youkuloader': {
+            'player0': refD + 'loader.swf',
+			'player1': refD + 'oloader.swf',
             're': /http:\/\/static\.youku\.com(\/v[\d\.]+)?\/v\/swf\/loaders?\.swf/i
         },
-        'youku_player': {
-            'player': refD + 'player.swf',
+        'youkuplayer': {
+            'player0': refD + 'player.swf',
+			'player1': refD + 'oplayer.swf',
             're': /http:\/\/static\.youku\.com(\/v[\d\.]+)?\/v\/swf\/q?player[^\.]*\.swf/i
         },
         'ku6': {
@@ -33,8 +35,8 @@
         'iqiyi': {
             'player0': refD + 'iqiyi_out.swf',
             'player1': refD + 'iqiyi5.swf',
-            'player2': refD + 'iqiyi.swf',
-            're': /https?:\/\/www\.iqiyi\.com\/(player\/\d+\/Player|common\/flashplayer\/\d+\/(Main|Coop|Share)?Player_?.*)\.swf/i
+            'player2': refD + 'iqiyi_out.swf',
+            're': /https?:\/\/www\.iqiyi\.com\/(player\/\d+\/Player|common\/flashplayer\/\d+\/(Main|Coop|Share|Enjoy)?Player_?.+)\.swf/i
         },
         'tudou': {
             'player': refD + 'tudou.swf',
@@ -50,15 +52,15 @@
         },
 		'letv': {
             'player': refD + 'letv.swf',
-            're': /http:\/\/.*letv[\w]*\.com\/(hz|.*\/((?!(Live|seed|Disk))(S[\w]{2,3})?(?!Live)[\w]{4}|swf))Player*\.swf/i
-        },
+            're': /http:\/\/.*letv[\w]*\.com\/(hz|.*?\/((?!(Live|seed|Disk))(S(?!SDK)[\w]{2,3})?(?!Live)[\w]{4}|swf))Player\.swf/i
+	    },
         'letv_live': {
             'player': refD + 'letvlive.swf',
             're': /http:\/\/.*letv[\w]*\.com\/p\/\d+\/\d+\/\d+\/newplayer\/LivePlayer\.swf/i
         },
         'letvskin': {
             'player': 'http://player.letvcdn.com/p/201407/24/15/newplayer/1/SSLetvPlayer.swf',
-            're': /http:\/\/.*letv[\w]*\.com\/p\/\d+\/\d+\/(?!15)\d*\/newplayer\/\d+\/S?SLetvPlayer\.swf/i
+            're': /http:\/\/.*letv[\w]*\.com\/[\w]*p\/\d+\/\d+\/\d*\/\d+\/\d+\/newplayer\/\d+\/S?SLetvPlayer\.swf/i
         },
         'pptv': {
             'player': refD + 'pptv.swf',
@@ -69,33 +71,25 @@
             're': /http:\/\/player.pplive.cn\/live\/.*\/player4live2\.swf/i
         },
 		'sohu': {
-           'player': refD + 'sohu.swf',
-           're': /http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(ap|live|\d+)).*\d+\/(main|PlayerShell)\.swf/i
+           'player': refD + 'sohulive.swf',
+           're': /http:\/\/tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+\/(main|PlayerShell)\.swf/i
         },
         'sohu_liv': {
            'player': refD + 'sohulive.swf',
-           're': /http:\/\/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(:[0-9]{2,5})?(\/test)?\/(player|webplayer)\/(main|playershell)\.swf/i
-        },
-        'sohu_live': {
-           'player': refD + 'sohulive.swf',
-           're': /http:\/\/tv\.sohu\.com\/upload\/swf\/(live\/|)\d+\/(main|PlayerShell)\.swf/i
+           're': /http:\/\/\d+\.\d+\.\d+\.\d+(:\d+)?(\/test)?\/(testplayer|player|webplayer)\/(main|main\d|playershell)\.swf/i
         },
 		'pps': {
             'player': refD + 'pps.swf',
             're': /http:\/\/www\.iqiyi\.com\/player\/cupid\/.*\/pps[\w]+.swf/i
         },
 		'ppsiqiyi': {
-            'player': refD + 'iqiyi.swf',
+            'player': refD + 'iqiyi_out.swf',
             're': /http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/PPSMainPlayer.*\.swf/i
 		},	
 		'ppslive': {
             'player': 'http://www.iqiyi.com/player/20140613210124/livePlayer.swf',
             're': /http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/am.*\.swf/i
 		},		
-        'wanhenda': {
-            'player': 'http://yuntv.letv.com/bcloud.swf',
-            're': /http:\/\/assets\.dwstatic\.com\/.*\/vppp\.swf/i
-        },
         '17173': {
             'player': refD + '17173_Player_file.swf',
             're': /http:\/\/f\.v\.17173cdn\.com\/\d+\/flash\/Player_file\.swf/i			                
@@ -116,6 +110,22 @@
             'player': refD + 'baiduAD.swf',
 		    're': /http:\/\/list\.video\.baidu\.com\/swf\/advPlayer\.swf/i
 		}
+    },
+	FILTERS: {
+	    'qq': {
+            'player': 'http://livep.l.qq.com/livemsg',
+            're': /http:\/\/livew\.l\.qq\.com\/livemsg\?/i
+        }
+	},
+	DOMAINS: {
+    'iqiyi': {
+      'host': 'http://www.iqiyi.com/',
+      're': /http:\/\/.*\.qiyi\.com/i
+      },
+	'youku': {
+      'host': 'http://www.youku.com/',
+      're': /http:\/\/.*\.youku\.com/i
+      }
     },
     os: Cc['@mozilla.org/observer-service;1']
             .getService(Ci.nsIObserverService),
@@ -154,9 +164,88 @@
                 }
             }
         };
+		
+//add
+
+			var site1 = this.SITES['youkuloader'];
+			site1['preHandle'] = function(aSubject) {
+				var wnd = this.getWindowForRequest(aSubject);
+				if(wnd) {
+					site1['cond'] = [
+						!wnd.self.document.querySelector('span.grey'),
+						true
+					];
+					if(!site1['cond']) return;
+					
+					for(var i = 0; i < site1['cond'].length; i++) {
+						if(site1['cond'][i]) {
+							if(site1['player'] != site1['player' + i]) {
+								site1['player'] = site1['player' + i];
+								site1['storageStream'] = site1['storageStream' + i] ? site1['storageStream' + i] : null;
+								site1['count'] = site1['count' + i] ? site1['count' + i] : null;
+							}
+							break;
+						}
+					}
+				}
+			};
+			site1['callback'] = function() {
+				if(!site1['cond']) return;
+
+				for(var i = 0; i < site1['cond'].length; i++) {
+					if(site1['player' + i] == site1['player']) {
+						site1[' ' + i] = site1['storageStream'];
+						site1['count' + i] = site1['count'];
+						break;
+					}
+				}
+			};
+
+
+			var site2 = this.SITES['youkuplayer'];
+			site2['preHandle'] = function(aSubject) {
+				var wnd = this.getWindowForRequest(aSubject);
+				if(wnd) {
+					site2['cond'] = [
+						!wnd.self.document.querySelector('span.grey'),
+						true
+					];
+					if(!site2['cond']) return;
+					
+					for(var i = 0; i < site2['cond'].length; i++) {
+						if(site2['cond'][i]) {
+							if(site2['player'] != site2['player' + i]) {
+								site2['player'] = site2['player' + i];
+								site2['storageStream'] = site2['storageStream' + i] ? site2['storageStream' + i] : null;
+								site2['count'] = site2['count' + i] ? site2['count' + i] : null;
+							}
+							break;
+						}
+					}
+				}
+			};
+			site2['callback'] = function() {
+				if(!site2['cond']) return;
+
+				for(var i = 0; i < site2['cond'].length; i++) {
+					if(site2['player' + i] == site2['player']) {
+						site2[' ' + i] = site2['storageStream'];
+						site2['count' + i] = site2['count'];
+						break;
+					}
+				}
+			};		
     },
     // getPlayer, get modified player
     getPlayer: function(site, callback) {
+		//ADD for BLOCKING
+         if(site['player'] == 'BLOCK') {
+         //Something for later?
+                if(typeof callback === 'function') {
+                      callback();
+                  }
+                return;
+            }
         NetUtil.asyncFetch(site['player'], function(inputStream, status) {
             var binaryOutputStream = Cc['@mozilla.org/binaryoutputstream;1']
                                         .createInstance(Ci['nsIBinaryOutputStream']);
@@ -197,10 +286,25 @@
         return null;
     },
     observe: function(aSubject, aTopic, aData) {
+	    if (aTopic == "http-on-modify-request") {
+    var httpReferer = aSubject.QueryInterface(Ci.nsIHttpChannel);
+    for (var i in this.DOMAINS) {
+      var domain = this.DOMAINS[i];
+        try {
+        var URL = httpReferer.originalURI.spec;
+          if (domain['re'].test(URL)) {
+            httpReferer.setRequestHeader('Referer', domain['host'], false);
+          }
+        } catch (e) {}
+      }
+	  //add
+	  return;
+    }
+	
         if(aTopic != 'http-on-examine-response') return;
 
         var http = aSubject.QueryInterface(Ci.nsIHttpChannel);
-
+				
         var aVisitor = new HttpHeaderVisitor();
         http.visitResponseHeaders(aVisitor);
         if (!aVisitor.isFlash()) return;
@@ -214,9 +318,19 @@
                     site['preHandle'].apply(fn, args);
 
                 if(!site['storageStream'] || !site['count']) {
+
                     http.suspend();
                     this.getPlayer(site, function() {
-                        http.resume();
+	//ADD for BLOCKING
+
+					if(site['player'] == 'BLOCK') 
+						{
+							//Something for later?
+							console.log("BLOCKING");
+						}
+                    else
+                    {
+					http.resume();}
                         if(typeof site['callback'] === 'function')
                             site['callback'].apply(fn, args);
                     });
@@ -240,16 +354,26 @@
     register: function() {
         this.init();
         this.os.addObserver(this, 'http-on-examine-response', false);
+		this.os.addObserver(this, "http-on-modify-request", false);
     },
     unregister: function() {
         this.os.removeObserver(this, 'http-on-examine-response', false);
+		this.os.removeObserver(this, "http-on-modify-request", false);
     }
 };
+
+
+
+
+
 
 // TrackingListener, redirect youku player to modified player
 function TrackingListener() {
     this.originalListener = null;
     this.site = null;
+	//add
+	this.aSubject = null;
+	this.originalData = null;
 }
 TrackingListener.prototype = {
     onStartRequest: function(request, context) {
@@ -258,9 +382,10 @@ TrackingListener.prototype = {
     onStopRequest: function(request, context) {
         this.originalListener.onStopRequest(request, context, Cr.NS_OK);
     },
-    onDataAvailable: function(request, context) {
-        this.originalListener.onDataAvailable(request, context, this.site['storageStream'].newInputStream(0), 0, this.site['count']);
-    }
+//Modify in-fight
+		onDataAvailable: function(request, context, inputStream, offset, count) {
+			this.originalListener.onDataAvailable(request, context, this.site['storageStream'].newInputStream(0), 0, this.site['count']);//Replace the original chain to change the dest-File
+		}
 };
 
 function HttpHeaderVisitor() {

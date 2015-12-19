@@ -1,0 +1,6 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+@-moz-document domain(share.popgo.org) {
+#logobar,
+#index_anoc
+{display:none !important;}
+}

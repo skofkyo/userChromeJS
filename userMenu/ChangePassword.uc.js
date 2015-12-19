@@ -113,7 +113,7 @@
   //ボタンの作成
   var button = document.createElement("button");
   button.setAttribute("id","changePassword");
-  button.setAttribute("label","Change Password");
+  button.setAttribute("label","變更密碼");
   button.setAttribute("oncommand","changePassword();");
   //参照ボタン
   var aNode = document.getElementById("togglePasswords");

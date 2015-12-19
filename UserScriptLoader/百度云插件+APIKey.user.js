@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       百度云插件+APIKey
 // @namespace  
-// @version    4.4.0 beta
+// @version    4.4.1 beta
 // @description  在百度云网盘的页面添加一个搜索框，调用搜索API搜索所有公开分享文件// To add a search frame that calls some api for searching some public shared files in BaiduYun cloud netdisk. 
 // @require        http://code.jquery.com/jquery-2.1.1.min.js
 // @description  For more imformation,please email me at wang0xinzhe@gmail.com. 
@@ -258,7 +258,7 @@ var SearchObject = function($, replaceEle) {
 				<input type="button" value="GO" class="search-button" id="wxz_searchButton"></div>',
 			//显示页面的html
 			html_2 = '\
-	<div class="b-panel b-dialog share-dialog" id="wxz_myDiv" style="z-index:9999">\
+	<div class="b-panel b-dialog share-dialog" id="wxz_myDiv" style="z-index:99">\
 	<div class="dlg-hd b-rlv" id="wxz_myDiv_title">\
 	<div title="关闭" id="wxz_closeButton" class="dlg-cnr dlg-cnr-r"></div>\
 	<h3 >搜索</h3>\
@@ -320,9 +320,9 @@ var SearchObject = function($, replaceEle) {
 		$('.wxz-content').css({
 			height: window.innerHeight / 3 * 2
 		});
-		$('.wxz-myDiv').css({
+		$('#wxz_myDiv').css({
 			top: window.innerHeight / 8,
-			left: -window.innerWidth / 6
+			left: window.innerWidth / 4
 		});
 		//应用拖拽
 		$("#wxz_myDiv").draggable({
@@ -370,4 +370,4 @@ var SearchObject = function($, replaceEle) {
 var ele = (window.innerWidth > 1024 ? '#top_menu_other' : 'div.remaining');
 
 //启动
-SearchObject(jQuery, ele).init('Google'); //to use google, please replace 'SOSO' with 'Google';
+SearchObject(jQuery, ele).init('SOSO'); //to use google, please replace 'SOSO' with 'Google';

@@ -50,6 +50,7 @@ keys['J+Ctrl'] = function() {
 						return;
 				  }
 				}
+				//gBrowser.selectedTab = gBrowser.addTab("about:downloads");
 				//openUILinkIn('about:downloads', 'tab');
 				gBrowser.loadOneTab("about:downloads", null, null, null, false, false);
 				//loadOneTab( URL, referrerURI, charset, postData, loadInBackground, allowThirdPartyFixup )

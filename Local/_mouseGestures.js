@@ -109,9 +109,9 @@ GESTURES = {
 		cmd: function() {
 			var t = content.getSelection().toString();
 			if (t) {
-				gBrowser.selectedTab = gBrowser.addTab("http://translate.google.tw/translate_t?hl=zh-TW#auto|zh-TW|" + t);
+				gBrowser.selectedTab = gBrowser.addTab("https://translate.google.com.tw/?hl=zh-TW#auto|zh-TW|" + t);
 			} else {
-				loadURI("http://translate.google.com/translate?sl=auto&tl=zh-TW&u=" + content.location);
+				loadURI("https://translate.google.com.tw/translate?sl=auto&tl=zh-TW&u=" + content.location);
 			}
 		}
 	},

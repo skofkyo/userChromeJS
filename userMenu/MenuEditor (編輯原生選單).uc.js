@@ -7,6 +7,7 @@
 // @author                skofkyo
 // @version              20141114
 // @include              chrome://browser/content/browser.xul
+// @include              chrome://browser/content/web-panels.xul
 // ==/UserScript==
 
 (function () {

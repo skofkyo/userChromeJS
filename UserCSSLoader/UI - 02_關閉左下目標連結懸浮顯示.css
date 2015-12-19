@@ -1,6 +1,6 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
-
+/*
 .statuspanel-label[value^="http"],
 .statuspanel-label[value^="magnet"],
 .statuspanel-label[value^="data"],
@@ -9,6 +9,7 @@
 .statuspanel-label{
 font-size:1.5em!important;
 }
+*/
 
 /*
 .statuspanel-label:not([value=""]) {opacity:1 !important;-moz-transition-property:opacity !important;-moz-transition-delay:-10ms !important;}

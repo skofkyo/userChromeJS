@@ -96,10 +96,41 @@ new function() {
             image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABWUlEQVQ4jaWSy0sCURjF/XfuRugukha1CzeBCBKIFFFIBEGrCoRwE4EErlskoYW0EFy0iBAkCMFNBCGuKrqjNg6OgzOTjY+5nhbh3ehMrw/O8vud73E8hDL8Rx5CGf5ajoBCsQuvT0IubwIATk51xA/bsPkPAdFtBYQyLIXeUCpbYtybQtcd0Na+LHb2WiCUYTXaRC5vCsBdyXIG3D/0QCjD2qaCl9cB9g9UPFb66OgcuzEVmayBpmKjVLamAxJJTTg9PQ+mHm1+sQ5CGS4ujUlAJmuAUIaZOQkdnaNS7SMYlhGKyKjVh7B6I2EQi6uTAJsDV9fvqFT7YNIQsws10eAPNNDWODa2FHh9Eoq3H85faKk2/IHGRGCWV2RYvZH7Fzo6n9o8VmS9CcPkzoBUWv82umfnhjNgfEg3pdK6M8AwuUihP9DA0bGGRFJDMCyLYLmu8NsSgP/oExgMERjFwInkAAAAAElFTkSuQmCC",
         }, {
             label: "維基百科",
-            url: "http://zh.wikipedia.org/wiki/%SEL%",
+            url: "https://zh.wikipedia.org/wiki/%SEL%",
             where: "tab",
             condition: "select",
             image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABo0lEQVQ4ja2TO4siQRSFC5lJOlUjEQQDE8FYRREFBUEwMDEcEJPGH2BsZiQoBgaiYCoiBv4FwRZDTQQROxE0sum2H3wT7EzDrLvs80Z1LnW+OkXVFcAr8Aas+f1af3hexcfib+tN/OHJT0mEbdvouo6u6xiGAeBq0zRxHMfVjuNgmqarbdtGbLdbMpkMQgh6vR6O41AoFBBCMBwOOZ1OJBIJcrkcqqoym83wer2Uy2V2ux0C4Hg88vLywnw+B0DTNEKhEN1uF4BsNsvtdgPg8XiQTCaxLAvgGwCgWq2SSqXcyw0GA4LBINPplHa77fYnkwn9ft/VLmCz2SCEYLVaAWBZFuFwmFgshq7rrqFYLKJp2jPgM2qlUnG1LMv4fD43rqIoNJvNL8/wBbBcLvF4PBwOBwBKpRJ+v5/xeAxAvV5HVdWfAwCi0SiyLLNYLOh2u7RaLSKRCJfLhVqt9v32Z8BoNEKSJPL5PIZhcL1ekSSJeDyOoii/BpimSSAQoNPpuL1Go0E6nX4yfwKevvJ+v8dxHFff73fO5/OP/Ov/Mkz/NM7vB+B52iVL10sAAAAASUVORK5CYII=",
+        }, {
+            label: "BT&字幕多引擎搜索",
+            tooltiptext: "左鍵：字幕搜尋選取文字\n右鍵：字幕搜索剪貼簿文字",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoElEQVQ4jdWT0Q3DIAxEbwVW8AqswAqZxSuwgldgFlbwCl7h+oXVKKkqJelHkSwQh57ubAEAvFngWlfOzwBuR3gMYGZpb4yR9yLCiEgtIo4AVaWZpTDGoKoSAOecbK0RAEspdPcjwN0pIim8P3T3BHyMEBEspewAy2prLe27O2ut3yOYGXvvBJD7gp1GWLnPmjjn3DVx27YfjfEy4L//wguf2NOhL0+T5QAAAABJRU5ErkJggg==",
+            onclick: function(e) {
+                switch (e.button) {
+                    case 0:
+                        gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
+                        gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
+                        gBrowser.addTab("http://seed2peer.com/search/" + encodeURIComponent(getBrowserSelection()) + "/");//Seed2Peer
+                        gBrowser.addTab("https://thepiratebay.vg/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
+                        gBrowser.addTab("http://sub.makedie.me/sub/?searchword=" + encodeURIComponent(getBrowserSelection()));//射手網(偽)
+                        gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(getBrowserSelection()));//subom字幕庫
+                        gBrowser.addTab("http://www.zimud.com/search?q=" + encodeURIComponent(getBrowserSelection()));//字幕帝
+                        gBrowser.addTab("http://subhd.com/search/" + encodeURIComponent(getBrowserSelection()));//SUBHD
+                        gBrowser.addTab("http://www.163sub.com/Search?id=" + encodeURIComponent(getBrowserSelection()));//163sub
+                        //http://www.opensubtitles.org/zt/search2/sublanguageid-zht,chi,zhe/moviename-%SEL%
+                        break;
+                    case 2:
+                        gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
+                        gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
+                        gBrowser.addTab("http://seed2peer.com/search/" + encodeURIComponent(readFromClipboard()) + "/");//Seed2Peer
+                        gBrowser.addTab("https://thepiratebay.vg/search/" + encodeURIComponent(readFromClipboard()));//海盜灣
+                        gBrowser.addTab("http://sub.makedie.me/sub/?searchword=" + encodeURIComponent(readFromClipboard()));
+                        gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(readFromClipboard()));//subom字幕庫
+                        gBrowser.addTab("http://www.zimud.com/search?q=" + encodeURIComponent(readFromClipboard()));//字幕帝
+                        gBrowser.addTab("http://subhd.com/search/" + encodeURIComponent(readFromClipboard()));//SUBHD
+                        gBrowser.addTab("http://www.163sub.com/Search?id=" + encodeURIComponent(readFromClipboard()));//163sub
+                        break;
+                }
+            },
         }, {
             label: "多引擎字幕搜索",
             tooltiptext: "左鍵：字幕搜尋選取文字\n右鍵：字幕搜索剪貼簿文字",
@@ -437,39 +468,24 @@ execute([{
 		condition: "nolink",
 		image:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2ElEQVQ4ja1TwQ2DMAy8EToCI3SEjMIIfEr87AgdISN0hGwQpCjOlxHYoH0EECEOUKmW/IrvYt/ZwDY6dwOFJ3QcQPGzpo4TiA3INajGI9xBPGZAKXvuZLCO0ym4SpK1zBaaXyCvUoZWJl/GodDOcw4grxKYbTnenoDN/Du/QWySgGzSY2iLMSVhUwfzb0snxKMoMrEtulitSwXnDogEAECu+RmcE3j1Z4KjjatFrvCwalPUeVUhWCzc2KT5hZ675NDmRmQC11xe52pcvYnDWE5a3Au2+0P6Apc1b6L4yzaBAAAAAElFTkSuQmCC"
 	}, {
-		label: "CoolNovo(頁面)",
+		label: "CentBrowser(頁面)",
 		text: "%u",
-		exec: "C:\\ChromePlus\\Chrome.exe",
-		condition: "nolink"
-	}, {
-		label: "AvantBrowser(頁面)",
-		text: "%u",
-		exec: "C:\\Avant Browser\\avant.exe",
+		exec: "C:\\CentBrowser_x64\\chrome.exe",
 		condition: "nolink"
 	}, {
 		label: "Opera(頁面)",
 		text: "%u",
-		exec: "C:\\Opera\\launcher.exe",
+		exec: "C:\\Program Files (x86)\\Opera\\launcher.exe",
+		condition: "nolink"
+	}, {
+		label: "Vivaldi(頁面)",
+		text: "%u",
+		exec: "C:\\Users\\TONYGG\\AppData\\Local\\Vivaldi\\Application\\vivaldi.exe",
 		condition: "nolink"
 	}, {
 		label: "GoogleChrome(頁面)",
 		text: "%u",
-		exec: "C:\\GoogleChrome\\MyChrome.exe",
-		condition: "nolink"
-	}, {
-		label: "原版Firefox(頁面)",
-		text: "%u",
-		exec: "D:\\FirefoxPortable\\MyFirefox.exe",
-		condition: "nolink"
-	}, {
-		label: "Firefoxnightly(頁面)",
-		text: "%u",
-		exec: "C:\\Firefoxnightly\\MyFirefox.exe",
-		condition: "nolink"
-	}, {
-		label: "pcx便攜模式(頁面)",
-		text: "%u",
-		exec: "C:\\PCXFirefox\\firefox.exe",
+		exec: "C:\\MyChrome\\MyChrome.exe",
 		condition: "nolink"
 	}, {
 		label: "PotPlayer(鏈結)",
@@ -504,41 +520,26 @@ execute([{
 		condition: "link",
 		image:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2ElEQVQ4ja1TwQ2DMAy8EToCI3SEjMIIfEr87AgdISN0hGwQpCjOlxHYoH0EECEOUKmW/IrvYt/ZwDY6dwOFJ3QcQPGzpo4TiA3INajGI9xBPGZAKXvuZLCO0ym4SpK1zBaaXyCvUoZWJl/GodDOcw4grxKYbTnenoDN/Du/QWySgGzSY2iLMSVhUwfzb0snxKMoMrEtulitSwXnDogEAECu+RmcE3j1Z4KjjatFrvCwalPUeVUhWCzc2KT5hZ675NDmRmQC11xe52pcvYnDWE5a3Au2+0P6Apc1b6L4yzaBAAAAAElFTkSuQmCC"
 	}, {
-		label: "CoolNovo(鏈結)",
+		label: "CentBrowser(鏈結)",
 		text: "%l",
-		exec: "C:\\ChromePlus\\Chrome.exe",
-		condition: "link"
-	}, {
-		label: "AvantBrowser(鏈結)",
-		text: "%l",
-		exec: "C:\\Avant Browser\\avant.exe",
+		exec: "C:\\CentBrowser_x64\\chrome.exe",
 		condition: "link"
 	}, {
 		label: "Opera(鏈結)",
 		text: "%l",
-		exec: "C:\\Opera\\launcher.exe",
+		exec: "C:\\Program Files (x86)\\Opera\\launcher.exe",
+		condition: "link"
+	}, {
+		label: "Vivaldi(鏈結)",
+		text: "%l",
+		exec: "C:\\Users\\TONYGG\\AppData\\Local\\Vivaldi\\Application\\vivaldi.exe",
 		condition: "link"
 	}, {
 		label: "GoogleChrome(鏈結)",
 		text: "%l",
-		exec: "C:\\GoogleChrome\\MyChrome.exe",
+		exec: "C:\\MyChrome\\MyChrome.exe",
 		condition: "link"
-	},  {
-		label: "原版Firefox(鏈結)",
-		text: "%l",
-		exec: "D:\\FirefoxPortable\\MyFirefox.exe",
-		condition: "link"
-	}, {
-		label: "Firefoxnightly(鏈結)",
-		text: "%l",
-		exec: "C:\\Firefoxnightly\\MyFirefox.exe",
-		condition: "link"
-	}, {
-		label: "pcx便攜模式(鏈結)",
-		text: "%l",
-		exec: "C:\\PCXFirefox\\firefox.exe",
-		condition: "link"
-	},
+	},  
 ]);
 
 page({
@@ -671,3 +672,17 @@ page({
         }, 100);
     }
 });*/
+tab({
+        label: "按標題重排所有標簽頁",
+        tooltiptext: "按標題重排，同域名靠近",
+        oncommand: function() {
+            //var len = gBrowser.mPanelContainer.childNodes.length;
+            //for (var i = 0; i < len; i++) {
+               // if (event.button == 0) gBrowser.getBrowserAtIndex(i).reload();
+               // else if (event.button == 2) gBrowser.getBrowserAtIndex(i).stop();
+                //   }
+            Array.from(gBrowser.tabs).sort((a, b) => a.label.localeCompare(b.label)).forEach(gBrowser.moveTabTo.bind(gBrowser));
+         //使用favicon的值來排序
+            Array.from(gBrowser.tabs).sort((a, b) => a.image.localeCompare(b.image)).forEach(gBrowser.moveTabTo.bind(gBrowser));
+        }
+    });

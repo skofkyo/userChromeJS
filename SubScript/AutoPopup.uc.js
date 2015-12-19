@@ -3,15 +3,37 @@
 // @description    Auto popup menulist/menupopup
 // @compatibility  Firefox 24.0+
 // @author         GOLF-AT
-// @version        3.2.0.20141208
+// @version        3.5.0.20151031
 
 (function() {
-    var nDelay  = 0;
+    var nDelay  = 200;
     var overElt = null;   var PopElt = null;
     var PopTimer = null;  var HideTimer = null;
-    var AlwaysPop = false;
+    var searchBar = null; var AlwaysPop = false;
 
-    var BlackIDs = ['browserStartupPage','selectLangs','defaultFont','defaultFontSize','defaultFontType','serif','sans-serif','monospace','sizeVar','sizeMono','minSize','DefaultCharsetList','availableLanguages','historyMode','locationBarSuggestion']; //['abp-toolbarbutton'];
+    //#表示id，.表示class，也能用id=<NodeID>这样的格式
+    var BlackIDs = [
+		'#secureLoginButton',
+		'#browserStartupPage',
+		'#selectLangs',
+		'#defaultFont',
+		'#defaultFontSize',
+		'#defaultFontType',
+		'#serif',
+		'#sans-serif',
+		'#monospace',
+		'#sizeVar',
+		'#sizeMono',
+		'#minSize',
+		'#DefaultCharsetList',
+		'#availableLanguages',
+		'#historyMode',
+		'#locationBarSuggestion',
+		'anonid=historydropmarker',
+		'#pocket-button',
+		'areatype=menu-panel',
+		'#alltabs-button'
+	]; //'id=abp-toolbarbutton'
 
     var popupPos = ['after_start', 'end_before',
         'before_start', 'start_before'];
@@ -25,6 +47,13 @@
             return (elt.hasAttribute('widget-id')
                 && elt.getAttribute('widget-type'
                 )=='view');
+        }catch(e) { return false; }
+    }
+
+    function IsSearchBtn(elt) {
+        try {
+            return elt.getAttribute("anonid") ==
+                'searchbar-search-button';
         }catch(e) { return false; }
     }
 
@@ -48,6 +77,16 @@
         }catch(e) { return false; }
     }
 
+    function IsOnWidgetPanel(x, y) {
+        try {
+            box = (PopElt && widgetPanelID==PopElt
+                .id) ? PopElt.boxObject : null;
+            return box && x>=box.screenX && y>=box
+                .screenY&& x<box.screenX+box.width
+                && y<box.screenY+box.height;
+        }catch(e) { return false; }
+    }
+
     function getPopupMenu(elt)
     {
         var nodes = elt!=null ? elt.ownerDocument.
@@ -58,9 +97,44 @@
                 return nodes[n-1];
         }
 
-        var popup = elt.getAttribute('popup');
+        var popup = 'foxyproxy-toolbar-icon'==elt.
+            id ? 'foxyproxy-toolbarbutton-popup' :
+            elt.getAttribute('popup');
         return popup!=null && popup!='' ? document
             .getElementById(popup) : null;
+    }
+
+    function isBlackNode(elt)
+    {
+        var str, attr, val, nPos;
+
+        for(var n=0; n<BlackIDs.length; n++) {
+            if ((str=BlackIDs[n]).length == 0)
+                continue;
+            if (str.charAt(0) == '#') {
+                val = str.substr(1);
+                attr = 'id';
+            }
+            else if(str.charAt(0) == '.') {
+                val = str.substr(1);
+                attr = 'class';
+            }
+            else {
+                nPos = str.indexOf('=');
+                if (nPos > 0) {
+                    val = str.substr(nPos+1);
+                    attr = str.substr(0, nPos);
+                }
+                else {
+                    val = str; attr = 'id';
+                }
+            }
+            try {
+                if (elt.getAttribute(attr)==val)
+                    return true;
+            }catch(e) {}
+        }
+        return false;
     }
 
     function getPopupPos(elt)
@@ -73,33 +147,39 @@
             if (elt.localName=='window' || elt.
                 parentNode==null)
                 break;
-            else if(pos & 8)
+            else if('toolbar'!=elt.localName &&
+                'hbox'!=elt.localName && 'vbox'
+                !=elt.localName)
                 ;
-            else if('toolbar'==elt.localName ||
-                'hbox'==elt.localName || 'vbox'
-                ==elt.localName) {
-                if (elt.boxObject.height >= 3*
-                    elt.boxObject.width)
-                    pos = 9;
-                else if(elt.boxObject.width >=
-                    3*elt.boxObject.height)
-                    pos = 8;
+            else if(elt.boxObject.height>=3*elt
+                .boxObject.width) {
+                if (elt.boxObject.height>=45) {
+                    pos = 9; break;
+                }
+            }
+            else if(elt.boxObject.width>=3*elt.
+                boxObject.height) {
+                if (elt.boxObject.width>=45) {
+                    pos = 8; break;
+                }
             }
         }
-        box = elt.boxObject; //box of window
-        if (pos & 1)
-            return popupPos[x<box.width/2+box.
-                screenX?1:3];
-        else
-            return popupPos[y<box.height/2+box
-                .screenY?0:2];
+        try {
+            box = elt.boxObject;
+            if (pos & 1)
+                return popupPos[x<=box.width/2+
+                    box.screenX?1:3];
+            else
+                return popupPos[y<=box.height/2
+                    +box.screenY?0:2];
+        }catch(e) { return popupPos[0]; }
     }
 
     function getPopupNode(node)
     {
         var elt, isPop;
 
-        for(; node!=null; node=node.parentNode) {
+        for( ; node!=null; ) {
             if (node==PopElt) return node;
 
             isPop = false; //Node isn't Popup node
@@ -139,7 +219,19 @@
                 }
                 if (elt != null) break;
             }
+            else
+                isPop = IsSearchBtn(node);
             if (isPop) break;
+
+            try {
+                if (node.nodeType == 9) {
+                    //对 document，查找关联的节点
+                    node = document.getElementById(
+                        node.defaultView.name);
+                    continue;
+                }
+            }catch(e) {}
+            node = node.parentNode;
         }
         if (PopElt && node) {
             //Whether node is child of PopElt
@@ -156,9 +248,9 @@
         PopTimer = null;
         if ((PopElt=overElt) == null) return;
 
-        if (overElt.localName == 'dropmarker')
+        if (overElt.localName=='dropmarker')
             PopElt.showPopup();
-        else if(overElt.localName == 'menulist')
+        else if(overElt.localName=='menulist')
             overElt.open = true;
         else if(IsNewMenuBtn(overElt)) {
             PanelUI.show();
@@ -166,10 +258,10 @@
                 menuPanelID);
         }
         else if(IsWidgetBtn(overElt)) {
-            var cmdEvent = document.createEvent(
-                'xulcommandevent');
-            cmdEvent.initCommandEvent("command",
-                true, true, window, 0, false,
+            var cmdEvent = document.createEvent
+                ('xulcommandevent');
+            cmdEvent.initCommandEvent("command"
+                , true, true, window, 0, false,
                 false, false, false, null);
             overElt.dispatchEvent(cmdEvent);
             PopElt = document.getElementById(
@@ -180,13 +272,14 @@
                 downPanelID);
             DownloadsPanel.showPanel();
         }
+        else if(IsSearchBtn(overElt))
+            searchBar.openSuggestionsPanel();
         else {
             PopElt = getPopupMenu(overElt);
             try {
-                var popPos = getPopupPos(overElt
-                    );
-                PopElt.openPopup(overElt, popPos
-                    , 0, 0, false, false, null);
+                var Pos= getPopupPos(overElt);
+                PopElt.openPopup(overElt, Pos,
+                    0, 0, false, false, null);
             }catch(e) { PopElt = null; }
         }
     }
@@ -203,6 +296,8 @@
                 PopElt.hidePopup();
             else if(IsDownloadBtn(overElt))
                 DownloadsPanel.hidePanel();
+            else if(IsSearchBtn(overElt))
+                searchBar.textbox.closePopup();
             else
                 PopElt.popupBoxObject.hidePopup();
         }catch(e) {}
@@ -212,23 +307,14 @@
 
     function MouseOver(e)
     {
-        var n, popNode, sNodeID;
+        var n, popNode;
 
-        if (!AlwaysPop && !document.hasFocus())
+        if (!AlwaysPop && !document.hasFocus() ||
+            IsOnWidgetPanel(e.screenX,e.screenY))
             return;
         popNode = getPopupNode(e.originalTarget);
-        try {
-            sNodeID = popNode ? popNode.id : '';
-        }catch(ex) { sNodeID = ''; }
-        if (sNodeID!='' && BlackIDs.length!=0) {
-            for(n=0; n<BlackIDs.length; n++) {
-                if (BlackIDs[n] == sNodeID) {
-                    popNode = null; break;
-                }
-            }
-        }
-        if (popNode==null || (popNode && popNode
-            .disabled)) {
+        if (popNode==null || (popNode && popNode.
+            disabled) || isBlackNode(popNode)) {
             MouseOut(); return;
         }
 
@@ -281,6 +367,7 @@
         return IsButton(elt) && getPopupMenu(elt);
     }
 
+    searchBar = BrowserSearch.searchBar;
     window.addEventListener('mouseover', MouseOver,
         false);
 })();

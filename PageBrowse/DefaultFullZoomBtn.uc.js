@@ -15,7 +15,7 @@
 //@1/2/13 第二版
 var FullZoomConfig = new function () {
   //默認的縮放級別
-  this.defaultLv = 130;
+  this.defaultLv = 120;
   //按钮为图标或者文字：true 为图标， false 为文字
   this.showIconBtn = true;
   //只縮放文字
@@ -901,7 +901,7 @@ var fullZoomBtn = {
 				tooltiptext = "TextZoom: " + label + "%";
 			}
 			statusbarZoomLevel.setAttribute("tooltiptext", tooltiptext);
-			statusbarZoomLevel.setAttribute("class", "statusbarpanel-iconic");
+			statusbarZoomLevel.setAttribute("class", "toolbarbutton-1 chromeclass-toolbar-additional");
 			statusbarZoomLevel.setAttribute("image", src);
 		} else {
 			if (ZoomManager.useFullZoom)
@@ -1403,15 +1403,12 @@ var ZoomManager = {
 //ui
 function fullZoomUI() {
   var statusbar = document.getElementById("urlbar-icons"); //status-bar navigator-toolbox urlbar-icons  TabsToolbar
-  var button = document.createElement("statusbarpanel");
+  var button = document.createElement("toolbarbutton");
   button.setAttribute("id", "statusbarZoomLevel");
   button.setAttribute("onmousedown", "fullZoomBtn.clickStatusLabel(event);");
   button.setAttribute("onclick", "event.preventDefault();");
   button.setAttribute("onDOMMouseScroll", "fullZoomBtn.clickStatusLabel(event);");
   button.setAttribute("tooltiptext", "左鍵：切換縮放模式\n右鍵：設置縮放倍數");
-  button.style.margin = "0 0 0 0";
-  button.style.padding = "0 0 0 1px";
-  button.style.color = "blue";//#BE4B82
   //statusbar.appendChild(button);
   statusbar.insertBefore(button, statusbar.childNodes[1]);
 

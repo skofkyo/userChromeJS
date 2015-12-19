@@ -41,10 +41,29 @@ if (location == "chrome://browser/content/browser.xul") {
 			return;
 		ublock.addEventListener("click", function (e) {
 			if (e.button == 1) {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  browser = gBrowser.getBrowserAtIndex(i);
+				  if (browser.currentURI.spec == 'chrome://ublock0/content/logger-ui.html'){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				openUILinkIn("chrome://ublock0/content/logger-ui.html", "tab");
 			}
 			if (e.button == 2) {
 				e.preventDefault();
+				e.stopPropagation();
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  browser = gBrowser.getBrowserAtIndex(i);
+				  if (browser.currentURI.spec == 'chrome://ublock0/content/dashboard.html'){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				openUILinkIn("chrome://ublock0/content/dashboard.html", "tab");
 			}
 		}, false);
@@ -57,10 +76,29 @@ if (location == "chrome://browser/content/browser.xul") {
 		preferences.setAttribute("tooltiptext", "左鍵：打開選項\n中鍵：打開about:support 疑難排除資訊\n右鍵：打開about:config");
 		preferences.addEventListener("click", function (e) {
 			if (e.button == 1) {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  browser = gBrowser.getBrowserAtIndex(i);
+				  if (browser.currentURI.spec == 'about:support'){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				openUILinkIn("about:support", "tab");
 			}
 			if (e.button == 2) {
 				e.preventDefault();
+				e.stopPropagation();
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  browser = gBrowser.getBrowserAtIndex(i);
+				  if (browser.currentURI.spec == 'about:config'){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				openUILinkIn("about:config", "tab");
 			}
 		}, false);

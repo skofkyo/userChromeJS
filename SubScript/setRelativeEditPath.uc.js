@@ -19,6 +19,7 @@ location == 'chrome://browser/content/browser.xul' && (function(){
     file.initWithPath(handleRelativePath(PATH));
     if (file.exists()) {
         gPrefService.setCharPref('view_source.editor.path', file.path);
+        gPrefService.setCharPref('extensions.greasemonkey.editor', file.path);
     }
 
 })()

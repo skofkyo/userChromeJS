@@ -1,11 +1,11 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 @-moz-document url("chrome://mozapps/content/extensions/extensions.xul") {
-/* å…¨å±€ï‘æ”¾  */
+/* ¥þ§½ŠD©ñ  */
 #addons-page {
  padding:0 !important;
  background:rgb(255, 255, 255) !important;
 }
-/* æ•´ä½“å·¦ç§»  */
+/* ¾ãÊ^¥ª²¾  */
 .main-content {
 	margin-left: -40px !important;
     padding-top: 0px;
@@ -15,10 +15,10 @@
     overflow: auto;
 }
     
-/************************** ïƒ©éƒ¨èœïƒ¸ ***************************/
-/* ï’ˆè—æ›´æ–°æç¤ºæ–‡å­—
+/************************** „¼³¡µæ„Ë ***************************/
+/* Š­ÂÃ§ó·s´£¥Ü¤å¦r
 #updates-container {display:none !important;}*/
-/* ï¨ïŒ¼è·Ÿæœç´¢ï‚¦ï‹¢å¼*/
+/* ˆÇˆy¸ò·j¯Á„W‡Þ¦¡*/
 #header {
  margin:0 !important;
  padding-left: 0px !important;
@@ -35,7 +35,7 @@
  border-radius: 0 !important;
  background-color: transparent !important;
 }
-/*ï¢æŸ¥æ›´æ–°æŒ‰ï…ž*/
+/*‰ä¬d§ó·s«ö…r*/
 #header-utils-btn {
  width:26px !important;
  border-right: none !important;
@@ -53,7 +53,7 @@
 #header-utils-btn .toolbarbutton-menu-dropmarker {
  display:none !important;
 }
-/*æœç´¢æ¡†*/
+/*·j¯Á®Ø*/
 #header-search {
  padding: 0 4px !important;
  width:150px !important;
@@ -73,7 +73,7 @@
 .textbox-search-clear {
  list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD+SURBVEhLzZU9DoMwDIW5RDlD20vCwsUCTARY2MkVKvWHjdoSQakJdqQCLVLE4Bd/L7GTRNE/fEVR5PBVSqmT5Ac1qMU5VpumaQ6jyrJMnI8a1OKcmQXJNIwRRseZwBhqJq22CZIk0ZBwhH/HmcAYaibtPD8qyzJ2EntNEPiHBpLGTmKvCQJfajgAF7O7wAFEuE3iA4XAORPB8DUTUmlo01KgVBpv05NVi83JmQhpzoWJnxqgNT+0BH3fn7XWT/dOOKwJAX4B+IBwNOFeSCEmvjqGxpirAx9wJ2hj7HoRNU3zmFb+8sFXjuh2V3Hbtre6ru8c3DWx+WMkvYB7xt+CZ0mB4MsbmQAAAABJRU5ErkJggg==") !important;
 }
-/*åˆ—è¡¨ïƒ©éƒ¨ä¿¡æ¯ï–®*/
+/*¦Cªí„¼³¡«H®§Œw*/
 .view-header button {
  -moz-appearance: none !important;
 }
@@ -82,7 +82,7 @@
  border-bottom: none !important;
  background-color: transparent !important;
 }
-/*ï“¢åˆ°ä¸Šä¸€ï€´\ï“¢åˆ°ä¸‹ä¸€ï€´*/
+/*‹H¨ì¤W¤@ƒ¤\‹H¨ì¤U¤@ƒ¤*/
 .header-button {
  display: -moz-inline-box !important;
  border-radius: 0 !important;
@@ -114,8 +114,8 @@
  border-bottom-right-radius: 13px !important;
 }
     
-/************************** å·¦ï¾èœïƒ¸ ***************************/
-/*å·¦ï¾ï–®ïŒ£æ•´--å½±ï—Œï“¢åˆ°ä¸Šä¸€ï€´\ï“¢åˆ°ä¸‹ä¸€ï€´*/
+/************************** ¥ªƒîµæ„Ë ***************************/
+/*¥ªƒîŒwˆ`¾ã--¼vŒ·‹H¨ì¤W¤@ƒ¤\‹H¨ì¤U¤@ƒ¤*/
 #nav-header {
  position: fixed;
  top: 0;
@@ -125,11 +125,11 @@
  background-color: transparent !important;
 }
     
-/*ï’ˆè—åˆ†ï••å
+/*Š­ÂÃ¤À‹Ý¦W
 .category-name {
  display:none !important;
 }*/
-/*æ‹‰é«˜ïˆï‹¥èƒŒæ™¯ï˜šç¤º*/
+/*©Ô°ª†¶‡á­I´ºF¥Ü*/
 .category:not([disabled="true"]) {
  min-height: 44px !important;
  cursor:pointer;
@@ -137,35 +137,35 @@
 	.category[selected="true"] {
 		background-color: yellowgreen !important;
 	}
-/*è‡ªï‚€ï’ˆè—ä¸å¸¸ç”¨èœïƒ¸*/
+/*¦ÛƒðŠ­ÂÃ¤£±`¥Îµæ„Ë*/
 #category-discover,#category-service,#userstyle-footer{display: none !important;}
     
-/* ï‡æ²¹çŒ´ïˆï‹¥ */
+/* †DªoµU†¶‡á */
 #category-greasemonkey-user-script > .category-icon{
     list-style-image: url("data:image/png;base64,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") !important;}
     
-/************************** å³ï¾åˆ—è¡¨ ***************************/
-/*========åˆ—è¡¨ .list========*/
+/************************** ¥kƒî¦Cªí ***************************/
+/*========¦Cªí .list========*/
 .list {
  border: none !important;
 }
 .view-pane > .list > scrollbox {
  -moz-padding-end: 0 !important;
 }
-/* åˆ—è¡¨æ”¶ï‘ */
+/* ¦Cªí¦¬ŠD */
 .addon:not([selected]) :-moz-any(
     .description-outer-container,
     .addon-control.update,
     .include-update),
 .addon:not([selected]) .status-container > hbox{
 visibility: collapse !important;}
-/*[[èœïƒ¸æŒ‰ï…žè‡ªï‚€ï’ˆè—]]*/
+/*[[µæ„Ë«ö…r¦ÛƒðŠ­ÂÃ]]*/
 .addon:not([selected]) :-moz-any(
 .control-container){
 visibility: collapse !important;
 }
     
-/* ïˆï‹¥å¤§å°ïƒ“ç½® */
+/* †¶‡á¤j¤p„¦¸m */
 .addon[selected] .icon-container,
 .addon[selected] .icon
 {
@@ -183,14 +183,14 @@ height: 20px !important;
 margin: 0 !important;
 margin-top: 2px !important;
 }
-/*åˆ—è¡¨æ¡†æž¶é«˜åº¦-ï•ä¸­åŠ äº®*/
+/*¦Cªí®Ø¬[°ª«×-‰u¤¤¥[«G*/
 #view-port .addon {
  margin:0 !important;
  padding: 2px 8px !important;
  border-top: 1px solid transparent !important;
  border-bottom:1px solid rgb(245, 245, 245) !important;
 }
-/*å­—ä½“ï‘æ”¾*/
+/*¦rÊ^ŠD©ñ*/
 #view-port .addon * {
  font-size: 100% !important;
  margin-right: 0 !important;
@@ -204,70 +204,70 @@ margin-top: 2px !important;
  -moz-box-orient: horizontal !important;
  -moz-box-align: center !important;
 }
-#view-port .addon .basicinfo-container {/*åŸºï’ºä¿¡æ¯*/
+#view-port .addon .basicinfo-container {/*°òŠß«H®§*/
  padding-top: 4px !important;
 }
-#view-port .addon .description:not([hidden="true"]) {/*ï‡‘æƒ…*/
+#view-port .addon .description:not([hidden="true"]) {/*†H±¡*/
  margin-top: 2px !important;
  margin-bottom: 5px !important;
 }
-/* ï’ˆè— å·²ç¦ç”¨ æç¤º */
+/* Š­ÂÃ ¤w¸T¥Î ´£¥Ü */
 .disabled-postfix,
 .update-postfix{
 display: none !important;
 }
-/*ï’ˆè—'æ›´å¤š'*/
+/*Š­ÂÃ'§ó¦h'*/
 .addon .details {
  display:none !important;
 }
-/*ï’ˆè—æè¿°ä¿¡æ¯ï¼ˆé»˜ï‰¶ï¼‰*/
+/*Š­ÂÃ´y­z«H®§¡]Àq‡P¡^*/
 .addon .description-outer-container {
  display:none !important;
 }
-/*ï˜šç¤ºæè¿°ä¿¡æ¯*/
-.addon.addon-view[selected] .description-outer-container {/*ï•ä¸­*/
+/*F¥Ü´y­z«H®§*/
+.addon.addon-view[selected] .description-outer-container {/*‰u¤¤*/
  display:-moz-box !important;
 }
-.addon.addon-view[selected], .addon.addon-view[pending] {/*ï•ä¸­æˆ–ç¦ç”¨*/
+.addon.addon-view[selected], .addon.addon-view[pending] {/*‰u¤¤©Î¸T¥Î*/
  position:relative !important;
 }
-.addon.addon-view[selected] .content-container {/*ï•ä¸­*/
+.addon.addon-view[selected] .content-container {/*‰u¤¤*/
  margin-left: 0 !important;
 }
-.addon.addon-view[pending] .pending {/*ç¦ç”¨*/
+.addon.addon-view[pending] .pending {/*¸T¥Î*/
  margin-left: 0 !important;
 }
-.addon.addon-view[selected][pending] .pending {/*ï•ä¸­å¹¶ç¦ç”¨*/
+.addon.addon-view[selected][pending] .pending {/*‰u¤¤¦}¸T¥Î*/
  margin-left: -1px !important;
 }
-.addon.addon-view[pending] .description-outer-container {/*ç¦ç”¨*/
+.addon.addon-view[pending] .description-outer-container {/*¸T¥Î*/
  display: none !important;
 }
 .addon.addon-view .error {
  margin-left: 0 !important;
 }
-/*ï•ä¸­ï…¯èƒŒæ™¯ï¼ˆï•ä¸­æˆ–ç¦ç”¨ï¼‰*/
+/*‰u¤¤…¥­I´º¡]‰u¤¤©Î¸T¥Î¡^*/
 #view-port .addon[selected] {
 background-color: transparent !important;
 border-color: #5bb1ec !important;
 }
-/*ï•¬åœï…¯èƒŒæ™¯*/
+/*‹ô°±…¥­I´º*/
 #view-port .addon:hover {
 background-color: rgb(245, 250, 254) !important;
 }
-/*ç¦ç”¨ï…¯èƒŒæ™¯*/
+/*¸T¥Î…¥­I´º*/
 #view-port .addon[pending] {
 }
-/*å·²ç¦ç”¨ï…¯èƒŒæ™¯*/
+/*¤w¸T¥Î…¥­I´º*/
 .addon.addon-view[active="false"]:not([notification="warning"] ) {
 background: rgb(245, 245, 245) !important;
 }
-/*ä¸å…¼å®¹ï…¯èƒŒæ™¯*/
+/*¤£­Ý®e…¥­I´º*/
 richlistitem[notification="warning"] {
 background-image: url("chrome://mozapps/skin/extensions/stripes-warning.png"), -moz-linear-gradient(rgba(255, 255, 0, 0.04), transparent);
 }
-/*========ï’žå±•ã€å¤–ï™‡ã€æ’ä»¶ç­‰åˆ—è¡¨é¢æ¿#list-view========*/
-    /*åˆ—è¡¨æŒ‰ï…ž*/
+/*========ŠÃ®i¡B¥~s¡B´¡¥óµ¥¦Cªí­±ªO#list-view========*/
+    /*¦Cªí«ö…r*/
 #view-port .list button, #view-port .list menulist, #view-port #detail-view button {
  -moz-appearance:none!important;
  height: 26px !important;
@@ -284,7 +284,7 @@ background-image: url("chrome://mozapps/skin/extensions/stripes-warning.png"), -
  cursor: pointer;
 }
      
-/*æŒ‰ï…žï‹¢å¼*/
+/*«ö…r‡Þ¦¡*/
 #list-view .control-container button, #list-view .addon-control.update {
  width: 16px !important;
  min-width: 16px !important;
@@ -302,7 +302,7 @@ background-image: url("chrome://mozapps/skin/extensions/stripes-warning.png"), -
 #list-view .list button:not(:active):hover {
  background-position: right center !important;
 }
-#list-view .addon-control.update .button-text, #list-view .control-container .button-text {/*ï’ˆè—æŒ‰ï…žæ–‡å­—*/
+#list-view .addon-control.update .button-text, #list-view .control-container .button-text {/*Š­ÂÃ«ö…r¤å¦r*/
  visibility: hidden !important;
  width: 0 !important;
 }
@@ -310,43 +310,43 @@ background-image: url("chrome://mozapps/skin/extensions/stripes-warning.png"), -
  -moz-margin-start: 0 !important;
  -moz-margin-end: 0 !important;
 }
-/*ç«‹å³æ›´æ–°æŒ‰ï…žï‹¢å¼*/
+/*¥ß§Y§ó·s«ö…r‡Þ¦¡*/
 #list-view .list button[class="addon-control update"] {
  padding-left:10px !important;
  background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADgSURBVEhL7ZVBCoMwFERzCMXjJhsPZTdCogZciBu9jp0BE9oY+92UdqEwCN+Z/OcPRqX+6WrbtnDODV3XPVIu1Buop+eMWWtdQAN0yBtjGqinJ5u31pZoPEMblZpCnZ4cRF3XJRaf0WSj0nyo03OASJsLAAScmQlN0uafAPiMEMxESIx2ZFPc1wsTWHbvGBbAguO+8CpNAM+X3RvzivsOTd77SgKgh174/AsA933CW1USAD30whfzb9slAUgfjQQg5dUNcE/gnsDPJ4BDxlKZn1G2nvpwyFjqal08F75teALYE7fUYWRInAAAAABJRU5ErkJggg==") !important;
 }
-/*ïŒ†ï‘æŒ‰ï…žï‹¢å¼*/
+/*ˆC‰q«ö…r‡Þ¦¡*/
 #list-view .list button[class="addon-control"] {
  background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHNSURBVEhLzZS9bsJQDIWRWomhEkMFZWbjWbr0kQAhWJiYmLvyAEhMiPAvMSRAeApmxMBPz4lsai4hYaqKZN3Exvc79vVNJvPff/P5PDcajTqw3Xg8PsKWsM9ndVcqlVy1Wu1g3cGOsCXsufzBYJAHzIddaBBxkvWM9StNBEB5mA8BF7ETV/jOtVotOd/zvILCAd5OJpNyr9fLwtcUQWGSgEajUVA41i2s3G63s1ibIuZxvoULzKePwG63+wLfgf5+v/8WJ8LCpWKfPs2HiAP9rVbrPl/ggVbJ6uU5YGw4HJbkGPY4oldXAEHYPNAqWb08B4zV6/WSiNojdptPAIArhc9msyIN76GKQHwtz99xcGy6UjiARRreQxWBdS3Pt/kuHGf+oQBHBAcynE6n71aAtP0Kh5BrviOCAxki/psvcK1sY+GEpMWl7VFl2Hhj4cxPi2fkbrOyWDj90va7OAG820lwinoUj7qo91wnXVvLTqTB+V+95zrpms9OpMKtAHumLtwVZ/+rAqzPhbvibgZYO+BUHk0+pz4JbjtgKzeTv06E2w6oEPPpXaXBrQDzyY0+vbySqXBugCq9GPjiGbgMoefC8b54Ch73Kf1L3w9QBnnWAmo2CQAAAABJRU5ErkJggg==") !important;
 }
-/*ï•ï…¯æŒ‰ï…žï‹¢å¼*/
+/*‰u…¥«ö…r‡Þ¦¡*/
 #list-view .list button[class="addon-control preferences"] {
  background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAG/SURBVEhLzVXNisJADO558bILPoHivpHgS7h7Ej1VFOk7iVqo1VMPpf68iyC63yeZEjozte5hWeFj0iRfkslMxiD4z7/tdrshfltjGIYbojE/TdNOlmVvhoDvO2G+aaOPL+B8Pu8gYcmfTqd3wvjTRh8nP0mSHoJfgRy77mNdmgIoiy4Xn89qEATvAVcgB/rA0hRAWXS0XWezmcUP4jhuIclZJX3s3oETfR0FtBD8bJLWrCf4WfxHPHRhwIQo5AJM8N0mKFNHG318R4CkA0l8wTpZLBZtgjJAHY/Eyw+QZC0FfFeTwDYW27qmgDWTYIcWH7qxFGDzETzRrd7v9x/VJNRpH3LU5Up0y5HM4lNX8Sn5AQLzV543gr8/K4AEVUCqg0dRZPEdBZT8MhdnXtr8VS0A+pHYvHPNmZdCLD5sIzke/7ugL+Futxuy7ewG5VcvIRIOuWt2g/LTS8jRwg6Pz8YQhRxqxvDYYAwPzjHkQ4TgN6CQTqxUMSvqaKMP9L6H6IbgBUcN60o9RJSpK4Cb8yHimaPlXb07U4C5D7TRxzeGCN7Vu3M8xXysvHwrLkdNj1vjPxVxRLKEeJX3p/4/XkpVH4AwlNkAAAAASUVORK5CYII=") !important;
 }
-/*ï‚ ç”¨æŒ‰ï…žï‹¢å¼*/
+/*„Q¥Î«ö…r‡Þ¦¡*/
 #list-view .list button[class="addon-control enable"] {
  width: 26px !important;
  min-width: 20px !important;
  background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAUCAYAAACTQC2+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE0SURBVEhL7ZRdTsJAEMd7CPFichJ4sJtgdoVYX/QufvB1CiNyACxI8VF2SVzKboeZChiVmi40vGiTeWm789uZ+c/f8/6fIjogeeVIcRZIzp4wtBIMXILOYDxijjrl2noneX56ouq1N928ATN8BojjNEw4AHqnGjUnqBL+lHJ+gaWQqyCx0RiyHjuJYHZ96QTD6pINTF6wEt52aifZkDXcjl+wsjMnGFWmePXYo37qzn1mJd8/6PadIwjnjHP3aHhmNMwNMqPQGUTiIpAGs8gNSuK5O0j484OAcE7qMK0Tfu9DDN1m7tbtLAaSXm55R3vImzZ3s7C/7JJ93XNh1xaB6iujBUndukULCiHR72mQHe1kQZzJHxb0CVuZqvD7CI5dDDX9l7MZnntAlTUyTbUI9/9bOZY9UkTyvIv1cgAAAABJRU5ErkJggg==") !important;
 }
-/*ç¦ç”¨æŒ‰ï…žï‹¢å¼*/
+/*¸T¥Î«ö…r‡Þ¦¡*/
 #list-view .list button[class="addon-control disable"] {
  width: 26px !important;
  min-width: 20px !important;
  background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAUCAYAAACTQC2+AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE4SURBVEhL7ZTNTsJAEMf7EMKL6YUsCfgAvAQkPIaRCAfTlgvyGoB4kQ/bhautIkJo+egw03RNJDbpEOwFNpn0sLv/X3fmP6Npl3WKDOQar1dCt6p5w+4L3fbwC5ygOxg9vFMmrT//KW/Iazww4wgXmxLuOg4M3lfgb4MwBo4H910Hiqb8Is1fsBCiWwEHUnqagvz0IW7RXqk1Qc0Idvs4zCAA6cnTRC+xPuIhCk6w8GXmOKtRPjkQOlvrurEvOdx46LlAddei4rGKPsQ6JF0j1yPtPoHY7vI2QVIObHYBgfy0QN+ppE4Y9vO/m6GuzEDWS8Xe1LlHNWx7CpMZo2HViBDm2w06cM7pqZ8RhHZfrndhjKIRVDAlah2MIAVTQxWBL1jANQdKZ4VhLTA6eL8SO1RPMf3PS2MPhFdAgtFb4l0AAAAASUVORK5CYII=") !important;
 }
-/*ç§»é™¤æŒ‰ï…žï‹¢å¼*/
+/*²¾°£«ö…r‡Þ¦¡*/
 #list-view .list button[class="addon-control remove"] {
  background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADlSURBVEhL7VQxDoMwEMvEr5h5FsnWLU9iAJQPMDJ1YII3UBslKApcSStV6gBSRMidz86hs1L/+PR9X7VtO3Zdt3Jxz7NcrcaYqq7rUWu9cnHPs1y8AukUyKP3M7cACKdAHomQ8SBpTgi3279ZTRAEkiYlzPje8byx+0KAiwS4DMLtd0Rrx291goCrNkt5ofAVXsy7BdwduDsAu118F0pplBAvvTUvaQ7Ga+GIwXJFPGN+DA94+oD9wIweJwJsrhnBqg94NQxDQRHoxCwJ8THL3FQAihYQYPGeJSE+xpwD/srAfhZ/AWDhJvIoQ1tpAAAAAElFTkSuQmCC") !important;
 }
-/*ï‘ˆæ˜¯æ¿€æ´»|ï‘ˆæ˜¯ç¦ç”¨æŒ‰ï…žï‹¢å¼*/
+/*ŠK¬O¿E¬¡|ŠK¬O¸T¥Î«ö…r‡Þ¦¡*/
 #list-view .addon-control.state {margin: 0 30px!important;}
-/*========ï‡‘ï‚¼é¢æ¿#detail-view========*/
-/*ï‡‘ï‚¼é¢æ¿æŒ‰ï…žï‹¢å¼*/
+/*========†H„m­±ªO#detail-view========*/
+/*†H„m­±ªO«ö…r‡Þ¦¡*/
 #detail-view #detail-controls button {
 }
-/*========æ›´æ–°é¢æ¿#updates-view========*/
-/*å®‰ï‡Žï•ä¸­çš„æ›´æ–°&ç«‹å³æ›´æ–°*/
+/*========§ó·s­±ªO#updates-view========*/
+/*¦w†E‰u¤¤ªº§ó·s&¥ß§Y§ó·s*/
 #updates-view #update-selected-btn {
  background: none !important;
  color:rgb(64, 64, 64) !important;
@@ -354,15 +354,15 @@ background-image: url("chrome://mozapps/skin/extensions/stripes-warning.png"), -
  border-radius: 0 !important;
  border:1px solid rgb(225, 225, 225) !important;
 }
-/*ï’ˆè—å…¼å®¹ï¢æŸ¥è­¦å‘Š*/
+/*Š­ÂÃ­Ý®e‰ä¬dÄµ§i*/
 .view-header.global-warning-container, .global-warning-container.global-warning, .addon.addon-view .warning {
  display:none !important;
 }
-/*ï’ˆè—ä½œè€…*/
+/*Š­ÂÃ§@ªÌ*/
 #search-list .creator, #addon-list .creator, #updates-list .creator {
  display: none !important;
 }
-/*ï…šåº¦ï‚¦*/
+/*…n«×„W*/
 .download-progress {
  background-image: none !important;
 }
@@ -379,22 +379,22 @@ progressmeter {
  border:1px solid rgb(245, 245, 245) !important;
  box-shadow:0 0 4px -1px #49F;
 }
-/*ï’ˆè—åº•éƒ¨ä¿¡æ¯*/
+/*Š­ÂÃ©³³¡«H®§*/
 #userstyle-footer {
  display:none !important;
 }
-/*ï’ˆè—æ°´å¹³ïˆºï‚€ï‚¦*/
+/*Š­ÂÃ¤ô¥­†Óƒð„W*/
 #view-port scrollbox {
  overflow-x:hidden!important
 }
-/*å¹²æŽ‰äº†æ¡†æž¶é‡Œçš„ä¸Šä¸‹ç®­ï± ä¸ç¡®å®šå½±ï—Œåˆ°å“ªï€ºéƒ¨åˆ† å…ˆç”¨î©çœ‹*/
+/*¤z±¼¤F®Ø¬[¨½ªº¤W¤U½b‰³ ¤£ÚÌ©w¼vŒ·¨ì­þƒª³¡¤À ¥ý¥Î•M¬Ý*/
 .spinbuttons-button.spinbuttons-up,.spinbuttons-button.spinbuttons-down{display: none !important;}
-/* å…¶ä»–-ï–§æ€§ï€´é¢-ï’žå¤§ï–§æ€§ï€´é¢å³ï•‚*/
+/* ¨ä¥L-Œp©Êƒ¤­±-ŠÃ¤jŒp©Êƒ¤­±¥k‹Ê*/
 #detail-view{margin-Right: 0px !important;}
 }
-/****************åªï±ïˆ¨å·¦ï¾ï–®,ä¸ï±ïˆ¨addonsï€´é¢*****************/
+/****************¥uƒá†Á¥ªƒîŒw,¤£ƒá†Áaddonsƒ¤­±*****************/
 @-moz-document url("chrome://mozapps/content/extensions/extensions.xul"){
-/************æ¢å¤é™„åŠ ï‚¾ä»¶ç‰ˆæœ¬ï‡Š************/
+/************«ìÎ`ªþ¥[„o¥óª©¥»†A************/
 #search-list .addon:not([type="userstyle"])[status="installed"] .name-container > spacer,
 #addon-list .addon:not([type="userstyle"])[status="installed"] .name-container > spacer {
 -moz-binding: url('data:application/xml,\
@@ -526,16 +526,16 @@ menuitem[command="cmd_resetAddonAutoUpdate"]
 menuitem[command="cmd_resetAddonAutoUpdate"]
 {list-style-image: url(chrome://mozapps/skin/plugins/contentPluginBlocked.png) !important;}
 
-/* ä¸Šä¸€ï€´ä¸‹ä¸€ï€´æŒ‰ï…žå·¦ç§» */
+/* ¤W¤@ƒ¤¤U¤@ƒ¤«ö…r¥ª²¾ */
 #nav-header {left: -20px;}
-/* ï‚ ï‚€åï‰–ï••åž‹æŒ‰ï…žï’ˆè— */
+/* „Qƒð¦W†ï‹Ý«¬«ö…rŠ­ÂÃ */
 #userstyle-sorting-status,
 #userstyle-sorting-name,
 #userstyle-sorting-type{
 display: none !important;}
-/* CSSïŒ†ï‘æŒ‰ï…žå³ç§» */ 
+/* CSSˆC‰q«ö…r¥k²¾ */ 
 #new-userstyle {margin-left: 30px !important;}
-/* å·¦ï¾èœïƒ¸è‡ªï‚€ï’ˆè— */
+/* ¥ªƒîµæ„Ë¦ÛƒðŠ­ÂÃ */
 @media all and (max-width: 37em) { /* (*) */
 #addons-page:not(.inSidebar) #categories{
 position: fixed !important;
@@ -559,7 +559,7 @@ margin: 0 !important;
 margin-left: 7px !important;}
 }
     
-/* ï–§æ€§ï€´é¢ï‘æ”¾ */
+/* Œp©Êƒ¤­±ŠD©ñ */
 #detail-notifications + hbox,
 #detail-desc-container,
 #detail-contributions > hbox{
@@ -572,9 +572,9 @@ overflow-x: hidden !important;}
 #detail-icon:not(#overrideOmniSidebar){}
 #detail-icon-container{float: left !important;}
     
-/* î»å®¹ä»‹ï‚¹ï’ˆè— */
+/* X®e¤¶„jŠ­ÂÃ */
 #detail-fulldesc{display: none !important;}
-/* ï–§æ€§ï€´é¢æŽ’ç‰ˆ */
+/* Œp©Êƒ¤­±±Æª© */
 #detail-grid > rows > row:-moz-any(.detail-row-complex:not([hidden]), .detail-row:not([hidden])[value]),
 #detail-updates-row > hbox > *{display: inline !important;}
 #detail-grid > rows > row:-moz-any(.detail-row-complex:not([hidden]), .detail-row:not([hidden])[value]) > label.detail-row-label{width: 100% !important;}

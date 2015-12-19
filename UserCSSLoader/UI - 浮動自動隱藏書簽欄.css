@@ -14,8 +14,8 @@
   /*background:-moz-linear-gradient(rgba(255,255,255,.9), rgba(102,204,255,.9)) !important;  位置，背景色*/
   /*-moz-transition: visibility .6s, opacity .6s ease-out !important;*/
   opacity: 0;
- -moz-transition:  1s ease-out !important;
- -moz-transition-delay: 1s!important;      /*设置多少秒bookmark消失*/
+ -moz-transition:  0.0s ease-out !important;
+ -moz-transition-delay: 0.5s!important;      /*设置多少秒bookmark消失*/
 }
 #nav-bar:hover~#PersonalToolbar,#PersonalToolbar:hover /*地址栏+标签栏为#navigator-toolbox:hover > */
 {

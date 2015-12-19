@@ -13,9 +13,12 @@
 (function() {
    if (location != 'chrome://browser/content/browser.xul')
       return;
-   const url = "about:home"
+   //const url = "about:home"
+   const url = "https://www.google.com.tw/"
    if (Number(gAppInfo.version.substring(0,2)) < 44)
       NewTabURL.override(url)
    else
       aboutNewTabService.newTabURL = url;
 })();
+
+
