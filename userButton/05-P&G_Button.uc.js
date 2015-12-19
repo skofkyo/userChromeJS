@@ -79,7 +79,7 @@
 				id: "searchClipboard-button",
 				class: "toolbarbutton-1 chromeclass-toolbar-additional",
 				label: "貼上就搜索",
-				tooltiptext: "左鍵：Google搜索剪貼簿文字如果是網址的話直接開啟\n中鍵：翻譯剪貼簿文字\n右鍵：Google站內搜索選取文字否則搜索剪貼簿文字",
+				tooltiptext: "左鍵：Google搜索剪貼簿文字如果是網址的話直接開啟\n中鍵：Google翻譯剪貼簿文字\n右鍵：Google站內搜索選取文字否則搜索剪貼簿文字",
 				removable: "true",
 				overflows: "false",
 				type: 'button',
@@ -104,26 +104,7 @@
 					openUILinkIn(url, 'tab');
 					break;
 				case 1:
-					var div = content.document.documentElement.appendChild(content.document.createElement("div"));
-
-					div.style.cssText = "position:absolute;\
-					z-index:1000;\
-					border:solid 3px hsla(220,65%,84%,1);\
-					border-radius: 5px;\
-					background-color:InfoBackground;color:InfoText;\
-					padding:5px;\
-					font-size: 10pt;\
-					color: black;\
-					left:" + +(event.clientX + content.scrollX) + 'px;top:' + +(event.clientY + content.scrollY) + "px";
-
-					var xmlhttp = new XMLHttpRequest;
-					xmlhttp.open("get", "http://translate.google.tw/translate_a/t?client=t&sl=en&tl=zh-TW&text=" + encodeURIComponent(readFromClipboard()), 0);
-					xmlhttp.send();
-					div.textContent = eval("(" + xmlhttp.responseText + ")")[0][0][0];
-					content.addEventListener("click", function() {
-						content.removeEventListener("click", arguments.callee, false);
-						div.parentNode.removeChild(div);
-					}, false);
+					openUILinkIn("https://translate.google.com.tw/?hl=zh-TW#auto|zh-TW|" + encodeURIComponent(readFromClipboard()), 'tab');
 					break;
 				case 2:
 					var selection = content.document.getSelection().toString();
