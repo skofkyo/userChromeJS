@@ -239,8 +239,10 @@ window.addMenu = {
         ins = $("devToolsSeparator");
         ins.parentNode.insertBefore($C("menuitem", {
             id: "addMenu-rebuild",
+            class: "menuitem-iconic",
             label: "AddMenuPlus",
             tooltiptext: "左鍵：重載配置\n右鍵：編輯配置",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABV0lEQVQ4jZ3OT0vCcBzH8e9JdvHqodsexh7AiIgfxKAY01hEpuV/Juwyhp2DICKykCIIIihJ0ccREUEEQRJhc074Ibv526en4PaB1/XDm1zXZa1Waz8J13UZOY5TQMI5jlMg27YLURSh3W5DCLG0KIpg23aBLMsqCiGwWCxiEULAsqwiHZ52B/legL3nKXa7E+w8/mH74RfZ+x/od9/YvP2Cdv2Jjc4H2OU71i/esHb+itWzF2SPbgZ0cPI0yPcCAIh9oLudAeWPH4ZJC7acqyGZplkKwxDz+TyWMAxhmmaJDMMoc87RaDQwnU6XxjmHYRhl0jStwjnHbDaLhXMOTdMqxBir9vt9JMEYq5KqqrUgCDCZTGIJggCqqtZIUZS653nQdR2j0WhpnudBUZQ6ybLc9H0f4/E4Ft/3IctykyRJyqXTaTsJSZJyREQpIsoQ0UpMGSJK/QP8ONQUf4hjuAAAAABJRU5ErkJggg==",
             oncommand: "setTimeout(function(){ addMenu.rebuild(true); }, 10);",
             onclick: "if (event.button == 2) { event.preventDefault(); addMenu.edit(addMenu.FILE); }",
         }), ins);
