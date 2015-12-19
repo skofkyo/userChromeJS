@@ -210,15 +210,21 @@ border: none !important;
 #identity-box:not(:hover) #identity-icon-labels {
 	display: none !important;
 }
-
+#notification-popup-box{
+background: none !important;
+max-width: 32px !important;
+margin-right: 0px !important; 
+}
+.notification-anchor-icon[showing="true"]{
+margin-left: -2px !important;
+}
 #identity-box,#notification-popup-box {
 	border-radius: 12px 0px 0px 12px !important;
 }
-
 #identity-box {
 	background: none !important;
 	border: none !important;
-	margin: 0 0 0 -6px !important;
+	margin: 0 -2px 0 -6px !important;
 }
 
 
