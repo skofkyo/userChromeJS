@@ -43,7 +43,7 @@ if (location == "chrome://browser/content/browser.xul") {
 			if (e.button == 1) {
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
 				for(var i = 0; i < tabCount; i++) {
-				  browser = gBrowser.getBrowserAtIndex(i);
+				  var browser = gBrowser.getBrowserAtIndex(i);
 				  if (browser.currentURI.spec == 'chrome://ublock0/content/logger-ui.html'){
 						tab = gBrowser.mTabs[i];
 						gBrowser.selectedTab = tab;
@@ -57,7 +57,7 @@ if (location == "chrome://browser/content/browser.xul") {
 				e.stopPropagation();
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
 				for(var i = 0; i < tabCount; i++) {
-				  browser = gBrowser.getBrowserAtIndex(i);
+				  var browser = gBrowser.getBrowserAtIndex(i);
 				  if (browser.currentURI.spec == 'chrome://ublock0/content/dashboard.html'){
 						tab = gBrowser.mTabs[i];
 						gBrowser.selectedTab = tab;
@@ -78,7 +78,7 @@ if (location == "chrome://browser/content/browser.xul") {
 			if (e.button == 1) {
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
 				for(var i = 0; i < tabCount; i++) {
-				  browser = gBrowser.getBrowserAtIndex(i);
+				  var browser = gBrowser.getBrowserAtIndex(i);
 				  if (browser.currentURI.spec == 'about:support'){
 						tab = gBrowser.mTabs[i];
 						gBrowser.selectedTab = tab;
@@ -92,7 +92,7 @@ if (location == "chrome://browser/content/browser.xul") {
 				e.stopPropagation();
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
 				for(var i = 0; i < tabCount; i++) {
-				  browser = gBrowser.getBrowserAtIndex(i);
+				  var browser = gBrowser.getBrowserAtIndex(i);
 				  if (browser.currentURI.spec == 'about:config'){
 						tab = gBrowser.mTabs[i];
 						gBrowser.selectedTab = tab;
