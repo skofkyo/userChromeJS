@@ -43,7 +43,7 @@ keys['F4'] = function() {
 keys['J+Ctrl'] = function() {
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
 				for(var i = 0; i < tabCount; i++) {
-				  browser = gBrowser.getBrowserAtIndex(i);
+				  var browser = gBrowser.getBrowserAtIndex(i);
 				  if (browser.currentURI.spec == 'about:downloads'){
 						tab = gBrowser.mTabs[i];
 						gBrowser.selectedTab = tab;
