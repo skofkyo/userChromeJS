@@ -1,0 +1,8 @@
+configs = {
+    TabsToolbar : [
+
+	],
+    urlbar : [
+
+	]
+};

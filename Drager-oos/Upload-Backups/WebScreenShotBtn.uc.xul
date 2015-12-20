@@ -1,0 +1,386 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay>
+<!--
+// ==UserScript==
+// @name WebScreenShotBtn.uc.xul
+// @namespace http://d.hatena.ne.jp/Griever
+// @include main
+// @version 0.0.2mix
+// ==/UserScript==
+-->
+
+<overlay id="ss_overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<toolbarpalette id="urlbar-icons">
+		<toolbarbutton id="WebScreenShotMenu-button"
+					   label="網頁截屏"
+					   tooltiptext="網頁截屏"
+					   image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB9UlEQVQ4jb3TP4gTQRQG8BEsLe4Kb9kJ7CTmz2azG5OMlw0mG2ZWMitkd2eT7O3lLAVBgp2FNsLlKgt7wd7GQixEtBGsRchV1sY7D8GDIBanGB2bJJeLaQ7BgV/xvvdN+QD4j+9MFEXnO50O4nwLUkrPnuo3pdG5Trj5LNyI9sONaBCGYRYAAIDnBbc4b/U5b/U9j29z3ur7frAzn3ke3/b94H4QtA+CoC04bx/5fuuRy3kPuK43dl1PTDWb7k/X9UfNpns0nx/vT8xjwJgjGHNEo8F+s4bzhrGrNxhjEWPsmuM4DxsN9m3aWQbY1BY2tYVN7Nf1uh0QQp8TQvcIoQNSJz1C7B2bXhnPeguAVasLq1b/Xq1a12vV2ovJPGF9sS5bUa1qDU7mx0ClXBGVcuWzecmMzHXzYDLPmOvmHbNsPlnMpwAuYlEqlEa4gLu4WHqPi1jMGeMCvokL+NVCPgPyuiHyuiGMbO5BXs/fNnL617xuCCOn/7qoG08NTesamn447S0CWloVWloVaiozUi+k7mqZzJaWVu9pqtrLJJPdbDL1btpZBiTjCTHnR0KJv00o6HECoZdJFD9c2P8FIBjbRTIcIhl+QDIcKjC2p8DYJwXG9hUIP07yZYYIxnaBJElr8oqM4OqqchryiowkSVr75xP9A1fHFcPR9XmeAAAAAElFTkSuQmCC"
+					   class="toolbarbutton-1"
+					   type="menu">
+			<menupopup id="WebScreenShotMenu">
+				<menuitem label="頁面所有區域截圖" oncommand="WebScreenShot.captureAll();"/>
+				<menuitem label="頁面所有區域截圖 (新分頁)" oncommand="WebScreenShotNewTab.fullCapture()"/>
+				<menuitem label="頁面可見區域截圖" oncommand="WebScreenShot.capturePage();"/>
+				<menuitem label="頁面可見區域截圖 (新分頁)" oncommand="WebScreenShotNewTab.pageCapture();"/>
+				<menuitem label="瀏覽器界面截圖" oncommand="WebScreenShot.captureBrower();"/>
+				<menuitem label="瀏覽器界面截圖 (新分頁)" oncommand="WebScreenShotNewTab.browserCapture();"/>
+				<menuitem label="選擇網頁區域" oncommand="WebScreenShotByClipping.init();"/>
+				<menuitem label="選擇網頁區域 (新分頁)" oncommand="WebScreenShotNewTab.init(); WebScreenShotNewTab.clippingCapture();"/>
+				<menuitem label="單擊捕獲元素" oncommand="WebScreenShotByClick.init();"/>
+				<menuitem label="單擊捕獲元素 (新分頁)" oncommand="WebScreenShotNewTab.init(); WebScreenShotNewTab.clickCapture();"/>
+			</menupopup>
+		</toolbarbutton>
+	</toolbarpalette>
+
+	<popup id="contentAreaContextMenu">
+		<menuitem id="WebScreenShotOnImage"
+				  label="將圖片在線編碼並複製"
+				  insertafter="context-copyimage"
+				  oncommand="WebScreenShotNewTab.imageCapture(gContextMenu.target);"/>
+	</popup>
+
+	<script type="application/x-javascript" xmlns="http://www.w3.org/1999/xhtml"><![CDATA[
+
+		document.getElementById('contentAreaContextMenu').addEventListener('popupshowing', function func(event) {
+			if (event.target != event.currentTarget) return;
+			document.getElementById('WebScreenShotOnImage').hidden = !gContextMenu.onImage && !gContextMenu.onCanvas;
+		}, false);
+
+		var WebScreenShot = {
+			capture : function(win, x, y, width, height, isCopy) {
+				var mainWindow = document.getElementById('main-window');
+				var scrollbox = document.createElement('scrollbox');
+				scrollbox.width = '1';
+				scrollbox.height = '1';
+				mainWindow.appendChild(scrollbox);
+				var canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
+				canvas.style.display = 'inline';
+				canvas.width = width;
+				canvas.height = height;
+				scrollbox.appendChild(canvas);
+
+				var ctx = canvas.getContext("2d");
+				ctx.clearRect(0, 0, width, height);
+				ctx.save();
+				ctx.scale(1.0, 1.0);
+				ctx.drawWindow(win, x, y, width, height, "rgb(255,255,255)");
+				ctx.restore();
+
+				saveImageURL(canvas.toDataURL(), "Capture_" + WebScreenShot.getDateTime() + ".png",  null, null, true, null, document);
+			},
+			capturePage: function() {
+				var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "canvas");
+				canvas.width = content.innerWidth;
+				canvas.height = content.innerHeight;
+				var ctx = canvas.getContext("2d");
+				ctx.drawWindow(content, content.pageXOffset, content.pageYOffset, canvas.width, canvas.height, "rgb(255,255,255)");
+				saveImageURL(canvas.toDataURL(), "CapturePage_" + WebScreenShot.getDateTime() + ".png",  null, null, true, null, document);
+			},
+			captureAll: function() {
+				var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "canvas");
+				canvas.width = content.document.documentElement.scrollWidth;
+				canvas.height = content.document.documentElement.scrollHeight;
+				var ctx = canvas.getContext("2d");
+				ctx.drawWindow(content, 0, 0, canvas.width, canvas.height, "rgb(255,255,255)");
+				saveImageURL(canvas.toDataURL(), "CaptureAll_" + WebScreenShot.getDateTime() + ".png",  null, null, true, null, document);
+			},
+			captureBrower: function() {
+				var canvas = document.createElementNS("http://www.w3.org/1999/xhtml", "canvas");
+				canvas.width = innerWidth;
+				canvas.height = innerHeight;
+				var ctx = canvas.getContext("2d");
+				ctx.drawWindow(window, 0, 0, canvas.width, canvas.height, "rgb(255,255,255)");
+				saveImageURL(canvas.toDataURL(), "CaptureBrower_" + WebScreenShot.getDateTime() + ".png",  null, null, true, null, document);
+			},
+			getDateTime: function() {
+				var now = new Date();
+				return now.toLocaleFormat("%Y.%m.%d_%H%M%S");
+			}
+		};
+
+		var WebScreenShotByClipping = {
+			capture : WebScreenShot.capture,
+			handleEvent : function(event) {
+				if (event.button != 0) return false;
+				event.preventDefault();
+				event.stopPropagation();
+				switch(event.type) {
+					case 'mousedown':
+						this.downX = event.pageX;
+						this.downY = event.pageY;
+						this.bs.left = this.downX + 'px';
+						this.bs.top  = this.downY + 'px';
+						this.body.appendChild(this.box);
+						this.flag = true;
+						break;
+					case 'mousemove':
+						if (!this.flag) return;
+						this.moveX = event.pageX;
+						this.moveY = event.pageY;
+						if (this.downX > this.moveX) this.bs.left = this.moveX + 'px';
+						if (this.downY > this.moveY) this.bs.top  = this.moveY + 'px';
+						this.bs.width  = Math.abs(this.moveX - this.downX) + 'px';
+						this.bs.height = Math.abs(this.moveY - this.downY) + 'px';
+						break;
+					case 'mouseup':
+						this.uninit();
+						break;
+				}
+			},
+			init : function() {
+				this.win = document.commandDispatcher.focusedWindow;
+				if (this.win == window) this.win = content;
+				this.doc = this.win.document;
+				this.body = this.doc.body;
+				if (!this.body instanceof HTMLBodyElement) {
+					alert("不能截圖"); //Cannot capture.
+					return false;
+				}
+				this.flag = null;
+				this.box = this.doc.createElement('div');
+				this.bs = this.box.style;
+				this.bs.border = '#0f0 dashed 2px';
+				this.bs.position = 'absolute';
+				this.bs.zIndex = '2147483647';
+				this.defaultCursor = getComputedStyle(this.body, '').cursor;
+				this.body.style.cursor = 'crosshair';
+				this.doc.addEventListener('mousedown', this, true);
+				this.doc.addEventListener('mousemove', this ,true);
+				this.doc.addEventListener('mouseup', this ,true);
+				this.doc.addEventListener('click', this, true);
+			},
+			uninit : function() {
+				var pos = [this.win, parseInt(this.bs.left), parseInt(this.bs.top), parseInt(this.bs.width), parseInt(this.bs.height)];
+				this.doc.removeEventListener('mousedown', this, true);
+				this.doc.removeEventListener('mousemove', this, true);
+				this.doc.removeEventListener('mouseup', this, true);
+				this.doc.removeEventListener('click', this, true);
+				this.body.style.cursor = this.defaultCursor;
+				this.body.removeChild(this.box);
+				this.capture.apply(this, pos);
+			},
+		};
+
+		var WebScreenShotByClick = {
+			capture : WebScreenShot.capture,
+			getPosition : function() {
+				var html = this.doc.documentElement;
+				var body = this.doc.body;
+				var rect = this.target.getBoundingClientRect();
+				return [
+					this.win
+					, Math.round(rect.left) + (body.scrollLeft || html.scrollLeft) - html.clientLeft
+					, Math.round(rect.top) + (body.scrollTop || html.scrollTop) - html.clientTop
+					, parseInt(rect.width)
+					, parseInt(rect.height)
+				];
+			},
+			highlight : function() {
+				this.orgStyle = this.target.hasAttribute('style')? this.target.style.cssText : false;
+				this.target.style.cssText += 'outline: red 2px solid; outline-offset: 2px; -moz-outline-radius: 2px;';
+			},
+			lowlight : function() {
+				if (this.orgStyle) this.target.style.cssText = this.orgStyle;
+				else this.target.removeAttribute('style'); 
+			},
+			handleEvent : function(event) {
+				switch(event.type) {
+					case 'click':
+						if (event.button != 0) return;
+						event.preventDefault();
+						event.stopPropagation();
+						this.lowlight();
+						var pos = this.getPosition();
+						this.capture.apply(this, pos);
+						this.uninit();
+						break;
+					case 'mouseover':
+						if (this.target) this.lowlight();
+						this.target = event.target;
+						this.highlight();
+						break;
+				}
+			},
+			init : function() {
+				this.win = content;
+				this.doc = content.document;
+				this.doc.addEventListener('mouseover', this, true);
+				this.doc.addEventListener('click', this, true);
+			},
+			uninit : function() {
+				this.doc.removeEventListener('mouseover', this, true);
+				this.doc.removeEventListener('click', this, true);
+			},
+		};
+
+		WebScreenShotNewTab = {
+			init: function() {
+				this.browser = gBrowser.mCurrentBrowser;
+				this.statusField = XULBrowserWindow.statusTextField;
+			},
+			handleEvent: function(event) {
+				switch(event.type) {
+					case 'mousedown':
+						this.browser.removeEventListener('mousedown', this, true);
+						this.x = event.screenX;
+						this.y = event.screenY;
+						this.innerTop = content.mozInnerScreenY;
+						this.innerLeft = content.mozInnerScreenX;
+						this.innerBottom = this.innerTop + content.innerHeight;
+						this.innerRight = this.innerLeft + content.innerWidth;
+						this.box.openPopupAtScreen(this.x, this.y);
+						this.browser.addEventListener('mousemove', this, true);
+						this.browser.addEventListener('mouseup', this, true);
+						break;
+					case 'mousemove':
+						var moveX = event.screenX;
+						var moveY = event.screenY;
+						if (moveX <= this.innerLeft) moveX = this.innerLeft;
+						else if (moveX >= this.innerRight) moveX = this.innerRight;
+						if (moveY <= this.innerTop) moveY = this.innerTop;
+						else if (moveY >= this.innerBottom) moveY = this.innerBottom;
+						if (this.x > moveX || this.y > moveY)
+						this.box.moveTo(this.x > moveX? moveX : this.x, this.y > moveY? moveY : this.y);
+						this.box.width = Math.abs(moveX - this.x);
+						this.box.height = Math.abs(moveY - this.y);
+						this.statusField.label = this.box.width + 'x' + this.box.height;
+						break;
+					case 'mouseup':
+						this.browser.removeEventListener('mousemove', this, true);
+						this.browser.removeEventListener('mouseup', this, true);
+						var borderWidth = Math.round( (this.box.boxObject.width - this.box.clientWidth) / 2);
+						var x = this.box.boxObject.screenX - content.mozInnerScreenX + content.scrollX + borderWidth;
+						var y = this.box.boxObject.screenY - content.mozInnerScreenY + content.scrollY + borderWidth;
+						var w = this.box.boxObject.width - borderWidth;
+						var h = this.box.boxObject.height - borderWidth;
+						this.capture(content, x, y, w, h);
+						this.box.removeEventListener('popuphiding', this, false);
+						this.box.parentNode.removeChild(this.box);
+						this.resetCursor();
+						break;
+					case 'mouseover':
+						this.target = event.target;
+						this.highlight();
+						this.relatedTarget = this.target;
+						this.statusField.label = this.target.offsetWidth + 'x' + this.target.offsetHeight;
+						break;
+					case 'click':
+						this.relatedTarget = this.target;
+						this.lowlight();
+						var win = this.target.ownerDocument.defaultView;
+						var rect = this.target.getBoundingClientRect();
+						this.capture(win, rect.left + win.scrollX, rect.top + win.scrollY, rect.width, rect.height, false);
+						this.browser.removeEventListener('mouseover', this, true);
+						this.browser.removeEventListener('click', this, true);
+						break;
+					case 'popuphiding':
+						break;
+				}
+				event.preventDefault();
+				event.stopPropagation();
+			},
+			highlight: function() {
+				if (this.relatedTarget)
+				this.lowlight();
+				this.defStyle = this.target.getAttribute('style');
+				this.target.style.setProperty('outline', '2px solid red', 'important');
+				this.target.style.setProperty('outline-offset', '1px', 'important');
+			},
+			lowlight: function() {
+				if (this.defStyle == null)
+				this.relatedTarget.removeAttribute('style');
+				else
+				this.relatedTarget.setAttribute('style', this.defStyle || '');
+			},
+			getWindowList: function() {
+				this.windowList = (function(win) {
+					var array = win.document.body instanceof HTMLFrameSetElement? []: [win];
+					for (var i = 0, l = win.frames.length; i < l; i++) {
+						array.push.apply(array, arguments.callee(win.frames[i]));
+					}
+					return array;
+				})(window.content);
+			},
+			setCursor: function() {
+				this.rootList = this.windowList.map(function(win) win.document.documentElement);
+				this.rootList.forEach(function(root) {
+					root.style.setProperty('cursor', 'crosshair', 'important');
+				});
+			},
+			resetCursor: function() {
+				this.rootList.forEach(function(root) {
+					if (root)
+					root.style.setProperty('cursor', '', '');
+				});
+			},
+			capture: function(win, x, y, w, h) {
+				var tab = gBrowser.addTab();
+				var browser = gBrowser.getBrowserForTab(tab);
+				browser.addEventListener('load', function(event) {
+					browser.removeEventListener('load', arguments.callee, true);
+					var doc = browser.contentDocument;
+					var canvas = doc.body.appendChild(doc.createElement('canvas'));
+					canvas.style.display = 'inline';
+					canvas.width = w;
+					canvas.height = h;
+					var ctx = canvas.getContext("2d");
+					ctx.drawWindow(win, x, y, x + w, y + h, "rgb(255,255,255)");
+					gBrowser.selectedTab = tab;
+				}, true);
+			},
+			imageCapture: function(img) {
+				var base64;
+				if (img instanceof HTMLCanvasElement) {
+					base64 = img.toDataURL("image/png");
+				} else {
+					var scrollbox = document.createElement('scrollbox');
+					scrollbox.hidden = true;
+					document.documentElement.appendChild(scrollbox);
+					var canvas = scrollbox.appendChild( document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas') );
+					canvas.style.display = 'inline';
+					canvas.width = img.width;
+					canvas.height = img.height;
+					var ctx = canvas.getContext('2d');
+					ctx.drawImage(img, 0, 0);
+					base64 = canvas.toDataURL("image/png");
+					scrollbox.parentNode.removeChild(scrollbox);
+				}
+				Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(base64);
+				alert('圖像 Base64 已複製'); //Copy is Base64 Code.
+			},
+			clickCapture: function() {
+				this.browser.addEventListener('mouseover', this, true);
+				this.browser.addEventListener('click', this, true);
+			},
+			clippingCapture: function() {
+				this.box = document.createElement('tooltip');
+				this.box.style.cssText = [
+				'-moz-appearance: none;',
+				'background-color: rgba(0, 0, 0, 0.05);',
+				'max-width: none;',
+				'padding: 0;',
+				'margin: 0;',
+				'border: 1px dashed #00FF00;',
+				'cursor: crosshair;'
+				].join(' ');
+				this.box.width = 1;
+				this.box.height = 1;
+				document.getElementById('mainPopupSet').appendChild(this.box);
+				this.browser.addEventListener('mousedown', this, true);
+				this.box.addEventListener('popuphiding', this, false);
+				this.getWindowList();
+				this.setCursor();
+			},
+			pageCapture: function() {
+				this.capture(content, content.scrollX, content.scrollY, content.innerWidth, content.innerHeight);
+			},
+			fullCapture: function() {
+				this.capture(content, 0, 0, content.innerWidth + content.scrollMaxX, content.innerHeight + content.scrollMaxY);
+			},
+			browserCapture: function() {
+				this.capture(window, 0, 0, window.innerWidth + window.scrollMaxX, window.innerHeight + window.scrollMaxY);
+			},
+		};
+
+	]]></script>
+</overlay>
