@@ -372,7 +372,7 @@
 			fstream.close();
 			return data;
 		}
-		//setTimeout(function() {
-		//	anobtn.reload(true);
-		//}, 100);
+		setTimeout(function() {
+			anobtn.reload(true);
+		}, 500);
 })();
