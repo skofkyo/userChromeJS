@@ -404,4 +404,8 @@
 		setTimeout(function() {
 			anobtn.reload2(true);
 		}, 500);
+<<<<<<< HEAD
 })();
+=======
+})();
+>>>>>>> origin/master

@@ -5,7 +5,19 @@
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
+<<<<<<< HEAD
 // @version              2015.12.21                
+=======
+// @version              2015.12.21
+// @startup        
+// @shutdown       
+// @config         
+// @homepageURL    
+// @ohomepageURL    
+// @reviewURL    
+// @downloadURL    
+// @note                   
+>>>>>>> origin/master
 // @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
