@@ -30,12 +30,12 @@
 (function(CSS) {
 	CustomizableUI.createWidget({
 		defaultArea: CustomizableUI.AREA_NAVBAR,
-		id: "anobtn",
+		id: "anoBtn_Icon",
 		type: 'custom',
 		onBuild: function(aDocument) {
 			var toolbarbutton = aDocument.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'toolbarbutton');
 			var props = {
-				id: "anobtn",
+				id: "anoBtn_Icon",
 				class: "toolbarbutton-1 chromeclass-toolbar-additional",
 				label: "Anobtn",
 				removable: "true",
@@ -129,7 +129,7 @@
 			this.Rebuild();
 			setTimeout(function() {
 				anoBtn.Rebuild();
-			}, 100); //again for webDeveloperMenu
+			}, 500); //again for webDeveloperMenu
 			this.style = addStyle(CSS);
 			window.addEventListener("unload", function() {
 				anoBtn.onDestroy();
@@ -150,7 +150,8 @@
 				for (var i = 0; i < this.anomenu.length; i++) {
 					var obj = this.anomenu[i];
 					if (obj.id && !obj.clone)
-						$("main-menubar").insertBefore($(obj.id), $("main-menubar").childNodes[7]);
+						//document.querySelector("#menu_ToolsPopup #" + obj.id).remove();
+						document.querySelector("#menu_ToolsPopup #" + obj.id).hidden=true;
 				}
 			}
 		},
@@ -164,8 +165,7 @@
 					return this.Rebuild(true);
 				else if (event.button == 2)
 					return this.EditFile();
-			} else if (event.target.id == 'anoBtn_Icon')
-				return $("anoBtn_Popup").showPopup();
+			}
 			return;
 		},
 
@@ -176,14 +176,7 @@
 			this.anobtnset = MenuDate.anobtnset;
 			this.RebuildPopup(true);
 			if (isAlert) this.alert('配置已經重新載入');
-		},
-		
-		Rebuild2: function(isAlert) {
-			var MenuDate = this.LoadFile(this.File);
-			if (!MenuDate) return;
-			this.anomenu = MenuDate.anomenu;
-			this.anobtnset = MenuDate.anobtnset;
-			this.RebuildPopup(true);
+			setTimeout(function() {anoBtn.RemoveByID();}, 1000);
 		},
 
 		RebuildPopup: function(isAlert) {
@@ -210,7 +203,7 @@
 					isTopMenuitem: true
 				}));
 			}
-			$("anobtn").appendChild(Popup);
+			$("anoBtn_Icon").appendChild(Popup);
 		},
 
 		BuildMenu: function(menuObj, i) {
@@ -923,7 +916,6 @@
 	}
 
 	anoBtn.init();
-	setTimeout(function() {window.anoBtn.Rebuild2(true);}, 500);
 	window.anoBtn = anoBtn;
 })('\
 #anoBtn_Icon dropmarker {\
