@@ -6,7 +6,7 @@
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.26
+// @version              2015.12.21
 // @startup        
 // @shutdown       
 // @config         
@@ -97,7 +97,7 @@
 						label: "線上圖片編輯",
 						tooltiptext: "線上圖片編輯",
 						image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABnklEQVQ4jWNgoABcv3tdjSyND14/kMys99kZk+O2l2TNu88sj/LPU/5q7Cn64e6zu3JEa7x69Srb9PUlk9O7zf+bBYr8X7NxYQzRml+9ui9RPtP5VOuakP/2MdL/q1ozpxOt+e7r62pZE40fzzmS9d8jVeG/f4L18atXr7IRpfnWk/MGGRP0Xi45U/TfL1v1v42f6r37r+5LEKX59KXDLtmT9N+uuFj23zdH5b+Rq+SrO3euqhCl+eHDh0rN3RU/8pvC/ntlKv7XcxT6cPXqBW2iNDMwMDAWVKS9ev/+/f+Kior/OsYKP06c2W9DrGaGhrbKrU+ePPlfVlb238rO/NfBo3udiNZ8aPOKlKXLFv9PS0v77+Bq9erBgweSRGl8+/Yt38Ys11PzfOX/W5to/s8vzF5HtK0MDAwMm6tiNp6eXf6/O8Tsf6Ku+CsGBgZGojXvXzw1vcaQ83+aFu9/b3HG/3O6mysvXLigffXqVZX79+9LvH37lg9vwqlNCFwbb6F+PVBN8O20ltrGI0eOWJw6dcoAZsC7d+/48RkAABBmw+1iCsQFAAAAAElFTkSuQmCC",
-						oncommand: 'gBrowser.selectedTab = gBrowser.addTab("http://apps.pixlr.com/editor/");',
+						oncommand: 'gBrowser.selectedTab = gBrowser.addTab("https://pixlr.com/editor/");',
 					}, {
 						label: "JavaScript壓縮",
 						tooltiptext: "JavaScript壓縮",
@@ -140,21 +140,75 @@
 		},
 		EncodeTool = {
 			Unicode: function() {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  var browser = gBrowser.getBrowserAtIndex(i);
+				  if (/^file.*html\/Unicode\.html/.test(browser.currentURI.spec)){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\Unicode.html");
 			},
 			JavaScriptBeautify: function() {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  var browser = gBrowser.getBrowserAtIndex(i);
+				  if (/^file.*html\/JavaScriptBeautify\.html/.test(browser.currentURI.spec)){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\JavaScriptBeautify.html");
 			},
 			CssBeautify: function() {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  var browser = gBrowser.getBrowserAtIndex(i);
+				  if (/^file.*html\/CssBeautify\.html/.test(browser.currentURI.spec)){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\CssBeautify.html");
 			},
 			FileEncodeToBase64URL: function() {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  var browser = gBrowser.getBrowserAtIndex(i);
+				  if (/^file.*html\/FileEncodeToBase64URL\.html/.test(browser.currentURI.spec)){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\FileEncodeToBase64URL.html");
 			},
 			Base64DecodeandEncode: function() {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  var browser = gBrowser.getBrowserAtIndex(i);
+				  if (/^file.*html\/Base64DecodeandEncode\.html/.test(browser.currentURI.spec)){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\Base64DecodeandEncode.html");
 			},
 			URLDE: function() {
+				var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				for(var i = 0; i < tabCount; i++) {
+				  var browser = gBrowser.getBrowserAtIndex(i);
+				  if (/^file.*html\/URLDE\.html/.test(browser.currentURI.spec)){
+						tab = gBrowser.mTabs[i];
+						gBrowser.selectedTab = tab;
+						return;
+				  }
+				}
 				gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\URLDE.html");
 			},
 			OpenHtmlFolder: function() {
