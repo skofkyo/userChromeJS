@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name WebScreenShot.uc.js
+// @description    截圖函數
 // @namespace http://d.hatena.ne.jp/Griever
 // @include main
 // @version 0.0.2Mod

@@ -1,20 +1,11 @@
 // ==UserScript==
 // @label                  Firefox-button-mod.uc.js
 // @description       火狐按鈕
-// @labelspace    
 // @author               skofkyo
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
 // @version              2014.12.26
-// @startup        
-// @shutdown       
-// @config         
-// @homepageURL    
-// @ohomepageURL    
-// @reviewURL    
-// @downloadURL    
-// @note                   
 // @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==

@@ -1,3 +1,15 @@
+// ==UserScript==
+// @name           setRelativeEditPath.uc.js
+// @description    指定相对路径文本编辑器
+// @author         ywzhaiqi
+// @include        main
+// @license        MIT License
+// @compatibility  Firefox 4+
+// @charset        UTF-8
+// @version        0.1
+// @homepageURL    
+// ==/UserScript==
+
 //指定相对路径文本编辑器
 location == 'chrome://browser/content/browser.xul' && (function(){
 

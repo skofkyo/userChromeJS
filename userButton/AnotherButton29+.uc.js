@@ -110,6 +110,35 @@
 			$("anobtn").appendChild(this.makepopup());
 			if (isAlert) this.alert('配置已經重新載入');
 		},
+		
+		reload2: function(isAlert) {
+			var aFile = this.file;
+			var data = loadFile(this.file);
+			if (!aFile || !aFile.exists() || !aFile.isFile() || !data) return this.alert('Load Error: 配置文件不存在');
+
+			var sandbox = new Cu.Sandbox(new XPCNativeWrapper(window));
+			sandbox.Components = Components;
+			sandbox.Cc = Cc;
+			sandbox.Ci = Ci;
+			sandbox.Cr = Cr;
+			sandbox.Cu = Cu;
+			sandbox.Services = Services;
+			sandbox.locale = Services.prefs.getCharPref("general.useragent.locale");
+
+			try {
+				Cu.evalInSandbox(data, sandbox, "1.8");
+			} catch (e) {
+				this.alert('Error: ' + e + '\n請重新檢查配置文件');
+				return;
+			}
+			try {
+				this.unint();
+			} catch (e) {}
+			this.anomenu = sandbox.anomenu;
+			this.anobtnset = sandbox.anobtnset;
+			$("anobtn").appendChild(this.makepopup());
+			//if (isAlert) this.alert('配置已經重新載入');
+		},
 
 		unint: function(real) {
 			for (var i = 0; i < this.anomenu.length; i++) {
@@ -372,7 +401,7 @@
 			fstream.close();
 			return data;
 		}
-		//setTimeout(function() {
-		//	anobtn.reload(true);
-		//}, 100);
+		setTimeout(function() {
+			anobtn.reload2(true);
+		}, 500);
 })();

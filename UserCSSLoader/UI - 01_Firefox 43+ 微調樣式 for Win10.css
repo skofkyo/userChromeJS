@@ -521,6 +521,8 @@ margin-bottom: -1px !important;}
 #urlbar-icons #statusbarZoomLevel {-moz-box-ordinal-group: 6 !important;}
 .autocomplete-history-dropmarker {-moz-box-ordinal-group: 7 !important;}
 
+[anonid="paste-and-go"] {-moz-box-ordinal-group: 0 !important;}
+
 #downloadbar-bar-wrbx {-moz-box-ordinal-group: 1 !important;}
 #downloadsbar-mn {-moz-box-ordinal-group: 2 !important;}
 #downloadbar-bar-clrbttn {-moz-box-ordinal-group: 3 !important;}

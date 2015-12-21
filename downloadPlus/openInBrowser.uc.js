@@ -1,4 +1,12 @@
 // ==UserScript==
+// @name           openInBrowser.uc.js
+// @description    用火狐打開那些彈出下載框的文件,相當於臨時的一次性的改變content-type
+// @author         紫雲飛
+// @include        main
+// @license        MIT License
+// @compatibility  Firefox 4+
+// @charset        UTF-8
+// @version        0.1
 // @include        chrome://browser/content/browser.xul
 // @include        chrome://browser/content/places/places.xul
 // @include        chrome://mozapps/content/downloads/unknownContentType.xul

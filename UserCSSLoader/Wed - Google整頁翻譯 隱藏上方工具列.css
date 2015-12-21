@@ -12,3 +12,7 @@ top: 0px!important;
 .community-promo
 {display:none !important;}
 }
+@-moz-document url-prefix("https://translate.google.com.tw/") {
+#t-new-user-c
+{display:none !important;}
+}

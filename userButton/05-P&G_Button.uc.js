@@ -1,20 +1,11 @@
 // ==UserScript==
 // @name                 P&G_Button.uc.js
 // @description       貼上就瀏覽&貼上就搜索
-// @namespace    
 // @author               skofkyo
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.26
-// @startup        
-// @shutdown       
-// @config         
-// @homepageURL    
-// @ohomepageURL    
-// @reviewURL    
-// @downloadURL    
-// @note                   
+// @version              2014.12.26                 
 // @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
@@ -98,9 +89,9 @@
 		onClick: function(event) {
 			switch (event.button) {
 				case 0:
-				let url = readFromClipboard();
-				if (!/^(https?:\/\/)?([\w\-]+\.)+\w+/.test(url))
-					url = 'https://www.google.com.tw/search?q='+ encodeURIComponent(url);
+					let url = readFromClipboard();
+					if (!/^(https?:\/\/)?([\w\-]+\.)+\w+/.test(url))
+						url = 'https://www.google.com.tw/search?q='+ encodeURIComponent(url);
 					openUILinkIn(url, 'tab');
 					break;
 				case 1:

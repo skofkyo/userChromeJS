@@ -44,7 +44,8 @@ keys['J+Ctrl'] = function() {
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
 				for(var i = 0; i < tabCount; i++) {
 				  var browser = gBrowser.getBrowserAtIndex(i);
-				  if (browser.currentURI.spec == 'about:downloads'){
+				  //if (browser.currentURI.spec == "about:downloads"){
+				  if (/about:downloads/.test(browser.currentURI.spec)){
 						tab = gBrowser.mTabs[i];
 						gBrowser.selectedTab = tab;
 						return;
@@ -52,8 +53,9 @@ keys['J+Ctrl'] = function() {
 				}
 				//gBrowser.selectedTab = gBrowser.addTab("about:downloads");
 				//openUILinkIn('about:downloads', 'tab');
-				gBrowser.loadOneTab("about:downloads", null, null, null, false, false);
+				//gBrowser.loadOneTab("about:downloads", null, null, null, false, false);
 				//loadOneTab( URL, referrerURI, charset, postData, loadInBackground, allowThirdPartyFixup )
+				openNewTabWith("about:downloads");
 			};
 //頁面尋找剪貼簿文字
 keys['F+Alt'] = function() {

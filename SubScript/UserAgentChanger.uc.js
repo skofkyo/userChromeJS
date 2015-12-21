@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name UserAgentChangeModLite.uc.js
 // @namespace http://www.sephiroth-j.de/mozilla/
+// @description    切換UA
 // @charset     utf-8
 // @note  modify by lastdream2013 at 20130616 mino fix
 // @note  modify by lastdream2013 at 20130409 sitelist : change SITELIST idx to Name

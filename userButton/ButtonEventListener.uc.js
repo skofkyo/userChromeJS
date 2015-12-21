@@ -1,7 +1,8 @@
 // ==UserScript==
-// @name            为工具栏图标增加点击功能
+// @label                  ButtonEventListener.uc.js
+// @description       為工具欄圖標增加點擊功能
 // @namespace       fixGMPM@zbinlin
-// @author          zbinlin
+// @author          zbinlin/skofkyo
 // @version         0.0.1
 // @compatibility  Firefox 29+
 // @charset              UTF-8

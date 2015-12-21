@@ -1,20 +1,11 @@
 // ==UserScript==
 // @name                  reStartButton.uc.js
 // @description    重新啟動按鈕
-// @namespace    
 // @author               skofkyo
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.26
-// @startup        
-// @shutdown       
-// @config         
-// @homepageURL    
-// @ohomepageURL    
-// @reviewURL    
-// @downloadURL    
-// @note                   
+// @version              2014.12.26              
 // @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==

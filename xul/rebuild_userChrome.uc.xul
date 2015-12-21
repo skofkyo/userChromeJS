@@ -704,12 +704,7 @@
   var userChromejsScriptOptionsMenu = {
     //あまり使わないメニューのリスト
     menues: [
-	'EncodeDecodeHtml',
-	'InspectElement-menuitem',
-	'toolsbar_KeyChanger_rebuild',
-	'RefererChanger',
-	'redirector-icon',
-	'ucjs_UserAgentChanger',
+	'',
     ],
 
     interval: 500, //0.5秒間隔
@@ -788,18 +783,6 @@
 								  oncommand="userChromejs.toggleUI(1);"/>
 					</menupopup>
 				</menu>
-				<menuitem label="userChrome.js"
-						  id="userChromejs-edit"
-						  tooltiptext="編輯userChrome.js"
-						  class="menuitem-iconic"
-						  onclick="if (event.button !== 0) {userChromejs.userChromejsEditor();}"
-						  oncommand="userChromejs.userChromejsEditor();"/>
-				<menuitem label="user.js"
-						  id="userChromejs-edit"
-						  tooltiptext="編輯user.js"
-						  class="menuitem-iconic"
-						  onclick="if (event.button !== 0) {userChromejs.userjsEditor();}"
-						  oncommand="userChromejs.userjsEditor();"/>
 				<menuseparator id="uc-menuseparator"/>
 			</menupopup>
 		</toolbarbutton>

@@ -18,10 +18,11 @@
 
 // ==UserScript==
 // @name           TabFocus.uc.js
+// @description    æ»‘é¼ åœç•™åˆ†é ä¸Šè‡ªå‹•é¸å–åˆ†é 
 // @startup        window.tab_hover.onLoad();
 // @shutdown       window.tab_hover.onUnload();
 // @version        2014.8.23
-// @note           ­×§ï¬°µL»İ­«±Òªº¤è¦¡
+// @note           ä¿®æ”¹ç‚ºç„¡éœ€é‡å•Ÿçš„æ–¹å¼
 // ==/UserScript==
 
 if (window.tab_hover) {
@@ -39,7 +40,7 @@ window.tab_hover = {
         gBrowser.tabContainer.addEventListener("mouseout", tab_hover.onMouseOut, false);
         gBrowser.tabContainer.addEventListener("mouseover", tab_hover.onMouseOver, false);
 
-        // ¥kÁäÂIÀ»«h¼È°± focus¡A¦ı¥Ñ©óÂIÀ»ªº¬ÛÀ³®É¶¡°İÃD¡A¥i¯à·|§ó²V¶Ã
+        // å³éµé»æ“Šå‰‡æš«åœ focusï¼Œä½†ç”±æ–¼é»æ“Šçš„ç›¸æ‡‰æ™‚é–“å•é¡Œï¼Œå¯èƒ½æœƒæ›´æ··äº‚
         // gBrowser.tabContainer.addEventListener("click", tab_hover.onMouseClicked, false);
     },
     onUnload: function() {

@@ -1,20 +1,11 @@
 // ==UserScript==
 // @name                 AutohidePopup.uc.js
 // @description       自動關閉右鍵選單
-// @namespace    
 // @author               skofkyo
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.03
-// @startup        
-// @shutdown       
-// @config         
-// @homepageURL    
-// @ohomepageURL    
-// @reviewURL    
-// @downloadURL    
-// @note                   
+// @version              2014.12.03              
 // @include              main
 // @include         chrome://browser/content/browser.xul
 // @include         chrome://browser/content/bookmarks/bookmarksPanel.xul

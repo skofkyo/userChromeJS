@@ -1,20 +1,11 @@
 // ==UserScript==
 // @name                 Homebutton.uc.js
 // @description       首頁按鈕
-// @namespace    
 // @author               skofkyo
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2014.12.26
-// @startup        
-// @shutdown       
-// @config         
-// @homepageURL    
-// @ohomepageURL    
-// @reviewURL    
-// @downloadURL    
-// @note                   
+// @version              2014.12.26             
 // @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
