@@ -2,37 +2,55 @@
  *此處為按鈕設置
  *************************************************************************************/
 var anobtnset = {
-	//※AnotherButton29+.uc.js按鈕寫於腳本內 不適用此處設定
-	//※必須設置	按鈕與哪個id相鄰，alltabs-button，back-button等
-	intags: "",
-	//※AnotherButton29+.uc.js按鈕寫於腳本內 不適用此處設定
-	//※必須設置	按鈕與目標id關系，之前（before）或者之後(after)
+	//※必須設置	按鈕位置，0為可移動，1為地址欄圖標，2為以前的自定義定位方式
+	Icon_Pos: 0,
+
+	//自定義定位方式：	按鈕與哪個id相鄰，alltabs-button，back-button等
+	intags: "tabbrowser-tabs",
+
+	//自定義定位方式：	按鈕與目標id關系，之前（before）或者之後(after)
 	orientation: "before",
-	//※AnotherButton29+.uc.js按鈕圖標寫於腳本內 不適用此處設定
-	//※必須設置	按鈕圖標
+
+	//按鈕圖標
 	image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABmElEQVRIic3Vz2ddURAH8I+IqqonKqqioiKLyiKqIqKqqqoi3iKL6qKriKguKp56qioekUVVFhEVVfef7eLMbY/z7i8N1S/jcmfm+z0zd+Zc/gMsYQs7hW1hdB3iFTzDBhYb/Dewiae4O5R0NZ47eNgTuxgxLzCLZyfWcRqBS/FuIcT2NFcxwj6+osIEtyJvDvsRNMVB2BRXmWATFrCNi8g/llo3h8MIKO207UQFlnEeOWcaKj5pEajwOSrq6/NmlrOeOzY6yGu7xKMege2sipe5o609tX3R/R1qvMpyDmVt6mpPhaMB5KXAhTRRnQI/cB/3BpAv43WR+7uCc80CPyNxCHb9GdUK33LntEWgCvEnWMNYmqgj3C4ExkXeJHfudQg0VXUgta7GzRDN48a5wEoP6VWU/wEPipOPoj2XRc5qEedjh8BMsTiBO+EryU8aYq1F+V2VfJLa+Rxv8b0lrnUh3/QIDLH3beSkuT2+BvlMtlxdIn1XR5NNzI9uJx5LV3Uf8Zn0U/pr1Av2Tpq0ibQHu+ZH9t/jF5XwjtYY3gV/AAAAAElFTkSuQmCC",
 
 	//菜單彈出方向，不設置就默認,參考 https://developer.mozilla.org/en-US/docs/XUL/PopupGuide/Positioning
 	position: "",
 };
+
 /**********************************************************************************
  *child:[  ]內為當前菜單的下一級菜單配置,支持多級
  *text 為運行參數，如果無需參數，直接刪除text屬性
- *exec 為打開路徑，可以是任意文件和文件夾，支持相對路徑，相對於配置文件夾；
- *相對路徑【文件夾】直接「\\」開頭
- *oncommand 可以用function(){}；
- *小書籤可以用oncommand:function(){
-	gBrowser.loadURI("javascript:內容")
- }；
- *-------------------------------
- *除了以上屬性外，可以自定義添加其他屬性，如果快捷鍵accesskey等
+ *這裡是菜單配置:
+ *配置與addmenu一樣，但僅支持本腳本菜單位置，具體請參照；https://github.com/ywzhaiqi/userChromeJS/tree/master/addmenuPlus
  *-------------------------------
  *{}, 為分隔條
  *-------------------------------
- *如果設置了id屬性，會嘗試獲取此id並移動，如果在瀏覽器中沒有找到此id，則創建此id
+ *目錄枚舉添加請注意：
+ *1、斜槓"/"或"\"開頭為相對配置文件夾，注意：Linux路徑區分大小寫！！！！
+ *2、根據文件名全名字符(包括擴展名)排除或篩選;
+ *3、關系為：先排除再枚舉。
+ *4、注意：配對模式為 test循環模式正則！！！注意正則全局"g"的使用！！test()繼承正則表達式的lastIndex屬性，表達式在匹配全局標志g的時候須注意。
+ *5、留空表示不進行該行為。
+ *6、在文件夾上左鍵點擊為打開文件夾
  *************************************************************************************/
-//下面添加菜單
 var anomenu = [
+{
+	label: "編輯userChrome.js",
+	text: "\\Chrome\\userChrome.js" , 
+	exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+},
+{
+	label: "編輯user.js",
+	text: "\\user.js" , 
+	exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+},
+{id: "ucjs_UserAgentChanger"},
+{id: "EncodeDecodeHtml"},
+{id: "InspectElement-menuitem"},
+{id: "toolsbar_KeyChanger_rebuild"},
+{id: "RefererChanger"},
+{id: "redirector-icon"},
 {
     label: "google 捷徑",
     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABWUlEQVQ4jaXTPUvDQBgH8HyzkiCVdlBcFD+CDgUn0bU5rUMRS6mD4BuCVgfFKmitCl0s+FKhvoEgVvsyWKuRS9JLcvm7tcplSHW44e6e5/c8x91JAaKFZJXWFELRzZBVWgsQLST9JfknInlt9ExRJLMMqSOG67ID7gLb5xbG100h1hNIFyzM51gbu61wnN7Znl14Al+GC7LTas9nMi20bPgHPnUXmatOxbE1E89v3D8wd8DAbGBiw0R/XMfupY3RJcM/oBCKkUUDiUMGF/h1HN+AQiiC0xSa4aL04mBgVvcPTKZNbBYspHIMy3mGJnXx+s4xmBARAVg4Ybh4ctAb66wNJXSUGxx7RfEqBaDa5EgdMSEwmWXIlnwA+Qcb5QbHcLLTbjBGcfboILLq4yX2xXVsFSzUP1zcVzmOb2zsF21EVsRkhVD89zPVJTmqhWWV1rsGVFqRo1r4G6iM33AbQTj+AAAAAElFTkSuQmCC",
@@ -150,11 +168,11 @@ var anomenu = [
 		},
 		{},
 		{
-			label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u5DE6\u534A\u90E8", //視窗占用螢幕左半部
+			label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u5DE6\u534A\u90E8", //視窗佔用螢幕左半部
 			oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(0, 0));",
 		},
 		{
-			label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u53F3\u534A\u90E8", //視窗占用螢幕右半部
+			label: "\u8996\u7A97\u5360\u7528\u87A2\u5E55\u53F3\u534A\u90E8", //視窗佔用螢幕右半部
 			oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(screen.availWidth / 1, 1));",
 		},
     ]
