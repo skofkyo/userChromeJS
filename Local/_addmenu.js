@@ -355,7 +355,7 @@ new function() {
     menu(items);
 
 };
-
+/*
 page({
             label: "輸入區：繁轉簡/簡轉繁",
             tooltiptext: "左鍵：繁轉簡\n右鍵：簡轉繁",
@@ -373,8 +373,8 @@ page({
                     if (!select) {var txt = focused.value}
                     else {var txt = getBrowserSelection();}
                     var xmlhttp = new XMLHttpRequest;
-                    
-                    xmlhttp.open("get", "http://translate.google.tw/translate_a/t?client=t" + urls[event.button] + txt, 0);
+                    //https://translate.google.com/translate_tts?client=t
+                    xmlhttp.open("get", "https://translate.google.com/translate_tts?client=t" + urls[event.button] + txt, 0);
                     xmlhttp.send();
                     for(var i = 0; i < xmlhttp.responseText.length; i++) {
                             var output = eval("(" + xmlhttp.responseText + ")")[0][i][0];
@@ -395,7 +395,7 @@ page({
             },
             condition:'input',
 });
-
+*/
 page({
     label: "下載腳本檔案鏈接到指定位置",
     tooltiptext: "下載鏈接到指定位置 (不彈窗)\nUC Script 下載到 chrome 資料夾\nUser Script 下載到 UserScriptLoader 資料夾\nUser Style 下載到 UserCSSLoader 資料夾\nJavaScript 下載到 local 資料夾\nExtension 下載到 xpi 資料夾",
@@ -403,9 +403,9 @@ page({
     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABCElEQVQ4jd2RsWoCURBFFwIJSUrFQuyUx8Luu+dCyAeIQmp/IB8k6bQx+UFLCxGirKZZQ7I+Y9Lmwq3ezJk787KsIUn3wMz21vah9haYSbpv1p+oLMs+sPzSfLB9AJZlWfYvAoBge9UE2F4B4b8CiqK4jjE+AENJz8A6ccR1/TYsiuJxMBjcfAJ6vd6tpCnwDuwT04+QfV3z0u12776lyPO8BSwa/9/0Fljked5KrnIB8nPzUSGEdgKyBRYhhHbq6hNJnTNJdrZ3qcmSOsAkAypJo1QSSVNJ09RkSSOgyoAqxjg+s9FV7RPFGMdAldneSHqVNPqtgSfbb7Y3GTC3vQGqP3hf98w/AHA+wuIFFjTgAAAAAElFTkSuQmCC",
     onshowing: function(menuitem) {
     var url = addMenu.convertText("%RLINK_OR_URL%");
-    var urlt = !/\.(js$|xul$|css$|xpi)/.test(url);
-    var urlt2 = /\/blob\/master\//i.test(url);
-    this.hidden = urlt2 || urlt;
+    var urls = !/\.(js$|xul$|css$|xpi)/.test(url);
+    var urls2 = /\/blob\/master\//i.test(url);
+    this.hidden = urls2 || urls;
     },
     onclick: function(e) {
         var url = addMenu.convertText("%RLINK_OR_URL%"),
@@ -454,8 +454,8 @@ execute([{
     condition: "nolink",
     onshowing: function(menuitem) {
         var url = addMenu.convertText("%RLINK_OR_URL%");
-        var urlt = !/^https?:\/\/www\.youtube\.com\/(watch|playlist)/i.test(url);
-        this.hidden = urlt;
+        var urls = !/^https?:\/\/www\.youtube\.com\/(watch|playlist)/i.test(url);
+        this.hidden = urls;
 		},
 	}, {
 		label: "Internet Explorer(頁面)",
@@ -495,19 +495,19 @@ execute([{
 		condition: "link",
 		onshowing: function(menuitem) {
 			var url = addMenu.convertText("%RLINK_OR_URL%");
-			var urlt = !/^https?:\/\/www\.youtube\.com\/watch/i.test(url);
-			var urlt9 = !/^https?:\/\/www\.youtube\.com\/playlis.*/i.test(url);
-			var urlt2 = !/(k|pl)\.youku\.com\/(player|playlist)\/(getFlvPath|m3u8)/i.test(url);
-			var urlt3 = !/newflv\.sohu\.ccgslb\.net\//i.test(url);
-			var urlt4 = !/sohu\.vodnew\.lxdns\.com\//i.test(url);
-			var urlt5 = !/data\.video\.qiyi\.com\/videos\//i.test(url);
-			var urlt6 = !/\/letv\-uts\//i.test(url);
-			var urlt7 = !/porn\.im\./i.test(url);
-			var urlt8 = !/cdn\.xvideos\.com\/videos\/mp4\//i.test(url);
+			var urls0 = !/^https?:\/\/www\.youtube\.com\/watch/i.test(url);
+			var urls1 = !/^https?:\/\/www\.youtube\.com\/playlis.*/i.test(url);
+			var urls2 = !/(k|pl)\.youku\.com\/(player|playlist)\/(getFlvPath|m3u8)/i.test(url);
+			var urls3 = !/newflv\.sohu\.ccgslb\.net\//i.test(url);
+			var urls4 = !/sohu\.vodnew\.lxdns\.com\//i.test(url);
+			var urls5 = !/data\.video\.qiyi\.com\/videos\//i.test(url);
+			var urls6 = !/\/letv\-uts\//i.test(url);
+			var urls7 = !/porn\.im\./i.test(url);
+			var urls8 = !/cdn\.xvideos\.com\/videos\/mp4\//i.test(url);
 			//http://data.video.qiyi.com/videos/v0/20141202/22/94/4ff27ef76d4de4b0a6e650ad791d4d89.f4v?key=1a5b6d22dd12b1e8&uuid=da5df8ed
 			//http://sohu.vodnew.lxdns.com/197/193/dDNusBtPTKKHaI82iqJkLH.mp4?key=hipEuDmEL5-cTPhAZi2WaDJdXLqLp84A
 			//http://sohu.vodnew.lxdns.com/86/151/FgfGcqS1SJOBNAzn8y4NSH.mp4?key=w3WfokfbjNPQlHASBBLXhVJhfRWObzdj
-			this.hidden = urlt && urlt2 && urlt3 && urlt4 && urlt5 && urlt6 && urlt7 && urlt8 && urlt9;
+			this.hidden = urls0 && urls1 && urls2 && urls3 && urls4 && urls5 && urls6 && urls7 && urls8;
 		},
 	}, {
 		label: "Internet Explorer(鏈結)",
@@ -574,13 +574,13 @@ page({
 		condition: "nolink",
 		onshowing: function(menuitem) {
 			var url = addMenu.convertText("%RLINK_OR_URL%");
-			var urlt1 = !/tv\.sohu\.com\/(.*)\.shtml/.test(url);
-			var urlt2 = !/tv\.sohu\.com\/s(.*)\/(.*)\//.test(url);
-			var urlt3 = !/v\.youku\.com\/v\_show\/(.*)\.html/i.test(url);
-			var urlt4 = !/www\.iqiyi\.com\/(a|v)\_(.*)\.html/.test(url);
-			var urlt5 = !/www\.tudou\.com\/albumplay\/(.*)\.html/.test(url);
-			var urlt6 = !/(www|comic)\.letv\.com\/(comic|ptv|zt|izt)\/(.*)\.(html|shtml)/.test(url);
-			this.hidden = urlt1 && urlt2 && urlt3 && urlt4 && urlt5 && urlt6;
+			var urls1 = !/tv\.sohu\.com\/(.*)\.shtml/.test(url);
+			var urls2 = !/tv\.sohu\.com\/s(.*)\/(.*)\//.test(url);
+			var urls3 = !/v\.youku\.com\/v\_show\/(.*)\.html/i.test(url);
+			var urls4 = !/www\.iqiyi\.com\/(a|v)\_(.*)\.html/.test(url);
+			var urls5 = !/www\.tudou\.com\/albumplay\/(.*)\.html/.test(url);
+			var urls6 = !/(www|comic)\.letv\.com\/(comic|ptv|zt|izt)\/(.*)\.(html|shtml)/.test(url);
+			this.hidden = urls1 && urls2 && urls3 && urls4 && urls5 && urls6;
 		},
 })
 page({
@@ -593,13 +593,13 @@ page({
 		condition: "link",
 		onshowing: function(menuitem) {
 			var url = addMenu.convertText("%RLINK_OR_URL%");
-			var urlt1 = !/tv\.sohu\.com\/(.*)\.shtml/.test(url);
-			var urlt2 = !/v\.youku\.com\/v\_show\/(.*)\.html/i.test(url);
-			var urlt3 = !/www\.iqiyi\.com\/(a|v)\_(.*)\.html/.test(url);
-			var urlt4 = !/www\.tudou\.com\/albumplay\/(.*)\.html/.test(url);
-			var urlt5 = !/(www|comic)\.letv\.com\/(comic|ptv|zt|izt)\/(.*)\.(html|shtml)/.test(url);
+			var urls1 = !/tv\.sohu\.com\/(.*)\.shtml/.test(url);
+			var urls2 = !/v\.youku\.com\/v\_show\/(.*)\.html/i.test(url);
+			var urls3 = !/www\.iqiyi\.com\/(a|v)\_(.*)\.html/.test(url);
+			var urls4 = !/www\.tudou\.com\/albumplay\/(.*)\.html/.test(url);
+			var urls5 = !/(www|comic)\.letv\.com\/(comic|ptv|zt|izt)\/(.*)\.(html|shtml)/.test(url);
 			//http://www.letv.com/ptv/vplay/20802658.html
-			this.hidden = urlt1 && urlt2 && urlt3 && urlt4 && urlt5;
+			this.hidden = urls1 && urls2 && urls3 && urls4 && urls5;
 		},
 })
 
@@ -675,6 +675,7 @@ page({
 tab({
         label: "按標題重排所有標簽頁",
         tooltiptext: "按標題重排，同域名靠近",
+        image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACH0lEQVQ4jZXTzWoaURQH8IOrLPIMpbvmAbpIwJeID5JVP8giZJBhEBcZgotggl2FlgRpITSiaEONMyaisRJ11EwmH+M4Tk3QODN3XP67qA2xFUkvXO7q/7vnwDkUjW5xmXQKeVl6vJl0CpHIpkBEc0Tko1knk07B8xgc28ag34c9HIK5DjTtEqFwaIOI5mcieVmCY9uIRrfifv/Scmxne6/b7YIxFxfqBYSQIM5E8rKEwaAPv39pmYheBQKBxbpSgzfy4LgOGq0meGEGkpcl2PYQsZ3tvUAgsBjf3492zA6Yx+AyFw/2EDVFAcfz05FMOgXGXFiWCUWpwjRNOK4DlzE4rotqvY5rXcdJuYz14BQkEtkUNO0SHmMYjbzxrw+46/fxLfsdxUoFB8kkzmoKjuQ81rjgP8hcOBzaUBp19O576N3fwfxpwbAsKKqKg2QSJ+Uf+JxIoHBeRVqSsMpxE4iPiOaFUEgslIq4NQwYlgW928W1aeK81cKXRAK54hniXw9RajQR2/0IInpBv+eEHhFeEES5UICm67g2TWhGB6phoKw0ED9MoKJqSGZzWHn7PkZEC+MqaALheF7Mnp6ieXMDtd1BS2+jcdtGRdWQOpaw8ubdByJ6/XcFE8g6z4tHch61qys0bnVULjUkj3NPwy9nDZePiObXuKCYlmSUlOZ/hSeQVY4TY7uf/vT87PAEMu51Yfw+O/wUmRsHp672LyxdnN6ef1H/AAAAAElFTkSuQmCC",
         oncommand: function() {
             //var len = gBrowser.mPanelContainer.childNodes.length;
             //for (var i = 0; i < len; i++) {
