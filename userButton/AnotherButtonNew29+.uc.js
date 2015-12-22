@@ -138,7 +138,6 @@
 
 		onDestroy: function() {
 			this.RemoveByID();
-			this.RebuildBtn();
 			this.RebuildPopup();
 			if ($("anoBtn_set"))
 				$("anoBtn_set").parentNode.removeChild($("anoBtn_set"));
