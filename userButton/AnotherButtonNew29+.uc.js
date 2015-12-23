@@ -137,20 +137,30 @@
 		},
 
 		onDestroy: function() {
-			this.RemoveByID();
+			//this.RemoveByID();
 			this.RebuildPopup();
 			if ($("anoBtn_set"))
 				$("anoBtn_set").parentNode.removeChild($("anoBtn_set"));
 			Services.obs.notifyObservers(null, "startupcache-invalidate", "");
 		},
 
-		RemoveByID: function() {
+		HiddenID: function() {
 			if (this.anomenu) {
 				for (var i = 0; i < this.anomenu.length; i++) {
 					var obj = this.anomenu[i];
 					if (obj.id && !obj.clone)
 						//document.querySelector("#menu_ToolsPopup #" + obj.id).remove();
 						document.querySelector("#menu_ToolsPopup #" + obj.id).hidden=true;
+				}
+			}
+		},
+		
+		ShowID: function() {
+			if (this.anomenu) {
+				for (var i = 0; i < this.anomenu.length; i++) {
+					var obj = this.anomenu[i];
+					if (obj.id && !obj.clone)
+						document.querySelector("#anoBtn_Popup #" + obj.id).hidden=false;
 				}
 			}
 		},
@@ -175,7 +185,8 @@
 			this.anobtnset = MenuDate.anobtnset;
 			this.RebuildPopup(true);
 			if (isAlert) this.alert('配置已經重新載入');
-			setTimeout(function() {anoBtn.RemoveByID();}, 1000);
+			setTimeout(function() {anoBtn.HiddenID();}, 500);
+			setTimeout(function() {anoBtn.ShowID();}, 500);
 		},
 
 		RebuildPopup: function(isAlert) {
