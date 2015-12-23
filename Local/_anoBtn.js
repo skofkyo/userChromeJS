@@ -36,22 +36,6 @@ var anobtnset = {
  *************************************************************************************/
 var anomenu = [
 {
-	label: "編輯userChrome.js",
-	text: "\\Chrome\\userChrome.js" , 
-	exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
-},
-{
-	label: "編輯user.js",
-	text: "\\user.js" , 
-	exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
-},
-{id: "ucjs_UserAgentChanger"},
-{id: "EncodeDecodeHtml"},
-{id: "InspectElement-menuitem"},
-{id: "toolsbar_KeyChanger_rebuild"},
-{id: "RefererChanger"},
-{id: "redirector-icon"},
-{
     label: "google 捷徑",
     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABWUlEQVQ4jaXTPUvDQBgH8HyzkiCVdlBcFD+CDgUn0bU5rUMRS6mD4BuCVgfFKmitCl0s+FKhvoEgVvsyWKuRS9JLcvm7tcplSHW44e6e5/c8x91JAaKFZJXWFELRzZBVWgsQLST9JfknInlt9ExRJLMMqSOG67ID7gLb5xbG100h1hNIFyzM51gbu61wnN7Znl14Al+GC7LTas9nMi20bPgHPnUXmatOxbE1E89v3D8wd8DAbGBiw0R/XMfupY3RJcM/oBCKkUUDiUMGF/h1HN+AQiiC0xSa4aL04mBgVvcPTKZNbBYspHIMy3mGJnXx+s4xmBARAVg4Ybh4ctAb66wNJXSUGxx7RfEqBaDa5EgdMSEwmWXIlnwA+Qcb5QbHcLLTbjBGcfboILLq4yX2xXVsFSzUP1zcVzmOb2zsF21EVsRkhVD89zPVJTmqhWWV1rsGVFqRo1r4G6iM33AbQTj+AAAAAElFTkSuQmCC",
     child: [
@@ -93,6 +77,24 @@ var anomenu = [
         },
     ]
 },
+{
+	label: "編輯userChrome.js",
+	text: "\\Chrome\\userChrome.js" , 
+	exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+},
+{
+	label: "編輯user.js",
+	text: "\\user.js" , 
+	exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+},
+{id: "ucjsMouseGestures"},
+{id: "ucjsSuperDrag"},
+{id: "ucjs_UserAgentChanger"},
+{id: "EncodeDecodeHtml"},
+{id: "InspectElement-menuitem"},
+{id: "toolsbar_KeyChanger_rebuild"},
+{id: "RefererChanger"},
+{id: "redirector-icon"},
 {
     label: "系統資料夾",
     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB5ElEQVQ4jXWSvW4TQRSFv7XXxhYRKEg4SFgoUigoqRASBUU6XoMnoKBEPAEdz0ALJaKhQNDwIyJKRBAiQog4cbx2vDuz94di7Y03gStNMaN7vjln7iQsKhw8d4nfcXVMBDcHTzBT3BRbrCS9QH/9FmuDuwlAugRI3KV78Tqtzm3y8QvC8SHj8YRrN7Zpd7qc9M0Y/3hX71usVtLG5D3nL9/n0uZDUjvi684bwmyEu2IaSEiQYv8/gOUtxUugjWqJxMB47wtWFlg5R8tjzK3urSPgpzGKSombYCqVUAOmAbd/AMy1PjQT3ApUSswipi0kZrhUgNXeOsKSaiaYRExnqAquEdeIhgwJGVJktNsp+9+eedOBSi3WMuDsVmcaME2QIsO0wCSQpsbk9+umAzOtxVIWzI8+VACJmEQkTJAwReKU7vBx7bjhYCmWmCMxx1TwpYM4xTViWlaR3ZsAVWmIJeSVK424ttDouFVTqQB2KoJIQywxx8wwXYxSckwK3IQHHydnAdWnORFrWYA7uOAm9c0Ao9G8jrACkIZYy6Ix3tV6OnxEpzdovkG3v0U2+oyqgSc12+ih9AjeA3fcnW5/wPrVbeAJyWn6wc9XfvjrLZM/nwi2wZXNewy37tw8t7axc8YK8BeuuK2XrQ1BowAAAABJRU5ErkJggg==",
