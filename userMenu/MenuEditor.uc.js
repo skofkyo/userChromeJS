@@ -5,7 +5,7 @@
 // @charset               UTF-8
 // @compatibility     Firefox 4.0+
 // @author                skofkyo
-// @version              20141114
+// @version              20151225
 // @include              chrome://browser/content/browser.xul
 // @include              chrome://browser/content/web-panels.xul
 // ==/UserScript==
@@ -67,17 +67,17 @@
 		/*播放視訊檔案*/\
 		#context-viewvideo,\
 		/*複製視訊檔案網址*/\
-		#context-copyvideourl,\
+		/*#context-copyvideourl,*/\
 		/*複製音訊檔案網址*/\
-		#context-copyaudiourl,\
+		/*#context-copyaudiourl,*/\
 		/*郵寄圖片…*/\
 		#context-sendimage,\
 		/*設為桌布…*/\
-		#context-setDesktopBackground,\
+		/*#context-setDesktopBackground,*/\
 		/*另存視訊檔案…*/\
-		#context-savevideo,\
+		/*#context-savevideo,*/\
 		/*另存音訊檔案…*/\
-		#context-saveaudio,\
+		/*#context-saveaudio,*/\
 		/*另存快照為…*/\
 		#context-video-saveimage,\
 		/*郵寄視訊…*/\
