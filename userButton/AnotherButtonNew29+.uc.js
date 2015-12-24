@@ -169,11 +169,10 @@
 			if (event.target != event.currentTarget) return;
 			event.stopPropagation();
 			event.preventDefault();
-			if (event.target.id == 'anoBtn_set' || event.target.id == 'anoBtn_set2') {
-				if (event.button == 0)
-					return this.Rebuild(true);
-				else if (event.button == 2)
-					return this.EditFile();
+			if (event.button == 0) {
+				return this.Rebuild(true);
+			} else if (event.button == 2) {
+				return this.EditFile();
 			}
 			return;
 		},
