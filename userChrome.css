@@ -1,5 +1,8 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
+/* 設置不顯示菜單欄的情況下，按下 alt 鍵時不會激活菜單欄。 */
+#toolbar-menubar[autohide="true"] {display:none !Important;}
+
 /* Firefox 40+ giant icons fix*/
 #nav-bar toolbarbutton[cui-areatype="toolbar"] > :-moz-any(#zoom-out-button, #zoom-reset-button, #zoom-in-button, #cut-button, #copy-button, #paste-button) > .toolbarbutton-icon, #nav-bar :-moz-any(#back-button, #forward-button, #home-button, #print-button, #downloads-button, #bookmarks-menu-button, #new-tab-button, #new-window-button, #fullscreen-button, #sync-button, #feed-button, #tabview-button, #social-share-button, #open-file-button, #find-button, #developer-button, #preferences-button, #privatebrowsing-button, #save-page-button, #switch-to-metro-button, #add-ons-button, #history-panelmenu, #nav-bar-overflow-button, #PanelUI-menu-button, #characterencoding-button, #email-link-button, #sidebar-button, #zoom-out-button, #zoom-reset-button, #zoom-in-button, #cut-button, #copy-button, #paste-button, #e10s-button, #panic-button, #web-apps-button, #webide-button, #loop-button, #pocket-button):-moz-any([cui-areatype="toolbar"], :not([cui-areatype])) > .toolbarbutton-icon, #nav-bar :-moz-any(#back-button, #forward-button, #home-button, #print-button, #downloads-button, #bookmarks-menu-button, #new-tab-button, #new-window-button, #fullscreen-button, #sync-button, #feed-button, #tabview-button, #social-share-button, #open-file-button, #find-button, #developer-button, #preferences-button, #privatebrowsing-button, #save-page-button, #switch-to-metro-button, #add-ons-button, #history-panelmenu, #nav-bar-overflow-button, #PanelUI-menu-button, #characterencoding-button, #email-link-button, #sidebar-button, #zoom-out-button, #zoom-reset-button, #zoom-in-button, #cut-button, #copy-button, #paste-button, #e10s-button, #panic-button, #web-apps-button, #webide-button, #loop-button, #pocket-button):-moz-any([cui-areatype="toolbar"], :not([cui-areatype])) > .toolbarbutton-menubutton-button > .toolbarbutton-icon, #nav-bar #bookmarks-menu-button[cui-areatype="toolbar"] > .toolbarbutton-menubutton-dropmarker > .dropmarker-icon {
 		width: unset !important;
@@ -100,6 +103,7 @@ border: none !important;
 	border: none !important;
 	margin: 0 -5px 0 -8px !important;
 }
+
 #PanelUI-menu-button>*,
 #ublock0-button>*{
 	border:none !important;
@@ -193,7 +197,7 @@ border: none !important;
 	box-shadow: 1px 0px 0px ,-1px 0px 0px !important;
 }
 
-/*?藏后退按?*/
+/*前進後退按鈕*/
 #urlbar ::-moz-placeholder,
 #appcontent statuspanel[type*="status"],
 #back-button,#forward-button {

@@ -32,7 +32,8 @@
 		'anonid=historydropmarker',
 		'#pocket-button',
 		'areatype=menu-panel',
-		'#alltabs-button'
+		'#alltabs-button',
+		'eom-button'
 	]; //'id=abp-toolbarbutton'
 
     var popupPos = ['after_start', 'end_before',

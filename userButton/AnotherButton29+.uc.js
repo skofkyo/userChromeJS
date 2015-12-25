@@ -80,6 +80,7 @@
 			}), ins);
 
 			this.reload();
+			setTimeout(function() {window.anobtn.reload2(true);}, 500);//無提示再加載一次 避免部分元素未移動到
 		},
 
 		reload: function(isAlert) {
@@ -401,11 +402,4 @@
 			fstream.close();
 			return data;
 		}
-		setTimeout(function() {
-			anobtn.reload2(true);
-		}, 500);
-<<<<<<< HEAD
 })();
-=======
-})();
->>>>>>> origin/master

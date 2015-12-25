@@ -21,7 +21,7 @@ SITE_LIST =[
 {url : "http:\/\/[a-zA-Z0-9]*\\.z\\.qq\\.com/",Name : "iPhone"},
 {url : "https?://www\\.icbc\\.com\\.cn/",Name : "Fox10.0"}, 
 {url : "https?://(?:mybank1?|b2c1)\\.icbc\\.com\\.cn/",Name : "Fox10.0"},
-{url : "http:\/\/www\.lightnovel\.*mobile.*",Name : "Android Droid"},
+{url : ".*forum\.php.*mobile\=(1|2|yes).*",Name : "Android Droid"},
 {url : "https:\/\/m\.youtube\.com\/*",Name : "Android Droid"},
 ],
 

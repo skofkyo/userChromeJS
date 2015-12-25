@@ -36,6 +36,9 @@ margin-right: -2px !important;}
 .menu-right > image {margin-right: -10px !important;}
 
 /* ::::::::::::::::::::::::::::::::::::::::::::::::::::修正選單文字位置與留白::::::::::::::::::::::::::::::::::::::::::::::::: */
+:not(menu) .menu-iconic-text{
+    padding-right:6px !important;
+}
 /*
 :not(menu) .menu-iconic-text{
     padding-right:6px !important;

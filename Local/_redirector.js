@@ -14,12 +14,6 @@ rules = [
 		regex: true
 	},
 	{
-		name: "wap百度手機版轉PC版",
-		from: /^https?:\/\/(.*)\.baidu\.com\/wap\/(link|shareview)/i,
-		to: "http://$1.baidu.com/share/link",
-		regex: true
-	},
-	{
 		name: "hdwallpapers直接連結圖片",
 		from: /^http:\/\/www\.hdwallpapers\.in\/(.*)-wallpapers\.html/i,
 		to: "http://www.hdwallpapers.in/download/$1-1920x1200.jpg",
@@ -99,11 +93,39 @@ rules = [
     to: "$1_b$3",
     regex: true
     },
-{
-name: "优酷收费视频 >> 脱裤视频",
-from: /^(http:\/\/v\.youku\.com\/v_show\/*)/i,
-to: "http://goapi.sturgeon.mopaas.com/player.php?url=$1",
-state: true,
-regex: true,
-}
+	//{
+	//name: "优酷收费视频 >> 脱裤视频",
+	//from: /^(http:\/\/v\.youku\.com\/v_show\/*)/i,
+	//to: "http://goapi.sturgeon.mopaas.com/player.php?url=$1",
+	//state: true,
+	//regex: true,
+	//},
+	//百度系
+	{
+	//百度云盘分享页，手机版 重定向至 电脑版
+	//詳細說明：http://bbs.kafan.cn/thread-1814510-1-1.html
+	//example: http://pan.baidu.com/wap/link?uk=1429459134&shareid=2632372014&third=4
+	name: "百度盤wap/link >> share/link",
+	from: /^https?:\/\/(pan|yun)\.baidu\.com\/(wap\/link)(.*)/i,
+	to: 'http://pan.baidu.com/share/link$3',
+	regex: true
+	},
+	{
+	//百度云盘分享页，手机版 重定向至 电脑版
+	//詳細說明：http://bbs.kafan.cn/thread-1814510-1-1.html
+	//example: http://pan.baidu.com/wap/album/file?uk=2469870276&album_id=8356718462803856700&fsid=1135635585
+	name: "百度盤wap/album/file >> pcloud/album/file",
+	from: /^https?:\/\/(pan|yun)\.baidu\.com\/wap\/album\/file(.*)/i,
+	to: 'http://pan.baidu.com/pcloud/album/file$2',
+	regex: true
+	},
+	{
+	//百度云盘分享页，手机版 重定向至 电脑版
+	//詳細說明：http://bbs.kafan.cn/thread-1814510-1-1.html
+	//example: http://pan.baidu.com/wap/share/home?uk=3008368389&third=4
+	name: "百度盤wap/share/home >> share/home",
+	from: /^https?:\/\/(pan|yun)\.baidu\.com\/wap\/share\/(home\?|)(.*)/i,
+	to: 'http://pan.baidu.com/share/home?$3',
+	regex: true
+	},
 ];

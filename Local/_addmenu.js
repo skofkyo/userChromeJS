@@ -66,7 +66,6 @@ page({
         position: 9999
 })
 
-
 new function() {
     var items = [{
             label: "Google",
@@ -79,6 +78,22 @@ new function() {
                         break;
                     case 2:
                         loadURI('https://www.google.com/search?q=site:' + content.location.host + ' ' + encodeURIComponent(getBrowserSelection()));
+                        break;
+                }
+            },
+        }, {
+            label: "Google庫存頁面搜索",
+            tooltiptext: "左鍵：庫存搜索當前頁面\n右鍵：庫存搜索剪貼簿網址",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAKlBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKE86IAAAADXRSTlMADfPbvlJNPuuEILMzPXScigAAAEhJREFUCNdjQAW8IILNSRvCmBwow3v3LlDAECrFEgBlMAmA5KEMRgWoFKsDA0SxcAJEu6hRAcRAlfR2mBUVBVAGexdMaAHCAQDU2wqQMtL8zwAAAABJRU5ErkJggg==",
+            onclick: function(e) {
+                switch (e.button) {
+                    case 0:
+                        loadURI("https://webcache.googleusercontent.com/search?q=cache:" + content.location.href);
+                        break;
+                    case 2:
+                    var url = readFromClipboard();
+					if (/^(https?:\/\/)?([\w\-]+\.)+\w+/.test(url))
+                        gBrowser.selectedTab = gBrowser.addTab("https://webcache.googleusercontent.com/search?q=cache:" + url);
                         break;
                 }
             },

@@ -548,6 +548,8 @@ menuitem[label="切換成完整模式"][oncommand="_dlbar_modeToggle();"]
 #secureLoginHelpContextItem,
 #secureLoginHelpToolsMenuItem
 {list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACQUlEQVR42q2Sy28SURjFBzo8hhl2tQku3RnX/R/cGlzYgIuCZdJ2BsqjlGiMBhNWJrrswrgxmpgYEx9t04SUR6EdobQDFMqzUNrGpNZUbBPRAp/3ljgTTHXVm5zcmXt+58zN5COIC1+20CA9Fg4wXDLDODKtM3FJkbGF/dj7b5YaWzIy/MY3vacCem8NaRv009Xejs4Yfr2JmfPDliUj7djs6mcaQHsq7Ss+MWmazYWsz/Khq/dFgXYWOnpvHTCD2f706Pwlmks1GRRmfHtgmNnKwl/r6eJOnHaXATOYJW4vDkl5rSXo17lKQKMw7dsFylnoXn+yFb7siIn33pSjuKDT6XZpu9jEPma11mBAvj67Iuo8NdB5d3ua3gGduwoUn4XhB8IyLjhotr5qufSpztsAzGrZ1YxUoBlPtChPHSgUlIQK6InE/uejH4e4YPjh2jLlLPY8xGrGkz+lAhUrtDSubdC4a7LQ11/E9hI47HqZj6i5NEgM2lHmWC6whkX1VBHUrqqsyQ04bXfauEDDxg/6fPSsskbSUgFp/uhXTaZBNVWWhd4NfDRl4CMp1YSIzkp9Hmmak38icePt0IA12iT5PJCOEpD2IgzYPp08nqvEZ4N1gWSFI9Je6HmIwSzO9M/CyHuj4s5KV8nlQMnnwOASUn9m4NrdREzJbQL2MIPZ82f51oebxGjou4JdA4U1dvw83Ei8Xt1PKS3RLwo2Cdj7d1i6yatBYuRdAE1aljDP/yLMCyeEaWEdnT068y56/QZP5476fQoi3AAAAABJRU5ErkJggg==) !important;}
+menuitem[label="Generate a random password"] > label {display:none !important;}
+menuitem[label="Generate a random password"]:after {content:"隨機生成密碼" !Important;margin-left:2px!important}
 /*================其他圖示================*/
 
 #uSuper_preloader-search

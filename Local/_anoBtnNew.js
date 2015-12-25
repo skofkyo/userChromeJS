@@ -2,6 +2,8 @@
  *此處為按鈕設置
  *************************************************************************************/
 var anobtnset = {
+	//※※※※※※※※※※ AnotherButtonNew29+.uc.js修改版 按鈕設置寫死於主腳本 此按鈕設置完全無效!!! ※※※※※※※※※※
+
 	//※必須設置	按鈕位置，0為可移動，1為地址欄圖標，2為以前的自定義定位方式
 	Icon_Pos: 0,
 
@@ -77,6 +79,80 @@ var anomenu = [
         },
     ]
 },
+{
+	label: 'WIN10程式集',
+	MapFolder: 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs',
+	Filter: /\.(exe|lnk|bat|xls|xlsx|txt|doc|docx|jpg|wps|js|html|xul)$/i,
+	Exclude: /\.(dat|reg|sample|config|db|log|dll|json|zip|rar|ini)$|7za\.exe|UpdataS\.bat|wget\.exe/i,
+	Directories: 5,
+	FilterDirs: "", //枚举目录
+	ExcludeDirs: /tmp|temp|ConFile|msdll/i,
+	image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAbklEQVQ4je3TXwqAIAzAYe+VsP32pvc/QuQx7KmIAm39eYkGwz3IB24zhCdDRBIwmVn1JDCJSFqhK8gWW6HeZVWN+3Opzayehnr5HqSq8eyAmk/zTvuHPgV59ggYDtDNT1u2UAbKBWgEsrclzZgBLQgC98zNgUMAAAAASUVORK5CYII=",
+	child: []
+}, 
+/*
+{
+	label: '外部程序',
+	//枚举文件夹内的所有文件，当做可执行文件加入菜单，斜杠"/"或"\"开头为相对配置文件夹，注意：Linux路径区分大小写！！！！
+	MapFolder: '/chrome',
+	//枚举的文件，需要注意:此处不使用"g"全局模式，可以匹配所有文件,
+	Filter: /\.(exe|lnk|bat|xls|xlsx|txt|doc|docx|jpg|wps|js|html|xul|jsonlz4|sqlite|xpi)$/i,
+	//排除文件
+	Exclude: /\.(dat|reg|sample|config|db|log|dll|json|zip|rar|ini)$|7za\.exe|UpdataS\.bat|wget\.exe/i,
+	//是否枚举子目录内的文件，值代表子目录深度，多少级的子目录，0为根目录（即不枚举子目录）
+	Directories: 5,
+	//枚举目录,仅当Dirs>1时生效。
+	FilterDirs: "", //枚举目录
+	//枚举目录,仅当Dirs>1时生效。留空表示不进行该行为。
+	ExcludeDirs: /tmp|temp|ConFile|msdll/i,
+	//菜单图标
+	image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAbklEQVQ4je3TXwqAIAzAYe+VsP32pvc/QuQx7KmIAm39eYkGwz3IB24zhCdDRBIwmVn1JDCJSFqhK8gWW6HeZVWN+3Opzayehnr5HqSq8eyAmk/zTvuHPgV59ggYDtDNT1u2UAbKBWgEsrclzZgBLQgC98zNgUMAAAAASUVORK5CYII=",
+	child: [ //没有目录级数限制，文件夹枚举和原有菜单移动在子菜单也适用
+		{
+			label: "IE打开",
+			image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABSklEQVQ4jZXTv2sUQRwF8E88UYlg5WEhiqWIhREbIWVqOwkRUh6oqU/E/0KREBBUsJBwVmn9gXokXFJJCiN4pWKnp4lYnJ4W+x0Yhj1yLjwWZua977z3dpnsaaKF1xjgFzZweRzhEM5hAbfRDdIL3Ij1+1itI5/HQ3zBH/wNjPAO13E0hrRL8hw+ZKQ6DPEobF0qJ7/fh5zjLk4l8kE8KA58w+PwfAtv8Tvb/475JHAWn7LNPdzEMRzGEZxBpxiylgSuFuo/0cN6hi52Isx0bjcJtP/DewlNvCkW+3HdZwU6NdAKz3nnmzgZtzsQmMLxSD7hBLzCS2xnAiM8VVU7HWFeiSz6+BjvO/AVS5H6sLDyWVXfFn7U2JwRiV+LSU8mDG6AxdRAD/fQiECXo55x5H6QG0lgNhJu4yJOq/6255nQSPWhreBCBAr+AcklnGDMJaPHAAAAAElFTkSuQmCC",
+			tooltiptext: "左键：IE打开当前页\r\n中键：打开 Internet Explorer\r\n右键：IE隐私打开当前页",
+			//显示条件
+			condition: "nolink",
+			//自添加属性
+			onclick: function(e) {
+				var Path = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
+				switch (e.button) {
+					case 0:
+						addMenu.exec(Path, addMenu.convertText("%u"));
+						break;
+					case 1:
+						addMenu.exec(Path, "");
+						break;
+					case 2:
+						e.preventDefault();
+						addMenu.exec(Path, " -private " + addMenu.convertText("%u"));
+						break;
+				}
+			}
+		}, {
+			label: "测试配置1",
+			text: "-no-remote -profile ProfileTest",
+			exec: Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + "\\..\\firefox.exe",
+		}, {
+			label: "测试配置2",
+			text: "-no-remote -profile ProfileTest",
+			exec: "\\..\\firefox.exe",
+		}, {
+			label: "配置文件夹",
+			exec: Services.dirsvc.get("ProfD", Ci.nsILocalFile).path,
+		}, {}, // 分隔条
+		{
+			label: " 启动 Internet Explorer",
+			exec: "C:\\Program Files\\Internet Explorer\\iexplore.exe"
+		}, {
+			label: " Internet Explorer 打开此页",
+			text: "%u",
+			exec: "C:\\Program Files\\Internet Explorer\\iexplore.exe"
+		},
+	]
+}, 
+*/
 {
 	label: "編輯userChrome.js",
 	text: "\\Chrome\\userChrome.js" , 
@@ -275,9 +351,9 @@ var anomenu = [
 },
 {},
 {
+    //id: "anoBtn_set",
     label: "AnotherButton重載/編輯",
     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABO0lEQVRIib2WYbGDMBCEKwEJSNj5zkClIAEJOKgEJCChEpCAhEro+5N04Eho0r5yM/yBy+3tsrnkcqkMYJF0rV1XHWb2NLMnMEpq/q2wpAbozGwyszkCBbAH0H0NAgzAY10889wltZ+waH33BUCqBilkEaXrnQq3InYpJsAC9IFpfD95MwBj+DYfggBDAmTjrpy9g1nW64acZI2XDBhTeZkmRy9rMjdYeCNXzT4JjS6uRrdLTFDv9+WOA+id9FMKaGOCT/aFM0vaFN4EtSDFdc4EOk26c8xwmr1LN2zMPRg/xxs2JPsRtKMu6boeQ6HB0a3Lj6AY0RSejaRm/R+BDugzk/54qIaCLXBzTHMFk0dHtWMlyczuJQCRyTcn7VugcAAO1QA+wv/w0s1mNgHdL25DL3f9/G7n7V0af9jEflS+F9XNAAAAAElFTkSuQmCC",
     tooltiptext: "左鍵：重載 ；右鍵：編輯",
-    oncommand: "setTimeout(function(){ anobtn.reload(true); }, 10);",
-    onclick: "if (event.button == 2) { event.preventDefault(); closeMenus(event.currentTarget);anobtn.edit(anobtn.file); };",
+    onclick: "anoBtn.BtnClick(event);",
 } ]

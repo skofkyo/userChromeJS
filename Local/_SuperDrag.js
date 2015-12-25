@@ -39,10 +39,19 @@ GESTURES = {
 	link: {
 		U: {
 			//複製鏈結文字[向上]
-			name: "複製鏈結文字",
+			name: "鏈結為youtube則用PotPlayer開啟否則複製鏈結文字",
 			cmd: function(event) {
 				var edglink = event.dataTransfer.getData("text/x-moz-url").replace(/[\n\r]+/, "\n").split("\n");
-				Cc['@mozilla.org/widget/clipboardhelper;1'].createInstance(Ci.nsIClipboardHelper).copyString(edglink[1]);
+				if (/https?:\/\/www\.youtube\.com\/(watch|playlis)/i.test(edglink)){
+					var editor = "C:\\Program Files\\DAUM\\PotPlayer\\PotPlayerMini64.exe";
+					var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);
+					file.initWithPath(editor);
+					var process = Components.classes['@mozilla.org/process/util;1'].createInstance(Components.interfaces.nsIProcess);
+					process.init(file);
+					process.run(false, [edglink[0]], 1);
+				} else {
+					Cc['@mozilla.org/widget/clipboardhelper;1'].createInstance(Ci.nsIClipboardHelper).copyString(edglink[1]);
+				}
 			}
 		},
 		D: {

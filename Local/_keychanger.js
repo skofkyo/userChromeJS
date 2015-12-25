@@ -40,6 +40,10 @@ keys['u'] = function() {
 keys['F4'] = function() {
 				gBrowser.removeCurrentTab();
 			};
+//測試
+keys['T+Ctrl'] = function() {
+				document.querySelector('[label="Generate a random password"]').setAttribute("label", "編碼工具");
+			};
 keys['J+Ctrl'] = function() {
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
 				for(var i = 0; i < tabCount; i++) {
@@ -52,10 +56,10 @@ keys['J+Ctrl'] = function() {
 				  }
 				}
 				//gBrowser.selectedTab = gBrowser.addTab("about:downloads");
-				//openUILinkIn('about:downloads', 'tab');
+				openUILinkIn('about:downloads', 'tab');
 				//gBrowser.loadOneTab("about:downloads", null, null, null, false, false);
 				//loadOneTab( URL, referrerURI, charset, postData, loadInBackground, allowThirdPartyFixup )
-				openNewTabWith("about:downloads");
+				//openNewTabWith("about:downloads");
 			};
 //頁面尋找剪貼簿文字
 keys['F+Alt'] = function() {
