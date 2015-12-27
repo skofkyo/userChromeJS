@@ -816,7 +816,7 @@ menu[id="viewSidebarMenuMenu"]
 
 #menu_historySidebar
 {list-style-image: url(chrome://browser/skin/Toolbar.png) !important;
--moz-image-region: rect(0, 126px, 18px, 108px) !important;}
+-moz-image-region: rect(0, 180px, 18px, 162px) !important;}
 
 menu[id="viewFullZoomMenu"], menuitem[label="Inspect"], #cmRestorePoint-viewFullZoomMenu,
 #menu_pageinspect

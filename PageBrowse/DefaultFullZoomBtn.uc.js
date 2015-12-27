@@ -895,10 +895,10 @@ var fullZoomBtn = {
 		if (FullZoomConfig.showIconBtn){
 			if (ZoomManager.useFullZoom) {
 				src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAItSURBVDhPlZBPTJJhHMffOQ+tQ4cOXW2NteahjXHzwuaJA6fWBgdWJ6st45A6VhAuy4wGCQN0lthQlEkmhGERjEwCnJo2Xhy4JeLMaUj+iRoyfPn2Ml73+qpz+dl+e/Y8z+/zPXyJ/fS/811wf/qqGvk8M2gfDQ2ael0qRXP7eeb7eN4HZ1X+SCL/IRyHJxjHsD+KnuEgnpgG8vVKnYpeqShvHoF7bFrtm4hjZj6D5BqFVLqIBfqMpXbQNxrDfZ0NNxVtamadywu756JzbLYQS27RIrCcAZbWmaHviR+76HgTRaPGUrhyvf4So7FYnYFHnvEoVjbK0sIaG7AXNh7LoaXTjRtNbRpGYzH1e94GJhJIb7Piwfm2WITRHoL8QbuX0VgeGgZGPn6JYuvP0XJpyCXA4pxCU6vJRyvcMhsed2hsrgD+7gC5PFfM/KZPuoe55SJ6nBEoWo1mRmO5Jm++fO+5lVpNb4CigMIuNyD5E5hMbOPlaz8lq7tTw2hc5Gq9Qds9hPVfmygWgXwByOaA1U0gtpiFwzuFp+Y+D71aWTYOIBQKK28rtWalvpdy+cKYJr9jkkzBR5fr8IapxhYj2Wl1Fa5KJE6ZTHaO0Q5RIam7W6N81tWl6x4KGW3uiN7isNxqUNYSVVWnLK+sK1KpFGKxmDwuZI9S05y2aanWYDBkTxJyiP0hIpGIFAgEp5mv/6cUotVqs3Rvczwe7wzzfDL4fD6vurr6LEEQxD/MoaXb0IcUsQAAAABJRU5ErkJggg==";
-				tooltiptext = "FullZoom: " + label + "%";
+				tooltiptext = "完整縮放: " + label + "%";
 			} else {
 				src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJzSURBVDhPlZBdTJJRHMaZ86J10UUX3doaa82LNsedNzAvmmtubbUmF6xusloZLT+yCeHUzChAiw/DxEIxFU0UQzOITERJTYuPQZuKZs5CEokKGb48vejbkGwuf9vZ2Tnn/3vevQ9tKy3PjYf0r9/xe99Mtrf1WdtlTd38krKag9TzzvRbpvimt57IixE3DBY3ukx2NHZZcFvRFsnnifnkSMrm5D/QD04IjDY3Jj/6MfuFwJwvhhlyd86tobnPiVKxBhdKqgXUeDL1rYbDPYNTUefsKikCC35AYwyixRTAPHn2fF6H4pkd14Wq6Mmz+UcoLYFaZ640DNmxuALML4P8MlCk+IRSpXcjLH435Ayjok6P88XVQkpLIGsx9JhtHviCQJs5iMonizh14wNOFNpwTTyJ+q4ZvPfGIG21giuoGaC0BOUPnva+HLZj9Qeg7vejWDaN41dHcOzSK5wrt+BekwuOeUClG0dxldxIKsllFt5SCDXdZvxcA8IR4Be5uMIxFIhs8H8nf4HswbUQQ6NuFCVVUjmlJTjDLTvKk6iJJd8KCAKIrgMPtS4oO1wbAbNfgTFPEI86TAQn70ompSXDFdTeFzV0YvlbALEYEIkCoTCwFACc3hC0A+O4I282kKOpm8ZfMJnM1Ms8kfxmbRPRbRzBhGMaY445GMlytQM2oqhC6qhr1kdP57J1HA7nAKVtIyU3ryCTd1epFDd0WmUa/WitSqu6WMjLoqWl7VE9Vi+y2Wzk5OQ4dgr5Q7zppLZJKUsqlYZ2E7KNrSHZ2dkOBoOxl3r6f+IhEokkxGKxXHQ6fR91vTsyMjLo6enp+2k0Gu03BsOUvNQISWAAAAAASUVORK5CYII=";
-				tooltiptext = "TextZoom: " + label + "%";
+				tooltiptext = "文字縮放: " + label + "%";
 			}
 			statusbarZoomLevel.setAttribute("tooltiptext", tooltiptext);
 			statusbarZoomLevel.setAttribute("class", "toolbarbutton-1 chromeclass-toolbar-additional");
