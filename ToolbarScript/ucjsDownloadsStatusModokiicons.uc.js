@@ -19,6 +19,7 @@
 // @version        2013/12/16 18:31 fix pref name
 // @version        2013/12/16 18:30
 // @note
+// @include        chrome://browser/content/downloads/contentAreaDownloadsView.xul
 // ==/UserScript== 
 var ucjsDownloadsStatusModoki = {
   _summary: null,
@@ -193,8 +194,8 @@ var ucjsDownloadsStatusModoki = {
       } \
  \
       richlistitem { \
-        min-width:200px; \
-        max-width:200px; \
+        min-width:100px; \
+        max-width:400px; \
         max-height:33px; \
         font-size: 13px; \
       } \

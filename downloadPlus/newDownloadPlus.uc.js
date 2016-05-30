@@ -48,7 +48,7 @@
 				ins.parentNode.insertBefore($C("menuitem", {
 					id: "downloadPlus_set",
 					label: "downloadPlus 設定",
-					image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA5UlEQVQ4jbXSPUsDQRSF4QeCGMOqhVoIRhsFEaKYwsrSj4Bik2Bhr1gEEiKC2lloKVgIFvb+DP+axezCEDKLG/CFaebOOWcu9/LPrOICtzivKt7GJ7rYwRm+UCsTneAGh3iaUF/BR0rcwx1aGJSE9HA8frmFl7KvRRyMB2zgDbN/NKjjHs+YgXcsJx4vYiFR62BI6DtFVxhjikd4EMZU1WANr7AkzPcKu2jnJ4sMsui+jSNhR9YLtxpO0c/7GuYJhUETo6h2mQcnmcd+ZLCHRplgEpv4FmY+qiouuMbPtGKYExYnyS8eXhtFDKkDqgAAAABJRU5ErkJggg==",
+					image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAa0lEQVR42mNgwAGcnJyOAPF/KD7MQCpA0gzGowYQaQAotNE1YsGHKTXgCCFXNODR3ECsVxqI1gx19mEChjTgSKmHGfCFMtSQBnyxxEBuPGMYAMQ2JGi2RjbgGRFRhws/BxngBWKQofkJSC8A7kTAGZ4aXdgAAAAASUVORK5CYII=",
 					oncommand: "downloadPlus.openPref();",
 					class: "menuitem-iconic",
 				}), ins);
@@ -369,12 +369,12 @@
 						</groupbox>\
 						<groupbox>\
 							<caption label="其他"/>\
-							<checkbox id="new_Download" label="新建下載 （主界面、我的足跡）"  tooltiptext="修改暫時需重啟生效，很快會更新" oncommand="_changeStatus(event)" preference="new_Download"/>\
+							<checkbox id="new_Download" label="新建下載 （主界面、收藏庫）"  tooltiptext="修改暫時需重啟生效，很快會更新" oncommand="_changeStatus(event)" preference="new_Download"/>\
 							<hbox align="center" class="indent">\
 							            <checkbox align="center" id="new_Download_popups" label="是否彈窗"  preference="new_Download_popups"/>\
 							</hbox>\
-							<checkbox id="downloadsPanel_removeFile" label="從硬盤中刪除 （主界面、我的足跡）" tooltiptext="修改暫時需重啟生效，很快會更新" preference="downloadsPanel_removeFile"/>\
-							<checkbox id="download_checksum" label="Hash 計算（主界面、我的足跡）" preference="download_checksum"/>\
+							<checkbox id="downloadsPanel_removeFile" label="從硬盤中刪除 （主界面、收藏庫）" tooltiptext="修改暫時需重啟生效，很快會更新" preference="downloadsPanel_removeFile"/>\
+							<checkbox id="download_checksum" label="Hash 計算（主界面、收藏庫）" preference="download_checksum"/>\
 							<hbox align="center">\
 							            <checkbox id="save_And_Open" label="保存並打開（主界面、下載界面）" tooltiptext="修改暫時需重啟生效，很快會更新" oncommand="_changeStatus(event)" preference="save_And_Open"/>\
 							            <label value="打開方式："/>\
@@ -559,9 +559,12 @@
 					menuitem.onclick = function(e) {
 						if (e.target.disabled) return;
 						var path = "";
-						if (typeof DownloadsViewItemController != "undefined") {
+						if (typeof DownloadsViewItemController != "undefined" || DownloadsView.itemForElement) {
 							let selectedItem = DownloadsView.richListBox.selectedItem;
-							if (DownloadsView.controllerForElement) {
+							if (DownloadsView.itemForElement) {
+								path = DownloadsView.itemForElement(selectedItem).download.target.path;
+							}
+							else if (DownloadsView.controllerForElement) {
 								//FF38
 								path = DownloadsView.controllerForElement(selectedItem).download.target.path;
 							} else {
@@ -569,8 +572,8 @@
 								path = (new DownloadsViewItemController(selectedItem)).dataItem.file;
 							}
 						} else {
-							DownloadsView = document.getElementById("downloadsRichListBox")._placesView;
-							let selectedItemsShell = DownloadsView._richlistbox.selectedItems[0]._shell;
+							dv = document.getElementById("downloadsRichListBox")._placesView;
+							let selectedItemsShell = dv._richlistbox.selectedItems[0]._shell;
 							if (!(selectedItemsShell._metaData && selectedItemsShell._metaData.filePath)) {
 								//FF38
 								path = (selectedItemsShell._sessionDownload || selectedItemsShell._historyDownload).target.path;
@@ -600,9 +603,12 @@
 							file.remove(0);
 						}
 
-						if (typeof DownloadsViewItemController != "undefined") {
+						if (typeof DownloadsViewItemController != "undefined" || DownloadsView.itemForElement) {
 							let selectedItem = DownloadsView.richListBox.selectedItem;
-							if (DownloadsView.controllerForElement) {
+							if (DownloadsView.itemForElement) {
+								DownloadsView.itemForElement(selectedItem).doCommand("cmd_delete");
+							}
+							else if (DownloadsView.controllerForElement) {
 								//FF38
 								DownloadsView.controllerForElement(selectedItem).doCommand("cmd_delete");
 							} else {
@@ -610,7 +616,7 @@
 								(new DownloadsViewItemController(selectedItem)).doCommand("cmd_delete");
 							}
 						} else {
-							DownloadsView.doCommand("cmd_delete");
+							dv.doCommand("cmd_delete");
 						}
 					};
 
@@ -659,7 +665,7 @@
 			'));
 		},
 
-		// 儲存並開啟
+		// 保存並打開
 		save_And_Open: function(enable) {
 			if (!enable) return;
 			var saveAndOpen = document.getAnonymousElementByAttribute(document.querySelector("*"), "dlgtype", "extra2");
@@ -828,7 +834,7 @@
 		},
 
 
-		// 另存新檔...
+		// 另存為...
 		download_dialog_saveas: function(enable) {
 			if (!enable) return;
 			var saveas = document.documentElement.getButton("extra1");
@@ -870,7 +876,7 @@
 			}, false);
 		},
 
-		// 儲存至...
+		// 保存到...
 		download_dialog_saveTo: function(enable) {
 			//目錄路徑的反斜槓\要雙寫\\
 			//第一次使用要修改路徑，否則無法下載
@@ -1014,9 +1020,12 @@
 							return;
 						}
 						var path = "";
-						if (typeof DownloadsViewItemController != "undefined") {
+						if (typeof DownloadsViewItemController != "undefined" || DownloadsView.itemForElement) {
 							let selectedItem = DownloadsView.richListBox.selectedItem;
-							if (DownloadsView.controllerForElement) {
+							if (DownloadsView.itemForElement) {
+								path = DownloadsView.itemForElement(selectedItem).download.target.path;
+							}
+							else if (DownloadsView.controllerForElement) {
 								//FF38
 								path = DownloadsView.controllerForElement(selectedItem).download.target.path;
 							} else {
@@ -1024,8 +1033,8 @@
 								path = (new DownloadsViewItemController(selectedItem)).dataItem.file;
 							}
 						} else {
-							DownloadsView = document.getElementById("downloadsRichListBox")._placesView;
-							let selectedItemsShell = DownloadsView._richlistbox.selectedItems[0]._shell;
+							dv = document.getElementById("downloadsRichListBox")._placesView;
+							let selectedItemsShell = dv._richlistbox.selectedItems[0]._shell;
 							if (!(selectedItemsShell._metaData && selectedItemsShell._metaData.filePath)) {
 								//FF38
 								path = (selectedItemsShell._sessionDownload || selectedItemsShell._historyDownload).target.path;
@@ -1076,7 +1085,7 @@
 							function toHexString(charCode) {
 								return ('0' + charCode.toString(16)).slice(-2);
 							}
-							var s = [toHexString(hash.charCodeAt(i)) for (i in hash)].join('');
+							var s = [for (i of hash) toHexString(i.charCodeAt(0))].join('');
 							return s;
 						}
 
@@ -1183,16 +1192,15 @@
 					DownloadIntegration.shouldPersistDownload = DownloadIntegration._shouldPersistDownloadFix;
 					delete DownloadIntegration._shouldPersistDownloadFix;
 				}
-				if ("_shouldPersistDownloadFix" in store) {
+				if (store && "_shouldPersistDownloadFix" in store) {
 					store.onsaveitem = store._onsaveitemFix;
 					delete store._onsaveitemFix;
+					store.save();
 				}
-				store.save();
 				return;
 			}
 			var self = this;
 			DownloadIntegration._shouldPersistDownloadFix = DownloadIntegration.shouldPersistDownload;
-			store._onsaveitemFix = store.onsaveitem;
 			var wrapped = DownloadIntegration.shouldPersistDownload = function(download) {
 				if (download.hasPartialData || !download.succeeded) {
 					return true;
@@ -1207,7 +1215,10 @@
 				var older = Date.now() - MaxRetentionHours*60*60*1000;
 				return download.startTime > older;
 			};
-			store.onsaveitem = wrapped;
+			if (store) {
+				store._onsaveitemFix = store.onsaveitem;
+				store.onsaveitem = wrapped;
+			}
 		},
 	};
 
@@ -1273,3 +1284,9 @@
 	downloadPlus.init();
 	window.downloadPlus = downloadPlus;
 })();
+
+/*顯示下載速度*/
+(function(){
+   eval("DownloadsViewItem.prototype._updateProgress = " +
+      DownloadsViewItem.prototype._updateProgress.toString().replace('status.text', 'status.tip'));
+})()

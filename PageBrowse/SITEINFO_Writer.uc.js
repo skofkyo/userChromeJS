@@ -5,9 +5,9 @@
 // @author         Griever
 // @modified       ywzhaiqi
 // @include        main
-// @compatibility  Firefox 5 - firefox 23a1
+// @compatibility  Firefox 46
 // @charset        UTF-8
-// @version        2013.11.23
+// @version        2016.05
 // @downloadURL    https://github.com/ywzhaiqi/userChromeJS/raw/master/uAutoPagerize2/SITEINFO_Writer.uc.js
 // @homepageURL    https://github.com/ywzhaiqi/userChromeJS/tree/master/uAutoPagerize2
 // @note           增加下一页中文选择xpath
@@ -796,7 +796,9 @@ Inspector.prototype = {
 			if (val.substr(0, 4) !== 'id("')
 				obj[key] = val = "//" + val;
 		}
-		var res = [x for each(x in obj)].filter(function(e, i, a) a.indexOf(e) === i).sort(function(a, b){
+		var res = [];
+		for each(x in obj) res.push(x);
+		var res = res.filter(function(e, i, a) a.indexOf(e) === i).sort(function(a, b) {
 			let aa = a.substr(0, 4) == 'id("';
 			let bb = b.substr(0, 4) == 'id("';
 			if ((aa && bb) || (!aa && !bb))
@@ -868,11 +870,8 @@ Inspector.prototype = {
 			arr[arr.length] = '@' + name + '="' + value + '"';
 		};
         */
-		var arr = [
-			"@"+ x.nodeName +'="'+ x.nodeValue +'"'
-				for each(x in $A(elem.attributes))
-					if (!/^(?:id|class|style)$/i.test(x.nodeName))
-		];
+		var arr = [];
+		for each(x in $A(elem.attributes)) if (!/^(?:id|class|style)$/i.test(x.nodeName)) arr.push("@"+ x.nodeName +'="'+ x.nodeValue +'"');
 		if (arr.length > 0)
 			xpath += '[' + arr.join(" and ") + ']';
 		return xpath;

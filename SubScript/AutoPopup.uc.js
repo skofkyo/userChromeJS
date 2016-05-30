@@ -33,7 +33,8 @@
 		'#pocket-button',
 		'areatype=menu-panel',
 		'#alltabs-button',
-		'eom-button'
+		'eom-button',
+		'ublock0-button'
 	]; //'id=abp-toolbarbutton'
 
     var popupPos = ['after_start', 'end_before',

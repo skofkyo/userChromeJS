@@ -1,4 +1,4 @@
-(function() {
+﻿(function() {
 // ==UserScript==
 // @name         Super_preloaderPlus_one
 // @namespace    https://github.com/ywzhaiqi
@@ -254,12 +254,21 @@ var SITEINFO=[
         }
     },
     // ========= 自己蛋疼的 ================
-    {name: '火狐范',
-        url: /http:\/\/www\.firefoxfan\.com\//i,
-        siteExample: 'http://www.firefoxfan.com/',
+    {name: '大眼仔旭',
+        url: /http:\/\/www\.dayanzai\.me\//i,
+        siteExample: 'http://www.dayanzai.me/',
         nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;.excerpt',
+            pageElement: 'css;.list',
+            useiframe: true,
+        },
+    }, 
+    {name: '火狐范',
+        url: /http:\/\/firefoxfan\.cc\//i,
+        siteExample: 'http://firefoxfan.cc/',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;.single-post.clearfix',
             useiframe: true,
         },
     }, 
@@ -307,12 +316,13 @@ var SITEINFO=[
         },
     }, 
     {name: 'GDaily',
-        url: /http:\/\/gdaily\.org\//i,
-        siteExample: 'http://daily.org/',
+        url: /https:\/\/www\.gdaily\.org\//i,
+        siteExample: 'https://www.gdaily.org/',
         nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;#content [id^="post"]',
-            //				useiframe:true,
+            pageElement: 'css;.single-post',
+            //pageElement: 'css;#content [id^="post"]',
+            //useiframe:true,
         },
     }, 
     {name: 'blogspot.com',
@@ -335,8 +345,8 @@ var SITEINFO=[
         },
     }, 
     {name: '㊣軟體玩家',
-        url: /http:\/\/blog\.soft\.idv\.tw\//i,
-        siteExample: 'http://blog.soft.idv.tw/',
+        url: /https?:\/\/pcrookie\.com\//i,
+        siteExample: 'https://pcrookie.com/',
         nextLink: 'auto;',
         autopager: {
             pageElement: 'css;.post',
@@ -353,7 +363,7 @@ var SITEINFO=[
         },
     }, 
     {name: '軟體部落',
-        url: /http:\/\/softblog\.tw\//i,
+        url: /https?:\/\/softblog\.tw\//i,
         siteExample: 'http://softblog.tw/',
         nextLink: 'auto;',
         autopager: {
@@ -370,7 +380,7 @@ var SITEINFO=[
         },
     }, 
     {name: '動漫花園資源網',
-        url: /https:\/\/share\.dmhy\.org\//i,
+        url: /https?:\/\/share\.dmhy\.org\//i,
         siteExample: 'http://share.dmhy.org/',
         nextLink: 'auto;',
         autopager: {
@@ -379,12 +389,20 @@ var SITEINFO=[
         },
     }, 
     {name: '動漫花園資源網',
+        url: /https?:\/\/dmhy\.dandanplay\.com\//i,
+        siteExample: 'http://dmhy.dandanplay.com/',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: '//div[@class="table clear"]',
+            useiframe: true,
+        },
+    }, 
+    {name: 'POPGO',
         url: /http:\/\/share\.popgo\.org\//i,
         siteExample: 'http://share.popgo.org/',
         nextLink: 'auto;',
         autopager: {
             pageElement: 'css;#index_maintable',
-            useiframe: true,
         },
     }, 
     {name: '爱恋动漫BT下载',
@@ -2688,9 +2706,11 @@ var SITEINFO=[
     {name: 'zd423',
         url: /^http:\/\/www\.zdfans\.com\//i,
         exampleUrl: 'http://www.zdfans.com/',
-        nextLink: '//div[@class="paging"]/a[text()="下一頁"]',
+        nextLink: 'auto;',
         autopager: {
-            pageElement: '//div[@class="wrapper"]/div[@class="content-wrap"]/div[@class="content column2"]/ul[@class="excerpt"]',
+            pageElement: 'css;.content.column2 .excerpt',
+            HT_insert: ['css;.paging', 1],
+            //useiframe: true,
         }
     },
     {name: '軟件閣 - 原創綠色軟件更新,精品軟件共享',
@@ -3498,7 +3518,7 @@ var SITEINFO=[
         pageElement: '//table[@width="100%"][@cellspacing="0"][@cellpadding="2"]',
         scroll_only: true
     },
-
+/*
     // =============================== manhua ========================
     {name: '天極動漫頻道新聞',
         url:/http:\/\/comic\.yesky\.com\/\d+\/.+\.shtml/i,
@@ -3966,6 +3986,7 @@ var SITEINFO=[
             pageElement: 'id("innerContent")',
         }
     },
+    */
     {name: '1024社區',
         url: '^http://(www\\.)?t66y\\.com/|^http://cl\\.man\\.lv/',
         nextLink: '//div[@class="pages"]/b/following-sibling::a[1]',

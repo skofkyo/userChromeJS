@@ -128,4 +128,11 @@ rules = [
 	to: 'http://pan.baidu.com/share/home?$3',
 	regex: true
 	},
+{
+            //百度贴吧-->旧版
+	name: "百度贴吧-->旧版",
+            from: /(^http:\/\/tieba\.baidu\.com\/f\?(?:ie=utf-?8&)?kw=[^&]+$)/,
+            to: "$1&tp=2",
+            regex: true
+        },
 ];

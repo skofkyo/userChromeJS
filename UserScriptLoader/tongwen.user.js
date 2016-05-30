@@ -1,10 +1,13 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @id             tongwen
 // @name           簡轉繁
 // @version        1.0
 // @namespace      
 // @author         
 // @description    簡繁轉換的腳本
+// @include        http://music.baidu.com/*
+// @include        http://www.lightnovel.cn/*
+// @include        http://tieba.baidu.com/*
 // @include        http://www.greendown.cn/*
 // @include        http://www.xiazaiba.com/*
 // @include        http://www.xdowns.com/*
@@ -22,9 +25,10 @@
 // @include        https://g.mozest.com/*
 // @include        http://www.css88.com/*
 // @include        https://raw.githubusercontent.com/*
-// @include        file://*
+// @include        file*
 // @include        http://www.firefoxfan.com/*
-// @include        http://tieba.baidu.com/*
+// @include        http://tieba.baidu.com/f?kw=firefox*
+// @include        http://tw.wxdzs.com*
 // ==/UserScript==
 
 var TongWen = {};

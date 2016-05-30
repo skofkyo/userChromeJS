@@ -35,14 +35,14 @@ keys['u'] = function() {
 */
 //尋找文字前次出現的位置
 //keys['F4'] = function() {
-//				gFindBar.getElement("find-previous").click();
+//				window.SiteToPanel.init();
 //			};
 keys['F4'] = function() {
 				gBrowser.removeCurrentTab();
 			};
 //測試
 keys['T+Ctrl'] = function() {
-				document.querySelector('[label="Generate a random password"]').setAttribute("label", "編碼工具");
+				document.getElementById("file-menu").menupopup.openPopup(null, null, event.screenX, event.screenY);
 			};
 keys['J+Ctrl'] = function() {
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
@@ -100,7 +100,7 @@ keys['F+Ctrl'] = function() {
 					gFindBar._findField.value = select;
 					$& HighlightText();
 					setTimeout(function(){gFindBar.close();}, 10000);
-					//gFindBar.close();
+					gFindBar.close();
 					content.document.getSelection().removeAllRanges();
 				} else if (gFindBar.hidden) {
 					gFindBar._findField.value = "";
@@ -116,6 +116,7 @@ keys['F+Ctrl'] = function() {
 				} else {
 					gFindBar.close();
 				}
+				//gFindBar.open() || gFindBar.close();
 			};
 //重新啟動並清除緩存
 keys['r+ctrl+alt'] = function() {

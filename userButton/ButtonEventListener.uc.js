@@ -104,4 +104,28 @@ if (location == "chrome://browser/content/browser.xul") {
 			}
 		}, false);
 	})(document);
+	
+/*GM中鍵切換開關不關閉下拉菜單*/
+eval('GM_popupClicked = ' + GM_popupClicked.toString()
+.replace(/\'command\' \=\= aEvent\.type/,"$& \|\| aEvent\.button \=\= 1")
+.replace(/\=\! script\.enabled\;\n/,"$&aEvent.target.setAttribute('checked',script.enabled);\n")
+.replace(/closeMenus/,"if(aEvent\.button \!\= 1) $&"));
+
+/*stylish中鍵切換開關不關閉下拉菜單和右鍵直接打開編輯*/
+eval("stylishOverlay.popupShowing = "+ stylishOverlay.popupShowing.toString()
+.replace(/menuitem\.addEventListener.*/,'\
+menuitem.addEventListener("click", function(event) {\
+if(event.button != 2) {\
+stylishOverlay.toggleStyle(this.stylishStyle);\
+event.target.setAttribute("checked",this.stylishStyle.enabled);\
+event.stopPropagation();\
+}else{\
+stylishCommon.openEditForStyle(this.stylishStyle);\
+closeMenus(this);\
+event.preventDefault();\
+}\
+}, false);'
+)
+); 
+
 }

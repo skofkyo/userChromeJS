@@ -859,3 +859,5 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
   }
 })();
 //userChrome.import("stylish0.5_edit.uc.js", "UChrm");
+//userChrome.import("userButton\\SiteToPanel.uc.js", "UChrm");
+//userChrome.import("userButton\\UserScriptLoaderPlus_ModFeiruo_Fix.uc.js", "UChrm");

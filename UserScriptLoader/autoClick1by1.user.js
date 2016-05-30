@@ -1,3 +1,4 @@
+﻿// ==/UserScript==
 // @name 網頁自動化系列點擊
 // @namespace autoClick1by1.jasonshaw
 // @version 0.5
@@ -21,7 +22,7 @@
 // ==/UserScript==
 (function() {
 	var autoClose = false,
-		delay = 500,
+		delay = 700,
 		standby = false;
 	var prefs = {
 		'rutracker': {
@@ -139,7 +140,6 @@
         'googledocs': {
             startReg: /^https?:\/\/docs\.google\.com\/uc\?id\=\w+\&export\=download$/,
             elements: ['#uc-download-link'],
-            autoClose: true
         },
         'pcloud': {
             startReg: /https?:\/\/my\.pcloud\.com\/publink\/show\?code\=\w+/i,

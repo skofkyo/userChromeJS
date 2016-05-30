@@ -125,7 +125,7 @@ new function() {
                         gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
                         gBrowser.addTab("http://seed2peer.com/search/" + encodeURIComponent(getBrowserSelection()) + "/");//Seed2Peer
-                        gBrowser.addTab("https://thepiratebay.vg/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
+                        gBrowser.addTab("https://thepiratebay.se/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
                         gBrowser.addTab("http://sub.makedie.me/sub/?searchword=" + encodeURIComponent(getBrowserSelection()));//射手網(偽)
                         gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(getBrowserSelection()));//subom字幕庫
                         gBrowser.addTab("http://www.zimud.com/search?q=" + encodeURIComponent(getBrowserSelection()));//字幕帝
@@ -137,7 +137,7 @@ new function() {
                         gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
                         gBrowser.addTab("http://seed2peer.com/search/" + encodeURIComponent(readFromClipboard()) + "/");//Seed2Peer
-                        gBrowser.addTab("https://thepiratebay.vg/search/" + encodeURIComponent(readFromClipboard()));//海盜灣
+                        gBrowser.addTab("https://thepiratebay.se/search/" + encodeURIComponent(readFromClipboard()));//海盜灣
                         gBrowser.addTab("http://sub.makedie.me/sub/?searchword=" + encodeURIComponent(readFromClipboard()));
                         gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(readFromClipboard()));//subom字幕庫
                         gBrowser.addTab("http://www.zimud.com/search?q=" + encodeURIComponent(readFromClipboard()));//字幕帝
@@ -179,13 +179,13 @@ new function() {
                         gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
                         gBrowser.addTab("http://seed2peer.com/search/" + encodeURIComponent(getBrowserSelection()) + "/");//Seed2Peer
-                        gBrowser.addTab("https://thepiratebay.vg/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
+                        gBrowser.addTab("https://thepiratebay.se/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
                         break;
                     case 2:
                         gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
                         gBrowser.addTab("http://seed2peer.com/search/" + encodeURIComponent(readFromClipboard()) + "/");//Seed2Peer
-                        gBrowser.addTab("https://thepiratebay.vg/search/" + encodeURIComponent(readFromClipboard()));//海盜灣
+                        gBrowser.addTab("https://thepiratebay.se/search/" + encodeURIComponent(readFromClipboard()));//海盜灣
                         break;
                 }
             },

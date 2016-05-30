@@ -52,6 +52,7 @@ var moveButton = {
         // { id: "autoReaderButton", bar: "PersonalToolbar", pos: 1 },
         // { id: "translatorButton",  insertAfter: "jsoff-statusbar" },
         // { id: "showFlagS-icon", insertBefore: "bookmarks-menu-button" },
+         { id: "urlbar-speedmonitor", insertBefore: "urlbar-icons" },
         // { id: "autoReaderButton", insertAfter: "uAutoPagerize-icon"}
         //{ id: "showLocationModEx", bar: "urlbar-icons", pos: 0},
         //{ id: "Base64Encoder-button", bar: "urlbar-icons", pos: 1},
@@ -62,7 +63,7 @@ var moveButton = {
         //{ id: "ublock-button", bar: "urlbar-icons", pos: 3},
         //{ id: "userChromeJsManagerMenuBtn", bar: "urlbar-icons", pos: 4},
         { id: "userChromebtnMenu", bar: "urlbar-icons", pos: 4},
-        //{ id: "stylish-toolbar-button", bar: "urlbar-icons", pos: 5},
+        { id: "stylish-toolbar-button", bar: "urlbar-icons", pos: 5},
         { id: "usercssloader-menu", bar: "urlbar-icons", pos: 5},
         { id: "scriptish-button", bar: "urlbar-icons", pos: 6},
         { id: "UserScriptLoader-icon", bar: "urlbar-icons", pos: 6},
