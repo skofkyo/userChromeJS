@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @id             demo_XuiteDownloader
 // @name           XuiteDownloader
 // @namespace      demoshop

@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @name          Dmhy Download Enhance
 // @namespace     https://greasyfork.org/scripts/9194-dmhy-download-enhance
 // @version       0.2.2

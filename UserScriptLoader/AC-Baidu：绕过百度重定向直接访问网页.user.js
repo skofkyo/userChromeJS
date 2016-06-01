@@ -8,6 +8,7 @@
 // @lastmodified   2016-4-24
 // @include        http://www.baidu.com/*
 // @include        https://www.baidu.com/*
+// @include        http://tieba.baidu.com/*
 // @include        http://www.sogou.com/*
 // @include        https://www.sogou.com/*
 // @copyright      2015+, AC

@@ -478,8 +478,8 @@ var implementations = [{
     var match = location.href.match(/page=([0-9])/);
     return match ? parseInt(match[1]) : 1;
   },
-  nextchap: '#next_chapter',
-  prevchap: '#prev_chapter',
+  nextchap: '.img_land_next',
+  prevchap: '.img_land_prev',
   pages: function(url, num, cb, ex) {
     cb(W.img_prefix + W.arr_pages[num - 1], num);
   }
@@ -1220,8 +1220,8 @@ var getViewer = function(prevChapter, nextChapter) {
   document.body.style = '';
   // navigation
   var nav = '<div class="ml-chap-nav">' + (prevChapter ? '<a class="ml-chap-prev" href="' + prevChapter + '">Prev Chapter</a> ' : '') +
-      '<a class="ml-exit" href="' + location.href + '" data-exit="true">Exit</a> ' +
-      (nextChapter ? '<a class="ml-chap-next" href="' + nextChapter + '">Next Chapter</a>' : '') + '</div>';
+      '<a class="ml-exit" href="' + location.href + '" data-exit="true">離開</a> ' +
+      (nextChapter ? '<a class="ml-chap-next" href="' + nextChapter + '">下一話</a>' : '') + '</div>';
   // message area
   var floatingMsg = '<pre class="ml-box ml-floating-msg"></pre>';
   // stats

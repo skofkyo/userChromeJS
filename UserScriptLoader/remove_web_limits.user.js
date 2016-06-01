@@ -56,10 +56,14 @@ var rules = {
 var lists = {
   // 黑名单
   black_list: [
+    /.*\.yunpan\.cn.*/,
+    /.*pan\.baidu\.com.*/,
     /.*\.youtube\.com.*/,
     /.*\.wikipedia\.org.*/,
     /mail\.qq\.com.*/,
-    /translate\.google\..*/
+    /.*\.facebook\..*/,
+    /.*yunpan\.360\.cn.*/,
+    /.*\.google\..*/
   ]
 };
 
