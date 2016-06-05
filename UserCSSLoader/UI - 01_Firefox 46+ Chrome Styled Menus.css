@@ -3,11 +3,13 @@
 #FirefoxBtnpopup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
     margin-top: -4px !important;
 }
-#userChromejs_options,#greasemonkey-tbb menupopup,#stylish-popup,#UserScriptLoader-popup,#usercssloader-menupopup {
+#userChromejs_options,#greasemonkey-tbb menupopup,#stylish-popup {
     margin-top: 7px !important;
 }
 
-#eom-menugroup .menu-iconic-icon {margin-right:-4px !Important;}
+#UserScriptLoader-popup{
+    margin-top: 10px !important;
+}
 
 menupopup.textbox-contextmenu,
 popupset > menupopup,
