@@ -63,16 +63,16 @@
   "use strict";
   // -- config --
   /*
-    EXPERIMENT：取消延迟加载（实验性的）？true 为不延迟，false 为延迟。为 true 则一些脚本可能会运行不正常。
-      true 和 false 区别2点：
-        1、本来有个 500ms 的延迟加载，true 后就没了。
-        2、本来是一个个加载 xul 文件，而 true 则把所有的 xul 加起来一次性加载。 前不久卡饭还有个 userChromejs 扩展的优化版，就是优化 xul 文件的加载。 
-    EXCLUDE_CHROMEHIDDEN：  排除隐藏的 window(popup等)
-    USE_0_63_FOLDER：如果为 true，好像只支持这几种文件夹名字 uc、xul、ucjs
-    FORCESORTSCRIPT：对脚本进行排序，这可能对脚本的运行顺序有影响
-    AUTOREMOVEBOM：对文件编码进行检测，但并不支持 gbk 编码
+    EXPERIMENT：取消延遲加載（實驗性的）？true 為不延遲，false 為延遲。為 true 則一些腳本可能會運行不正常。
+      true 和 false 區別2點：
+        1、本來有個 500ms 的延遲加載，true 後就沒了。
+        2、本來是一個個加載 xul 文件，而 true 則把所有的 xul 加起來一次性加載。 前不久卡飯還有個 userChromejs 擴展的優化版，就是優化 xul 文件的加載。 
+    EXCLUDE_CHROMEHIDDEN：  排除隱藏的 window(popup等)
+    USE_0_63_FOLDER：如果為 true，好像只支持這幾種文件夾名字 uc、xul、ucjs
+    FORCESORTSCRIPT：對腳本進行排序，這可能對腳本的運行順序有影響
+    AUTOREMOVEBOM：對文件編碼進行檢測，但並不支持 gbk 編碼
   */
-  const EXPERIMENT = false; //実験:するtrue, しない[false]
+  const EXPERIMENT = true; //実験:するtrue, しない[false]
   const EXCLUDE_CHROMEHIDDEN = false; //chromehiddenなwindow(popup等)ではロード: しないtrue, する[false]
   const USE_0_63_FOLDER = false; //0.63のフォルダ規則を使う[true], 使わないfalse
   const FORCESORTSCRIPT = false; //強制的にスクリプトをファイル名順でソートするtrue, しない[false]

@@ -28,7 +28,8 @@ font-size:2em!important;
 .toolbarbutton-menu-dropmarker,
 #abp-toolbarbutton > dropmarker,
 #greasemonkey-tbb > dropmarker,
-#stylish-toolbar-button > dropmarker{
+#stylish-toolbar-button > dropmarker,
+#fvd_single_button .toolbarbutton-menubutton-dropmarker{
 	display: none !important;
 }
 
@@ -50,12 +51,10 @@ font-size:2em!important;
 #greasemonkey-tbb .toolbarbutton-icon {
 	margin: 0 -1px !important;
 }
-#statusbarZoomLevel .toolbarbutton-icon {margin-left: -2px !important;}
-/*
+#nav-bar-customization-target #stylish-toolbar-button .toolbarbutton-icon,
 #urlbar-icons #stylish-toolbar-button .toolbarbutton-icon {
-	margin-right: -8px !important;
+	padding: 0!important;
 }
-*/
 #ublock0-button .toolbarbutton-icon {
 margin: 0 -8px !important;
 }

@@ -9,6 +9,11 @@
 // ==/UserScript==
 
 if (location == "chrome://browser/content/browser.xul") {
+	//Flash Video Downloader - YouTube HD Download [4K]圖標右鍵菜單
+	document.getElementById("fvd_single_button").addEventListener("contextmenu", function(event) {
+	  document.getElementById("fvd_single_button").firstChild.openPopupAtScreen(event.screenX, event.screenY, true); 
+	  event.preventDefault();
+	}, false);
 	//greasemonkey圖標右鍵菜單
 	(function (doc) {
 		var greasemonkeyTBB = doc.getElementById('greasemonkey-tbb');
