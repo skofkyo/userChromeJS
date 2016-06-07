@@ -3,7 +3,14 @@
 // @namespace      http://space.geocities.yahoo.co.jp/gl/alice0775
 // @description    tabLock
 // @include        *
-// @compatibility  17+
+// @compatibility  17-25
+// @version        2016/03/19 00:00 TST
+// @version        2016/03/18 00:00 update scanner
+// @version        2014/10/18 00:00 skip to check isNext/Prev/Hash for some url 
+// @version        2014/06/21 07:00 Fixed due to Bug 996053 
+// @version        2014/02/21 23:00  Multiple Tab Handler #66 
+// @version        2013/12/21 23:00 exclude "prevent"
+// @version        2013/11/06 10:20 Bug 846635 - Use asynchronous getCharsetForURI in getShortcutOrURI in Firefox25 and later
 // @version        2013/04/06 09:00 Bug 748740
 // @version        2012/12/08 22:30 Bug 788290 Bug 788293 Remove E4X 
 // ==/UserScript==
@@ -26,44 +33,72 @@
 
 patch: {
   if (location.href == "chrome://updatescan/content/updatescan.xul") {
-    var func = USc_updatescan._diffItemThisWindow.toString();
-    func = func.replace(
-      'if (diffURL) {',
-      '$& \
-      var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"] \
-                         .getService(Components.interfaces.nsIWindowMediator); \
-      var mainWindow = wm.getMostRecentWindow("navigator:browser"); \
-      if (mainWindow.gBrowser.isLockTab(mainWindow.gBrowser.selectedTab) && \
-          !/^\s*(javascript:|data:)/.test(diffURL)) { \
-        mainWindow.gBrowser.loadOneTab(diffURL, null, null, null, false, null); \
-        return; \
-      }'
-    );
-    eval ("USc_updatescan._diffItemThisWindow = " + func);
-  }
-
-
-  if (location.href == "chrome://browser/content/places/places.xul" ||
-      location.href == "chrome://browser/content/bookmarks/bookmarksPanel.xul" ||
-      location.href == "chrome://browser/content/history/history-panel.xul") {
-    var func = openLinkIn.toString();
-    if (!/isLockTab/.test(func)) {
+    if ("USc" in window) {
+      var func = window.USc_updatescan._diffItemThisWindow.toString();
       func = func.replace(
-        /{/,
-        '{ \
-          var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"] \
-                             .getService(Components.interfaces.nsIWindowMediator); \
-          var mainWindow = wm.getMostRecentWindow("navigator:browser"); \
-          if (url && where == "current" && "isLockTab" in mainWindow.gBrowser && \
-              mainWindow.gBrowser.isLockTab(mainWindow.gBrowser.selectedTab) && \
-              !/^\s*(javascript:|data:)/.test(url)) { \
-            where = "tab"; \
-          }'
+        'if (diffURL) {',
+        '$& \
+        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"] \
+                           .getService(Components.interfaces.nsIWindowMediator); \
+        var mainWindow = wm.getMostRecentWindow("navigator:browser"); \
+        if (mainWindow.gBrowser.isLockTab(mainWindow.gBrowser.selectedTab) && \
+            !/^\s*(javascript:|data:)/.test(diffURL)) { \
+          mainWindow.gBrowser.loadOneTab(diffURL, null, null, null, false, null); \
+          return; \
+        }'
       );
-      eval ("openLinkIn = " + func);
+      eval ("window.USc_updatescan._diffItemThisWindow = " + func);
+    } else if ("UpdateScanner" in window) {
+      var func = window.UpdateScanner.Updatescan._diffItemThisWindow.toString();
+      func = func.replace(
+        'if (diffURL) {',
+        '$& \
+        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"] \
+                           .getService(Components.interfaces.nsIWindowMediator); \
+        var mainWindow = wm.getMostRecentWindow("navigator:browser"); \
+        if (mainWindow.gBrowser.isLockTab(mainWindow.gBrowser.selectedTab) && \
+            !/^\s*(javascript:|data:)/.test(diffURL)) { \
+          mainWindow.gBrowser.loadOneTab(diffURL, null, null, null, false, null); \
+          return; \
+        }'
+      );
+      eval ("window.UpdateScanner.Updatescan._diffItemThisWindow = " + func);
     }
   }
 
+  if ("openLinkIn" in window) {
+    var func = openLinkIn.toString();
+    if (!/isLockTab/.test(func)) {
+      if (/aUrl/.test(func) && /aWhere/.test(func)) {
+        func = func.replace(
+          /{/,
+          '{ \
+            var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"] \
+                               .getService(Components.interfaces.nsIWindowMediator); \
+            var mainWindow = wm.getMostRecentWindow("navigator:browser"); \
+            if (aUrl && aWhere == "current" && "isLockTab" in mainWindow.gBrowser && \
+                mainWindow.gBrowser.isLockTab(mainWindow.gBrowser.selectedTab) && \
+                !/^\s*(javascript:|data:)/.test(aUrl)) { \
+              aWhere = "tab"; \
+            }'
+        );
+      } else {
+        func = func.replace(
+          /{/,
+          '{ \
+            var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"] \
+                               .getService(Components.interfaces.nsIWindowMediator); \
+            var mainWindow = wm.getMostRecentWindow("navigator:browser"); \
+            if (url && where  == "current" && "isLockTab" in mainWindow.gBrowser && \
+                mainWindow.gBrowser.isLockTab(mainWindow.gBrowser.selectedTab) && \
+                !/^\s*(javascript:|data:)/.test(url)) { \
+              where  = "tab"; \
+            }'
+        );
+      }
+      eval ("openLinkIn = " + func);
+    }
+  }
 
   if (location.href != "chrome://browser/content/browser.xul")
     break patch;
@@ -253,16 +288,6 @@ patch: {
       );
       eval("gURLBar.handleCommand =" + func);
 
-      //openUILinkIn whereToOpenLinkを書き換え現在のタブかつロックタブなら 新規タブに
-      eval("openUILinkIn ="+openUILinkIn.toSource().replace(
-      'switch (where) {',
-      'if (where == "current" && gBrowser.isLockTab(gBrowser.selectedTab) && \
-           !/^\s*(javascript:|data:)/.test(url) ) \
-          where = "tab"; \
-      $&'
-      ));
-  //this.debug('openUILinkIn: \n'+openUILinkIn.toString());
-
 
     //Left Click (Home Button, WizzRSS)
   //this.debug('gBrowser.loadURI: \n'+gBrowser.loadURI.toString());
@@ -364,7 +389,7 @@ patch: {
                 return true; \
             } \
             let postData = {}; \
-            let url = getShortcutOrURI(href, postData); \
+            let url = tabLock.getShortcutOrURI(href, postData); \
             if (!url) { \
                 return true; \
             } \
@@ -401,9 +426,16 @@ patch: {
       gBrowser.tabContainer.addEventListener('drop', this.onDrop, true);
 
 
-
-
-
+      // #66
+      if ("MultipleTabService" in window) {
+        func = MultipleTabService.toggleTabsLocked.toString();
+        func = func.replace(
+        /this\._isTabLocked\(aTab\)\)/,
+        'this._isTabLocked(tab))'
+        );
+      eval("MultipleTabService.toggleTabsLocked = "+ func);
+        
+      }
 
 
       this.tabContextMenu();
@@ -500,6 +532,32 @@ patch: {
       return ver;
     },
 
+     //acync to sync
+    getShortcutOrURI : function getShortcutOrURI(aURI) {
+      // Firefox 24 and older
+      if ("getShortcutOrURI" in window)
+        return getShortcutOrURI(aURI);
+
+      // Firefox 25 and later
+      var getShortcutOrURIAndPostData = window.getShortcutOrURIAndPostData;
+      var done = false;
+      Task.spawn(function() {
+        var data = yield getShortcutOrURIAndPostData(aURI);
+        aURI = data.url;
+        done = true;
+      });
+
+      // this should be rewritten in asynchronous style...
+      setTimeout(function(){done = true;}, 1000);
+      var thread = Cc['@mozilla.org/thread-manager;1'].getService().mainThread;
+      while (!done)
+      {
+        thread.processNextEvent(true);
+      }
+
+      return aURI;
+    },
+
     //TAB D&D
     onDrop: function(aEvent) {
       function _getDropIndex(aEvent){
@@ -586,7 +644,7 @@ patch: {
     restoreForTab: function(aTab){
       var ss = Components.classes["@mozilla.org/browser/sessionstore;1"].
                              getService(Components.interfaces.nsISessionStore);
-      var retrievedData = ss.getTabValue(aTab, "tabLock");
+      var retrievedData = ss.getTabValue(aTab, "tabLock") == "true";
       if(retrievedData)
         aTab.setAttribute('tabLock',true);
       else
@@ -717,7 +775,7 @@ patch: {
       var isLocked = false;
     }else{
       aTab.setAttribute("tabLock", "true");
-      ss.setTabValue(aTab, "tabLock", true);
+      ss.setTabValue(aTab, "tabLock", "true");
       var isLocked = true;
     }
     this.lockTabIcon(aTab);
@@ -752,6 +810,11 @@ patch: {
   }
 
   gBrowser.isNextLink = function (aNode){
+    if (/^https?:\/\/hg\.mozilla\.org/.test(aNode.href) || 
+        /^https?:\/\/ftp\.mozilla\.org/.test(aNode.href) ||
+        /^https?:\/\/bugzilla\.mozilla\.org/.test(aNode.href))
+      return false;
+
     if(!tabLock.getPref('userChrome.tabLock.ignoreNextPrevLink','bool',tabLock.ignoreNextPrevLink) || !aNode) return false;
     var b = gBrowser.getBrowserForDocument(aNode.ownerDocument);
     if (!b || b.docShell.busyFlags || b.docShell.restoringDocument)
@@ -796,6 +859,11 @@ patch: {
   }
 
   gBrowser.isPrevLink = function (aNode){
+    if (/^https?:\/\/hg\.mozilla\.org/.test(aNode.href) || 
+        /^https?:\/\/ftp\.mozilla\.org/.test(aNode.href) ||
+        /^https?:\/\/bugzilla\.mozilla\.org/.test(aNode.href))
+      return false;
+
     if(!tabLock.getPref('userChrome.tabLock.ignoreNextPrevLink','bool',tabLock.ignoreNextPrevLink) || !aNode) return false;
     var b = gBrowser.getBrowserForDocument(aNode.ownerDocument);
     if (!b || b.docShell.busyFlags || b.docShell.restoringDocument)
@@ -814,6 +882,9 @@ patch: {
        || link.match(/^[<\s\(]?prev(ious)?(\s|(\s?\d+\s?))(search)?\s?(pages?|results?)?/i) )
 
       {
+        if (/Prevent/i.test(link)) {
+          return false;
+        }
         return true;
       }
     }
@@ -830,6 +901,9 @@ patch: {
     if (x.snapshotLength){
       next = x.snapshotItem(x.snapshotLength-1);
       //this._openURL(next.href,win,-1);
+      if (/prevent/i.test(next.textContent)) {
+        return false;
+      }
       if (aNode.href == next.href)
         return true;;
     }
@@ -862,6 +936,11 @@ patch: {
   }
 
   gBrowser.isHashLink = function (aNode){
+    if (/^https?:\/\/hg\.mozilla\.org/.test(aNode.href) || 
+        /^https?:\/\/ftp\.mozilla\.org/.test(aNode.href) ||
+        /^https?:\/\/bugzilla\.mozilla\.org/.test(aNode.href))
+      return false;
+
     if(!tabLock.getPref('userChrome.tabLock.ignoreHashLink','bool',tabLock.ignoreHashLink) || !aNode) return false;
     var b = gBrowser.getBrowserForDocument(aNode.ownerDocument);
     if (!b || b.docShell.busyFlags || b.docShell.restoringDocument)

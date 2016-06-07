@@ -10,10 +10,19 @@
 
 if (location == "chrome://browser/content/browser.xul") {
 	//Flash Video Downloader - YouTube HD Download [4K]圖標右鍵菜單
-	document.getElementById("fvd_single_button").addEventListener("contextmenu", function(event) {
-	  document.getElementById("fvd_single_button").firstChild.openPopupAtScreen(event.screenX, event.screenY, true); 
-	  event.preventDefault();
+	var fvd = document.getElementById('fvd_single_button');
+	fvd.addEventListener("contextmenu", function(event) {
+		fvd.firstChild.openPopupAtScreen(event.screenX, event.screenY, true); 
+		event.preventDefault();
 	}, false);
+	(function (doc) {
+		var fvd = doc.getElementById('fvd_single_button');
+		if (!fvd)
+			return;
+		fvd.addEventListener("click", function (e) {
+			switchToTabHavingURI("about:downloads", true);
+		}, false);
+	})(document);
 	//greasemonkey圖標右鍵菜單
 	(function (doc) {
 		var greasemonkeyTBB = doc.getElementById('greasemonkey-tbb');
@@ -47,30 +56,32 @@ if (location == "chrome://browser/content/browser.xul") {
 			return;
 		ublock.addEventListener("click", function (e) {
 			if (e.button == 1) {
-				var tabCount = gBrowser.mPanelContainer.childNodes.length;
-				for(var i = 0; i < tabCount; i++) {
-				  var browser = gBrowser.getBrowserAtIndex(i);
-				  if (browser.currentURI.spec == 'chrome://ublock0/content/logger-ui.html'){
-						tab = gBrowser.mTabs[i];
-						gBrowser.selectedTab = tab;
-						return;
-				  }
-				}
-				openUILinkIn("chrome://ublock0/content/logger-ui.html", "tab");
+				switchToTabHavingURI("chrome://ublock0/content/logger-ui.html", true);
+				//var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				//for(var i = 0; i < tabCount; i++) {
+				//  var browser = gBrowser.getBrowserAtIndex(i);
+				//  if (browser.currentURI.spec == 'chrome://ublock0/content/logger-ui.html'){
+				//		tab = gBrowser.mTabs[i];
+				//		gBrowser.selectedTab = tab;
+				//		return;
+				//  }
+				//}
+				//openUILinkIn("chrome://ublock0/content/logger-ui.html", "tab");
 			}
 			if (e.button == 2) {
 				e.preventDefault();
 				e.stopPropagation();
-				var tabCount = gBrowser.mPanelContainer.childNodes.length;
-				for(var i = 0; i < tabCount; i++) {
-				  var browser = gBrowser.getBrowserAtIndex(i);
-				  if (browser.currentURI.spec == 'chrome://ublock0/content/dashboard.html'){
-						tab = gBrowser.mTabs[i];
-						gBrowser.selectedTab = tab;
-						return;
-				  }
-				}
-				openUILinkIn("chrome://ublock0/content/dashboard.html", "tab");
+				switchToTabHavingURI("chrome://ublock0/content/dashboard.html", true);
+				//var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				//for(var i = 0; i < tabCount; i++) {
+				//  var browser = gBrowser.getBrowserAtIndex(i);
+				//  if (browser.currentURI.spec == 'chrome://ublock0/content/dashboard.html'){
+				//		tab = gBrowser.mTabs[i];
+				//		gBrowser.selectedTab = tab;
+				//		return;
+				//  }
+				//}
+				//openUILinkIn("chrome://ublock0/content/dashboard.html", "tab");
 			}
 		}, false);
 	})(document);
@@ -82,30 +93,32 @@ if (location == "chrome://browser/content/browser.xul") {
 		preferences.setAttribute("tooltiptext", "左鍵：打開選項\n中鍵：打開about:support 疑難排除資訊\n右鍵：打開about:config");
 		preferences.addEventListener("click", function (e) {
 			if (e.button == 1) {
-				var tabCount = gBrowser.mPanelContainer.childNodes.length;
-				for(var i = 0; i < tabCount; i++) {
-				  var browser = gBrowser.getBrowserAtIndex(i);
-				  if (browser.currentURI.spec == 'about:support'){
-						tab = gBrowser.mTabs[i];
-						gBrowser.selectedTab = tab;
-						return;
-				  }
-				}
-				openUILinkIn("about:support", "tab");
+				switchToTabHavingURI("about:support", true);
+				//var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				//for(var i = 0; i < tabCount; i++) {
+				//  var browser = gBrowser.getBrowserAtIndex(i);
+				//  if (browser.currentURI.spec == 'about:support'){
+				//		tab = gBrowser.mTabs[i];
+				//		gBrowser.selectedTab = tab;
+				//		return;
+				//  }
+				//}
+				//openUILinkIn("about:support", "tab");
 			}
 			if (e.button == 2) {
 				e.preventDefault();
 				e.stopPropagation();
-				var tabCount = gBrowser.mPanelContainer.childNodes.length;
-				for(var i = 0; i < tabCount; i++) {
-				  var browser = gBrowser.getBrowserAtIndex(i);
-				  if (browser.currentURI.spec == 'about:config'){
-						tab = gBrowser.mTabs[i];
-						gBrowser.selectedTab = tab;
-						return;
-				  }
-				}
-				openUILinkIn("about:config", "tab");
+				switchToTabHavingURI("about:config", true);
+				//var tabCount = gBrowser.mPanelContainer.childNodes.length;
+				//for(var i = 0; i < tabCount; i++) {
+				//  var browser = gBrowser.getBrowserAtIndex(i);
+				//  if (browser.currentURI.spec == 'about:config'){
+				//		tab = gBrowser.mTabs[i];
+				//		gBrowser.selectedTab = tab;
+				//		return;
+				//  }
+				//}
+				//openUILinkIn("about:config", "tab");
 			}
 		}, false);
 	})(document);

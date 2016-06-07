@@ -42,9 +42,11 @@ keys['F4'] = function() {
 			};
 //測試
 keys['T+Ctrl'] = function() {
-				document.getElementById("file-menu").menupopup.openPopup(null, null, event.screenX, event.screenY);
+				doc.getElementById("fvd_single_button").setAttribute("open", "true");
 			};
 keys['J+Ctrl'] = function() {
+				switchToTabHavingURI("about:downloads", true);
+/*
 				var tabCount = gBrowser.mPanelContainer.childNodes.length;
 				for(var i = 0; i < tabCount; i++) {
 				  var browser = gBrowser.getBrowserAtIndex(i);
@@ -60,6 +62,7 @@ keys['J+Ctrl'] = function() {
 				//gBrowser.loadOneTab("about:downloads", null, null, null, false, false);
 				//loadOneTab( URL, referrerURI, charset, postData, loadInBackground, allowThirdPartyFixup )
 				//openNewTabWith("about:downloads");
+*/
 			};
 //頁面尋找剪貼簿文字
 keys['F+Alt'] = function() {

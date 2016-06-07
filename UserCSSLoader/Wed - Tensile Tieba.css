@@ -111,7 +111,7 @@ html:not([has_TBBG_extension]) body:not([has_TBBG_extension]) .forum_content {
 .d_post_content {
 	padding-right: 0px !important;
 }
-.l_banner, .right_section, #rp_rbotm ,.card_banner {
+.l_banner, .right_section, #rp_rbotm {
 	display: none !important;
 }
 .left_section {
@@ -184,7 +184,7 @@ html:not([has_TBBG_extension]) body:not([has_TBBG_extension]) .left_section {
 #voteFlashPanel .vote_buttons button {
 	left: 680px !important;
 }
-.left_section .core, .left_section .core .l_post {
+.left_section .core, .left_section .l_post {
 	width: auto !important;
 }
 .p_ding_up.ding_theme_2, .album_nobg .d_post_content_main {
@@ -234,7 +234,7 @@ html body .wrap_bright .content .left_section {
 	margin-right: 14px!important
 }
 #j_core_title_wrap.core_title_wrap_bright.clearfix {
-    width: 100% !important;
+	width: 100% !important;
 }
 .wrap_bright .content .core_title_absolute_bright {
 	width: 96% !important
@@ -259,7 +259,9 @@ html body .wrap_bright .content .left_section {
 	width: 100% !important
 }
 .l_container .content .core_title_wrap.core_title_absolute_bright{
-	width: 98% !important
+	width: auto !important;
+	left: 1.98%;
+	right: 1.98%;
 }
 .user-hide-post-down, .user-hide-post-action, .user-hide-post-up{
 	right: 180px !important
@@ -322,11 +324,11 @@ html body .wrap_bright .content .left_section {
 	background-image: url(http://tieba.baidu.com/tb/static-common/img/props/105/1100018.png) !important
 }
 
+.j_lzl_container, .edui-editor-body .edui-body-container, .edui-container {
+	width: auto !important;
 }
 
-@-moz-document url-prefix("http://tieba.baidu.com/f?kw="){
-
-.card_top_wrap{
-padding-top:85px !important
+.d_post_content.j_d_post_content.clearfix:after {
+    display: none !important;
 }
 }

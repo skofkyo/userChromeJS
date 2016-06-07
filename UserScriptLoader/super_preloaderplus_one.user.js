@@ -167,7 +167,7 @@ var SITEINFO_D={
 //高優先級規則,第一個是教程.
 var SITEINFO=[
     {name: 'Google搜索',                                                                                                                               //站點名字...(可選)
-        url: '^https?://(?:(?:www|encrypted)\\.google(?:stable)?\\..{2,9}|wen\\.lu)/(?:webhp|search|#|$|\\?)',   // 站點正則...(~~必須~~)
+        url: '^https?://(?:(?:www|encrypted)\\.google(?:stable)?\\..{2,9}|wen\\.lu)/(?:webhp|search|#q|$|\\?)',   // 站點正則...(~~必須~~)
         //url:'wildc;http://www.google.com.hk/search*',
         siteExample:'http://www.google.com',                                                                                                //站點實例...(可選)
         enable:true,                                                                                                                                            //啟用.(總開關)(可選)

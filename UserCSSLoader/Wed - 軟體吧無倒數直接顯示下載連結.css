@@ -1,8 +1,11 @@
 @namespace url(http://www.w3.org/1999/xhtml);
-@-moz-document domain(www.soft8.me),domain(appinc.org) {
+@-moz-document domain(www.soft8.me),domain(appinc.org),domain(soft8ware.com) {
 
-#countdown_div{
+#c0{
 display:none !important;
+}
+#c1{
+display:inline !important;
 }
 #dlbutton{
 display:inline !important;

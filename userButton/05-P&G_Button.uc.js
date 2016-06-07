@@ -89,10 +89,17 @@
 		onClick: function(event) {
 			switch (event.button) {
 				case 0:
+					//let url = readFromClipboard();
+					//if (!/^(https?:\/\/)?([\w\-]+\.)+\w+/.test(url))
+					//	url = 'https://www.google.com.tw/search?q='+ encodeURIComponent(url);
+					//openUILinkIn(url, 'tab');
 					let url = readFromClipboard();
-					if (!/^(https?:\/\/)?([\w\-]+\.)+\w+/.test(url))
+					try {
+						switchToTabHavingURI(url, true);
+					} catch (ex) {
 						url = 'https://www.google.com.tw/search?q='+ encodeURIComponent(url);
-					openUILinkIn(url, 'tab');
+						switchToTabHavingURI(url, true);
+					}
 					break;
 				case 1:
 					openUILinkIn("https://translate.google.com.tw/?hl=zh-TW#auto|zh-TW|" + encodeURIComponent(readFromClipboard()), 'tab');

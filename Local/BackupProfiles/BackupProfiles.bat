@@ -1,83 +1,89 @@
 echo off
-rem è¨­ç½®å‚™ä»½è·¯å¾‘ä»¥åŠè‡¨æ™‚æ–‡ä»¶å¤¾
+@echo Ãö³¬¤õª°ÂsÄý¾¹¦Z¦Û°Ê¶}©l³Æ¥÷¡K¡K
+taskkill /im firefox.exe
+rem ³]¸m³Æ¥÷¸ô®|¥H¤ÎÁ{®É¤å¥ó§¨
 cd /d %~dp0
 set BackDir=..\..\..
 set TempFolder=..\..\..\Temp\Profiles
-::åˆªé™¤å¿«å–
+::§R°£§Ö¨ú
 del %BackDir%\chrome\UserScriptLoader\require\ /s /q
-rem è¤‡è£½ç›®æ¨™æ–‡ä»¶åˆ°è‡¨æ™‚æ–‡ä»¶å¤¾
-::::::::::::::::::::ä»¥ä¸‹æ˜¯è³‡æ–™å¤¾::::::::::::::::::::
-::æ“‹å»£å‘Š
+rem ½Æ»s¥Ø¼Ð¤å¥ó¨ìÁ{®É¤å¥ó§¨
+::::::::::::::::::::¥H¤U¬O¸ê®Æ§¨::::::::::::::::::::
+::¾×¼s§i
 xcopy "%BackDir%\adblockplus" %TempFolder%\adblockplus\ /s /y /i
 xcopy "%BackDir%\adblockedge" %TempFolder%\adblockedge\ /s /y /i
-::å„å¼æ¨£å¼&UCè…³æœ¬
+::¦U¦¡¼Ë¦¡&UC¸}¥»
 xcopy "%BackDir%\chrome" %TempFolder%\chrome\  /s /y /i
-::æ“´å……å¥—ä»¶
+::ÂX¥R®M¥ó
 xcopy "%BackDir%\extensions" %TempFolder%\extensions\ /s /y /i
-::æ›¸ç±¤çš„å‚™ä»½æª”æ¡ˆ
+::®ÑÅÒªº³Æ¥÷ÀÉ®×
 ::xcopy "%BackDir%\bookmarkbackups" %TempFolder%\bookmarkbackups\ /s /y /i
-::Î¼blockè¨­å®š
+::£gblock³]©w
 xcopy "%BackDir%\extension-data" %TempFolder%\extension-data\ /s /y /i
-::ä½¿ç”¨è€…è…³æœ¬
+::¨Ï¥ÎªÌ¸}¥»
 xcopy "%BackDir%\scriptish_scripts" %TempFolder%\scriptish_scripts\ /s /y /i
 xcopy "%BackDir%\gm_scripts" %TempFolder%\gm_scripts\ /s /y /i
-::æœå°‹å¼•æ“Žè³‡æ–™å¤¾
+::·j´M¤ÞÀº¸ê®Æ§¨
 ::xcopy "%BackDir%\searchplugins" %TempFolder%\searchplugins\ /s /y /i
-::::::::::::::::::::ä»¥ä¸‹æ˜¯æª”æ¡ˆ::::::::::::::::::::
-::æ“´å……å¥—ä»¶
+::::::::::::::::::::¥H¤U¬OÀÉ®×::::::::::::::::::::
+::ÂX¥R®M¥ó
 xcopy "%BackDir%\addons.sqlite" %TempFolder%\ /y
 xcopy "%BackDir%\extensions.json" %TempFolder%\ /y
 xcopy "%BackDir%\extensions.sqlite" %TempFolder%\ /y
 xcopy "%BackDir%\extensions.ini" %TempFolder%\ /y
-::å®‰å…¨æ†‘è­‰è¨­å®š  å„²å­˜ä½ æ‰€æœ‰çš„å®‰å…¨æ†‘è­‰è¨­å®šåŠåŒ¯å…¥ Firefox çš„ SSL æ†‘è­‰ã€‚ 
+::¦w¥þ¾ÌÃÒ³]©w  Àx¦s§A©Ò¦³ªº¦w¥þ¾ÌÃÒ³]©w¤Î¶×¤J Firefox ªº SSL ¾ÌÃÒ¡C 
 xcopy "%BackDir%\cert8.db" %TempFolder%\ /y
-::Cookie Cookie æ˜¯ä½ åŽ»éŽçš„ç¶²ç«™å­˜æ”¾åœ¨ä½ é›»è…¦ä¸­çš„ä¸€äº›è³‡è¨Šï¼Œé€šå¸¸æ˜¯ä¸€äº›é—œæ–¼ç¶²ç«™çš„åå¥½è¨­å®šæˆ–ç™»å…¥ç‹€æ…‹ã€‚
+::Cookie Cookie ¬O§A¥h¹Lªººô¯¸¦s©ñ¦b§A¹q¸£¤¤ªº¤@¨Ç¸ê°T¡A³q±`¬O¤@¨ÇÃö©óºô¯¸ªº°¾¦n³]©w©Îµn¤Jª¬ºA¡C
 xcopy "%BackDir%\cookies.sqlite" %TempFolder%\ /y
-::ä½¿ç”¨è€…å„²å­˜çš„å¸³æˆ¶å’Œå¯†ç¢¼
+::¨Ï¥ÎªÌÀx¦sªº±b¤á©M±K½X
 xcopy "%BackDir%\key3.db" %TempFolder%\ /y
 xcopy "%BackDir%\signons.sqlite" %TempFolder%\ /y
 xcopy "%BackDir%\logins.json" %TempFolder%\ /y
-::æ›¸ç±¤ã€ä¸‹è¼‰èˆ‡ç€è¦½ç´€éŒ„ é€™å€‹æª”æ¡ˆåŒ…å«æ‚¨åœ¨ Firefox çš„æ‰€æœ‰æ›¸ç±¤ã€ä¸‹è¼‰ç´€éŒ„ä»¥åŠæ‹œè¨ªéŽçš„ç¶²ç«™æ¸…å–®ã€‚
+::®ÑÅÒ¡B¤U¸ü»PÂsÄý¬ö¿ý ³o­ÓÀÉ®×¥]§t±z¦b Firefox ªº©Ò¦³®ÑÅÒ¡B¤U¸ü¬ö¿ý¥H¤Î«ô³X¹Lªººô¯¸²M³æ¡C
 xcopy "%BackDir%\places.sqlite" %TempFolder%\ /y
-::ç‰¹æ®Šç¶²ç«™è¨­å®š Firefox çš„æ¬Šé™è¨­å®šï¼ˆä¾‹å¦‚ä½ å…è¨±å“ªäº›ç¶²ç«™é¡¯ç¤ºå½ˆå‡ºè¦–çª—ï¼‰æˆ–åŸºæ–¼å€‹åˆ¥ç¶²ç«™è¨­ç½®çš„ç¸®æ”¾æ¯”ä¾‹ã€‚
+::¯S®íºô¯¸³]©w Firefox ªºÅv­­³]©w¡]¨Ò¦p§A¤¹³\­þ¨Çºô¯¸Åã¥Ü¼u¥Xµøµ¡¡^©Î°ò©ó­Ó§Oºô¯¸³]¸mªºÁY©ñ¤ñ¨Ò¡C
 xcopy "%BackDir%\permissions.sqlite" %TempFolder%\ /y
 xcopy "%BackDir%\content-prefs.sqlite" %TempFolder%\ /y
-::è‡ªå‹•å®Œæˆæ¸…å–® å„²å­˜äº†ä½ åœ¨æœå°‹åˆ—æˆ–ç¶²ç«™çš„è¡¨å–®ä¸­è¼¸å…¥éŽçš„å­—ä¸²ã€‚
+::¦Û°Ê§¹¦¨²M³æ Àx¦s¤F§A¦b·j´M¦C©Îºô¯¸ªºªí³æ¤¤¿é¤J¹Lªº¦r¦ê¡C
 xcopy "%BackDir%\formhistory.sqlite" %TempFolder%\ /y
-::è¨˜æ†¶äº†å·¥å…·åˆ—æŒ‰éˆ•çš„é †åºèˆ‡ä½ç½®
+::°O¾Ð¤F¤u¨ã¦C«ö¶sªº¶¶§Ç»P¦ì¸m
 xcopy "%BackDir%\localstore.rdf" %TempFolder%\ /y
-::å€‹äººåå¥½è¨­å®š prefs.js å„²å­˜äº†ä½¿ç”¨è€…è‡ªè¨‚çš„åå¥½è¨­å®šï¼Œä¾‹å¦‚ä½ åœ¨ Firefox é¸é … å°è©±æ–¹å¡Šä¸­ä¿®æ”¹çš„è¨­å®šã€‚å¦ä¸€éžå¿…è¦çš„ç›¸é—œæª”æ¡ˆæ˜¯ user.jsï¼Œå¦‚æžœæœ‰çš„è©±ï¼Œè£¡é¢çš„è¨­å®šæœƒå„ªå…ˆå–ä»£ä»»ä½•ä¿®æ”¹éŽçš„åå¥½è¨­å®šã€‚ 
+::­Ó¤H°¾¦n³]©w prefs.js Àx¦s¤F¨Ï¥ÎªÌ¦Û­qªº°¾¦n³]©w¡A¨Ò¦p§A¦b Firefox ¿ï¶µ ¹ï¸Ü¤è¶ô¤¤­×§ïªº³]©w¡C¥t¤@«D¥²­nªº¬ÛÃöÀÉ®×¬O user.js¡A¦pªG¦³ªº¸Ü¡A¸Ì­±ªº³]©w·|Àu¥ý¨ú¥N¥ô¦ó­×§ï¹Lªº°¾¦n³]©w¡C 
 xcopy "%BackDir%\prefs.js" %TempFolder%\ /y
 xcopy "%BackDir%\user.js" %TempFolder%\ /y
-::stylishçš„æ¨£å¼æ•¸æ“š
+::stylishªº¼Ë¦¡¼Æ¾Ú
 xcopy "%BackDir%\stylish.sqlite" %TempFolder%\ /y
-::foxyproxyçš„ä»£ç†è¨­å®š
+::foxyproxyªº¥N²z³]©w
 xcopy "%BackDir%\foxyproxy.xml" %TempFolder%\ /y
-::è‡ªè¨‚å·¥å…·åˆ— æª”æ¡ˆå„²å­˜äº†å·¥å…·åˆ—åŠè¦–çª—å¤§å°èˆ‡ä½ç½®ç­‰è¨­å®šå€¼ã€‚
+::¦Û­q¤u¨ã¦C ÀÉ®×Àx¦s¤F¤u¨ã¦C¤Îµøµ¡¤j¤p»P¦ì¸mµ¥³]©w­È¡C
 ::xcopy "%BackDir%\xulstore.json" %TempFolder%\ /y
-::ä¸‹è¼‰å‹•ä½œ å„²å­˜ä½ å°æ–¼ Firefox æ‡‰å¦‚ä½•è™•ç†ç‰¹å®šæ ¼å¼æª”æ¡ˆçš„åå¥½è¨­å®šï¼Œä¾‹å¦‚ä½ é»žé¸ PDF æª”æ™‚ï¼Œç›´æŽ¥ä»¥ Acrobat Reader é–‹å•Ÿå®ƒã€‚
+::¤U¸ü°Ê§@ Àx¦s§A¹ï©ó Firefox À³¦p¦ó³B²z¯S©w®æ¦¡ÀÉ®×ªº°¾¦n³]©w¡A¨Ò¦p§AÂI¿ï PDF ÀÉ®É¡Aª½±µ¥H Acrobat Reader ¶}±Ò¥¦¡C
 ::xcopy "%BackDir%\mimeTypes.rdf " %TempFolder%\ /y
-::æœå°‹å¼•æ“Ž  å„²å­˜äº† Firefox æœå°‹åˆ—è£¡æ‰€ä½¿ç”¨çš„çš„æœå°‹å¼•æ“Žã€‚ 
+::·j´M¤ÞÀº  Àx¦s¤F Firefox ·j´M¦C¸Ì©Ò¨Ï¥Îªºªº·j´M¤ÞÀº¡C 
 ::xcopy "%BackDir%\search.sqlite" %TempFolder%\ /y
 ::xcopy "%BackDir%\search.json" %TempFolder%\ /y
-::å€‹äººå­—å…¸
+::­Ó¤H¦r¨å
 ::xcopy "%BackDir%\persdict.dat" %TempFolder%\ /y
-::DOM å­˜å„² DOM å­˜å„²è¨­è¨ˆçš„ç›®çš„æ˜¯æä¾›ä¸€ç¨®æ¯” Cookie æ›´å¤§ã€æ›´å®‰å…¨ï¼Œè€Œä¸”æ˜“æ–¼ä½¿ç”¨çš„è³‡è¨Šå­˜å„²æ›¿ä»£æ–¹æ¡ˆã€‚é—œæ–¼ç¶²é çš„è³‡è¨Šå­˜æ”¾åœ¨ webappsstore.sqliteï¼Œè€Œ chromeappsstore.sqlite å‰‡å­˜æ”¾å„ç¨® about:* é é¢ã€‚ 
+::DOM ¦sÀx DOM ¦sÀx³]­pªº¥Øªº¬O´£¨Ñ¤@ºØ¤ñ Cookie §ó¤j¡B§ó¦w¥þ¡A¦Ó¥B©ö©ó¨Ï¥Îªº¸ê°T¦sÀx´À¥N¤è®×¡CÃö©óºô­¶ªº¸ê°T¦s©ñ¦b webappsstore.sqlite¡A¦Ó chromeappsstore.sqlite «h¦s©ñ¦UºØ about:* ­¶­±¡C 
 ::xcopy "%BackDir%\webappsstore.sqlite" %TempFolder%\ /y
 ::xcopy "%BackDir%\chromeappsstore.sqlite" %TempFolder%\ /y
-::å¤–æŽ›ç¨‹å¼ MIME é¡žåž‹ å„²å­˜é—œæ–¼ä½ æ‰€å®‰è£å¤–æŽ›ç¨‹å¼çš„ ç¶²éš›ç¶²è·¯åª’é«”åž‹å¼ã€‚
+::¥~±¾µ{¦¡ MIME Ãþ«¬ Àx¦sÃö©ó§A©Ò¦w¸Ë¥~±¾µ{¦¡ªº ºô»Úºô¸ô´CÅé«¬¦¡¡C
 ::xcopy "%BackDir%\pluginreg.dat" %TempFolder%\ /y
-::ç€è¦½ç‹€æ…‹ æœƒå„²å­˜ç›®å‰é–‹å•Ÿä¸­çš„åˆ†é å’Œè¦–çª—ã€‚
+::ÂsÄýª¬ºA ·|Àx¦s¥Ø«e¶}±Ò¤¤ªº¤À­¶©Mµøµ¡¡C
 ::xcopy "%BackDir%\sessionstore.js" %TempFolder%\ /y
 
-::è®€å–ç‰ˆæœ¬è™Ÿå’Œæ—¥æœŸåŠæ™‚é–“
+::Åª¨úª©¥»¸¹©M¤é´Á¤Î®É¶¡
 for /f "usebackq eol=; tokens=1,2 delims==" %%i in ("..\..\..\..\Firefox\application.ini")do (if %%i==Version set ver=%%j)
 set hour=%time:~,2%
 if "%time:~,1%"==" " set hour=%time:~1,1%
 set backupTime=%date:~0,4%-%date:~5,2%-%date:~8,2%,%hour%-%time:~3,2%-%time:~6,2% 
-::è¨­ç½®å‚™ä»½æ–‡ä»¶è·¯å¾‘ä»¥åŠæ–‡ä»¶å
+::³]¸m³Æ¥÷¤å¥ó¸ô®|¥H¤Î¤å¥ó¦W
 set ArchiveName=d:\FirefoxBackup\Profiles_Firefox_%ver%_%date:~0,4%-%date:~5,2%-%date:~8,2%[%hour%h-%time:~3,2%m-%time:~6,2%s].7z
-rem é–‹å§‹å‚™ä»½
+rem ¶}©l³Æ¥÷
 7z.exe u -up1q3r2x2y2z2w2 %ArchiveName% "%TempFolder%"
-@echo å‚™ä»½å®Œæˆï¼åˆªé™¤è‡¨æ™‚æ–‡ä»¶å¤¾
+@echo ³Æ¥÷§¹¦¨¡I§R°£Á{®É¤å¥ó§¨
 rd "%TempFolder%" /s/q
+@echo ±Ò°ÊÂsÄý¾¹
+start "Mozilla Firefox" "C:\FirefoxPortable\MyFirefox.exe"
+::©µ¿ð2¬íÃö³¬
+ping -n 2 127.0.0.1>nul
