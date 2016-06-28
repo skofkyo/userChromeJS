@@ -38,6 +38,8 @@
 		#context-openlinkintab,\
 		/*用新視窗開啟鏈結*/\
 		#context-openlink,\
+		/*用新隱私視窗開啟鏈結*/\
+		#context-openlinkprivate,\
 		/*此鏈結加入書籤*/\
 		#context-bookmarklink,\
 		/*複製電子郵件地址*/\

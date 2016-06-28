@@ -72,7 +72,7 @@
     FORCESORTSCRIPT：對腳本進行排序，這可能對腳本的運行順序有影響
     AUTOREMOVEBOM：對文件編碼進行檢測，但並不支持 gbk 編碼
   */
-  const EXPERIMENT = true; //実験:するtrue, しない[false]
+  const EXPERIMENT = false; //実験:するtrue, しない[false]
   const EXCLUDE_CHROMEHIDDEN = false; //chromehiddenなwindow(popup等)ではロード: しないtrue, する[false]
   const USE_0_63_FOLDER = false; //0.63のフォルダ規則を使う[true], 使わないfalse
   const FORCESORTSCRIPT = false; //強制的にスクリプトをファイル名順でソートするtrue, しない[false]

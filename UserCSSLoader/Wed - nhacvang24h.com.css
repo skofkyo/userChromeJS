@@ -1,0 +1,15 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+@-moz-document domain("nhacvang24h.com") {
+.main_left [style="width:99%;margin:6px 0 0 0;float:left;"],
+.main_left [style="margin:4px 0 10px 10px;font-size:14px;width:auto;padding:2px 50px 2px 50px;display:inline-block;border:none;border-radius:3px;background:#EBDCAF;color:#BE8714;font-weight:bold;"],
+.main_left table.tor:nth-child(6),
+.main_left .topq,
+.main_left .tor.more_qu,
+.main_left .htorrents,
+div[style="width:99%;margin:6px 0 0 0;float:left;"],
+.headerUp > a[href="/"] > img,
+#footer{
+		display: none !important;
+	}
+}

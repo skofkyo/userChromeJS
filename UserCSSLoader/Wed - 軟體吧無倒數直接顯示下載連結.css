@@ -1,7 +1,7 @@
 @namespace url(http://www.w3.org/1999/xhtml);
 @-moz-document domain(www.soft8.me),domain(appinc.org),domain(soft8ware.com) {
 
-#c0{
+#c0,ul.list{
 display:none !important;
 }
 #c1{

@@ -123,7 +123,7 @@ keys['F+Ctrl'] = function() {
 			};
 //重新啟動並清除緩存
 keys['r+ctrl+alt'] = function() {
-				Services.appinfo.invalidateCachesOnRestart()||Application.restart();
+				Services.appinfo.invalidateCachesOnRestart() || BrowserUtils.restartApplication();
 			};
 //定位到urlbar
 keys['enter+ctrl'] = function() {

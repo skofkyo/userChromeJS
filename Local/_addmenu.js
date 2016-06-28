@@ -122,11 +122,12 @@ new function() {
             onclick: function(e) {
                 switch (e.button) {
                     case 0:
+                        gBrowser.addTab("http://nhacvang24h.com/results.php?q=" + encodeURIComponent(getBrowserSelection()));//BTScene Torrents
                         gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
                         gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
                         gBrowser.addTab("http://torrentz.eu/search?q=" + encodeURIComponent(getBrowserSelection()));//torrentz
-                        gBrowser.addTab("http://sub.makedie.me/sub/?searchword=" + encodeURIComponent(getBrowserSelection()));//射手網(偽)
+                        gBrowser.addTab("https://secure.assrt.net/sub/?searchword=" + encodeURIComponent(getBrowserSelection()));//射手網(偽)
                         gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(getBrowserSelection()));//subom字幕庫
                         gBrowser.addTab("http://www.zimud.com/search?q=" + encodeURIComponent(getBrowserSelection()));//字幕帝
                         gBrowser.addTab("http://subhd.com/search/" + encodeURIComponent(getBrowserSelection()));//SUBHD
@@ -135,11 +136,12 @@ new function() {
                         //http://www.opensubtitles.org/zt/search2/sublanguageid-zht,chi,zhe/moviename-%SEL%
                         break;
                     case 2:
+                        gBrowser.addTab("http://nhacvang24h.com/results.php?q=" + encodeURIComponent(readFromClipboard()));//BTScene Torrents
                         gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
                         gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(readFromClipboard()));//海盜灣
                         gBrowser.addTab("http://torrentz.eu/search?q=" + encodeURIComponent(readFromClipboard()));//torrentz
-                        gBrowser.addTab("http://sub.makedie.me/sub/?searchword=" + encodeURIComponent(readFromClipboard()));
+                        gBrowser.addTab("https://secure.assrt.net/sub/?searchword=" + encodeURIComponent(readFromClipboard()));
                         gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(readFromClipboard()));//subom字幕庫
                         gBrowser.addTab("http://www.zimud.com/search?q=" + encodeURIComponent(readFromClipboard()));//字幕帝
                         gBrowser.addTab("http://subhd.com/search/" + encodeURIComponent(readFromClipboard()));//SUBHD
@@ -155,7 +157,7 @@ new function() {
             onclick: function(e) {
                 switch (e.button) {
                     case 0:
-                        gBrowser.addTab("http://sub.makedie.me/sub/?searchword=" + encodeURIComponent(getBrowserSelection()));//射手網(偽)
+                        gBrowser.addTab("https://secure.assrt.net/sub/?searchword=" + encodeURIComponent(getBrowserSelection()));//射手網(偽)
                         gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(getBrowserSelection()));//subom字幕庫
                         gBrowser.addTab("http://www.zimud.com/search?q=" + encodeURIComponent(getBrowserSelection()));//字幕帝
                         gBrowser.addTab("http://subhd.com/search/" + encodeURIComponent(getBrowserSelection()));//SUBHD
@@ -164,7 +166,7 @@ new function() {
                         //http://www.opensubtitles.org/zt/search2/sublanguageid-zht,chi,zhe/moviename-%SEL%
                         break;
                     case 2:
-                        gBrowser.addTab("http://sub.makedie.me/sub/?searchword=" + encodeURIComponent(readFromClipboard()));
+                        gBrowser.addTab("https://secure.assrt.net/sub/?searchword=" + encodeURIComponent(readFromClipboard()));
                         gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(readFromClipboard()));//subom字幕庫
                         gBrowser.addTab("http://www.zimud.com/search?q=" + encodeURIComponent(readFromClipboard()));//字幕帝
                         gBrowser.addTab("http://subhd.com/search/" + encodeURIComponent(readFromClipboard()));//SUBHD
@@ -180,12 +182,14 @@ new function() {
             onclick: function(e) {
                 switch (e.button) {
                     case 0:
+                        gBrowser.addTab("http://nhacvang24h.com/results.php?q=" + encodeURIComponent(getBrowserSelection()));//BTScene Torrents
                         gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
                         gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
                         gBrowser.addTab("http://torrentz.eu/search?q=" + encodeURIComponent(getBrowserSelection()));//torrentz
                         break;
                     case 2:
+                        gBrowser.addTab("http://nhacvang24h.com/results.php?q=" + encodeURIComponent(readFromClipboard()));//BTScene Torrents
                         gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
                         gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(readFromClipboard()));//海盜灣

@@ -20,7 +20,9 @@ if (location == "chrome://browser/content/browser.xul") {
 		if (!fvd)
 			return;
 		fvd.addEventListener("click", function (e) {
-			switchToTabHavingURI("about:downloads", true);
+			if (e.button == 1) {
+				switchToTabHavingURI("about:downloads", true);
+			}
 		}, false);
 	})(document);
 	//greasemonkey圖標右鍵菜單

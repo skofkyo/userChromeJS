@@ -142,4 +142,10 @@ rules = [
 	to: "$1&tp=2",
 	regex: true
 	},
+	{
+		name: "百度贴吧跳轉",
+		from: "http://tieba.baidu.com/mo/q/checkurl?url=*",
+		to: "$1",
+		wildcard: true,
+	},
 ];

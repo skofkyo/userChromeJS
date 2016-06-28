@@ -10,18 +10,21 @@
 // @homepageURL   	https://github.com/skofkyo/userChromeJS
 // @version         1.0
 // ==/UserScript==
-(function() {
-	var titlebar = document.getElementById('titlebar');
-	window.rts = {
-		init: function() {
-			window.addEventListener("resize", this, true);
-			setTimeout(function() {
-				titlebar.removeAttribute("style");
-			}, 10);
-		},
-		handleEvent: function(evnet) {
-			titlebar.removeAttribute("style");
-		}
-	};
-	window.rts.init();
-})();
+
+//(function() {
+//	var titlebar = document.getElementById('titlebar');
+//	window.rts = {
+//		init: function() {
+//			window.addEventListener("resize", this, true);
+//			setTimeout(function() {
+//				titlebar.removeAttribute("style");
+//			}, 10);
+//		},
+//		handleEvent: function(evnet) {
+//			titlebar.removeAttribute("style");
+//		}
+//	};
+//	window.rts.init();
+//})();
+
+document.getElementById('titlebar').removeAttribute("style");
