@@ -3,7 +3,7 @@
 // @description    書籤維護
 // @author         danny
 // @include        main
-// @compatibility  Firefox 11.0 10.0+
+// @compatibility  Firefox 11.0~47+
 // @include        chrome://browser/content/places/places.xul
 // @include        chrome://browser/content/bookmarks/bookmarksPanel.xul
 // @charset              UTF-8
@@ -55,6 +55,7 @@ var updatebookmark = {
 		menuItem.setAttribute("oncommand", "updatebookmark.appendURL();");
 		menuItem.setAttribute("closemenu", "single");
 		menuItem.setAttribute("selection", "link");
+		menuItem.setAttribute("disabled", "true");
 		menuItem.setAttribute('image', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAABt0lEQVR42mNgwAP449etAOLZDOQCvui1pqIll/8LF57/yxO7TocsQ8Qyd28Tr3v6X7zuyX+xjJ1rSDaAO26NnkjJlX8QQ57+Fym+9Jc3YY0G0QZwRiyXFU/fuQVmAMw1Imk71nPGrZLG7vfYtbGgwONPWHdCIGH9B8Hkbf9FS6/8RzXk6X/Rkiv/BZO3/uePX/9eIG79Uf64tbOA6gPEqh/HMghnH/woUnThv2j5zf/iNY8wNGNgoBqQWpAekcx9L8VqH39gyF3zukii7vFvgprRsFT94x9l619nidU8cmP4+PGjUMbKN1XiJBgEshRk+fv37wXg4fLp0yeRxGWvG4EB+JcYAzJXvKkEWY4RwJ8/fxYz7nmyk5AhFv3PNoAsxRm9ClWXjxIyRKniwi68aUS64uozQobIVF69jdsEn5lcopX3/qLFwCep+idfUQyqvPWTIXQVM1YzRFPXG4BSJlTzd8epL5acuv/DY9/Nr962k5+vkqx7/ANsSC0wLyWuUcJqiHX9EROQzZYTXqzfdOlTwPfv35X279/PcubMGdYfP34orz33OcSs/9kW6fonnywr96PkIwDJHpLLwNBhgQAAAABJRU5ErkJggg==");
 		placesContextMenu.insertBefore(menuItem, placesContextMenu.childNodes[10]);
 		menuItem = document.createElement("menuitem");
@@ -130,8 +131,9 @@ var updatebookmark = {
 				if (menubook1) menubook1.hidden = true;
 				if (menubook2) menubook2.hidden = true;
 				if (menubook3) {
-					menubook3.hidden = true;
+					menubook3.hidden = false;
 					menubook3.setAttribute("label", "在此資料夾添加新書簽");
+					menubook3.removeAttribute("disabled");
 				}
 				if (menubook4) menubook4.hidden = true;
 			}
@@ -275,7 +277,7 @@ var updatebookmark = {
 				PlacesUtils.bookmarks.insertBookmark(pnodeid, newURI, PlacesUtils.bookmarks.getItemIndex(node.itemId) + 1, newtitle);
 			} else {
 				var pnodeid = node.itemId;
-				PlacesUtils.bookmarks.insertBookmark(pnodeid, newURI, 'DEFAULT_INDEX', newtitle);
+				PlacesUtils.bookmarks.insertBookmark(pnodeid, newURI, "DEFAULT_INDEX", newtitle);
 			}
 		} catch (ex) {
 			alert(ex.message);
