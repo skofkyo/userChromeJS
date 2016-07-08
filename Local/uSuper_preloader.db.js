@@ -57,6 +57,11 @@ var blackList = [
 //在以下網站上允許在非頂層窗口上加載JS..比如貓撲之類的框架集網頁.
 var DIExclude = [
     ['貓撲帖子', true, /http:\/\/dzh\.mop\.com\/[a-z]{3,6}\/\d{8}\/.*\.shtml$/i],
+    ['鐵血社區', true, /^http:\/\/bbs\.tiexue\.net\/.*\.html$/i],
+    ['鐵血社區-2', true, /^http:\/\/bbs\.qichelian\.com\/bbsqcl\.php\?fid/i],
+    // 像 http://so.baiduyun.me/ 內嵌的百度、Google 框架
+    ['百度網盤搜索引擎-百度', true, /^https?:\/\/www\.baidu\.com\/baidu/i],
+    ['百度網盤搜索引擎-Google', true, /^https?:\/\/74\.125\.128\.147\/custom/i],
 ];
 
 //////////////////////////---------------規則-------////////////////
@@ -169,6 +174,89 @@ var SITEINFO=[
         }
     },
     // ========= 自己蛋疼的 ================
+    {name: '射手网(伪)',
+        url: /https?:\/\/secure\.assrt\.net\/sub\/\?searchword=/i,
+        siteExample: 'https://secure.assrt.net/sub/?searchword=Finding',
+        //nextLink: '//a[contains(text(),">")]',
+        nextLink:{
+            startAfter:'&page=',
+            mFails:[/^https?:\/\/secure\.assrt\.net\/sub\/\?searchword\=.*/i,'&page=1'],
+            inc:1,
+        },
+        autopager: {
+            pageElement: 'css;.subitem',
+            useiframe: true,
+            HT_insert: ['css;.pagelinkcard', 1],
+        },
+    }, 
+    {name: '射手网(伪)',
+        url: /https?:\/\/secure\.assrt\.net\//i,
+        siteExample: 'https://secure.assrt.net/sub/?searchword=Finding',
+        nextLink: '//a[contains(text(),">")]',
+        autopager: {
+            pageElement: 'css;.subitem',
+            useiframe: true,
+            HT_insert: ['css;.pagelinkcard', 1],
+        },
+    }, 
+    {name: 'R3sub',
+        url: /https?:\/\/r3sub\.com\//i,
+        siteExample: 'http://r3sub.com/search.php?s=Finding',
+        nextLink: 'css;.pagination > li:last-child > a',
+        autopager: {
+            pageElement: 'css;div.movie',
+        },
+    }, 
+    {name: 'TLF字幕组',
+        url: /https?:\/\/sub\.eastgame\.org\//i,
+        siteExample: 'http://sub.eastgame.org/',
+        nextLink: 'css;.nextpostslink',
+        autopager: {
+            pageElement: 'css;div[id^="post-"]',
+        },
+    }, 
+    {name: 'Sub HD',
+        url: /https?:\/\/subhd\.com\/(subs|search)/i,
+        siteExample: 'http://subhd.com/subs/',
+        nextLink: '//a[contains(text(),">")]',
+        autopager: {
+            pageElement: 'css;div.box',
+        },
+    }, 
+    {name: '字幕庫',
+        url: /https?:\/\/www\.zimuku\.net/i,
+        siteExample: 'http://www.zimuku.net/',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;.table',
+        },
+    }, 
+    {name: '字幕帝',
+        url: /https?:\/\/www\.zimud\.com/i,
+        siteExample: 'http://www.zimud.com/latest',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;#sub-list',
+        },
+    }, 
+    {name: '＊MioBT＊',
+        url: /https?:\/\/www\.miobt\.com/i,
+        siteExample: 'http://www.miobt.com/',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;#listTable',
+        },
+    }, 
+    {name: '松鼠症倉庫',
+        url: /https?:\/\/(hdm2011\.com|comic\-mega\.me)\/dnew\.php/i,
+        siteExample: 'http://hdm2011.com/dnew.php?category_id=1',
+        siteExample: 'http://comic-mega.me/dnew.php',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;#gallery',
+            useiframe: true,
+        },
+    }, 
     {name: '精品福利-污图社',
         url: /https?:\/\/www\.wutushe\.com/i,
         siteExample: 'http://www.wutushe.com/sfuli',
@@ -188,9 +276,10 @@ var SITEINFO=[
     {name: '大连生活网',
         url: /https?:\/\/www\.dlkoo\.com\/down\/(\d?\/)?$/,
         siteExample: 'http://www.dlkoo.com/down/2/index_2.htm',
+        //nextLink: '//a[contains(text(),"下一页")]',
         nextLink:{
             startAfter:'index_',
-            mFails:[/^http:\/\/www\.dlkoo\.com\/down\/.*/i,'index_2.htm'],
+            mFails:[/^http:\/\/www\.dlkoo\.com\/down\/.*/i,'index_1.htm'],
             inc:1,
         },
         autopager: {
@@ -200,7 +289,7 @@ var SITEINFO=[
     {name: 'Rarbg',
         url: /https?:\/\/rarbg\.to\//i,
         siteExample: 'https://rarbg.to/torrents.php',
-        nextLink: 'auto;',
+        nextLink: 'css;a[title="next page"]',
         autopager: {
             pageElement: 'css;tr.lista2',
         },
@@ -215,11 +304,11 @@ var SITEINFO=[
         },
     }, 
     {name: '普普成人',
-        url: /https?:\/\/www\.pupuxx\.info\/art.*\/(index.*\.html)?$/,
+        url: /https?:\/\/www\.pupuxx\.info\/(art|sex|swf|txt).*\/(index.*\.html)?$/,
         siteExample: 'http://www.pupuxx.info/',
         nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;.list.clearfix',
+            pageElement: 'css;.list.clearfix,#img_resize,.poster.clearfix',
             useiframe: true,
         },
     }, 
@@ -240,12 +329,24 @@ var SITEINFO=[
             pageElement: 'css;div.content',
         },
     }, 
-    {name: 'BTScene Torrents',
+    {name: 'BTScene Torrents列表',
         url: /https?:\/\/nhacvang24h\.com\/(results|cat\/)/i,
         siteExample: 'http://nhacvang24h.com/results.php?q=The+Divergent+Series+Allegiant',
         nextLink: 'auto;',
         autopager: {
             pageElement: 'css;tr[id^="_"]',
+        },
+    }, 
+    {name: 'BTScene Torrents提取種子連結',
+        url: /https?:\/\/nhacvang24h\.com\/.*\.html$/,
+        siteExample: 'http://nhacvang24h.com/rio-2-1080p-brrip-x264-yify-tf4112014.html',
+        nextLink: 'css;a#dlt_',
+        autopager: {
+            pageElement: 'css;.main_left',
+            ipages: [true, 1], 
+            HT_insert: ['css;.main_left', 1],
+            separator: false,
+            stylish: 'div.main_left > .analytics_container,.t_title,.dlb,.cont_  > p{display:none;}.cont_ {width: 800px;height: auto;margin: 5px auto;padding: 0;text-align: center;font-family: Verdana, Arial, Helvetica, sans-serif;}.link_pr {width: 350px;display: inline-block;font-family: Arial, Helvetica, sans-serif;padding: 12px;border-radius: 50px;background-color: #191919;color: white;font-weight: bold;text-decoration: none;font-size: 13px;border: 4px solid #c1c1c1;}',
         },
     }, 
     {name: 'MEIYINGSE美影-美影社_唯美寫真,私拍套圖,艷照視頻',
@@ -400,17 +501,8 @@ var SITEINFO=[
         },
     }, 
     {name: '動漫花園資源網',
-        url: /https?:\/\/share\.dmhy\.org\//i,
+        url: /https?:\/\/(share\.dmhy\.org|dmhy\.dandanplay\.com)\//i,
         siteExample: 'http://share.dmhy.org/',
-        nextLink: 'auto;',
-        autopager: {
-            pageElement: '//div[@class="table clear"]',
-            useiframe: true,
-        },
-    }, 
-    {name: '動漫花園資源網',
-        url: /https?:\/\/dmhy\.dandanplay\.com\//i,
-        siteExample: 'http://dmhy.dandanplay.com/',
         nextLink: 'auto;',
         autopager: {
             pageElement: '//div[@class="table clear"]',
@@ -426,36 +518,15 @@ var SITEINFO=[
         },
     }, 
     {name: '爱恋动漫BT下载',
-        url: /http:\/\/www\.kisssub\.org\/search/i,
+        url: /http:\/\/www\.kisssub\.org\//i,
         siteExample: 'http://www.kisssub.org/',
-        nextLink: 'css;.pages.clear > A:last-child',
+        nextLink: 'auto;',
         autopager: {
-            pageElement: 'css;.box.clear.rounded',
-            HT_insert: ['css;.pages.clear', 1],
+            pageElement: 'css;#listTable',
+            //HT_insert: ['css;.pages', 1],
             //useiframe: true,
         },
     },
-    {name: '爱恋动漫BT下载',
-        url: /http:\/\/www\.kisssub\.org\/sort/i,
-        siteExample: 'http://www.kisssub.org/',
-        nextLink: 'css;.pages.clear > A:last-child',
-        autopager: {
-            pageElement: 'css;.box.clear.rounded',
-            HT_insert: ['css;.pages.clear', 1],
-            useiframe: true,
-        },
-    }, 
-    //{name: '爱恋动漫BT下载',
-    //    url: /http:\/\/www\.kisssub\.org\//,
-    //    siteExample: 'http://www.kisssub.org/',
-    //    nextLink: 'css;.pages.clear > A:last-child',
-    //    nextLink: 'css;a.nextprev',
-    //    autopager: {
-    //        pageElement: 'css;.box.clear.rounded',
-    //        HT_insert: ['css;.pages.clear', 1],
-    //        useiframe: true,
-    //    },
-    //},
     {name: '極影BT發佈索引',
         url: /http:\/\/bt\.ktxp\.com\//i,
         siteExample: 'http://bt.ktxp.com/sort-1-1.html',
@@ -540,13 +611,14 @@ var SITEINFO=[
         },
     }, 
     {name: '海盜灣',
-        url: /http:\/\/thepiratebay\.se\/?(?:(?:browse)|(?:search)|(?:user))+/i,
-        siteExample: 'https://thepiratebay.se/browse/505',
+        url: /https?:\/\/thepiratebay\.org\/browse/i,
+        siteExample: 'https://thepiratebay.org/browse/207/2/3',
         nextLink: 'auto',
         autopager: {
-            //pageElement:'css;#searchResult > TBODY > TR:first-child,#searchResult > TBODY > TR:nth-child(2),#searchResult > TBODY > TR:nth-child(3),#searchResult > TBODY > TR:nth-child(4),#searchResult > TBODY > TR:nth-child(5),#searchResult > TBODY > TR:nth-child(6),#searchResult > TBODY > TR:nth-child(7),#searchResult > TBODY > TR:nth-child(8),#searchResult > TBODY > TR:nth-child(9),#searchResult > TBODY > TR:nth-child(10),#searchResult > TBODY > TR:nth-child(11),#searchResult > TBODY > TR:nth-child(12),#searchResult > TBODY > TR:nth-child(13),#searchResult > TBODY > TR:nth-child(14),#searchResult > TBODY > TR:nth-child(15),#searchResult > TBODY > TR:nth-child(16),#searchResult > TBODY > TR:nth-child(17),#searchResult > TBODY > TR:nth-child(18),#searchResult > TBODY > TR:nth-child(19),#searchResult > TBODY > TR:nth-child(20),#searchResult > TBODY > TR:nth-child(21),#searchResult > TBODY > TR:nth-child(22),#searchResult > TBODY > TR:nth-child(23),#searchResult > TBODY > TR:nth-child(24),#searchResult > TBODY > TR:nth-child(25),#searchResult > TBODY > TR:nth-child(26),#searchResult > TBODY > TR:nth-child(27),#searchResult > TBODY > TR:nth-child(28),#searchResult > TBODY > TR:nth-child(29),#searchResult > TBODY > TR:nth-child(30)',
-            //HT_insert:['css;#searchResult > TBODY > TR:last-child',1],		
-            pageElement: 'css;#searchResult',
+            pageElement:'css;#searchResult > TBODY > TR:first-child,#searchResult > TBODY > TR:nth-child(2),#searchResult > TBODY > TR:nth-child(3),#searchResult > TBODY > TR:nth-child(4),#searchResult > TBODY > TR:nth-child(5),#searchResult > TBODY > TR:nth-child(6),#searchResult > TBODY > TR:nth-child(7),#searchResult > TBODY > TR:nth-child(8),#searchResult > TBODY > TR:nth-child(9),#searchResult > TBODY > TR:nth-child(10),#searchResult > TBODY > TR:nth-child(11),#searchResult > TBODY > TR:nth-child(12),#searchResult > TBODY > TR:nth-child(13),#searchResult > TBODY > TR:nth-child(14),#searchResult > TBODY > TR:nth-child(15),#searchResult > TBODY > TR:nth-child(16),#searchResult > TBODY > TR:nth-child(17),#searchResult > TBODY > TR:nth-child(18),#searchResult > TBODY > TR:nth-child(19),#searchResult > TBODY > TR:nth-child(20),#searchResult > TBODY > TR:nth-child(21),#searchResult > TBODY > TR:nth-child(22),#searchResult > TBODY > TR:nth-child(23),#searchResult > TBODY > TR:nth-child(24),#searchResult > TBODY > TR:nth-child(25),#searchResult > TBODY > TR:nth-child(26),#searchResult > TBODY > TR:nth-child(27),#searchResult > TBODY > TR:nth-child(28),#searchResult > TBODY > TR:nth-child(29),#searchResult > TBODY > TR:nth-child(30)',
+            HT_insert:['css;#searchResult > TBODY > TR:last-child',1],		
+            //pageElement: 'css;#searchResult',
+            useiframe: true,
         },
     }, 
     {name: '綠色工廠 Easylife Blog',
@@ -860,8 +932,18 @@ var SITEINFO=[
             HT_insert: ['css;.pagination2', 1],
         },
     }, 
+    {name: 'Torrentz Search Engine',
+        url: /^https?:\/\/torrentz\.eu\//i,
+        siteExample: 'http://torrentz.eu/search?q=Legend',
+        //nextLink: '//a[contains(text(),"Next »")]',
+        nextLink: 'auto;',
+        autopager: {
+            pageElement: 'css;.results > dl',
+            //pageElement: 'css;.results',
+        },
+    }, 
     {name: 'kat.ph',
-        url: /^https?:\/\/kat\.cr\/[^\/]+\//i,
+        url: /^https?:\/\/kat\.cr\//i,
         siteExample: 'https://kat.cr/movies/',
         nextLink: 'auto;',
         autopager: {
@@ -1050,13 +1132,22 @@ var SITEINFO=[
         },
     }, 
     {name: 'wnacg',
+        url: /http:\/\/www\.wnacg\.com\/(albums|photos\-index\-).*\.html/,
+        siteExample: 'http://www.wnacg.com/albums.html',
+        nextLink: 'css;.next > a',
+        autopager: {
+            pageElement: 'css;.gallary_wrap',
+        },
+    }, 
+    {name: 'wnacg',
         url: /http:\/\/www\.wnacg\.com\/photos\-view\-id\-\d+\.html/,
         siteExample: 'http://www.wnacg.com/photos-view-id-945033.html',
         nextLink: 'css;#imgarea > a',
         autopager: {
             pageElement: 'css;.photo',
+            useiframe: true,
             separator: false,
-            ipages: [false, 5],
+            ipages: [true, 5],
         },
     }, 
     {name: 'greasyfork',
@@ -3559,7 +3650,6 @@ var SITEINFO=[
         pageElement: '//table[@width="100%"][@cellspacing="0"][@cellpadding="2"]',
         scroll_only: true
     },
-/*
     // =============================== manhua ========================
     {name: '天極動漫頻道新聞',
         url:/http:\/\/comic\.yesky\.com\/\d+\/.+\.shtml/i,
@@ -3801,18 +3891,23 @@ var SITEINFO=[
     },
     {name: '99漫畫old',
         url: /^http:\/\/(cococomic|dm.99manga|99manga|99comic|www.99comic|www.hhcomic)\.(com|cc)\/.+\.htm/i,
-        siteExample: 'http://99manga.com/page/168/6481.htm?v=3*s=9',
-        nextLink: {
-            startAfter: '?v=',
-            inc: 1,
-            isLast: function(doc, win, lhref) {
+        siteExample: 'http://99manga.com/man/2779/253724.htm?v=1*s=4',
+        nextLink: function(doc, win, cplink) {
+            // hrefInc 的方式不行因為這個地址最後還有額外的 *s=6
+            var m = cplink.match(/\?v=(\d+)/);
+            if (!m) {
+                // 第一頁這種情況 http://page.vs20.com/1815454/115321.htm?s=6
+                return cplink.replace('?s=', '?v=2*s=');
+            } else {
+                var current = Number(m[1]),
+                    next = current + 1;
+
                 var select = doc.querySelector('#all select');
-                if (select) {
-                    var s2os = select.options;
-                    var s2osl = s2os.length;
-                    if (select.selectedIndex == s2osl - 1) return true;
-                }
-            },
+                if (!select) return;
+                var max = select.options.length;
+                if (next > max) return;
+                return cplink.replace(m[0], '?v=' + next);
+            }
         },
         autopager: {
             useiframe: true,
@@ -3824,12 +3919,13 @@ var SITEINFO=[
         siteExample: 'http://99mh.com/comic/8436/117728/?p=1&s=0',
         nextLink: {
             startAfter: '?p=',
+            mFails:[/^https?:\/\/99mh\.com\/comic\/\d+\/\d+\//i,'?p=1&s=0'],
             inc: 1,
         },
         autopager: {
             useiframe: true,
             maxpage: 20,
-            pageElement: '//div[@id="iBody"]',
+            pageElement: '//img[@id="imgCurr"]',
         }
     },
     {name: '動漫Fans',
@@ -3867,14 +3963,19 @@ var SITEINFO=[
             useiframe:true,
         }
     },
-    {name: '動漫屋',
-        url:/http:\/\/(www|tel)\.dm5\.com\/.+/i,
-        nextLink:'//span[@id="s_next"]/a[1]',
-        autopager:{
-            pageElement:'//div[@id="showimage"]',
-            useiframe:true,
-        }
-    },
+    //{name: '動漫屋',
+    //    url:/http:\/\/(www|tel)\.dm5\.com\/.+/i,
+    //    nextLink:'//span[@id="s_next"]/a[1]|//div[@class="inkk mato10"]/div[@id="search_fy"]/a[contains(text(),"下一页")]',
+    //    /*//nextLink: 'css;span#s_next > a,.inkk.mato10 #search_fy > a:last-child',*/
+    //    autopager:{
+    //        pageElement:'//div[@id="cp_img"]|//div[@class="innr3"]/li[@class="red_lj"]',
+    //        /*//pageElement: 'css;div#cp_img,div.innr3 > li.red_lj',*/
+    //        useiframe:true,
+    //        ipages: [true, 1], 
+    //        separator: false,
+    //        stylish: '#quanbupl,#loadmore,.cplk{display:none;}',
+    //    }
+    //},
     {name: '天使漫畫網,TSDM漫畫組',
         url:/^http:\/\/mh\.tsdm\.net\/comic\/.+/i,
         siteExample:'http://mh.tsdm.net/comic/4697/68059.html',
@@ -4027,7 +4128,6 @@ var SITEINFO=[
             pageElement: 'id("innerContent")',
         }
     },
-    */
     {name: '1024社區',
         url: '^http://(www\\.)?t66y\\.com/|^http://cl\\.man\\.lv/',
         nextLink: '//div[@class="pages"]/b/following-sibling::a[1]',
@@ -4402,115 +4502,6 @@ var SITEINFO=[
     },
 ];
 
-//统配规则..用来灭掉一些DZ.或者phpwind论坛系统..此组规则..优先级自动降为最低..
-var SITEINFO_TP=[
-    {name: 'Discuz 论坛 - 搜索',
-        url: '^https?://bbs\\.[a-z]+\\.cn/search\\.php\\?mod=forum',
-        preLink: '//div[@class="pages" or @class="pg"]/descendant::a[@class="prev"][@href]',
-        nextLink: '//div[@class="pages" or @class="pg"]/descendant::a[@class="next" or @class="nxt"][@href]',
-        autopager: {
-            pageElement:'//div[@id="threadlist"]',
-            replaceE: '//div[@class="pg"][child::a[@class="nxt"]]'
-        }
-    },
-    {name: "Discuz 论坛 - 导读",
-        url: /^https?:\/\/(?:bbs|u)\.[^\/]+\/(?:forum\.php\?mod=guide|home\.php\?mod=space)/i,
-        preLink: '//div[@class="pages" or @class="pg"]/descendant::a[@class="prev"][@href]',
-        nextLink: '//div[@class="pages" or @class="pg"]/descendant::a[@class="next" or @class="nxt"][@href]',
-        autopager: {
-            pageElement: "//div[@id='postlist'] | //form[@method='post'][@name] | //div[@id='threadlist']/div[@class='bm_c'] | //div[@class='xld xlda']",
-            replaceE: '//div[@class="pg"][child::a[@class="nxt"]]'
-        }
-    },
-    {name: 'Discuz论坛列表',
-        url:/^https?:\/\/(?:www\.[^\/]+\/|[^\/]+\/(?:bbs\/)?)(?:2b\/)?(?:(?:forum)|(?:showforum)|(?:viewforum)|(?:forumdisplay))+/i,
-        preLink:'//div[@class="pages" or @class="pg"]/descendant::a[@class="prev"][@href]',
-        nextLink:'//div[@class="pages" or @class="pg"]/descendant::a[@class="next" or @class="nxt"][@href] | //div[@class="p_bar"]/a[@class="p_curpage"]/following-sibling::a[@class="p_num"]',
-        autopager:{
-            pageElement:'//form[@method="post"][@name] | //div[@id="postlist"]',
-            replaceE: '//div[@class="pages" or @class="pg"][child::a[@class="next" or @class="nxt"][@href]]',
-            lazyImgSrc: 'file|pagespeed_lsc_url'
-        }
-    },
-    {name: 'Discuz论坛帖子',
-        url:/https?:\/\/(?:www\.[^\/]+\/|[^\/]+\/(?:bbs\/)?)(?:2b\/)?(?:(?:thread)|(?:viewthread)|(?:showtopic)|(?:viewtopic))+/i,
-        preLink:'//div[@class="pages" or @class="pg"]/descendant::a[@class="prev"][@href]',
-        nextLink:'//div[@class="pages" or @class="pg"]/descendant::a[@class="next" or @class="nxt"][@href] | //div[@class="p_bar"]/descendant::a[text()="››"]',
-        autopager:{
-            pageElement:'//div[@id="postlist"] | //form[@method="post"][@name]',
-            replaceE: '//div[@class="pages" or @class="pg"][child::a[@class="next" or @class="nxt"][@href]]',
-            lazyImgSrc: 'zoomfile',
-            stylish: '.mbbs_code{font-family:Monaco,Consolas,"Lucida Console","Courier New",serif;font-size:12px;line-height:1.8em;list-style-type:decimal-leading-zero;padding-left:10px;background:none repeat scroll 0 0 #f7f7f7;color:#666;border:1px solid #ccc;overflow:hidden;padding:10px 0 5px 10px}',
-            filter: function(pages){
-                // 回复后插入到最后一页
-                var replays = document.querySelectorAll("#postlistreply");
-                if(replays.length > 1){
-                    var first = replays[0];
-                    first.parentNode.removeChild(first);
-                }
-
-                // 在卡饭论坛如果不存在，会提示，所以默认禁用
-                // var SyntaxHighlighter = unsafeWindow.SyntaxHighlighter;
-                // if (SyntaxHighlighter && SyntaxHighlighter.highlight) {
-                //     SyntaxHighlighter.highlight();
-                // }
-            },
-            documentFilter: function(doc) {
-                // 卡饭论坛的下一页代码区域可能无法着色，所以手动修改并添加样式
-                var pres = doc.querySelectorAll('pre[class^="brush:"]');
-                [].forEach.call(pres, function(pre){
-                    pre.classList.add('mbbs_code');
-                });
-            }
-        }
-    },
-    {name: 'phpWind论坛列表',
-        url:/^https?:\/\/(?:www\.[^\/]+\/|[^\/]+\/(?:bbs\/)?)?thread/i,
-        preLink:'//div[starts-with(@class,"pages")]/b[1]/preceding-sibling::a[1][not(@class)][@href] | //div[starts-with(@class,"pages")]/ul[1]/li[b]/preceding-sibling::li/a[1][not(@class)][@href]',
-        nextLink:'//div[starts-with(@class,"pages")]/b[1]/following-sibling::a[1][not(@class)] | //div[starts-with(@class,"pages")]/ul[1]/li[b]/following-sibling::li/a[1][not(@class)]',
-        autopager:{
-            pageElement:'//div[@class="t z"] | //div[@class="z"] | //div[@id="ajaxtable"]',
-        }
-    },
-    {name: 'phpWind论坛帖子',
-        url:/^https?:\/\/(?:www\.[^\/]+\/|[^\/]+\/(?:bbs\/)?)?read/i,
-        preLink:'//div[starts-with(@class,"pages")]/b[1]/preceding-sibling::a[1][not(@class)][@href] | //div[starts-with(@class,"pages")]/ul[1]/li[b]/preceding-sibling::li/a[1][not(@class)][@href]',
-        nextLink:'//div[starts-with(@class,"pages")]/b[1]/following-sibling::a[1][not(@class)] | //div[starts-with(@class,"pages")]/ul[1]/li[b]/following-sibling::li/a[1][not(@class)]',
-        autopager:{
-            pageElement:'//div[@class="t5"] | //div[@class="read_t"] | //div[@id="pw_content"]',
-        }
-    },
-    {name: 'phpBB列表',
-        url:/^https?:\/\/[^\/]+(\/[a-z,0-9]+)?\/viewforum/i,
-        siteExample:'http://www.firefox.net.cn/forum/viewforum.php?f=4',
-        nextLink:'auto;',
-        autopager:{
-            pageElement:'(//div[@id="page-body"]/div[@class="forumbg"]|//table[@class="forumline"]|//table[@class="tablebg"])',
-            //replaceE:'//fildset[@class="display-options")]',
-            remain:1/3,
-        }
-    },
-    {name: 'phpBB帖子',
-        url:/^https?:\/\/[^\/]+(\/[a-z,0-9]+)?\/viewtopic/i,
-        siteExample:'http://www.firefox.net.cn/forum/viewtopic.php?t=34339',
-        nextLink:'auto;',
-        autopager:{
-            //pageElement:'//div[@id="page-body"]',
-            pageElement:'(//div[@id="page-body"]/div[contains(@class,"post")]|//table[@class="forumline"]|//table[@class="tablebg"])',
-            //replaceE:"//fildset[@class='display-options']",
-        }
-    },
-    {name: 'phpBB Search',
-        url: /^https?:\/\/forum\.[^\/]+\/search\.php/i,
-        exampleUrl: 'http://forum.everedit.net/search.php?keywords=%E5%A4%A7%E7%BA%B2',
-        nextLink: 'auto;',
-        autopager: {
-            pageElement: 'id("page-body")/div[starts-with(@class, "search post")]',
-            replaceE: 'id("page-body")/ul[@class="linklist"]'
-        }
-    },
-];
-
 //統配規則..用來滅掉一些DZ.或者phpwind論壇系統..此組規則..優先級自動降為最低..
 var SITEINFO_TP=[
     {name: 'Discuz 論壇 - 搜索',
@@ -4536,7 +4527,7 @@ var SITEINFO_TP=[
         preLink:'//div[@class="pages" or @class="pg"]/descendant::a[@class="prev"][@href]',
         nextLink:'//div[@class="pages" or @class="pg"]/descendant::a[@class="next" or @class="nxt"][@href] | //div[@class="p_bar"]/a[@class="p_curpage"]/following-sibling::a[@class="p_num"]',
         autopager:{
-            pageElement:'//form[@method="post"][@name] | //div[@id="postlist"] | //div[@id="threadlist"][@class="slst mtw"] | //div[@class="slst"]',
+            pageElement:'//form[@method="post"][@name] | //div[@id="postlist"] | //div[@id="threadlist"][@class="slst mtw"] | //div[@class="slst"] | //div[@class="tl" or @class="vt"]/div[@class="bm"]',
             replaceE: '//div[@class="pages" or @class="pg"][child::a[@class="next" or @class="nxt"][@href]]',
             lazyImgSrc: 'file|pagespeed_lsc_url'
         }

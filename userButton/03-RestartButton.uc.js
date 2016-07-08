@@ -40,13 +40,13 @@
 		onClick: function(event) {
 			switch (event.button) {
 				case 0:
-					Services.appinfo.invalidateCachesOnRestart() || Application.restart();
+					Services.appinfo.invalidateCachesOnRestart() || BrowserUtils.restartApplication();
 					break;
 				case 1:
 					safeModeRestart();
 					break;
 				case 2:
-					Application.restart();
+					BrowserUtils.restartApplication();
 					break;
 			}
 		}

@@ -36,6 +36,8 @@
 		#context-openlinkincurrent,\
 		/*用新分頁開啟鏈結*/\
 		#context-openlinkintab,\
+		/*用新容器分頁開啟鏈結*/\
+		#context-openlinkinusercontext-menu,\
 		/*用新視窗開啟鏈結*/\
 		#context-openlink,\
 		/*用新隱私視窗開啟鏈結*/\

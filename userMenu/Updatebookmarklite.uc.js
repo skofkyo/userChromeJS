@@ -3,8 +3,7 @@
 // @description    書籤維護
 // @author         danny
 // @include        main
-// @compatibility  Firefox 11.0 10.0+
-// @include        chrome://browser/content/places/places.xul
+// @compatibility  Firefox 11.0~47+
 // @include        chrome://browser/content/bookmarks/bookmarksPanel.xul
 // @charset              UTF-8
 // ==/UserScript==
@@ -12,6 +11,7 @@ var updatebookmark = {
 	init: function() {
 		window.addEventListener("load", updatebookmark.onload, false);
 		window.setTimeout("updatebookmark.onload();", 0);
+		//updatebookmark.onload();
 	},
 
 	uninit: function(event) {
@@ -33,6 +33,7 @@ var updatebookmark = {
 
 	onload: function() {
 		var placesContextMenu = document.getElementById("placesContext");
+		var newbookmark = document.getElementById("placesContext_new:bookmark");
 		var menuItem = document.createElement("menuitem");
 		menuItem.setAttribute("id", "updatebookmarkUpdateCurrentURLMenuItem");
 		menuItem.setAttribute("label", "更新為當前網址");
@@ -40,7 +41,7 @@ var updatebookmark = {
 		menuItem.setAttribute("closemenu", "single");
 		menuItem.setAttribute("selection", "link");
 		menuItem.setAttribute('image', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAFLklEQVRIib2VfUxTZxSHXydOo50OHA4R6b0tvRSnRcWRWec0fiBO6IxaMTgopaVgaytQYCDKLlERBEHp+KioKPiVEhKJEQooFxEUtNZCaZmAYEEQhjIzl6n4cfbH4mIWtbDBnr9/5zw5J3nPi9AoQObWbgiMOskZjV5W0el0E8LSG8+vjy7TeHlFTRlzYcEFk/O6+Nt3udvrhjYqiyWj2pzMomjBKbWu30Vrl3rtKFm9VHTaU37wWjBXdvXpF+Lr4KW80sbblv3fVguAxh04bWYJU3Rx3tF11V9tq+pxF1U8mSco/YMjuPjYI6Rs0E1Q8ZotrIaFsgbwjbt0jvNvV0uZfqGlFVnk6xN07e7iqtdsQQW4CirBNagSCGEFEEItsIRaIETlQEiqwFVaB9zYG8945MWwEcsutdyfrtL2HfFLa3u+IMIA7LA6cA2tBtewaiCkV4CQ1QCxvRpY2ylgySlg7agGVmQdsGNvwsr9N+5+S2rmj2iyvNpHeWEnul/5HuqElakd4JFgBnZkAxCKGmCFXwVCeQ1YP9QDK64eXHZeB5f4enDZ3QAu5C2Yl2KEtVm6oiUxxz4ZljBP/6si6kL/88DCbtiY2fR0RXz5zwtDCkvw9ZmqWV77khy9Uw4wNuUWzk+of+iyvwlckg3ATDEAM7URmOnNwMxoBs7eqn73QNLTquwnw29EDDXYtuWY6ZnPzjPahb7yIHun+SyEEA0hNP5Nbs+JOuby/NYORtYdYOa0AlPdBoxsMzjvoZ44inMqP+UGBSFkO82qMKruYfyG3Gv3F22OjqDRaDPel4u7ZPHxOGd5hhdagHG8HZyTax45iFTF0xbxNyFEsx/WKkld72R/dUXe3LWhfgghmw9lQ6r7kthnO2F2MtXrEJR+YgqH540Qsj7R2ywnKZuv/WQEQmjCh3KZpaUTeapKtYMwNXsSsXIpQmisTxr5Ed1tzUyE0KQxFv3P5Bn7P1doW4WesozFw4iP4/M1463H3sFRfS89orYvglc5oPc8axp05u9Yba3mUHmLDz8h32rub0iS/Eit62QrLj8g11140MLRPHiJneoFRvrlxumE+6z31el0ugnq2gF/ZXGTcYF/xCqrIoqibA5ftXjItF0ZXppuy5z8rtd0tQXouV2A53QAFltwDL3jyZAkZZNd1sHZV96fJSvpf7IpraQUIWRrVSgoqleuKrw34JZ1F+jprUBPawUstRWwA+3ASG0BN/L8EZ6qYdHW4/o5YQWNcyPOtCxTajolkZru0/Kivh6x5iGEnmwa9A6Qb7AqQwghPFGtdE4yvMT23gEs0QTYj0bAdjcDtqsZ8F0mIMjmoXl7jI+/TGrqX5JsHliW2vH7mozuV76qHtis7gPp8bYX38ccPogQmjws4VQR3252bHEZvtMMeIwRMOVtwCJuARauB0xxGzCFATB5I2AyA2BSA+CyZpgb1Q7LErvAL9U85K/Myf+MTp85LNkbHKXxXHp4VQ9DYQZcqgdM0gBYSD1g4gbARTcAF+kAF90CTKgDXKgDllgPS+TUwJqgfcn29pjDiGRvcJKqYhjSmy8YIUbAhTcBC7wCzgHlQA+gAAusASywBvCt1EvmlpI+Ni+zmL3YzwcNd43vYpr/Olt66LmLTIkJGMFN4OR/9J7dasFh27XhJ6d7R5+yXxWjcuSGy2ewvbhopEf7fcwKjlqMSSrvM0OM4MRPLEAITUR/HfaP0Vt/46jiJD4UzRCXDTn6SGRjIvgnU0UiO8eAyHy7b1ZwR6PfnyF7a/YIepR1AAAAAElFTkSuQmCC");
-		placesContextMenu.insertBefore(menuItem, placesContextMenu.childNodes[8]);
+		placesContextMenu.insertBefore(menuItem, newbookmark.nextSibling);
 		menuItem = document.createElement("menuitem");
 		menuItem.setAttribute("id", "updatebookmarkUpdateCurrentTitleMenuItem");
 		menuItem.setAttribute("label", "更新為當前標題");
@@ -48,15 +49,7 @@ var updatebookmark = {
 		menuItem.setAttribute("closemenu", "single");
 		menuItem.setAttribute("selection", "link");
 		menuItem.setAttribute('image', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAFLklEQVRIib2VfUxTZxSHXydOo50OHA4R6b0tvRSnRcWRWec0fiBO6IxaMTgopaVgaytQYCDKLlERBEHp+KioKPiVEhKJEQooFxEUtNZCaZmAYEEQhjIzl6n4cfbH4mIWtbDBnr9/5zw5J3nPi9AoQObWbgiMOskZjV5W0el0E8LSG8+vjy7TeHlFTRlzYcEFk/O6+Nt3udvrhjYqiyWj2pzMomjBKbWu30Vrl3rtKFm9VHTaU37wWjBXdvXpF+Lr4KW80sbblv3fVguAxh04bWYJU3Rx3tF11V9tq+pxF1U8mSco/YMjuPjYI6Rs0E1Q8ZotrIaFsgbwjbt0jvNvV0uZfqGlFVnk6xN07e7iqtdsQQW4CirBNagSCGEFEEItsIRaIETlQEiqwFVaB9zYG8945MWwEcsutdyfrtL2HfFLa3u+IMIA7LA6cA2tBtewaiCkV4CQ1QCxvRpY2ylgySlg7agGVmQdsGNvwsr9N+5+S2rmj2iyvNpHeWEnul/5HuqElakd4JFgBnZkAxCKGmCFXwVCeQ1YP9QDK64eXHZeB5f4enDZ3QAu5C2Yl2KEtVm6oiUxxz4ZljBP/6si6kL/88DCbtiY2fR0RXz5zwtDCkvw9ZmqWV77khy9Uw4wNuUWzk+of+iyvwlckg3ATDEAM7URmOnNwMxoBs7eqn73QNLTquwnw29EDDXYtuWY6ZnPzjPahb7yIHun+SyEEA0hNP5Nbs+JOuby/NYORtYdYOa0AlPdBoxsMzjvoZ44inMqP+UGBSFkO82qMKruYfyG3Gv3F22OjqDRaDPel4u7ZPHxOGd5hhdagHG8HZyTax45iFTF0xbxNyFEsx/WKkld72R/dUXe3LWhfgghmw9lQ6r7kthnO2F2MtXrEJR+YgqH540Qsj7R2ywnKZuv/WQEQmjCh3KZpaUTeapKtYMwNXsSsXIpQmisTxr5Ed1tzUyE0KQxFv3P5Bn7P1doW4WesozFw4iP4/M1463H3sFRfS89orYvglc5oPc8axp05u9Yba3mUHmLDz8h32rub0iS/Eit62QrLj8g11140MLRPHiJneoFRvrlxumE+6z31el0ugnq2gF/ZXGTcYF/xCqrIoqibA5ftXjItF0ZXppuy5z8rtd0tQXouV2A53QAFltwDL3jyZAkZZNd1sHZV96fJSvpf7IpraQUIWRrVSgoqleuKrw34JZ1F+jprUBPawUstRWwA+3ASG0BN/L8EZ6qYdHW4/o5YQWNcyPOtCxTajolkZru0/Kivh6x5iGEnmwa9A6Qb7AqQwghPFGtdE4yvMT23gEs0QTYj0bAdjcDtqsZ8F0mIMjmoXl7jI+/TGrqX5JsHliW2vH7mozuV76qHtis7gPp8bYX38ccPogQmjws4VQR3252bHEZvtMMeIwRMOVtwCJuARauB0xxGzCFATB5I2AyA2BSA+CyZpgb1Q7LErvAL9U85K/Myf+MTp85LNkbHKXxXHp4VQ9DYQZcqgdM0gBYSD1g4gbARTcAF+kAF90CTKgDXKgDllgPS+TUwJqgfcn29pjDiGRvcJKqYhjSmy8YIUbAhTcBC7wCzgHlQA+gAAusASywBvCt1EvmlpI+Ni+zmL3YzwcNd43vYpr/Olt66LmLTIkJGMFN4OR/9J7dasFh27XhJ6d7R5+yXxWjcuSGy2ewvbhopEf7fcwKjlqMSSrvM0OM4MRPLEAITUR/HfaP0Vt/46jiJD4UzRCXDTn6SGRjIvgnU0UiO8eAyHy7b1ZwR6PfnyF7a/YIepR1AAAAAElFTkSuQmCC");
-		placesContextMenu.insertBefore(menuItem, placesContextMenu.childNodes[9]);
-		menuItem = document.createElement("menuitem");
-		menuItem.setAttribute("id", "addnewbookmarkMenuItem");
-		menuItem.setAttribute("label", "在此書籤後面添加新書簽");
-		menuItem.setAttribute("oncommand", "updatebookmark.appendURL();");
-		menuItem.setAttribute("closemenu", "single");
-		menuItem.setAttribute("selection", "link");
-		menuItem.setAttribute('image', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAABt0lEQVR42mNgwAP449etAOLZDOQCvui1pqIll/8LF57/yxO7TocsQ8Qyd28Tr3v6X7zuyX+xjJ1rSDaAO26NnkjJlX8QQ57+Fym+9Jc3YY0G0QZwRiyXFU/fuQVmAMw1Imk71nPGrZLG7vfYtbGgwONPWHdCIGH9B8Hkbf9FS6/8RzXk6X/Rkiv/BZO3/uePX/9eIG79Uf64tbOA6gPEqh/HMghnH/woUnThv2j5zf/iNY8wNGNgoBqQWpAekcx9L8VqH39gyF3zukii7vFvgprRsFT94x9l619nidU8cmP4+PGjUMbKN1XiJBgEshRk+fv37wXg4fLp0yeRxGWvG4EB+JcYAzJXvKkEWY4RwJ8/fxYz7nmyk5AhFv3PNoAsxRm9ClWXjxIyRKniwi68aUS64uozQobIVF69jdsEn5lcopX3/qLFwCep+idfUQyqvPWTIXQVM1YzRFPXG4BSJlTzd8epL5acuv/DY9/Nr962k5+vkqx7/ANsSC0wLyWuUcJqiHX9EROQzZYTXqzfdOlTwPfv35X279/PcubMGdYfP34orz33OcSs/9kW6fonnywr96PkIwDJHpLLwNBhgQAAAABJRU5ErkJggg==");
-		placesContextMenu.insertBefore(menuItem, placesContextMenu.childNodes[10]);
+		placesContextMenu.insertBefore(menuItem, newbookmark.nextSibling);
 		menuItem = document.createElement("menuitem");
 		menuItem.setAttribute("id", "updatebookmarkMenuItem");
 		menuItem.setAttribute("label", "替換當前書籤");
@@ -64,7 +57,16 @@ var updatebookmark = {
 		menuItem.setAttribute("closemenu", "single");
 		menuItem.setAttribute("selection", "link");
 		menuItem.setAttribute('image', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAFLklEQVRIib2VfUxTZxSHXydOo50OHA4R6b0tvRSnRcWRWec0fiBO6IxaMTgopaVgaytQYCDKLlERBEHp+KioKPiVEhKJEQooFxEUtNZCaZmAYEEQhjIzl6n4cfbH4mIWtbDBnr9/5zw5J3nPi9AoQObWbgiMOskZjV5W0el0E8LSG8+vjy7TeHlFTRlzYcEFk/O6+Nt3udvrhjYqiyWj2pzMomjBKbWu30Vrl3rtKFm9VHTaU37wWjBXdvXpF+Lr4KW80sbblv3fVguAxh04bWYJU3Rx3tF11V9tq+pxF1U8mSco/YMjuPjYI6Rs0E1Q8ZotrIaFsgbwjbt0jvNvV0uZfqGlFVnk6xN07e7iqtdsQQW4CirBNagSCGEFEEItsIRaIETlQEiqwFVaB9zYG8945MWwEcsutdyfrtL2HfFLa3u+IMIA7LA6cA2tBtewaiCkV4CQ1QCxvRpY2ylgySlg7agGVmQdsGNvwsr9N+5+S2rmj2iyvNpHeWEnul/5HuqElakd4JFgBnZkAxCKGmCFXwVCeQ1YP9QDK64eXHZeB5f4enDZ3QAu5C2Yl2KEtVm6oiUxxz4ZljBP/6si6kL/88DCbtiY2fR0RXz5zwtDCkvw9ZmqWV77khy9Uw4wNuUWzk+of+iyvwlckg3ATDEAM7URmOnNwMxoBs7eqn73QNLTquwnw29EDDXYtuWY6ZnPzjPahb7yIHun+SyEEA0hNP5Nbs+JOuby/NYORtYdYOa0AlPdBoxsMzjvoZ44inMqP+UGBSFkO82qMKruYfyG3Gv3F22OjqDRaDPel4u7ZPHxOGd5hhdagHG8HZyTax45iFTF0xbxNyFEsx/WKkld72R/dUXe3LWhfgghmw9lQ6r7kthnO2F2MtXrEJR+YgqH540Qsj7R2ywnKZuv/WQEQmjCh3KZpaUTeapKtYMwNXsSsXIpQmisTxr5Ed1tzUyE0KQxFv3P5Bn7P1doW4WesozFw4iP4/M1463H3sFRfS89orYvglc5oPc8axp05u9Yba3mUHmLDz8h32rub0iS/Eit62QrLj8g11140MLRPHiJneoFRvrlxumE+6z31el0ugnq2gF/ZXGTcYF/xCqrIoqibA5ftXjItF0ZXppuy5z8rtd0tQXouV2A53QAFltwDL3jyZAkZZNd1sHZV96fJSvpf7IpraQUIWRrVSgoqleuKrw34JZ1F+jprUBPawUstRWwA+3ASG0BN/L8EZ6qYdHW4/o5YQWNcyPOtCxTajolkZru0/Kivh6x5iGEnmwa9A6Qb7AqQwghPFGtdE4yvMT23gEs0QTYj0bAdjcDtqsZ8F0mIMjmoXl7jI+/TGrqX5JsHliW2vH7mozuV76qHtis7gPp8bYX38ccPogQmjws4VQR3252bHEZvtMMeIwRMOVtwCJuARauB0xxGzCFATB5I2AyA2BSA+CyZpgb1Q7LErvAL9U85K/Myf+MTp85LNkbHKXxXHp4VQ9DYQZcqgdM0gBYSD1g4gbARTcAF+kAF90CTKgDXKgDllgPS+TUwJqgfcn29pjDiGRvcJKqYhjSmy8YIUbAhTcBC7wCzgHlQA+gAAusASywBvCt1EvmlpI+Ni+zmL3YzwcNd43vYpr/Olt66LmLTIkJGMFN4OR/9J7dasFh27XhJ6d7R5+yXxWjcuSGy2ewvbhopEf7fcwKjlqMSSrvM0OM4MRPLEAITUR/HfaP0Vt/46jiJD4UzRCXDTn6SGRjIvgnU0UiO8eAyHy7b1ZwR6PfnyF7a/YIepR1AAAAAElFTkSuQmCC");
-		placesContextMenu.insertBefore(menuItem, placesContextMenu.childNodes[11]);
+		placesContextMenu.insertBefore(menuItem, newbookmark.nextSibling);
+		menuItem = document.createElement("menuitem");
+		menuItem.setAttribute("id", "addnewbookmarkMenuItem");
+		menuItem.setAttribute("label", "在此書籤後面添加新書簽");
+		menuItem.setAttribute("oncommand", "updatebookmark.appendURL();");
+		menuItem.setAttribute("closemenu", "single");
+		menuItem.setAttribute("selection", "link");
+		menuItem.setAttribute("disabled", "true");
+		menuItem.setAttribute('image', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAYAAADwMZRfAAABt0lEQVR42mNgwAP449etAOLZDOQCvui1pqIll/8LF57/yxO7TocsQ8Qyd28Tr3v6X7zuyX+xjJ1rSDaAO26NnkjJlX8QQ57+Fym+9Jc3YY0G0QZwRiyXFU/fuQVmAMw1Imk71nPGrZLG7vfYtbGgwONPWHdCIGH9B8Hkbf9FS6/8RzXk6X/Rkiv/BZO3/uePX/9eIG79Uf64tbOA6gPEqh/HMghnH/woUnThv2j5zf/iNY8wNGNgoBqQWpAekcx9L8VqH39gyF3zukii7vFvgprRsFT94x9l619nidU8cmP4+PGjUMbKN1XiJBgEshRk+fv37wXg4fLp0yeRxGWvG4EB+JcYAzJXvKkEWY4RwJ8/fxYz7nmyk5AhFv3PNoAsxRm9ClWXjxIyRKniwi68aUS64uozQobIVF69jdsEn5lcopX3/qLFwCep+idfUQyqvPWTIXQVM1YzRFPXG4BSJlTzd8epL5acuv/DY9/Nr962k5+vkqx7/ANsSC0wLyWuUcJqiHX9EROQzZYTXqzfdOlTwPfv35X279/PcubMGdYfP34orz33OcSs/9kW6fonnywr96PkIwDJHpLLwNBhgQAAAABJRU5ErkJggg==");
+		placesContextMenu.insertBefore(menuItem, newbookmark.nextSibling);
 		placesContextMenu.addEventListener("popupshowing", updatebookmark.onpopup, false);
 	},
 
@@ -130,8 +132,9 @@ var updatebookmark = {
 				if (menubook1) menubook1.hidden = true;
 				if (menubook2) menubook2.hidden = true;
 				if (menubook3) {
-					menubook3.hidden = true;
+					menubook3.hidden = false;
 					menubook3.setAttribute("label", "在此資料夾添加新書簽");
+					menubook3.removeAttribute("disabled");
 				}
 				if (menubook4) menubook4.hidden = true;
 			}
@@ -275,7 +278,7 @@ var updatebookmark = {
 				PlacesUtils.bookmarks.insertBookmark(pnodeid, newURI, PlacesUtils.bookmarks.getItemIndex(node.itemId) + 1, newtitle);
 			} else {
 				var pnodeid = node.itemId;
-				PlacesUtils.bookmarks.insertBookmark(pnodeid, newURI, 'DEFAULT_INDEX', newtitle);
+				PlacesUtils.bookmarks.insertBookmark(pnodeid, newURI, "DEFAULT_INDEX", newtitle);
 			}
 		} catch (ex) {
 			alert(ex.message);

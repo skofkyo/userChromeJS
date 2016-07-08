@@ -10,11 +10,13 @@
 
 if (location == "chrome://browser/content/browser.xul") {
 	//Flash Video Downloader - YouTube HD Download [4K]圖標右鍵菜單
-	var fvd = document.getElementById('fvd_single_button');
-	fvd.addEventListener("contextmenu", function(event) {
-		fvd.firstChild.openPopupAtScreen(event.screenX, event.screenY, true); 
-		event.preventDefault();
-	}, false);
+	//var fvd = document.getElementById('fvd_single_button');
+	//fvd.addEventListener("contextmenu", function(event) {
+	//	fvd.firstChild.openPopupAtScreen(event.screenX, event.screenY, true); 
+		//fvd.firstChild.openPopup( this , "after_pointer" , 0 , true, false ); 
+	//	event.preventDefault();
+	//}, false);
+	//Flash Video Downloader - YouTube HD Download [4K]圖標右鍵菜單
 	(function (doc) {
 		var fvd = doc.getElementById('fvd_single_button');
 		if (!fvd)
@@ -22,6 +24,10 @@ if (location == "chrome://browser/content/browser.xul") {
 		fvd.addEventListener("click", function (e) {
 			if (e.button == 1) {
 				switchToTabHavingURI("about:downloads", true);
+			}
+			if (e.button == 2) {
+				e.preventDefault();
+				fvd.firstChild.openPopup( this , "after_pointer" , 0 , true, false ); 
 			}
 		}, false);
 	})(document);
@@ -149,3 +155,4 @@ event.preventDefault();\
 ); 
 
 }
+
