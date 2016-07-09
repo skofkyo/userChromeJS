@@ -1,0 +1,14 @@
+@namespace url(http://www.w3.org/1999/xhtml); 
+@-moz-document domain("github.com") {
+.container {
+    width: 99% !important;
+}
+
+.repository-content {
+    width: 100% !important;
+}
+
+.discussion-timeline {
+    width: 84%;
+}
+}
