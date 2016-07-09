@@ -184,10 +184,10 @@ ECM.toggle('javascript.enabled')
 		},
 
 		edit: function(key, pathArray) {
-			var path = this.getPath(key, pathArray);
 			var vieweditor = Services.prefs.getCharPref("view_source.editor.path");
 			var UI = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
 			UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0 ? "BIG5" : "UTF-8";
+			var path =UI.ConvertFromUnicode( this.getPath(key, pathArray));
 			if (this.editor === 1) {
 				if (!vieweditor) {
 					//alert("請先設定文字編輯器的路徑!!!\nabout:config view_source.editor.path\n字串值填入路徑 例如：C:\\Windows\\notepad.exe");
@@ -205,9 +205,9 @@ ECM.toggle('javascript.enabled')
 					}
 					return;
 				}
-				this.launch(Services.prefs.getCharPref('view_source.editor.path'), UI.ConvertFromUnicode(path));
+				this.launch(Services.prefs.getCharPref('view_source.editor.path'), path);
 			} else {
-				this.launch(this.editor, UI.ConvertFromUnicode(path));
+				this.launch(this.editor, path);
 			}
 		},
     
@@ -364,11 +364,15 @@ ECM.toggle('javascript.enabled')
 					mi.setAttribute('label', this.removeExt ? script.filename.replace(/\.uc\.js$|\.uc\.xul$/g, '') : script.filename);
 					mi.setAttribute('oncommand', 'ECM.chgScriptStat(script.filename);');
 					mi.setAttribute('onclick', 'if (event.button !== 0) { event.preventDefault(); event.stopPropagation(); ECM.clickScriptMenu(event); }');
-					mi.setAttribute('closemenu', 'none');
+					//mi.setAttribute('closemenu', 'none');
 					mi.setAttribute('type', 'checkbox');
 					mi.setAttribute('checked', !userChrome_js.scriptDisable[script.filename]);
-					if (script.description)
-						mi.setAttribute('tooltiptext', script.description);
+					if (script.description) {
+						mi.setAttribute('tooltiptext', '左鍵：啟用 / 禁用\n中鍵：復選啟用 / 禁用\n右鍵：編輯\n\n' + '說明：' + script.description);
+					} else {
+						mi.setAttribute('tooltiptext', '左鍵：啟用 / 禁用\n中鍵：復選啟用 / 禁用\n右鍵：編輯');
+					}
+					
 					mi.script = script;
 				}
 				mp = event.target;
