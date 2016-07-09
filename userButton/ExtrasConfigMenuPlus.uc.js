@@ -113,7 +113,7 @@ ECM.toggle('javascript.enabled')
 			}, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEAUlEQVRYhe2W30tbZxzGn1ZPTJwWf0wHUnSYVmM01l9R+22TqalHW0nUaLRWMUbtrNGY6HRSdaMOCRVXnHPgil4IKgx2UVroRSne7B97dnGiydkmuziu7MIXnvO85/3wfr8PL++BA1yNq3E1/hdj3ryGhUx+Us2b15IBYpkcfR/i9OnsJ9Ho+xARy+R5/+tzFk59DLP/t8Fz1U828OUfm3+bXwaf+hjm9TlLMkDajIWTH6boPwmw+9DPcDjMjY0NncLhMLsP/Ya5/yTAyQ9TTJtJCZD+zELfcQ9H34ZYNeigiNDlcukkInRONxriVYMOjr4Nsfukl+nPUk9gQgna1m0cezfBxaOlCwt8fTBliC8eLXHs3QRtP1QwbdIc0n0IppCZI2+CbIu3X1igLd5umI+8CdIUMlPXXBlWgmUrZRz6fYTlXhtFhG63WycRYfXoHUO83GvTeqyWURlRkidgHspg+14H+44GGN2PUUTY2tqqk4gwtDtuiEf3Y/QfBaj+2kHzUEbyFCyBDPqPA/Rsqby/oqX1eDw6iQjvr7gNc8+WSv9xgJZASoBMv4m+w162xD0sVa0UEaqqqpOIsKLfboiXqla2xD30HfYy029KBsjymdh14KNrvYXTu2GKCDs7O3USET55OWyIT++G6VpvYdeBj1m+lADZD03s2HtEWXOxIeKkiLCrq0snEWFDxGmYy5qLHXuPmP0wJcANVWH7TifvLt9jsbuEIkKv16uTiPBW121DvNhdwrvL99i+08kbqpIMkNOmsHXrARsXmjm5+fTC77j/+4AhPrn5lI0LzWzdesCctpQAuW6FrngL6+acdISqabfbWVpaqpPdbqcjVG2Y18056Yq3MNedEiBP0ikvXKyZrmVV0EGr9xZzbXlUxzpY4vmSubY89sz1siroMMxrpmspL1zMk/RkgPymdDatCmsjDXSMV9M+UknbUIVO9pFKOsarL+SOiWo6l5vpXG5mXczJqjHHP/KmVWHTqjC/KSVAQb1Ca3cRo9uNHFws5Ey8jgPfaN6/oHlfTHN/tIAz8Tr2RDTvntV88HkRrd1FTK2Vuje63XjOz3T+PwJAKaxRuLbfwOFv8/n8l1o+WdL88WLCFzQfmNe8P6p5X0Tz4ZVCFtYoBJBzVit173f7DWfcDEBJ9L2GxEJ+oUPh61OVsZ0avj5VGf3pjubbmi/8rK1HXmnvkR81n91K8kKHQgBtZ7X+ujfBrQAKAFgApAHADQClX1QqvAwBWPwX/hWA2wByAJgAIAvATQB1ADoADAIYBRC6RAUBPAbQCaAeQDGAbADpSDw+A5CfCGIFUAag/BJVlqh7E8DniX5n9wDXEpO0xKIJQMZ/IFOiflrqBfwTnBS0PMCw0bsAAAAASUVORK5CYII='));
 			
 			//添加選單
-			//mp.appendChild(this.createME('類型', '名稱', '命令', '圖示', 'ID'));
+			//mp.appendChild(this.createME('類型', '名稱', '命令', '圖示', 'ID', 'tooltiptext'));
 			//mp.appendChild(this.createME('menuitem', 'empty.vbs', 'ECM.open(2, ["system32", "empty.vbs"])'));
 			//mp.appendChild(document.createElement('menuseparator'));//分割線
 			//mp.appendChild(this.createME('menuitem', 'Javascript 開/關', 'ECM.toggle("javascript.enabled")','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABZklEQVRIie3Vv0uVcRTH8VeD0iIOIUQFgUKLTnW5NEU0WKuKg7gKDgZB4BTYP9AcBFFU6NLUUEOTvyIcJEJQmwoaGhKCkG5Ddhu+98LTuc/z+HB19ANnOp9z3l++5/uDEyX14yLOoadKwXPsZmIkxzOEh/iKZib+4APuo7cIsByKaiE/hUbwxPiGU90A6q1VljVv4llR88MAr0JuFddwHpcwhicY7xawF3IXyhp1A/gZcqPHDYi5X1jAmeMC3JQ/1N9YlA7BkQBwGwcFoCZeoO8oALiKdyWQNSW3ugqgrZp0o/dzILNFRevBeLkE0NZZvA91r4vMn4NxsAIAboS6zTxTPZga/t/LQcUDnAm1b0hX+w6mcQ/f80wZPZL2+yXuYgKTeKDzAZyDJZ3Dycb1APh0iL8dH3EaNgoMfzEfmg9UbL4iDR3piO3gRyu28RhX5GtY+kze4ov0Nu1hC09xS8k/cKIO/QOGV8uOXSg5XgAAAABJRU5ErkJggg=='));
@@ -126,8 +126,9 @@ ECM.toggle('javascript.enabled')
 			//mp.appendChild(this.createME('menuitem', '編輯_keychanger.js', 'ECM.edit(0, ["_keychanger.js"])', Editimg));
 			//mp.appendChild(this.createME('menuitem', '編輯_uAutoPagerize.js', 'ECM.edit(0, ["_uAutoPagerize.js"])', Editimg));
 			mp.appendChild(document.createElement('menuseparator'));//分割線
-			mp.appendChild(this.createME('menuitem', '打開Chrome資料夾', 'ECM.open(0)', Folderimg));
+			mp.appendChild(this.createME('menuitem', '打開Chrome資料夾', 'ECM.open(0)', Folderimg, 0, '打開Chrome資料夾'));
 			mp.appendChild(this.createME('menuitem', '打開Profile資料夾', 'ECM.open(1)', Folderimg));
+			//mp.appendChild(this.createME('menuitem', 'Inspect Element 設置', 'InspectElement.openPref();'));
 			//mp.appendChild(this.createME('menuitem', '打開SubScript資料夾', 'ECM.open(0, ["SubScript"])', Folderimg));
 			//mp.appendChild(this.createME('menuitem', '打開CSS資料夾', 'ECM.open(0, ["CSS"])', Folderimg));
 			//mp.appendChild(this.createME('menuitem', '打開UserScriptLoader資料夾', 'ECM.open(0, ["UserScriptLoader"])', Folderimg));
@@ -189,8 +190,19 @@ ECM.toggle('javascript.enabled')
 			UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0 ? "BIG5" : "UTF-8";
 			if (this.editor === 1) {
 				if (!vieweditor) {
-					alert("請先設定文字編輯器的路徑!!!\nabout:config view_source.editor.path\n字串值填入路徑 例如：C:\\Windows\\notepad.exe");
-					switchToTabHavingURI("about:config?filter=view_source.editor.path", true);
+					//alert("請先設定文字編輯器的路徑!!!\nabout:config view_source.editor.path\n字串值填入路徑 例如：C:\\Windows\\notepad.exe");
+					//switchToTabHavingURI("about:config?filter=view_source.editor.path", true);
+					//return;
+					alert("請先設定文字編輯器的路徑!!!");
+					var fp = Cc['@mozilla.org/filepicker;1'].createInstance(Ci.nsIFilePicker);
+					fp.init(window, "設定全局腳本編輯器", fp.modeOpen);
+					fp.appendFilter("執行檔案", "*.exe");
+					if (fp.show() == fp.returnCancel || !fp.file)
+						return;
+					else {
+						vieweditor = fp.file;
+						Services.prefs.setCharPref("view_source.editor.path", vieweditor.path);
+					}
 					return;
 				}
 				this.launch(Services.prefs.getCharPref('view_source.editor.path'), UI.ConvertFromUnicode(path));
@@ -198,7 +210,7 @@ ECM.toggle('javascript.enabled')
 				this.launch(this.editor, UI.ConvertFromUnicode(path));
 			}
 		},
-
+    
 		open: function (key, pathArray, arg) {
 			var path = this.getPath(key, pathArray);
 			this.launch(path, arg);
@@ -278,7 +290,7 @@ ECM.toggle('javascript.enabled')
 			}
 		},
 
-		createME: function (sTyp, sLabel, sCommand, sImage, sId) {
+		createME: function (sTyp, sLabel, sCommand, sImage, sId, stooltiptext) {
 			const XUL_NS = 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul';
 			var ele = document.createElementNS(XUL_NS, sTyp);
 			switch (sTyp) {
@@ -290,11 +302,13 @@ ECM.toggle('javascript.enabled')
 					ele.setAttribute('oncommand', sCommand);
 				}
 				if (sImage) ele.setAttribute('image', sImage);
+				if (stooltiptext) ele.setAttribute('tooltiptext', stooltiptext);
 				ele.setAttribute('class', 'menuitem-iconic')
 				break;
 			case 'menu':
 				ele.setAttribute('label', sLabel);
 				ele.setAttribute('id', sId);
+				ele.setAttribute('class', 'menu-iconic')
 				break;
 			case 'menupopup':
 				ele.setAttribute('id', sId);
