@@ -1,11 +1,4 @@
-@namespace url(http://www.w3.org/1999/xhtml);
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
-
-/* 強制啟用閱讀模式 */
-#reader-mode-button {
-  display:  block !important;
-  visibility:visible !important;
-}
 
 toolbar[overflowable] > .customization-target {
     overflow: visible !important;
@@ -272,6 +265,9 @@ margin-left: -4px !important;
 	background: none !important;
 	border: none !important;
 	margin: 0 -2px 0 -8px !important;
+}
+#connection-icon {
+	margin-left: 4px !important;
 }
 
 /*Firefox 9 Loading Progress Throbber on Tab Icon */

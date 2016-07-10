@@ -63,6 +63,7 @@ var moveButton = {
         //{ id: "ublock-button", bar: "urlbar-icons", pos: 3},
         //{ id: "userChromeJsManagerMenuBtn", bar: "urlbar-icons", pos: 4},
         { id: "userChromebtnMenu", bar: "urlbar-icons", pos: 4},
+        { id: "ExtrasConfigMenu", bar: "urlbar-icons", pos: 4},
         { id: "stylish-toolbar-button", bar: "urlbar-icons", pos: 5},
         { id: "usercssloader-menu", bar: "urlbar-icons", pos: 5},
         { id: "scriptish-button", bar: "urlbar-icons", pos: 6},
@@ -72,7 +73,7 @@ var moveButton = {
         //{ id: "foxyproxy-toolbar-icon", bar: "urlbar-icons", pos: 8},
         //{ id: "redirector-icon", bar: "urlbar-icons", pos: 9},
         //{ id: "ucjs_UserAgentChanger", bar: "urlbar-icons", pos: 10},
-        //{ id: "statusbarZoomLevel", bar: "urlbar-icons", pos: 11}        
+        { id: "statusbarZoomLevel", bar: "urlbar-icons", pos: 11}        
         
         
     ],
