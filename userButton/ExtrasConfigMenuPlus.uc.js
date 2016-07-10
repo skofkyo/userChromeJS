@@ -145,22 +145,22 @@ ECM.toggle('javascript.enabled')
                 $('urlbar-icons').appendChild($('ExtrasConfigMenu'));
             }
             var style = ' \
-					  @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
-					  #urlbar-icons #ExtrasConfigMenu > dropmarker { display: none; } \
-					  #urlbar-icons #ExtrasConfigMenu .toolbarbutton-icon {\
-						padding: 0!important;\
-						background: none !important;\
-						border: none !important;\
-						box-shadow: none !important;\
-					  }\
-					  #urlbar-icons #ExtrasConfigMenu {\
-						padding: 0px 2px !important;\
-						margin: -6px 0 !important;\
-					  }\
-					  #ecm-popup menu menupopup menuitem[checked="false"] {\
-						-moz-box-ordinal-group:99!important;\
-					  }\
-					 '.replace(/\s+/g, " ");
+                @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
+                #urlbar-icons #ExtrasConfigMenu > dropmarker { display: none; } \
+                #urlbar-icons #ExtrasConfigMenu .toolbarbutton-icon {\
+                    padding: 0!important;\
+                    background: none !important;\
+                    border: none !important;\
+                    box-shadow: none !important;\
+                }\
+                #urlbar-icons #ExtrasConfigMenu {\
+                    padding: 0px 2px !important;\
+                    margin: -6px 0 !important;\
+                }\
+                #ecm-popup menu menupopup menuitem[checked="false"] {\
+                    -moz-box-ordinal-group:99!important;\
+                }\
+                '.replace(/\s+/g, " ");
             var sspi = document.createProcessingInstruction(
                 'xml-stylesheet',
                 'type="text/css" href="data:text/css,' + encodeURIComponent(style) + '"'
