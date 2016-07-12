@@ -80,7 +80,7 @@
   const REPLACECACHE = false; //スクリプトの更新日付によりキャッシュを更新する: true , しない:[false]
   //=====================USE_0_63_FOLDER = falseの時===================
   var UCJS      = new Array("UCJSFiles","userContent","userMenu"); //UCJS Loader 仕様を適用 (NoScriptでfile:///を許可しておく)
-  var arrSubdir = new Array("", "xul","withTabMixPlus"  ,  "userCrome.js.0.8","userContent","SubScript", "UCJSFiles","TabMixPlus","PageBrowse","userMenu","userButton","ToolbarScript","downloadPlus","AAA");    //スクリプトはこの順番で実行される
+  var arrSubdir = new Array("", "xul","withTabMixPlus"  ,  "userCrome.js.0.8","userContent","SubScript", "UCJSFiles","TabMixPlus","PageBrowse","userMenu","userButton","ToolbarScript","downloadPlus","AAA","zzz");    //スクリプトはこの順番で実行される
   //===================================================================
   const ALWAYSEXECUTE   = 'rebuild_userChrome.uc.xul'; // 强制运行的脚本，无视禁用列表
   var INFO = true;
@@ -929,5 +929,6 @@ this.debug('Parsing getScripts: '+((new Date()).getTime()-Start) +'msec');
     }
   }
 })();
+//userChrome.import("*", "UChrm");
 //userChrome.import("stylish0.5_edit.uc.js", "UChrm");
 //userChrome.import("userButton\\SiteToPanel.uc.js", "UChrm");

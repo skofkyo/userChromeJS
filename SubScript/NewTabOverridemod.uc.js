@@ -21,6 +21,7 @@
             var tbt = $("tabbrowser-tabs");
             var newTabBtn = document.getAnonymousElementByAttribute(tbt, "class", "tabs-newtab-button");
             newTabBtn.addEventListener('mouseover', BrowserNewtabUrl.updateURL, false);
+            //gBrowser.tabContainer.addEventListener('TabSelect', BrowserNewtabUrl.updateURL, false);
             this.updateURL();
             this.addmenuitem();
         },
