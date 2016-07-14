@@ -48,11 +48,11 @@ ECM.toggle('javascript.enabled')
     Cu.import('resource://gre/modules/Preferences.jsm');
 
     window.ECM = {
-		menues: [
-		/*在這裡添加要移動的UC選單ID 不保證100%移動成功 至少不會導致自定義選單無效*/
-			//"NewTabOverride_set",
-			//"downloadPlus_set",
-		],
+        menues: [
+        /*在這裡添加要移動的UC選單ID 不保證100%移動成功 至少不會導致自定義選單無效*/
+        //"NewTabOverride_set",
+        //"downloadPlus_set",
+        ],
         mode: 1, //位置 0可移動按鈕 1網址列按鈕 2工具選單
         editor: 1,
         //editor: 'D:\\Software\\TeraPad\\TeraPad.exe',
