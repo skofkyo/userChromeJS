@@ -64,16 +64,11 @@ ECM.toggle('javascript.enabled')
         // 1 = view_source.editor.pathに設定したエディタ
         // エディタへのフルパスを記述すればそのエディタを使う ※パスを''で囲い\は\\に置き換える
         removeExt: true, //腳本名稱不顯示 uc.js/uc.xul
+        ecmp: true,//強制啟用腳本true/false 避免意外關閉
         itemLength: null,
 
         init: function() {
-            if (this.mode == 0) {
-                this.addmovebtn();
-            } else if (this.mode == 1) {
-                this.addurlbarbtn();
-            } else {
-                this.addtoolsmenu();
-            }
+            if (this.mode == 0) {this.addmovebtn();} else if (this.mode == 1) {this.addurlbarbtn();} else {this.addtoolsmenu();}
             this.addstyle();
             this.addmenuitem();
             this.moveMenu();
@@ -81,6 +76,7 @@ ECM.toggle('javascript.enabled')
             this.itemLength = mp.childNodes.length;
             this.addPrefListener(ECM.readLaterPrefListener);
             window.addEventListener('unload', this, false);
+            if (this.ecmp) window.addEventListener('DOMWindowClose', ECM.ecmptrue, false);
         },
 
         addmenuitem: function() {
@@ -570,6 +566,11 @@ ECM.toggle('javascript.enabled')
             if (popup.triggerNode) {
                 popup.triggerNode.removeAttribute('open');
             }
+        },
+
+        ecmptrue: function(event) {
+            var duc = Services.prefs.getCharPref("userChrome.disable.script").replace(/ExtrasConfigMenuPlus\.uc\.js\,/g, "")
+            Services.prefs.setCharPref("userChrome.disable.script", duc);
         },
 
         clickScriptMenu: function(event) {
