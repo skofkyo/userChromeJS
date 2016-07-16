@@ -10,11 +10,20 @@
 // @homepageURL    no
 // ==/UserScript==
 
-location=="chrome://browser/content/browser.xul" && window.addEventListener("click", function(e) {
-    if (e.button === 2 && e.originalTarget.className === "tabs-newtab-button") {
-        let url = 'https://www.google.com.tw/search?q='+ encodeURIComponent(readFromClipboard());
-        openNewTabWith(url);
+var tbt = document.getElementById("tabbrowser-tabs");
+var newTabBtn = document.getAnonymousElementByAttribute(tbt, "class", "tabs-newtab-button");
+newTabBtn.addEventListener("click", function(e) {
+    if (e.button === 2) {
         e.preventDefault();
         e.stopPropagation();
+        let url = 'https://www.google.com.tw/search?q=' + encodeURIComponent(readFromClipboard());
+        openNewTabWith(url);
     }
 });
+                setTimeout(function(event) {
+            var pb = document.getElementById("anobtn");
+            pb.addEventListener("contextmenu", function(event) {
+                document.getElementById("anobtn_popup").openPopup(this, "after_pointer", 0, true, false);
+                event.preventDefault();
+            }, false);
+                }, 500);

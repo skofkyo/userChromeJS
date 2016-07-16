@@ -42,7 +42,18 @@ keys['F4'] = function() {
 			};
 //測試
 keys['T+Ctrl'] = function() {
-				doc.getElementById("fvd_single_button").setAttribute("open", "true");
+//var rurl = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + "\\..\\..\\Firefox\\firefox.exe;
+//var text = prompt('輸入要更改的網址。', rurl);
+
+//addMenu.exec(Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + "\\..\\Firefox\\firefox.exe","-no-remote -profile Default")
+//addMenu.exec(Services.dirsvc.get("ProgF", Ci.nsILocalFile).path + "\\Internet Explorer\\iexplore.exe",content.location.href)
+//ExtrasConfigMenuPlus.uc.js,
+//var duc = Services.prefs.getCharPref("userChrome.disable.script").replace(/ExtrasConfigMenuPlus\.uc\.js\,/g, "")
+//Services.prefs.setCharPref("userChrome.disable.script", duc);
+
+toJavaScriptConsole();
+
+
 			};
 keys['J+Ctrl'] = function() {
 				switchToTabHavingURI("about:downloads", true);
@@ -123,7 +134,8 @@ keys['F+Ctrl'] = function() {
 			};
 //重新啟動並清除緩存
 keys['r+ctrl+alt'] = function() {
-				Services.appinfo.invalidateCachesOnRestart() || BrowserUtils.restartApplication();
+				Services.appinfo.invalidateCachesOnRestart();
+				('BrowserUtils' in window) ? BrowserUtils.restartApplication(): Application.restart();
 			};
 //定位到urlbar
 keys['enter+ctrl'] = function() {
