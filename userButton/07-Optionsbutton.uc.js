@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name                 CustomOptionsButton.uc.js
-// @description       首頁按鈕
+// @description       新選項按鈕
 // @author               skofkyo
 // @license               MIT License
 // @compatibility    Firefox 45+

@@ -217,7 +217,7 @@ location == "chrome://browser/content/browser.xul" && (function() {
 				Application.restart();
 				break;
 			case 2:
-				gBrowser.selectedTab = gBrowser.addTab('about:addons');
+				switchToTabHavingURI("about:addons", true);
 				event.preventDefault();
 				break;
 			}

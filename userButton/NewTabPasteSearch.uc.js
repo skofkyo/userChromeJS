@@ -20,10 +20,3 @@ newTabBtn.addEventListener("click", function(e) {
         openNewTabWith(url);
     }
 });
-                setTimeout(function(event) {
-            var pb = document.getElementById("anobtn");
-            pb.addEventListener("contextmenu", function(event) {
-                document.getElementById("anobtn_popup").openPopup(this, "after_pointer", 0, true, false);
-                event.preventDefault();
-            }, false);
-                }, 500);

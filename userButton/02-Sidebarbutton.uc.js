@@ -46,18 +46,18 @@
                 case 0:
                     toggleSidebar("viewBookmarksSidebar");
                     break;
-                    /*
-					case 1:
-					toggleSidebar("viewHistorySidebar");
-					break;
-					case 2:
-					try {
-					toggleSidebar('viewStylishSidebar');
-					} catch (ex) {
-					alert("\u672A\u5B89\u88DDStylish \u7121\u6B64\u5074\u908A\u6B04");
-					}
-					break;
-					*/
+                /*
+                case 1:
+                    toggleSidebar("viewHistorySidebar");
+                    break;
+                case 2:
+                    try {
+                        toggleSidebar('viewStylishSidebar');
+                    } catch (ex) {
+                        alert("\u672A\u5B89\u88DDStylish \u7121\u6B64\u5074\u908A\u6B04");
+                    }
+                    break;
+                */
                 case 2:
                     toggleSidebar("viewHistorySidebar");
                     break;
