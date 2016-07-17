@@ -8,6 +8,7 @@
 // @version              2016.7.17
 // @include              main
 // @include              chrome://browser/content/browser.xul
+// @note                   2016.7.17 V2修正CSS新視窗移動按鈕沒有圖示的問題
 // @note                   2016.7.17 修正PanelUI按鈕右鍵選單 新視窗無效的問題
 // @note                   2016.7.16 重寫代碼 使用新函數
 // @homepageURL    https://github.com/skofkyo/userChromeJS/blob/master/userButton/00-FirefoxBtnMod.uc.js
@@ -55,6 +56,7 @@
                 id: "CustomFirefoxMenu",
                 class: "menu-iconic",
                 label: "火狐選單",
+                image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABuElEQVQ4jZ2Tz0sUYRjH908IB6XbZpQdBL106NBF/4BtMy/doluw669g/YUkaCTYJXYtIsiDEHjYi4gQBFG3DmJ0Si/lKJsz78zOrDNus7w78/Egzjq9XtoH3svL83ye7/fheVKVvDZkjGqmOdbJ/zxjpENUclo21U5xDBnVzNS/n2LyGu6bYZzSfZxiBqeUpfb+EU7x3qWQGGA/v8Px+lPc1w8QMz04K0OtxPEu/I155OEPnFIWc+KqCvDK00SBR/Nol9Cz1I7jXXjlKaLAp7b2RAX8/faBi9E09jj59EqRHGyXkfr3JEAU0kQySACkvoM1e0sBNHa/EMkGYuZmC2DN9ye7W79x3z5Uiq3ZHuT+NgDV5cEWwF64nQCEvo1TzFBdHuB4fQJRSGOOdVJbfQxRCIA115ucQdPWUSKU1L++w3rWhyikqX9eiRUqQ/S3XiRr3Upsw5rrPfNedwHwt5ZUgCikaYpfioioUY9lA4TOIWLqugo4X6aweqBaOR+urWMv3b18E2Ml0zc4+fgS+ecnkQyIAg+p7+BvLiImu9VVNkY6RNvHlNeMVCWnZds657xmHOWuZE4BnUvgBJzQjdgAAAAASUVORK5CYII=",
             }), ins);
             var m = $('CustomFirefoxMenu');
             var mp = $('CustomFirefoxMenuPopup');
@@ -126,18 +128,14 @@
         },
         
         addstyle: function() {
-            var style = ' \
-                @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
-                menu#CustomFirefoxMenu ,\
-                #CustomFirefoxMenu .toolbarbutton-icon {\
-                    list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADmElEQVRYhcWX308cVRTH5w/Ap91F0BLjkxIfTPR19cHaqLEo0QeMDya2D41EdhZKq5ISSZvIIuAuP0KLiYJNLErCryWlPxbTVvsjRTC1QQslEhDB2dndmZ2dmd2d2Zn79QFd3GXnx6KFk9yHmdxzvp85555771AURVEbtSWVDO2cCNMOkfW68CBHmHbIDO2c3KgtqaT+JS48aOH8wdBOYaO2pJJiaOfEbotnIeqcQWo30m5YDo9DoopxiPnckM5/Ajnkh3ypA/LFdsiXP9t8nu6CONqEaPNTRUHYAuDankfy6mkkznkQ+eDxwvPqSyEMHkbq9hDiZ2rA1pfuHCB64kkIA4fAel0QR5sgjnwEtqHMOmBDGbiO/ZBDAajLM5AmTyJy/LHiAaQpHzRmEeJwI3j/y9n38b43oPxyGcLAu8ZZ+OIdqCtzgKYAALTwEqItTxtmriBAZnUOAKCuzCL90yiU+YtIz40AhCA1861lJiKNj0IKtoBkNiEyfy4g8fX79gH0BAsjS5zz2F5g8b43s5nQ+XXEfG5rgMixCpCUYAigJ1iIYyeQ+KYefPdBSwhxrDnrK11oswaQgi2G4vkmTbVaAvBdr2YzqixcsQbQoiuWwkTmIJw9YqsMcsgPXYxuZk9gEGncZwzA+dwA0S0B4v1v2V4H+Rnle143AejYb66sqcisziExRNsHuPBpTghx5ENjAL632lRfmvL93e8P2+uCz99G6vZQTox8+BwAYeCQKUD67nnbWyzrdSH14zBIWswt35kakxK0v2BeAgDKryHwPa+B63wRciiAzPo81KUfwBXo8fSd4Db/2KlnzbtA59YsIfJNYxYhjjXnAhx9BJm1n3Pm6QJj3YbJG4O2hUlahBRs2XZQcT43hMHDgK7lzE/dGLQG4DoPmKvqGpLXvwTfXYXIsYptAWMnn4EW+x3q/e+3ufKBV6wBWK8LysIVy69X5i+B97+05ddQDuHskeymk2/q8kzBhVoQgPO5s4eIlZFkHFp0FUSRTSYRw3PD8EYkjn9sC8COJa/1G7aq6ZUsdfOr/yyevhME21C+MwC2vhTydBdASPHKhEAOBSx3TVuXUr63Gpk/7trWVn+7VXDF7xggC9JdheTV01BXZqFLMZCMApKWoEWWodz7DtJUK7i252zHY70uUGHaIRfj8H+OsMchUQztnNxDgPG9/Dnl19976ImtP+Q6ZzDscUi7kfawxzH+j/hf6BR628uPQMQAAAAASUVORK5CYII=) ;\
-                }\
-                '.replace(/\s+/g, " ");
-            var sspi = document.createProcessingInstruction(
-                'xml-stylesheet',
-                'type="text/css" href="data:text/css,' + encodeURIComponent(style) + '"'
-            );
-            document.insertBefore(sspi, document.documentElement);
+            //移動按鈕的樣式
+			var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
+            + '#CustomFirefoxMenu .toolbarbutton-icon' 
+            + '{list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADmElEQVRYhcWX308cVRTH5w/Ap91F0BLjkxIfTPR19cHaqLEo0QeMDya2D41EdhZKq5ISSZvIIuAuP0KLiYJNLErCryWlPxbTVvsjRTC1QQslEhDB2dndmZ2dmd2d2Zn79QFd3GXnx6KFk9yHmdxzvp85555771AURVEbtSWVDO2cCNMOkfW68CBHmHbIDO2c3KgtqaT+JS48aOH8wdBOYaO2pJJiaOfEbotnIeqcQWo30m5YDo9DoopxiPnckM5/Ajnkh3ypA/LFdsiXP9t8nu6CONqEaPNTRUHYAuDankfy6mkkznkQ+eDxwvPqSyEMHkbq9hDiZ2rA1pfuHCB64kkIA4fAel0QR5sgjnwEtqHMOmBDGbiO/ZBDAajLM5AmTyJy/LHiAaQpHzRmEeJwI3j/y9n38b43oPxyGcLAu8ZZ+OIdqCtzgKYAALTwEqItTxtmriBAZnUOAKCuzCL90yiU+YtIz40AhCA1861lJiKNj0IKtoBkNiEyfy4g8fX79gH0BAsjS5zz2F5g8b43s5nQ+XXEfG5rgMixCpCUYAigJ1iIYyeQ+KYefPdBSwhxrDnrK11oswaQgi2G4vkmTbVaAvBdr2YzqixcsQbQoiuWwkTmIJw9YqsMcsgPXYxuZk9gEGncZwzA+dwA0S0B4v1v2V4H+Rnle143AejYb66sqcisziExRNsHuPBpTghx5ENjAL632lRfmvL93e8P2+uCz99G6vZQTox8+BwAYeCQKUD67nnbWyzrdSH14zBIWswt35kakxK0v2BeAgDKryHwPa+B63wRciiAzPo81KUfwBXo8fSd4Db/2KlnzbtA59YsIfJNYxYhjjXnAhx9BJm1n3Pm6QJj3YbJG4O2hUlahBRs2XZQcT43hMHDgK7lzE/dGLQG4DoPmKvqGpLXvwTfXYXIsYptAWMnn4EW+x3q/e+3ufKBV6wBWK8LysIVy69X5i+B97+05ddQDuHskeymk2/q8kzBhVoQgPO5s4eIlZFkHFp0FUSRTSYRw3PD8EYkjn9sC8COJa/1G7aq6ZUsdfOr/yyevhME21C+MwC2vhTydBdASPHKhEAOBSx3TVuXUr63Gpk/7trWVn+7VXDF7xggC9JdheTV01BXZqFLMZCMApKWoEWWodz7DtJUK7i252zHY70uUGHaIRfj8H+OsMchUQztnNxDgPG9/Dnl19976ImtP+Q6ZzDscUi7kfawxzH+j/hf6BR628uPQMQAAAAASUVORK5CYII=)}' 
+            + '}';
+            var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
+            var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
+            sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
         },
         
         onpopup: function(event) {
@@ -171,7 +169,7 @@
             }, false);
         },
         startup: function() {
-            if (PUb || mode == 2) this.addPUContextMenu();
+            if (PUb && mode !== 1  && mode !== 2 || mode == 2) this.addPUContextMenu();
         },
     };
 	
