@@ -8,14 +8,14 @@
 // @version              2016.7.17
 // @include              main
 // @include              chrome://browser/content/browser.xul
-// @note                   2016.7.17 修正PanelUI右鍵選單 新視窗無效的問題
+// @note                   2016.7.17 修正PanelUI按鈕右鍵選單 新視窗無效的問題
 // @note                   2016.7.16 重寫代碼 使用新函數
 // @homepageURL    https://github.com/skofkyo/userChromeJS/blob/master/userButton/00-FirefoxBtnMod.uc.js
 // ==/UserScript==
 (function() {
 
-    var mode = 0;//位置 0可移動按鈕 1頁面右鍵選單 2僅PanelUI右鍵選單
-    var PUb = true;// true/false 移動按鈕模式時是否同時添加PanelUI右鍵選單
+    var mode = 0;//位置 0可移動按鈕 1頁面右鍵選單 2僅PanelUI按鈕右鍵選單
+    var PUb = true;// true/false 移動按鈕模式時是否同時添加PanelUI按鈕右鍵選單
 
     window.CustomFirefoxMenu = {
 
