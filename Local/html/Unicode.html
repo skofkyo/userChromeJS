@@ -19,15 +19,15 @@
 </head>
 
 <body>
-    <div class="container" style="max-width:800px; ">
+    <div class="container" style="max-width:100%; ">
         <form name="characterCode">
-            <div class="tabtop" style="float: center;padding: 6px 0px 6px 0;text-align: center;color: #1888F0;	font: bold 14px SimHei,Verdana;clear: both;" >中文｜字元(字符)</div>
+            <div class="tabtop" style="padding: 6px 0px 6px 0;text-align: center;color: #1888F0;	font: bold 14px SimHei,Verdana;clear: both;" >中文｜字元(字符)</div>
             <textarea id="characterTa" name="characterTa" style="width:100%; height:250px; overflow:auto; margin-left:-3px; "></textarea>
             <center>
                 <input type="button" class="button" style="width:180px;font:SimHei,Verdana;" onClick="native2ascii();" value="↓字元轉換為Unicode碼↓" /> &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="button" class="button" style="width:180px;font:SimHei,Verdana;" onClick="ascii2native();" value="↑Unicode碼轉換為字元↑" />
             </center>
-            <div class="tabtop" style="float: center;padding: 6px 0px 6px 0;text-align: center;color: #1888F0;	font: bold 14px SimHei,Verdana;clear: both;" >Unicodea碼</div>
+            <div class="tabtop" style="padding: 6px 0px 6px 0;text-align: center;color: #1888F0;	font: bold 14px SimHei,Verdana;clear: both;" >Unicodea碼</div>
             <textarea id="asciiTa" name="asciiTa" style="width:100%; height:250px; overflow:auto; margin-left:-3px; "></textarea>
             <input type="checkbox" name="ignoreLetter" id="ignoreLetter" checked="true" /> <span class="colorfull">不轉換字母或數字。</span>
         </form>

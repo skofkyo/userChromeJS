@@ -51,10 +51,10 @@
             <td>
                 <select name="tabsize" id="tabsize">
                     <option value="1">tab 縮進</option>
-                    <option value="2">2個空格縮進</option>
-                    <option value="3">3個空格縮進</option>
-                    <option value="4">4個空格縮進</option>
-                    <option value="8">8個空格縮進</option>
+                    <option value="2">2個空格符縮進</option>
+                    <option value="3">3個空格符縮進</option>
+                    <option value="4">4個空格符縮進</option>
+                    <option value="8">8個空格符縮進</option>
                 </select>
                 <br>
                 <select name="max-preserve-newlines" id="max-preserve-newlines">
@@ -80,7 +80,6 @@
                     <option value="collapse">用括號控制語句</option>
                     <option value="expand">括號在本行</option>
                     <option value="end-expand">結束括號在本行</option>
-                    <option value="none">Attempt to keep braces where they are</option>
                 </select>
                 <p style="margin:6px 0 0 0">HTML &lt;style&gt;, &lt;script&gt; 格式化:</p>
                 <select id="indent-scripts">
@@ -90,9 +89,6 @@
                 </select>
             </td>
             <td>
-                <input class="checkbox" type="checkbox" id="end-with-newline">
-                <label for="end-with-newline">End script and style with newline?</label>
-                <br>
                 <input class="checkbox" type="checkbox" id="detect-packers">
                 <label for="detect-packers">檢測加殼和混淆器？</label>
                 <br>
@@ -105,12 +101,9 @@
                 <input class="checkbox" type="checkbox" id="space-before-conditional">
                 <label for="space-before-conditional">條件語句的前空格: "if(x)" / "if (x)"</label>
                 <br>
-                <input class="checkbox" type="checkbox" id="unescape-strings">
-                <label for="unescape-strings">encode編碼，例如 \xNN 或 \uNNNN?</label>
-                <br>
                 <input class="checkbox" type="checkbox" id="jslint-happy">
-                <label for="jslint-happy">Use JSLint-happy formatting tweaks?</label>
-                <br><a href="?without-codemirror" class="turn-off-codemirror">Use a simple textarea for code input?</a>
+                <label for="jslint-happy">使用JSLint格式調整?</label>
+                <br>
             </td>
         </tr>
     </table>
