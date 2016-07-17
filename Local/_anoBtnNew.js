@@ -2,7 +2,6 @@
  *此處為按鈕設置
  *************************************************************************************/
 var anobtnset = {
-	//※※※※※※※※※※ AnotherButtonNew29+.uc.js修改版 按鈕設置寫死於主腳本 此按鈕設置完全無效!!! ※※※※※※※※※※
 
 	//※必須設置	按鈕位置，0為可移動，1為地址欄圖標，2為以前的自定義定位方式
 	Icon_Pos: 0,
@@ -14,7 +13,7 @@ var anobtnset = {
 	orientation: "before",
 
 	//按鈕圖標
-	image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABmElEQVRIic3Vz2ddURAH8I+IqqonKqqioiKLyiKqIqKqqqoi3iKL6qKriKguKp56qioekUVVFhEVVfef7eLMbY/z7i8N1S/jcmfm+z0zd+Zc/gMsYQs7hW1hdB3iFTzDBhYb/Dewiae4O5R0NZ47eNgTuxgxLzCLZyfWcRqBS/FuIcT2NFcxwj6+osIEtyJvDvsRNMVB2BRXmWATFrCNi8g/llo3h8MIKO207UQFlnEeOWcaKj5pEajwOSrq6/NmlrOeOzY6yGu7xKMege2sipe5o609tX3R/R1qvMpyDmVt6mpPhaMB5KXAhTRRnQI/cB/3BpAv43WR+7uCc80CPyNxCHb9GdUK33LntEWgCvEnWMNYmqgj3C4ExkXeJHfudQg0VXUgta7GzRDN48a5wEoP6VWU/wEPipOPoj2XRc5qEedjh8BMsTiBO+EryU8aYq1F+V2VfJLa+Rxv8b0lrnUh3/QIDLH3beSkuT2+BvlMtlxdIn1XR5NNzI9uJx5LV3Uf8Zn0U/pr1Av2Tpq0ibQHu+ZH9t/jF5XwjtYY3gV/AAAAAElFTkSuQmCC",
+	image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAADQElEQVQ4jZXT24sbVRwH8Ekyk9mZySTbZLu7brWxILuK74agooIo/i0iIsqAL4IgilIURcSKlqJ155LJPZtmL0ldt8YWFhQfvDzYmpxkkmzu2Uu73c18fZhMspWieODLeTqf8/3NcCjqf67Q9bb30eLRM4s3hq8tbQ8vL24Pf332p+70vx5aSjbF4He3nwtuHr0R3DpeDl4b/nG2aA6DRRMP/2ji3HUT524M8WKx7x8fejxH/HO53vOzuYF0em1PXVjfvzi/cSjN5g8xV7iL+atHWNg8xpnvhzizZeLBLRMPXTNx9gcT4WLfTwVixmNCsnmTT3VMMdOFd6WP6Su7mFndzc+u7Ukz6wewchuzG3cwlz/E/NW7eGAEL2wOLcir10NsbAdT8Sb4ZBuedBdipgd/tpcP5AbSqdwe7PhX9xBY3cfM+gFOb9yB3XYMuaMNsLEG2NgOuEQLQqoDX7qb92V7knelD2+2D1+2D192AF92gOkruyN4H4G1A4RzfT/F6STE6DUweh0WaLXzJJt5MdmRPOkOPOnuOGLGauzN9OBb6WM6O5hALs0AHbEwGxRijbwQb0lcogUu0QKfbIFPtsEn2xBSbQipDoSUdUk4R/wUq5FHGLWiTqlVmYsYl3nduOTWa18J0drrvrjxgife+MwTr38ixHc+EuLN82Ki+YGY2nnPm2q940013/Yk2m+FNcJRovLnIqtVE+5IJerWKppbqypTevVbMWq8yUdqL7G68SWr17/go/XPeb32qRCrfyzo9Q+5eOO8EG+8L0br74Y1wlGcfCvkVCtwKhU41SpcahUuzQCrGQV3pCrRkdpo7JOjW+PbeSJWCVCcfCvkUCqgFALHCHOqVbCqUaAjVcmlGaDtjNERONrHkFOxGjlOhFEqBVolkt3Qzr2gtY8hSiZwyAQOZRJGIQVaJZLdcDL2BKYjNdCaYUHiNzeX6OXSb5RcPqbkMiiZgJIJaIUUnMtEshs6T4x98lu6bGjy0n8XRbn8NKuUXmXk0tesUrrgXCbSpOlkbOvnTNB7oPuthQvbvKiWnmSV0iuMXL7EKOVfHAo5+if8n9B98fQ2L2p/hVm5/DKjlC/SCvn5qUzp1N/awan9OSOqjQAAAABJRU5ErkJggg==",
 
 	//菜單彈出方向，不設置就默認,參考 https://developer.mozilla.org/en-US/docs/XUL/PopupGuide/Positioning
 	position: "",
@@ -79,17 +78,17 @@ var anomenu = [
         },
     ]
 },
-{
-	label: 'WIN10程式集',
-	MapFolder: 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs',
-	Filter: /\.(exe|lnk|bat|xls|xlsx|txt|doc|docx|jpg|wps|js|html|xul)$/i,
-	Exclude: /\.(dat|reg|sample|config|db|log|dll|json|zip|rar|ini)$|7za\.exe|UpdataS\.bat|wget\.exe/i,
-	Directories: 5,
-	FilterDirs: "", //枚举目录
-	ExcludeDirs: /tmp|temp|ConFile|msdll/i,
-	image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAbklEQVQ4je3TXwqAIAzAYe+VsP32pvc/QuQx7KmIAm39eYkGwz3IB24zhCdDRBIwmVn1JDCJSFqhK8gWW6HeZVWN+3Opzayehnr5HqSq8eyAmk/zTvuHPgV59ggYDtDNT1u2UAbKBWgEsrclzZgBLQgC98zNgUMAAAAASUVORK5CYII=",
-	child: []
-}, 
+//{
+//	label: 'WIN10程式集',
+//	MapFolder: 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs',
+//	Filter: /\.(exe|lnk|bat|xls|xlsx|txt|doc|docx|jpg|wps|js|html|xul)$/i,
+//	Exclude: /\.(dat|reg|sample|config|db|log|dll|json|zip|rar|ini)$|7za\.exe|UpdataS\.bat|wget\.exe/i,
+//	Directories: 5,
+//	FilterDirs: "", //枚举目录
+//	ExcludeDirs: /tmp|temp|ConFile|msdll/i,
+//	image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAbklEQVQ4je3TXwqAIAzAYe+VsP32pvc/QuQx7KmIAm39eYkGwz3IB24zhCdDRBIwmVn1JDCJSFqhK8gWW6HeZVWN+3Opzayehnr5HqSq8eyAmk/zTvuHPgV59ggYDtDNT1u2UAbKBWgEsrclzZgBLQgC98zNgUMAAAAASUVORK5CYII=",
+//	child: []
+//}, 
 /*
 {
 	label: '外部程序',
@@ -163,32 +162,32 @@ var anomenu = [
 	text: "\\user.js" , 
 	exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
 },
-{id: "ucjsMouseGestures"},
-{id: "ucjsSuperDrag"},
-{id: "ucjs_UserAgentChanger"},
-{id: "EncodeDecodeHtml"},
-{id: "InspectElement-menuitem"},
-{id: "toolsbar_KeyChanger_rebuild"},
-{id: "RefererChanger"},
-{id: "redirector-icon"},
-//{
-//    label: "系統資料夾",
-//    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB5ElEQVQ4jXWSvW4TQRSFv7XXxhYRKEg4SFgoUigoqRASBUU6XoMnoKBEPAEdz0ALJaKhQNDwIyJKRBAiQog4cbx2vDuz94di7Y03gStNMaN7vjln7iQsKhw8d4nfcXVMBDcHTzBT3BRbrCS9QH/9FmuDuwlAugRI3KV78Tqtzm3y8QvC8SHj8YRrN7Zpd7qc9M0Y/3hX71usVtLG5D3nL9/n0uZDUjvi684bwmyEu2IaSEiQYv8/gOUtxUugjWqJxMB47wtWFlg5R8tjzK3urSPgpzGKSombYCqVUAOmAbd/AMy1PjQT3ApUSswipi0kZrhUgNXeOsKSaiaYRExnqAquEdeIhgwJGVJktNsp+9+eedOBSi3WMuDsVmcaME2QIsO0wCSQpsbk9+umAzOtxVIWzI8+VACJmEQkTJAwReKU7vBx7bjhYCmWmCMxx1TwpYM4xTViWlaR3ZsAVWmIJeSVK424ttDouFVTqQB2KoJIQywxx8wwXYxSckwK3IQHHydnAdWnORFrWYA7uOAm9c0Ao9G8jrACkIZYy6Ix3tV6OnxEpzdovkG3v0U2+oyqgSc12+ih9AjeA3fcnW5/wPrVbeAJyWn6wc9XfvjrLZM/nwi2wZXNewy37tw8t7axc8YK8BeuuK2XrQ1BowAAAABJRU5ErkJggg==",
-//    child: [
-//        {
-//            label: "Download",
-//            exec: 'E:\\Download',
-//        },
-//        {
-//            label: "FFDownload",
-//            exec: 'E:\\FFDownload',
-//        },
-//        {
-//            label: "TDDownload",
-//            exec: 'E:\\TDDownload',
-//        },
-//    ]
-//},
+{id: "ucjsMouseGestures",clone: false},
+{id: "ucjsSuperDrag",clone: false},
+{id: "ucjs_UserAgentChanger",clone: false},
+{id: "EncodeDecodeHtml",clone: false},
+{id: "InspectElement-menuitem",clone: false},
+{id: "toolsbar_KeyChanger_rebuild",clone: false},
+{id: "RefererChanger",clone: false},
+{id: "redirector-icon",clone: false},
+{
+    label: "系統資料夾",
+    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB5ElEQVQ4jXWSvW4TQRSFv7XXxhYRKEg4SFgoUigoqRASBUU6XoMnoKBEPAEdz0ALJaKhQNDwIyJKRBAiQog4cbx2vDuz94di7Y03gStNMaN7vjln7iQsKhw8d4nfcXVMBDcHTzBT3BRbrCS9QH/9FmuDuwlAugRI3KV78Tqtzm3y8QvC8SHj8YRrN7Zpd7qc9M0Y/3hX71usVtLG5D3nL9/n0uZDUjvi684bwmyEu2IaSEiQYv8/gOUtxUugjWqJxMB47wtWFlg5R8tjzK3urSPgpzGKSombYCqVUAOmAbd/AMy1PjQT3ApUSswipi0kZrhUgNXeOsKSaiaYRExnqAquEdeIhgwJGVJktNsp+9+eedOBSi3WMuDsVmcaME2QIsO0wCSQpsbk9+umAzOtxVIWzI8+VACJmEQkTJAwReKU7vBx7bjhYCmWmCMxx1TwpYM4xTViWlaR3ZsAVWmIJeSVK424ttDouFVTqQB2KoJIQywxx8wwXYxSckwK3IQHHydnAdWnORFrWYA7uOAm9c0Ao9G8jrACkIZYy6Ix3tV6OnxEpzdovkG3v0U2+oyqgSc12+ih9AjeA3fcnW5/wPrVbeAJyWn6wc9XfvjrLZM/nwi2wZXNewy37tw8t7axc8YK8BeuuK2XrQ1BowAAAABJRU5ErkJggg==",
+    child: [
+        {
+            label: "Download",
+            exec: 'E:\\Download',
+        },
+        {
+            label: "FFDownload",
+            exec: 'E:\\FFDownload',
+        },
+        {
+            label: "TDDownload",
+            exec: 'E:\\TDDownload',
+        },
+    ]
+},
 {
     label: "截圖",
     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABdUlEQVRIie3TPWhUQRTF8d8etVCCiDZ2ktiIWKmgEPEjCCKptRcLMWCnpFSwsVQr0woixMIUVloIqYKdRMRCsBI/CrHRRFyjxY4wPtbsrqtgkQsX3sy95/zfvHeHtfgHsRFjJUexblCDvThecmejdhIfW63W95+JV9jVr/nBhngJm0ptEst1vep7g929zCeS3GmKk9xIch1fuplXkHdJriW5imNN88NYWc1gkMQKxmvApaown2Q2ySyedRG3sYBHWFwFcrEGTJfNp42TjaBdiR7rTE8d43jZBTDdDdBOcjfJTJIZPKwE89iA4BQu40jRb8frnoAe33V/MX/QGIIrxWPqjwF4W/pOlPWczqQs4hu2YccwgBel70xZn4Ukt8p6DzYPA/isc+HGsIwPuI+vOjd5PQ4M+w8ulN7TeF/2nmNfOc3tYQGfcKjSjFTP5/oa0z4gS0lu4mh580nc+03vL4CpfgCDJM7XgK148hfNF7DFWvwX8QNSpf7wsUOiiAAAAABJRU5ErkJggg==",
@@ -283,77 +282,74 @@ var anomenu = [
             }
         }
 }, 
-//{
-//    label: "外部程序",
-//    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAFNUlEQVRIibXTWUwUZwDA8fU+eqg1adID2rqAWsshAgK7CBSBxUUoXqmW1ltUBORwmdkFg7oziGe00rS2VSvWpGlFVJBzl2V3YVmu9URt+tBXd5u+NE1IH/z3YQUWj7ZJ20l+D/N9X+af75sZheL/voxGyWU0SkOSJPPYI0mSHxmN0tAwSZKHJEkekuXKIVmuHLk3GqU/niRJ8qP9+w/cGglIkvzI/MP3PMiLodtq4nfnLkzWJiq/y+bmzdvcvTPIvcH73Bt8wODgfe7cvsuNG7fo73Ph7O7F0eXEbuvC0t5BW6uJxsYmjh499tuYQEtLK2azBWuHnU67g25HDz3OPvp6Bxjov4HLdZMbrlu4Bm7S3++it6d/9OH2LjosNkwmM83NLTTUNyBJMiMBUdQjinoKC4soKdmDTleKIIjo9QYMhjLKysopL9/7lLKycgyGMkRRjyCI6HSllJTsobCwiPz8grGBBclVzEk6xdsJJ/CPO4JfrIxf7EH8VFX4qQ7hrz6Mv/qIV9xR/NVHR+9Vh/FTHfKuja3kzRiZrLV5TwRSjxOgOUNd0wB3Dxbws/k6v7kq+fXBJc42VWBz1eN2e/C4PXg8HjyeX3x4x91uD263m4cP3Qyfiijqf/IGNCcI0tZw+nwLHRbrf0YU9ShEUU+I9gTzMi8yN+Nbr+XDLhCUPqyGIG0NgdrzBC47T2DaeQLSviFAc46A1HMoU86iTDmDMvlrlGnnmJNSja607HEg/STzV3zH3OUXSBOtrK7qH7HmUD+rqwZYfWiAjAM9JBu6yDT2sKqqj5UH+1hZ2UeW3EtKWRdL9V0s1XeiLjDxztITPjvIOMmCNd8TlH6BFF0HWXIvK+Q+r0qvjAM9JAmdLKvoJkvuJUvyWr7fSbKhi/cFO+8LdhJL7ajyTCg1p30CmZ8SvLaWIG0NScXtZBzo8TL2kmnsJX2fk8RSO8n6TjKNPSPz2opuEkvtJOhsJOhsxOtsxO+xEbOrDWXaVz6BD04R+vEVApedJaHQhLbCiXafk/R9TrQV3SwpsZKgs6Gt6B6h2etgyR4bcSVWr2IvdbGVxTtaUKZ+7hNYUU3YhnoC006zJK8ZTbkDzV4HqeUO1MVWVEUdpBi60Ox1oCl3eM+5qAPVY7GFwyzE7rYQub2ZOSnVPoGV1Sza0khAajWqnQ0k6ztJNnSiLrIQnW8mqdROisE7lqCzEVPQPkZ0QTvR+e1E55uJzjcTsa3piZe86jMicppRJh8jJucqSaU2VAVmona2EVdkIUmwkyTYWVLcweJdpmfLbWNxbhtRuW2Eb74+NhCcdZzFua3MSaokakst6gIzETnNxOS1kaizkqizot7dTuSOFiJ3tBLlI3JHq3d8+6iFG+tHj0gQxFs+vzZhH10kfPN1InOaiC+2EF9sITq3lYhtTX9r0dYmFm1tJGz91dEdPL7GKxSKF0VRz/wVZwjf2IC6wEzc7naicpoJ39RA+Obrf29TA+GbGli4sQH/eHlMQKFQKCaJop55mV8QvbMVVb6JiC2NhK2/Rtj6ayzcMKz+Gbxzw2vD1l/l9aiSpwIKUdTz3qovid7ZQtgnVwnJriM0u47Q7CuEfvwPZF8hNLuOkOy65wfezTpFyEeXCf7wEsFra73W1RKy7vJfCl53eXT92trnB6a9Mo9ps+YydVYQU2cGMHWGkikz3mHKy28x+SU/Jr/4BpNeeI1J019l4rTZTJwykwmTX2L8xOmMmzCFceMnohg3jtlz1zwdEAT9j75f1L8hCOKQIAg1fwI51/z+rcXaowAAAABJRU5ErkJggg==",
-//    child: [
-//        {
-//            label: "我的電腦",
-//            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAChElEQVQ4ja2SPWgTARiGP4o4SrUWWkU6OIiKg4II4s+giAqCk4iDg+BQ6qJUoYgIVfxph1Ys/tBorpekpL0kXhoTvDQkVZrkLmlyuWujbU2tdKldO3R9HGqFqKMvfNP78cD7fa/I/9SPH8tMu87vcd0KrlOhUilj2yVsu0S5PEWpVGRqqkC1WqUOMO06KIrye1RVxe/3E4mE0XWdWGyMRCKOYXxgqmiRSMT/DRAJI1smka3zSPMqTwNf6Xy5yM0X32l/vsTl7iWKRYtYbOzfgIbGILLdQHZXkNYlQu+n8YerBGMzRAyXAf9nigWTaFRHZmdnSafTlEolXLeCqqrsPhBkc7OG7PyE7Khyv6/Gk9df6X5Vo/ftPHf6ahQKeSKRMBKJRDh1+ixdXXdxXQefz8fxMyEadw0hW8NIS5rLHV/ofDhL+70atx584+rtBQqFPJqmIcOZ15xdFbo/XcNxbEZGRjh8MkDbPi8N23xI8xiHztlc6ZjhwvV5Lt1Y4NiVL5hmlkAggESjURzHIRQK4Tg2oZDGrj2DtO33sKlpEGkK0rg3y9GLNgfPz3DkYo2WE0Xy+Ul8Ph+i6zqO46BpGpVKeT2XPEI29yLyGJFepOkN0mIgrUmkNYO0vcM0swwNDdUDNspil+sLY1l5LCuHZeUwzSymmSWfn1x/+UYETdNYXPzGx48TZDJpUqlxDOMDiUSc0dFRgsEgw8PD+P1+VFVFURRyudz6FzKZzPpB/tDa2hrJpEFPTw9er5eVlZW/dmRiYoKBgQF0Xa8zl5eXsSyTXG6SZNJA00ZRFIW5ubl6SH//M7q67tLf/6zOSKXGSaXGicff4/EM4vEMoijeX1X/j/oJtgkk7jUiT9AAAAAASUVORK5CYII=",
-//            text: "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
-//            exec: "C:\\Windows\\explorer.exe",
-//        },
-//        {
-//            label: "小算盤",
-//            exec: 'C:\\WINDOWS\\system32\\calc.exe',
-//        },
-//        {
-//            label: "記事本",
-//            exec: 'C:\\WINDOWS\\system32\\notepad.exe',
-//        },
-//        {
-//            label: "啟動 Internet Explorer",
-//            exec: 'C:\\Program Files\\Internet Explorer\\iexplore.exe',
-//        },
-//        {
-//            label: "Internet Explorer 打開此頁",
-//            text: "%u",
-//            exec: 'C:\\Program Files\\Internet Explorer\\iexplore.exe',
-//        },
-//        {
-//            label: "用便攜Notepad2編輯user.js",
-//            text: "\\user.js" , 
-//            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
-//        },
-//        {
-//            label: "便攜Notepad2",
-//            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
-//        },
-//        {
-//            label: "用便攜Notepad2編輯prefs.js",
-//            text: "\\prefs.js" , 
-//            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
-//        },
-//        {
-//            label: "用便攜Notepad2編輯userChrome.js",
-//            text: "\\Chrome\\userChrome.js" , 
-//            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
-//        },
-//        {
-//            label: "用便攜Notepad2編輯userChrome.js",
-//            text: "\\Chrome\\userChrome.css" , 
-//            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
-//        },
-//        {},
-//        {
-//            label: "Goagent",
-//            exec: "\\Chrome\\Local\\goagent\\local\\goagent.exe" , 
-//        },
-//        {
-//            label: "UltraSurf無界瀏覽",
-//            exec: "\\Chrome\\Local\\UltraSurf\\u1404.exe" , 
-//        },
-//        {
-//            label: "Freegate自由門",
-//            exec: "\\Chrome\\Local\\Freegate\\fg742p.exe" , 
-//        },
-//    ]
-//},
+{
+    label: "外部程序",
+    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAFNUlEQVRIibXTWUwUZwDA8fU+eqg1adID2rqAWsshAgK7CBSBxUUoXqmW1ltUBORwmdkFg7oziGe00rS2VSvWpGlFVJBzl2V3YVmu9URt+tBXd5u+NE1IH/z3YQUWj7ZJ20l+D/N9X+af75sZheL/voxGyWU0SkOSJPPYI0mSHxmN0tAwSZKHJEkekuXKIVmuHLk3GqU/niRJ8qP9+w/cGglIkvzI/MP3PMiLodtq4nfnLkzWJiq/y+bmzdvcvTPIvcH73Bt8wODgfe7cvsuNG7fo73Ph7O7F0eXEbuvC0t5BW6uJxsYmjh499tuYQEtLK2azBWuHnU67g25HDz3OPvp6Bxjov4HLdZMbrlu4Bm7S3++it6d/9OH2LjosNkwmM83NLTTUNyBJMiMBUdQjinoKC4soKdmDTleKIIjo9QYMhjLKysopL9/7lLKycgyGMkRRjyCI6HSllJTsobCwiPz8grGBBclVzEk6xdsJJ/CPO4JfrIxf7EH8VFX4qQ7hrz6Mv/qIV9xR/NVHR+9Vh/FTHfKuja3kzRiZrLV5TwRSjxOgOUNd0wB3Dxbws/k6v7kq+fXBJc42VWBz1eN2e/C4PXg8HjyeX3x4x91uD263m4cP3Qyfiijqf/IGNCcI0tZw+nwLHRbrf0YU9ShEUU+I9gTzMi8yN+Nbr+XDLhCUPqyGIG0NgdrzBC47T2DaeQLSviFAc46A1HMoU86iTDmDMvlrlGnnmJNSja607HEg/STzV3zH3OUXSBOtrK7qH7HmUD+rqwZYfWiAjAM9JBu6yDT2sKqqj5UH+1hZ2UeW3EtKWRdL9V0s1XeiLjDxztITPjvIOMmCNd8TlH6BFF0HWXIvK+Q+r0qvjAM9JAmdLKvoJkvuJUvyWr7fSbKhi/cFO+8LdhJL7ajyTCg1p30CmZ8SvLaWIG0NScXtZBzo8TL2kmnsJX2fk8RSO8n6TjKNPSPz2opuEkvtJOhsJOhsxOtsxO+xEbOrDWXaVz6BD04R+vEVApedJaHQhLbCiXafk/R9TrQV3SwpsZKgs6Gt6B6h2etgyR4bcSVWr2IvdbGVxTtaUKZ+7hNYUU3YhnoC006zJK8ZTbkDzV4HqeUO1MVWVEUdpBi60Ox1oCl3eM+5qAPVY7GFwyzE7rYQub2ZOSnVPoGV1Sza0khAajWqnQ0k6ztJNnSiLrIQnW8mqdROisE7lqCzEVPQPkZ0QTvR+e1E55uJzjcTsa3piZe86jMicppRJh8jJucqSaU2VAVmona2EVdkIUmwkyTYWVLcweJdpmfLbWNxbhtRuW2Eb74+NhCcdZzFua3MSaokakst6gIzETnNxOS1kaizkqizot7dTuSOFiJ3tBLlI3JHq3d8+6iFG+tHj0gQxFs+vzZhH10kfPN1InOaiC+2EF9sITq3lYhtTX9r0dYmFm1tJGz91dEdPL7GKxSKF0VRz/wVZwjf2IC6wEzc7naicpoJ39RA+Obrf29TA+GbGli4sQH/eHlMQKFQKCaJop55mV8QvbMVVb6JiC2NhK2/Rtj6ayzcMKz+Gbxzw2vD1l/l9aiSpwIKUdTz3qovid7ZQtgnVwnJriM0u47Q7CuEfvwPZF8hNLuOkOy65wfezTpFyEeXCf7wEsFra73W1RKy7vJfCl53eXT92trnB6a9Mo9ps+YydVYQU2cGMHWGkikz3mHKy28x+SU/Jr/4BpNeeI1J019l4rTZTJwykwmTX2L8xOmMmzCFceMnohg3jtlz1zwdEAT9j75f1L8hCOKQIAg1fwI51/z+rcXaowAAAABJRU5ErkJggg==",
+    child: [
+        {
+            label: "我的電腦",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAChElEQVQ4ja2SPWgTARiGP4o4SrUWWkU6OIiKg4II4s+giAqCk4iDg+BQ6qJUoYgIVfxph1Ys/tBorpekpL0kXhoTvDQkVZrkLmlyuWujbU2tdKldO3R9HGqFqKMvfNP78cD7fa/I/9SPH8tMu87vcd0KrlOhUilj2yVsu0S5PEWpVGRqqkC1WqUOMO06KIrye1RVxe/3E4mE0XWdWGyMRCKOYXxgqmiRSMT/DRAJI1smka3zSPMqTwNf6Xy5yM0X32l/vsTl7iWKRYtYbOzfgIbGILLdQHZXkNYlQu+n8YerBGMzRAyXAf9nigWTaFRHZmdnSafTlEolXLeCqqrsPhBkc7OG7PyE7Khyv6/Gk9df6X5Vo/ftPHf6ahQKeSKRMBKJRDh1+ixdXXdxXQefz8fxMyEadw0hW8NIS5rLHV/ofDhL+70atx584+rtBQqFPJqmIcOZ15xdFbo/XcNxbEZGRjh8MkDbPi8N23xI8xiHztlc6ZjhwvV5Lt1Y4NiVL5hmlkAggESjURzHIRQK4Tg2oZDGrj2DtO33sKlpEGkK0rg3y9GLNgfPz3DkYo2WE0Xy+Ul8Ph+i6zqO46BpGpVKeT2XPEI29yLyGJFepOkN0mIgrUmkNYO0vcM0swwNDdUDNspil+sLY1l5LCuHZeUwzSymmSWfn1x/+UYETdNYXPzGx48TZDJpUqlxDOMDiUSc0dFRgsEgw8PD+P1+VFVFURRyudz6FzKZzPpB/tDa2hrJpEFPTw9er5eVlZW/dmRiYoKBgQF0Xa8zl5eXsSyTXG6SZNJA00ZRFIW5ubl6SH//M7q67tLf/6zOSKXGSaXGicff4/EM4vEMoijeX1X/j/oJtgkk7jUiT9AAAAAASUVORK5CYII=",
+            text: "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
+            exec: "C:\\Windows\\explorer.exe",
+        },
+        {
+            label: "小算盤",
+            exec: 'C:\\WINDOWS\\system32\\calc.exe',
+        },
+        {
+            label: "記事本",
+            exec: 'C:\\WINDOWS\\system32\\notepad.exe',
+        },
+        {
+            label: "啟動 Internet Explorer",
+            exec: 'C:\\Program Files\\Internet Explorer\\iexplore.exe',
+        },
+        {
+            label: "Internet Explorer 打開此頁",
+            text: "%u",
+            exec: 'C:\\Program Files\\Internet Explorer\\iexplore.exe',
+        },
+        {
+            label: "用便攜Notepad2編輯user.js",
+            text: "\\user.js" , 
+            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+        },
+        {
+            label: "便攜Notepad2",
+            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+        },
+        {
+            label: "用便攜Notepad2編輯prefs.js",
+            text: "\\prefs.js" , 
+            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+        },
+        {
+            label: "用便攜Notepad2編輯userChrome.js",
+            text: "\\Chrome\\userChrome.js" , 
+            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+        },
+        {
+            label: "用便攜Notepad2編輯userChrome.js",
+            text: "\\Chrome\\userChrome.css" , 
+            exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe" , 
+        },
+        {},
+        {
+            label: "Goagent",
+            exec: "\\Chrome\\Local\\goagent\\local\\goagent.exe" , 
+        },
+        {
+            label: "UltraSurf無界瀏覽",
+            exec: "\\Chrome\\Local\\UltraSurf\\u1404.exe" , 
+        },
+        {
+            label: "Freegate自由門",
+            exec: "\\Chrome\\Local\\Freegate\\fg742p.exe" , 
+        },
+    ]
+},
 {},
 {
-    //id: "anoBtn_set",
-    label: "AnotherButton重載/編輯",
-    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABO0lEQVRIib2WYbGDMBCEKwEJSNj5zkClIAEJOKgEJCChEpCAhEro+5N04Eho0r5yM/yBy+3tsrnkcqkMYJF0rV1XHWb2NLMnMEpq/q2wpAbozGwyszkCBbAH0H0NAgzAY10889wltZ+waH33BUCqBilkEaXrnQq3InYpJsAC9IFpfD95MwBj+DYfggBDAmTjrpy9g1nW64acZI2XDBhTeZkmRy9rMjdYeCNXzT4JjS6uRrdLTFDv9+WOA+id9FMKaGOCT/aFM0vaFN4EtSDFdc4EOk26c8xwmr1LN2zMPRg/xxs2JPsRtKMu6boeQ6HB0a3Lj6AY0RSejaRm/R+BDugzk/54qIaCLXBzTHMFk0dHtWMlyczuJQCRyTcn7VugcAAO1QA+wv/w0s1mNgHdL25DL3f9/G7n7V0af9jEflS+F9XNAAAAAElFTkSuQmCC",
-    tooltiptext: "左鍵：重載 ；右鍵：編輯",
-    onclick: "anoBtn.BtnClick(event);",
+    id: "anoBtn_set",
+    clone: false
 } ]
