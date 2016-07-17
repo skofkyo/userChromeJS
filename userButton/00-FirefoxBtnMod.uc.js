@@ -5,22 +5,23 @@
 // @license               MIT License
 // @compatibility    Firefox 45+
 // @charset              UTF-8
-// @version              2016.7.16
+// @version              2016.7.17
 // @include              main
 // @include              chrome://browser/content/browser.xul
+// @note                   2016.7.17 修正PanelUI右鍵選單 新視窗無效的問題
 // @note                   2016.7.16 重寫代碼 使用新函數
 // @homepageURL    https://github.com/skofkyo/userChromeJS/blob/master/userButton/00-FirefoxBtnMod.uc.js
 // ==/UserScript==
 (function() {
 
+    var mode = 0;//位置 0可移動按鈕 1頁面右鍵選單 2僅PanelUI右鍵選單
+    var PUb = true;// true/false 移動按鈕模式時是否同時添加PanelUI右鍵選單
+
     window.CustomFirefoxMenu = {
-    
-        mode: 0, //位置 0可移動按鈕 1頁面右鍵選單 2僅PanelUI右鍵選單(新視窗無效)
-        PUb: true,//為移動按鈕時是否同時添加PanelUI右鍵選單true/false(新視窗無效)
 
         init: function() {
             this.addmenuitem();
-            if (this.mode == 0) {this.addmenumovebtn();if (this.PUb)this.addPUContextMenu();} else if (this.mode == 1) {this.addContextMenu();} else {this.addPUContextMenu();}
+            if (mode == 0) {this.addmenumovebtn();} else if (mode == 1) {this.addContextMenu();}
             this.addstyle();
         },
 
@@ -61,18 +62,11 @@
             m.appendChild(mp);
         },
 
-        addPUContextMenu: function() {
-            var pb = $("PanelUI-button")
-            pb.addEventListener("contextmenu", function(event) {
-                $("CustomFirefoxMenuPopup").openPopup(this, "after_pointer", 0, true, false);
-                event.preventDefault();
-            }, false);
-        },
-        
         addmenuitem: function() {
-            var mp = $C('menupopup');
-            mp.setAttribute('id', 'CustomFirefoxMenuPopup');
-            mp.setAttribute('position', 'after_start');
+            var mp = $C("menupopup", {
+                id: "CustomFirefoxMenuPopup",
+                position: "after_start",
+            });
             mp.addEventListener('popupshowing', (event) => CustomFirefoxMenu.onpopup(event));
             mp.addEventListener('popuphiding', (event) => CustomFirefoxMenu.hidepopup(event));
             $('mainPopupSet').appendChild(mp);
@@ -84,8 +78,8 @@
             {moveid: "bookmarksMenu"}, 
             {moveid: "tools-menu"}, 
             {moveid: "helpMenu"}, 
-            {moveid: "menu_preferences"}, 
             {label: "sep"}, 
+            {moveid: "menu_preferences"}, 
             {moveid: "fullScreenItem"}, 
             {moveid: "charsetMenu"}, 
             {moveid: "menu_openDownloads"}, 
@@ -167,7 +161,21 @@
         },
 
     };
-
+    
+	let pucm = {
+        addPUContextMenu: function(event) {
+            var pb = $("PanelUI-button")
+            pb.addEventListener("contextmenu", function(event) {
+                $("CustomFirefoxMenuPopup").openPopup(this, "after_pointer", 0, true, false);
+                event.preventDefault();
+            }, false);
+        },
+        startup: function() {
+            if (PUb || mode == 2) this.addPUContextMenu();
+        },
+    };
+	
+	pucm.startup();
     window.CustomFirefoxMenu.init();
 
     function $(id) {
