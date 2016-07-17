@@ -56,16 +56,16 @@
             }), ins);
         },
     };
-    
-	let tbtset = {
+
+    let tbtset = {
         startup: function() {
             var tbt = $("tabbrowser-tabs");
             var newTabBtn = document.getAnonymousElementByAttribute(tbt, "class", "tabs-newtab-button");
             newTabBtn.addEventListener('mouseover', BrowserNewtabUrl.updateURL, false);
         },
     };
-	
-	tbtset.startup();
+
+    tbtset.startup();
     BrowserNewtabUrl.init();
 
     function $(id) {

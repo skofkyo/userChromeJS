@@ -160,7 +160,7 @@
 
     };
     
-	let pucm = {
+    let pucm = {
         addPUContextMenu: function(event) {
             var pb = $("PanelUI-button")
             pb.addEventListener("contextmenu", function(event) {
@@ -169,11 +169,11 @@
             }, false);
         },
         startup: function() {
-            if (PUb && mode !== 1  && mode !== 2 || mode == 2) this.addPUContextMenu();
+            if (PUb && mode !== 1 && mode !== 2 || mode == 2) this.addPUContextMenu();
         },
     };
-	
-	pucm.startup();
+
+    pucm.startup();
     window.CustomFirefoxMenu.init();
 
     function $(id) {
