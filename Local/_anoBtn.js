@@ -189,7 +189,7 @@ var anomenu = [{
         text: "\\Chrome\\userChrome.js",
         exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe",
     }, {
-        label: "用便攜Notepad2編輯userChrome.js",
+        label: "用便攜Notepad2編輯userChrome.css",
         text: "\\Chrome\\userChrome.css",
         exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe",
     }, {}, {
