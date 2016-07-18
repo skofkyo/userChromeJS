@@ -30,7 +30,7 @@
 // @version			1.1 	解決編輯器中文路徑問題，修改菜單，提示等文字。
 // @version			1.0
 // ==/UserScript==
-(function(CSS) {
+(function() {
     let {
         classes: Cc,
         interfaces: Ci,
@@ -73,7 +73,6 @@
             setTimeout(function() {
                 anoBtn.Rebuild();
             }, 500); //again for webDeveloperMenu
-            this.style = addStyle(CSS);
             window.addEventListener("unload", function() {
                 anoBtn.onDestroy();
             }, false);
@@ -1119,18 +1118,6 @@
         return el;
     }
 
-    function addStyle(css) {
-        var pi = document.createProcessingInstruction(
-            'xml-stylesheet',
-            'type="text/css" href="data:text/css;utf-8,' + encodeURIComponent(css) + '"'
-        );
-        return document.insertBefore(pi, document.documentElement);
-    }
-
     anoBtn.init();
     window.anoBtn = anoBtn;
-})('\
-#anoBtn_Icon dropmarker {\
-    display: none;\
-}\
-'.replace(/\n|\t/g, ''));
+})();
