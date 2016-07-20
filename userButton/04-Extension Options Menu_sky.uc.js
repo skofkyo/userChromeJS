@@ -280,7 +280,7 @@ Ctrl + 右鍵：移除擴展
                         menuItem.setAttribute("image", this.MENU_LIST[i].image);
                     } else {
                         menuItem.setAttribute("class", "menuitem-iconic");
-                        menuItem.setAttribute("label", this.MENU_LIST[i].label + "(\u5305\u542b\u8aaa\u660e)");
+                        menuItem.setAttribute("label", this.MENU_LIST[i].label + "(包含說明)");
                         menuItem.setAttribute("image", this.MENU_LIST[i].image);
                     }
                     menuItem.setAttribute("oncommand", "EOM.copyText(\'" + "DESCRIPTION-" + this.MENU_LIST[i].cmd + "\');");
@@ -692,14 +692,14 @@ Ctrl + 右鍵：移除擴展
                 for (var i = 0, len = userChrome_js.scripts.length; i < len; i++) {
                     var script = userChrome_js.scripts[i];
                     if (script.dir != dirName) continue;
-                    var line = script.filename + (this.description ? ((script.description == script.filename) ? "" : this.STR_SEP + script.description) : "") + (userChrome_js.scriptDisable[script.filename] ? " (\u5DF2\u505C\u7528)" : "");
+                    var line = script.filename + (this.description ? ((script.description == script.filename) ? "" : this.STR_SEP + script.description) : "") + (userChrome_js.scriptDisable[script.filename] ? " (已停用)" : "");
                     result.push(line);
                 }
                 // uc.xul ファイル・リスト
                 for (var i = 0, len = userChrome_js.overlays.length; i < len; i++) {
                     var script = userChrome_js.overlays[i];
                     if (script.dir != dirName) continue;
-                    var line = script.filename + (this.description ? ((script.description == script.filename) ? "" : this.STR_SEP + script.description) : "") + (userChrome_js.scriptDisable[script.filename] ? " (\u5DF2\u505C\u7528)" : "");
+                    var line = script.filename + (this.description ? ((script.description == script.filename) ? "" : this.STR_SEP + script.description) : "") + (userChrome_js.scriptDisable[script.filename] ? " (已停用)" : "");
                     result.push(line);
                 }
             }
