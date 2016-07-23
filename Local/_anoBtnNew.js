@@ -159,6 +159,7 @@ var anomenu = [{
     {id: "EncodeDecodeHtml",clone: false}, 
     {id: "toolsbar_KeyChanger_rebuild",clone: false}, 
     {id: "InspectElement-menuitem",clone: false}, 
+    {id: "FeiRuoMouse_set",clone: false}, 
     {id: "ucjsMouseGestures",clone: false}, 
     {id: "ucjsSuperDrag",clone: false}, 
     {id: "NewTabOverride_set",clone: false}, 

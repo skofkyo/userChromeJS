@@ -1,6 +1,9 @@
 echo off
 @echo 關閉火狐瀏覽器后自動開始備份……
 taskkill /im firefox.exe
+@echo 延遲3秒 等待資料回存……
+::延遲3秒 等待資料回存
+ping -n 3 127.0.0.1>nul
 rem 設置備份路徑以及臨時文件夾
 cd /d %~dp0
 set BackDir=..\..\..
@@ -12,14 +15,14 @@ rem 複製目標文件到臨時文件夾
 ::擋廣告
 xcopy "%BackDir%\adblockplus" %TempFolder%\adblockplus\ /s /y /i
 xcopy "%BackDir%\adblockedge" %TempFolder%\adblockedge\ /s /y /i
+::μblock設定
+xcopy "%BackDir%\extension-data" %TempFolder%\extension-data\ /s /y /i
 ::各式樣式&UC腳本
 xcopy "%BackDir%\chrome" %TempFolder%\chrome\  /s /y /i
 ::擴充套件
 xcopy "%BackDir%\extensions" %TempFolder%\extensions\ /s /y /i
 ::書籤的備份檔案
 ::xcopy "%BackDir%\bookmarkbackups" %TempFolder%\bookmarkbackups\ /s /y /i
-::μblock設定
-xcopy "%BackDir%\extension-data" %TempFolder%\extension-data\ /s /y /i
 ::使用者腳本
 xcopy "%BackDir%\scriptish_scripts" %TempFolder%\scriptish_scripts\ /s /y /i
 xcopy "%BackDir%\gm_scripts" %TempFolder%\gm_scripts\ /s /y /i
@@ -51,8 +54,9 @@ xcopy "%BackDir%\localstore.rdf" %TempFolder%\ /y
 ::個人偏好設定 prefs.js 儲存了使用者自訂的偏好設定，例如你在 Firefox 選項 對話方塊中修改的設定。另一非必要的相關檔案是 user.js，如果有的話，裡面的設定會優先取代任何修改過的偏好設定。 
 xcopy "%BackDir%\prefs.js" %TempFolder%\ /y
 xcopy "%BackDir%\user.js" %TempFolder%\ /y
-::stylish的樣式數據
-xcopy "%BackDir%\stylish.sqlite" %TempFolder%\ /y
+::LastPass
+xcopy "%BackDir%\lp.loginpws" %TempFolder%\ /y
+xcopy "%BackDir%\lp.suid" %TempFolder%\ /y
 ::foxyproxy的代理設定
 xcopy "%BackDir%\foxyproxy.xml" %TempFolder%\ /y
 ::自訂工具列 檔案儲存了工具列及視窗大小與位置等設定值。
@@ -78,12 +82,14 @@ set hour=%time:~,2%
 if "%time:~,1%"==" " set hour=%time:~1,1%
 set backupTime=%date:~0,4%-%date:~5,2%-%date:~8,2%,%hour%-%time:~3,2%-%time:~6,2% 
 ::設置備份文件路徑以及文件名
-set ArchiveName=d:\FirefoxBackup\Profiles_Firefox_%ver%_%date:~0,4%-%date:~5,2%-%date:~8,2%[%hour%h-%time:~3,2%m-%time:~6,2%s].7z
+set ArchiveName=d:\FirefoxBackup\Profiles_Firefox_%ver%_%date:~0,4%年-%date:~5,2%月-%date:~8,2%日[%hour%點-%time:~3,2%分-%time:~6,2%秒].7z
 rem 開始備份
 7z.exe u -up1q3r2x2y2z2w2 %ArchiveName% "%TempFolder%"
 @echo 備份完成！刪除臨時文件夾
 rd "%TempFolder%" /s/q
 @echo 啟動瀏覽器
-start "Mozilla Firefox" "C:\FirefoxPortable\MyFirefox.exe"
-::延遲2秒關閉
-ping -n 2 127.0.0.1>nul
+::"..\..\..\..\Firefox\firefox.exe" pcxFirefox便攜路徑
+::"..\..\..\..\MyFirefox.exe" MyFirefox便攜路徑
+start "Mozilla Firefox" "..\..\..\..\MyFirefox.exe"
+::延遲4秒關閉CMD
+ping -n 4 127.0.0.1>nul

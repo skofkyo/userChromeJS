@@ -16,28 +16,27 @@
 // @charset              UTF-8
 // ==/UserScript==
 /*
-按鈕圖標
-左鍵：擴展及插件菜單
+按鈕圖示
+左鍵：擴充套件及外掛選單
 中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)
-右鍵：打開擴展管理員
-擴展
-左鍵：啟用 / 禁用擴展
-中鍵：打開擴展主頁
-右鍵：打開擴展選項（如果有的話）
-Ctrl + 左鍵：打開擴展的安裝文件夾
-Ctrl + 中鍵：複製擴展 ID 和圖標地址（如果可用）到剪貼板
-Ctrl + 右鍵：移除擴展
+右鍵：打開擴充套件管理員
+擴充套件
+左鍵：啟用 / 禁用擴充套件
+中鍵：打開擴充套件首頁
+右鍵：打開擴充套件選項（如果有的話）
+Ctrl + 左鍵：打開擴充套件的安裝資料夾
+Ctrl + 中鍵：複製擴充套件 ID 和圖示網址（如果可用）到剪貼簿
+Ctrl + 右鍵：移除擴充套件
 */
 (function() {
     window.EOM = {
         mode: 0, //位置 0可移動按鈕 1工具選單
-        _prefs: null,
         ADDON_TYPES: ['extension', 'plugin'], // 顯示的項目類型
         SHOW_VERSION: true, // 顯示版本
         SHOW_ALL: true, // 顯示全部，包括沒有選項的
         SHOW_USERDISABLED: true, // 顯示禁用的
         SHOW_APPDISABLED: false, // 顯示不兼容的
-        AUTO_RESTART: false, // 啟用/停用擴展後立即重新啟動瀏覽器（無需重啟擴展除外）
+        AUTO_RESTART: false, // 啟用/停用擴充套件後立即重新啟動瀏覽器（無需重啟擴充套件除外）
         sort: {
             enabled: 0,
             clickToPlay: 0,
@@ -82,14 +81,7 @@ Ctrl + 右鍵：移除擴展
         STR_DISABLE: " (已停用)", // (無効)
         STR_SEP: " \t", // 項目の区切り
         init: function() {
-            this._prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefService).getBranch("userChromeJS.EOM.");
-            this._prefs.QueryInterface(Ci.nsIPrefBranch2);
-            if (!this._prefs.prefHasUserValue("ShowToolButton")) {
-                this._prefs.setBoolPref("ShowToolButton", this.ShowToolButton);
-            } else {
-                this.ShowToolButton = this._prefs.getBoolPref("ShowToolButton");
-            }
-            if (this.mode == 0) {this.addmenumovebtn();} else {this.addtoolsmenu();}
+            if (this.mode == 0) this.addmenumovebtn(); else this.addtoolsmenu();
         },
         addmenumovebtn: function() {
             CustomizableUI.createWidget({
@@ -103,12 +95,14 @@ Ctrl + 右鍵：移除擴展
                         class: 'toolbarbutton-1 chromeclass-toolbar-additional',
                         removable: 'true',
                         overflows: "false",
-                        label: '擴展及插件管理器',
-                        tooltiptext: "左鍵：擴展及插件菜單\n中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)\n右鍵：打開擴展管理員",
+                        label: '附加元件管理員',
+                        //label: '擴充套件及外掛管理器',
+                        tooltiptext: "左鍵：擴充套件及外掛選單\n中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)\n右鍵：打開擴充套件管理員",
                         onclick: 'EOM.iconClick(event);',
                         style: '-moz-transform: scale(0.875);',
                         type: 'menu',
-                        image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=',
+                        style: "list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=)",
+                        //image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=',
                         popup: "eom-popup"
                     };
                     for (var p in props)
@@ -130,12 +124,11 @@ Ctrl + 右鍵：移除擴展
             });
         },
         addtoolsmenu: function() {
-            var ins = $("devToolsSeparator")
-                .parentNode.insertBefore($C("menu", {
+            var ins = $("devToolsSeparator").parentNode.insertBefore($C("menu", {
                     id: "eom-menu",
                     class: "menu-iconic",
-                    label: "擴展及插件管理器",
-                    tooltiptext: "中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)\n右鍵：打開擴展管理員",
+                    label: "擴充套件及外掛管理器",
+                    tooltiptext: "中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)\n右鍵：打開擴充套件管理員",
                     onclick: 'EOM.iconClick(event);',
                 }), $("devToolsSeparator"));
             var mp = document.createElement('menupopup');
@@ -189,8 +182,7 @@ Ctrl + 右鍵：移除擴展
                     var ka = key(a);
                     var kb = key(b);
                     return (ka < kb) ? -1 : 1;
-                })
-                .forEach((addon) => {
+                }).forEach((addon) => {
                     if ((!addon.appDisabled || (addon.appDisabled && this.SHOW_APPDISABLED)) && ((addon.isActive && addon.optionsURL) || ((addon.userDisabled && this.SHOW_USERDISABLED) || (!addon.userDisabled && this.SHOW_ALL) || (addon.appDisabled && this.SHOW_APPDISABLED)))) {
                         type = addon.type;
                         if (prevType && type != prevType) {
@@ -202,13 +194,13 @@ Ctrl + 右鍵：移除擴展
                         updateDate = date.getFullYear() + '年' + (date.getMonth() + 1) + "月" + date.getDate() + '日';
                         mi = popup.appendChild($C('menuitem', {
                             label: this.SHOW_VERSION ? addon.name += ' ' + '[' + addon.version + ']' : addon.name,
-                            tooltiptext: '左鍵：啟用 / 禁用擴展' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' + '\n中鍵：打開擴展主頁 - ' + addon.homepageURL + '\n右鍵：打開擴展選項 - ' + addon.optionsURL + '\nCtrl + 左鍵：打開擴展的安裝文件夾\nCtrl + 中鍵：複製擴展 ID - ' + addon.id + ' 和\n　　　　　　圖標地址 - ' + addon.iconURL + '\nCtrl + 右鍵：移除擴展' + '\n\n更新日期：' + updateDate + '\n說明：' + addon.description,
+                            tooltiptext: '左鍵：啟用 / 禁用擴充套件' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' + '\n中鍵：打開擴充套件首頁 - ' + addon.homepageURL + '\n右鍵：打開擴充套件選項 - ' + addon.optionsURL + '\nCtrl + 左鍵：打開擴充套件的安裝資料夾\nCtrl + 中鍵：複製擴充套件 ID - ' + addon.id + ' 和\n　　　　　　圖示網址 - ' + addon.iconURL + '\nCtrl + 右鍵：移除擴充套件' + '\n\n更新日期：' + updateDate + '\n說明：' + addon.description,
                             class: 'menuitem-iconic',
                             image: icon,
                             onclick: "EOM.itemClick(event);"
                         }));
                         if (addon.type == 'plugin') {
-                            mi.setAttribute("tooltiptext", '左鍵：啟用 / 禁用插件' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' + '\nCtrl + 中鍵：複製插件 ID - ' + addon.id + ' 和\n　　　　　　圖標地址 - ' + addon.iconURL + '\n\n更新日期：' + updateDate + '\n說明：' + addon.description)
+                            mi.setAttribute("tooltiptext", '左鍵：啟用 / 禁用外掛' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' + '\nCtrl + 中鍵：複製外掛 ID - ' + addon.id + ' 和\n　　　　　　圖示網址 - ' + addon.iconURL + '\n\n更新日期：' + updateDate + '\n說明：' + addon.description)
                         }
                         mi._Addon = addon;
                         this.setDisable(mi, addon.userDisabled);
@@ -307,7 +299,8 @@ Ctrl + 右鍵：移除擴展
                     Application.restart();
                     break;
                 case 2:
-                    switchToTabHavingURI("about:addons", true);
+                    //"switchToTabHavingURI" in window ? switchToTabHavingURI("about:addons", true) : gBrowser.selectedTab = gBrowser.addTab('about:addons');
+                    BrowserOpenAddonsMgr();
                     event.preventDefault();
                     break;
             }
@@ -321,7 +314,7 @@ Ctrl + 右鍵：移除擴展
             var hasMdf = event.ctrlKey || event.shiftKey || event.altKey || event.metaKey;
             switch (event.button) {
                 case 0:
-                    // 啟用/禁用擴展
+                    // 啟用/禁用擴充套件
                     if (!hasMdf) {
                         let curDis = addon.userDisabled;
                         let newDis;
@@ -343,7 +336,7 @@ Ctrl + 右鍵：移除擴展
                             else Application.restart();
                         }
                     }
-                    // 打開擴展的安裝文件夾
+                    // 打開擴充套件的安裝資料夾
                     else if (event.ctrlKey) {
                         var dir = Services.dirsvc.get('ProfD', Ci.nsILocalFile);
                         var nsLocalFile = Components.Constructor('@mozilla.org/file/local;1', 'nsILocalFile', 'initWithPath');
@@ -368,18 +361,18 @@ Ctrl + 右鍵：移除擴展
                     }
                     break;
                 case 1:
-                    // 打開擴展首頁
+                    // 打開擴充套件首頁
                     if (addon.homepageURL && !hasMdf) {
                         openLinkIn(addon.homepageURL, 'tabshifted', {}); // 'tab'
                     }
-                    // 複製擴展 ID 和圖標地址
+                    // 複製擴充套件 ID 和圖示網址
                     else if (event.ctrlKey) {
-                        Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper)
-                            .copyString("id: " + addon.id + "\r\n" + "iconURL: " + addon.iconURL);
+                        Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString("id: " + addon.id + "\r\n" + "iconURL: " + addon.iconURL);
+                        Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Extension Options Menu", addon.name + "\r\n" + "擴充套件ID和圖示網址已複製", false, "", null);
                     }
                     break;
                 case 2:
-                    // 打開擴展選項
+                    // 打開擴充套件選項
                     if (addon.optionsURL && !hasMdf) {
                         var optionsURL = addon.optionsURL;
                         if (!addon.isActive || !optionsURL) {
@@ -390,15 +383,13 @@ Ctrl + 右鍵：移除擴展
                                 BrowserOpenAddonsMgr('addons://detail/' + encodeURIComponent(addon.id) + '/preferences');
                                 break;
                             case 3:
-                                "switchToTabHavingURI" in window ? switchToTabHavingURI(optionsURL, true) : openTab("contentTab", {
-                                    contentPage: optionsURL
-                                });
+                                "switchToTabHavingURI" in window ? switchToTabHavingURI(optionsURL, true) : openTab("contentTab", {contentPage: optionsURL});
                                 break;
                             default:
                                 openDialog(optionsURL, addon.name, 'chrome,titlebar,toolbar,resizable,scrollbars,centerscreen,dialog=no,modal=no');
                         }
                     }
-                    // 移除擴展
+                    // 移除擴充套件
                     else if (event.ctrlKey) {
                         if (pending) {
                             addon.cancelUninstall();
@@ -762,7 +753,7 @@ Ctrl + 右鍵：移除擴展
         oncommand: "Services.appinfo.invalidateCachesOnRestart() || ('BrowserUtils' in window) ? BrowserUtils.restartApplication(): Application.restart();",
         style: "min-width: 357px;"
     }, {
-        label: "打開擴展目錄",
+        label: "打開擴充套件目錄",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADEElEQVQ4jY2RXUiTcRjF/9JFpBAapk5NnWzzI5vTbb5uuunrtFm5XCpi7tVEs0zU9aFFk6wmiV9RfrRqkRgZhVIZSjXUNDPCmaamlZQQ0gdFVxGFbu10paXzonN5Hs6P5zkPISsVniYjArXAzv8vceVyIi8A71g7hNW9k56eQsfFEYeQtUlOzqFJ69dzV4uuIbw4LxLB7CCyfNDGccgujcE9rqgvM4D6ZAjmvKjm+HYUbWShLYxn65Rsfro87iHwI9H5YBUYsankGqQXnkNycQyBlSaIK+7i6x4pblFBn/e6usMUswVP4vgzjKMr6y/ANYhFonIR1WxGTMsrSI2TEBnGwG8cgUjfjY+7JeiL5eM8zx/jieEYUYThPhVireP6Zi4iHEhk9im/Q20vvAuvQNBoRkjDMJry9mM0NRrv0yi8U0fgTZIIU4lCjNECm1kuQDXbh/m7RVzxARJ/pJLI8uF3oguc+iG0ZqSiR03jbbIYw2oRLhdSMCvCYIoIfqZycfH5twUHIs1d2LDXgI3F1+Bf8xjeVf1w1/fAu/QmprcJUX9UCk27EvcSQtEZHjRo94Z18qwPXsc64FczCK8zj+B2+iHoWiNS9BVo04hwSB+FlNZ45FRIoaigPtgBjuZtvlXZUIDx4cNIb2rGhvJOfDFrYOpVIePmVqS0JkBlVEDZSEN8Ujy7FExRurIMx0N0tdrA0S5jPKxzJdA0n4OHrg1fzAxeDqpxp0sJ7VUaygYa7JKA64SQNUuAg7t9yw06PoY7d+F1vwbWuRL8nNmHH1M5sEwzmJ9Ih2VUDX1LLGJrYsDRhsAjj3t7CcAkuYW2N9LfrF91sH4qg3VOC8tsAb5PZMMyzWDApMLOszLIqmQ2ySkZhMejEFAknFx2/8EsbtCD1sSpoY5kWOe0MF2NHzhTxPv9a1KD+907EK4T2/ilIoSWRdrc0tmMk8Rli12JRzTstK4rCfML74ttN+qo5NIstqq3ha46fThY4Ug7J7MY7rfgYspCBM7OduFFZW/34uWm+vivOgxw9HSiXPgr7T+DX3N5gyCN2AAAAABJRU5ErkJggg==",
         oncommand: "FileUtils.getFile('ProfD', ['extensions']).reveal();",
     }];

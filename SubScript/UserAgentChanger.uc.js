@@ -232,6 +232,7 @@ var ucjs_UAChanger = {
 		PopupMenu.appendChild(mi);
 		var mi = document.createElement("menuitem");
 		mi.setAttribute('id', 'ucjs_UAChangerConfig');
+		mi.setAttribute('class', 'menuitem-iconic');
 		mi.setAttribute('label', '重載/編輯UA配置');
 		mi.setAttribute('image', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACmElEQVQ4y61TXUhTYRiWqItAJIKoi6KuAukioosgb7srizb/qv1ZOzvbdO78bZ3t/Oxszv25mnNzWhliZZYJIkm1C6OkIpGKogjMCAlK6qpEmJq+vcdyDknqog8evo/vfZ/n/d6fr6jof63jp4hSrd6SOnG64aHRxr6vrXN9xf0L3o2ibf1fBQBgS3OyI8PKURDCrSBF0+D2x0EJJ4bRtk6jMx+oMJDvNDpC+0eBCj1pqef9oMTbIdhyaQlu/znIdF4JIbHYZOemGCkMJCMuanVEzarnm3cQlDcnRtIo0AHepiRIkdSM46wf+gaGDhtJ+hDJCHNiJAVCqBUIp2caOVvzAjpLQ0R9ukp2KXG41jdwe+LDZLC2npsZeTK6HVPYNfrsRZrzRXK+5nZQfU8SjlhewEqJ40IoBSKiKd72Cgn7ESXZ4ZF23Df8rtG2RNvl+55gElRfGy1NrAgwQs4XywDni0LX1ZvhgsLuLEy1+/otmsU6qL5WVp7LG0hGnpPxkhZDEE1kDGt1KhhLVjmFEMi/BObzBtob+KQWDnMEi5O/UEgqrzTsWz6bHa4eVo4tFZnyBD6vKMdbh1gpCp5gC1go7+zRalNZvr06Yqy82rj7WE2t1sqIC6oPhyKNsWQ2L/D85WtNHSfl+MB5UIX0Fmq2vMqkRaESPUnPY9umrKy46FKal4LYOfnH8INHhsIpLL7RP9iDhkXaGwLSyX97/HTsYI3JxtVzCriVGPA4VGoAhzsA6YtdWeRsXj3Ke/oH7/Q6XNLHN2/HgzSv7DWRzLRadS9G9TQmgBEj0Nndexd9y9b6D6WIM4hNRpKi7IwwaWfFnI2Rwc5KCzZa+E44XPeOVBo2/svnUofJjOARPoSEYBGa5eFS1085Y5JNBegPyAAAAABJRU5ErkJggg==');
 		mi.setAttribute("tooltiptext", '左鍵重載；右鍵編輯');
