@@ -122,10 +122,10 @@ new function() {
             onclick: function(e) {
                 switch (e.button) {
                     case 0:
-                        gBrowser.addTab("http://nhacvang24h.com/results.php?q=" + encodeURIComponent(getBrowserSelection()));//BTScene Torrents
-                        gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
-                        gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
-                        gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
+                        gBrowser.addTab("http://www.btstorrent.cc/results.php?q=" + encodeURIComponent(getBrowserSelection()));//BTScene Torrents
+                        gBrowser.addTab("https://rarbg.to/torrents.php?category=14;48;17;44;45;47;42;46&search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
+                        gBrowser.addTab("http://kickasstorrentsan.com/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
+                        gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(getBrowserSelection()) + "/0/99/0");//海盜灣
                         gBrowser.addTab("http://torrentz.eu/search?q=" + encodeURIComponent(getBrowserSelection()));//torrentz
                         gBrowser.addTab("https://secure.assrt.net/sub/?searchword=" + encodeURIComponent(getBrowserSelection()));//射手網(偽)
                         gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(getBrowserSelection()));//subom字幕庫
@@ -136,10 +136,11 @@ new function() {
                         //http://www.opensubtitles.org/zt/search2/sublanguageid-zht,chi,zhe/moviename-%SEL%
                         break;
                     case 2:
-                        gBrowser.addTab("http://nhacvang24h.com/results.php?q=" + encodeURIComponent(readFromClipboard()));//BTScene Torrents
-                        gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
-                        gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
-                        gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(readFromClipboard()));//海盜灣
+                        gBrowser.addTab("http://www.btstorrent.cc/results.php?q=" + encodeURIComponent(readFromClipboard()));//BTScene Torrents
+                        https://rarbg.to/torrents.php?category=14;48;17;44;45;47;42;46&search=Allegiant&order=seeders&by=DESC
+                        gBrowser.addTab("https://rarbg.to/torrents.php?category=14;48;17;44;45;47;42;46&search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
+                        gBrowser.addTab("http://kickasstorrentsan.com/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
+                        gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(readFromClipboard()) + "/0/99/0");//海盜灣
                         gBrowser.addTab("http://torrentz.eu/search?q=" + encodeURIComponent(readFromClipboard()));//torrentz
                         gBrowser.addTab("https://secure.assrt.net/sub/?searchword=" + encodeURIComponent(readFromClipboard()));
                         gBrowser.addTab("http://www.subom.net/search/" + encodeURIComponent(readFromClipboard()));//subom字幕庫
@@ -182,17 +183,17 @@ new function() {
             onclick: function(e) {
                 switch (e.button) {
                     case 0:
-                        gBrowser.addTab("http://nhacvang24h.com/results.php?q=" + encodeURIComponent(getBrowserSelection()));//BTScene Torrents
-                        gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
-                        gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
-                        gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(getBrowserSelection()));//海盜灣
+                        gBrowser.addTab("http://www.btstorrent.cc/results.php?q=" + encodeURIComponent(getBrowserSelection()));//BTScene Torrents
+                        gBrowser.addTab("https://rarbg.to/torrents.php?category=14;48;17;44;45;47;42;46&search=" + encodeURIComponent(getBrowserSelection()) + "&order=seeders&by=DESC");//RARBG
+                        gBrowser.addTab("http://kickasstorrentsan.com/usearch/" + encodeURIComponent(getBrowserSelection()) + "/");//KickassTorrents
+                        gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(getBrowserSelection()) + "/0/99/0");//海盜灣
                         gBrowser.addTab("http://torrentz.eu/search?q=" + encodeURIComponent(getBrowserSelection()));//torrentz
                         break;
                     case 2:
-                        gBrowser.addTab("http://nhacvang24h.com/results.php?q=" + encodeURIComponent(readFromClipboard()));//BTScene Torrents
-                        gBrowser.addTab("https://rarbg.to/torrents.php?search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
-                        gBrowser.addTab("http://kat.cr/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
-                        gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(readFromClipboard()));//海盜灣
+                        gBrowser.addTab("http://www.btstorrent.cc/results.php?q=" + encodeURIComponent(readFromClipboard()));//BTScene Torrents
+                        gBrowser.addTab("https://rarbg.to/torrents.php?category=14;48;17;44;45;47;42;46&search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
+                        gBrowser.addTab("http://kickasstorrentsan.com/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
+                        gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(readFromClipboard()) + "/0/99/0");//海盜灣
                         gBrowser.addTab("http://torrentz.eu/search?q=" + encodeURIComponent(readFromClipboard()));//torrentz
                         break;
                 }
@@ -700,3 +701,14 @@ tab({
             Array.from(gBrowser.tabs).sort((a, b) => a.image.localeCompare(b.image)).forEach(gBrowser.moveTabTo.bind(gBrowser));
         }
     });
+
+//page({
+//    label: "test",
+//    oncommand: function(event) {
+//			var text = encodeURIComponent(getBrowserSelection());
+//			var url = "https://s.2.taobao.com/list/list.htm?q="+text+"&search_type=item&app=shopsearch";
+//			prompt('輸入要更改的網址。', url);
+//			openUILinkIn(url, 'tab');
+//			},
+//    insertBefore: "context-sep-selectall",
+//});

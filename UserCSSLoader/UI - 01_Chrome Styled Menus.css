@@ -1,16 +1,32 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
-/* 設置不顯示菜單欄的情況下，按下 alt 鍵時不會激活菜單欄。 */
-#toolbar-menubar[autohide="true"] {display:none !Important;}
 
-#FirefoxBtnpopup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
+#eom-popup [label="undefined"]{
+    margin-right: -3px !important;
+    margin-left: 3px !important;
+}
+#CustomFirefoxMenuPopup,#FirefoxBtnpopup,#anoBtn_Popup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
     margin-top: -5px !important;
 }
-#eom-menugroup .menu-iconic-icon {margin-right:-4px !Important;}
+#userChromejs_options,#greasemonkey-tbb menupopup,#stylish-popup {
+    margin-top: 6px !important;
+}
 
-menupopup:not(.cui-widget-panel),
-menupopup:not(.cui-widget-panel) menu,
-menupopup:not(.cui-widget-panel) menuitem,
-menupopup:not(.cui-widget-panel) splitmenu
+#UserScriptLoader-popup{
+    margin-top: 10px !important;
+}
+
+menupopup.textbox-contextmenu,
+popupset > menupopup,
+popupset > menupopup menupopup,
+popupset >*:not(menupopup) menupopup,
+#placesContext,
+#PlacesToolbar menupopup,
+#downloadsContextMenu,
+#alltabs-popup,
+toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup,
+toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup menu,
+toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup menuitem,
+splitmenu
  {
     background-color: #D7E2EC !important;
     -moz-appearance: none !important;
@@ -26,13 +42,19 @@ splitmenu {
     height: 24px !important;
 }
 
-/*For Firefox 32's combined (back, forward, reload, bookmark) menuitems*/
-
 #contentAreaContextMenu > menugroup {
     height: 36px !important;
 }
 /* Small Borders */
-menupopup:not(.cui-widget-panel) {
+menupopup.textbox-contextmenu,
+popupset > menupopup,
+popupset > menupopup menupopup,
+popupset >*:not(menupopup) menupopup,
+#placesContext,
+#PlacesToolbar menupopup,
+#downloadsContextMenu,
+#alltabs-popup,
+toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup {
     border: 1px solid #999 !important;
 }
 
@@ -50,9 +72,13 @@ menuseparator,#context-sep-navigation, #page-menu-separator,[tooltiptext^="囧rz
 display: none !important; 
 }
 
-menupopup:not(.cui-widget-panel) menuitem[type="checkbox"]:hover,
-menupopup:not(.cui-widget-panel) menu[_moz-menuactive="true"],
-menupopup:not(.cui-widget-panel) menuitem[_moz-menuactive="true"],
+toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup[_moz-menuactive="true"],
+toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup menu[_moz-menuactive="true"],
+toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup menuitem[type="checkbox"]:hover,
+toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup menuitem[_moz-menuactive="true"],
+menupopup menuitem[type="checkbox"]:hover,
+menupopup menu[_moz-menuactive="true"],
+menupopup menuitem[_moz-menuactive="true"],
 menupopup[_moz-menuactive="true"],
 splitmenu[_moz-menuactive="true"] {
     background-color: #4281F4 !important;
@@ -65,7 +91,3 @@ menuitem[disabled]:not([_moz-menuactive]) {
 }
 
 /* Make text visible for checkbox menuitems until Bug 605985 is resolved*/
-
-
-
-
