@@ -54,6 +54,8 @@ xcopy "%BackDir%\localstore.rdf" %TempFolder%\ /y
 ::個人偏好設定 prefs.js 儲存了使用者自訂的偏好設定，例如你在 Firefox 選項 對話方塊中修改的設定。另一非必要的相關檔案是 user.js，如果有的話，裡面的設定會優先取代任何修改過的偏好設定。 
 xcopy "%BackDir%\prefs.js" %TempFolder%\ /y
 xcopy "%BackDir%\user.js" %TempFolder%\ /y
+::Stylish的樣式數據
+xcopy "%BackDir%\stylish.sqlite" %TempFolder%\ /y
 ::LastPass
 xcopy "%BackDir%\lp.loginpws" %TempFolder%\ /y
 xcopy "%BackDir%\lp.suid" %TempFolder%\ /y
