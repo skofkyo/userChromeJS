@@ -1,4 +1,4 @@
-﻿/**
+/**
   The MIT License (MIT)
 
   Copyleft (c) 2013 Dalin <dln@null.net>
@@ -29,9 +29,33 @@
 // @author        Dalin <dln@null.net>
 // @description   Converts ThePirateBay's info hash to multiple torrent cache links
 // @icon	  https://thepiratebay.org/static/img/icons/dl.gif
-// @domain	  thepiratebay.org
-// @include	  http://*thepiratebay.org/*
-// @include	  https://*thepiratebay.org/*
+// @include	  *://thepiratebay.org/*
+// @include	  *://gameofbay.org/*
+// @include	  *://unblockedbay.info/*
+// @include	  *://tpbunblocked.org/*
+// @include	  *://thepiratebay.uk.net/*
+// @include	  *://piratebay.red/*
+// @include	  *://piratebay.click/*
+// @include	  *://pirateproxy.click/*
+// @include	  *://thebay.tv/*
+// @include	  *://thepiratebay-proxy.com/*
+// @include	  *://pirateproxy.yt/*
+// @include	  *://piratebays.co.uk/*
+// @include	  *://ukpirate.org/*
+// @include	  *://piratebays.co/*
+// @include	  *://pirateproxy.online/*
+// @include	  *://piratebaymirror.eu/*
+// @include	  *://piratebay.host/*
+// @include	  *://pirateproxy.wf/*
+// @include	  *://pirate.trade/*
+// @include	  *://fastpiratebay.co.uk/*
+// @include	  *://pirateproxy.tf/*
+// @include	  *://piratebayproxy.tf/*
+// @include	  *://ukpirateproxy.xyz/*
+// @include	  *://urbanproxy.eu/*
+// @include	  *://thepiratebay.tech/*
+// @include	  *://ukpirate.click/*
+// @include	  *://tpbmirror.us/*
 // @grant	  none
 // ==/UserScript==
 
@@ -48,7 +72,6 @@ function runHashToLink(){
 		hash = dlElem.substring(start);
 		hash = hash.replace(/\s+/g, '');	
 	}
-	
 	var div = document.getElementsByTagName('div');
 	for(i = 0; div[i].className != 'download'; i++);
 	div = div[i];
