@@ -36,15 +36,22 @@ GESTURES = {
 	"R": {
 		name: "下一頁",
 		cmd: function() {
-			var nav = gBrowser.webNavigation;
-			if (nav.canGoForward) {
-				nav.goForward();
-			} else {
-				var document = content.document;
-				var event = document.createEvent('HTMLEvents');
-				event.initEvent('superPreloader.go', true, false);
-				document.dispatchEvent(event);
-			}
+		    var nav = gBrowser.webNavigation;
+		    var document = content.document;
+		    var url = gBrowser.selectedBrowser.currentURI.spec;
+		    if (nav.canGoForward) {
+		        nav.goForward();
+		    } else if (/^https?:\/\/tieba\.baidu\.com\/i\//i.test(url)) {
+		        var links = document.links;
+		        for (i = 0; i < links.length; i++) {
+		            if (/^([^\d^\w.]*(下一页|下一頁|next)[^\d^\w]*|\s*(»|>+|›+)\s*)$/i.test(links[i].text))
+		                document.location = links[i].href;
+		        }
+		    } else {
+		        var event = document.createEvent('HTMLEvents');
+		        event.initEvent('superPreloader.go', true, false);
+		        document.dispatchEvent(event);
+		    }
 		}
 	},
 	//全螢幕(上右)

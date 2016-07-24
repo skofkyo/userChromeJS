@@ -483,7 +483,7 @@ var SITEINFO=[
         },
     }, 
     {name: '《硬是要學！》網路生活通',
-        url: /http:\/\/www\.soft4fun\.net\//i,
+        url: /https?:\/\/www\.soft4fun\.net\//i,
         siteExample: 'http://www.soft4fun.net/',
         nextLink: 'auto;',
         autopager: {
@@ -1196,8 +1196,8 @@ var SITEINFO=[
         // url: "^https?://www\\.baidu\\.com/(s|baidu|#wd=)",
         url: "^https?://www\\.baidu\\.com/",
         enable:true,
-        nextLink:'//div[@id="page"]/a[contains(text(),"下一頁")][@href]',
-        preLink:'//div[@id="page"]/a[contains(text(),"上一頁")][@href]',
+        nextLink:'id("page")/a[text()="下一页>"]',
+        preLink:'id("page")/a[text()="上一頁>"]',
         autopager: {
             pageElement: 'css;div#content_left > *',
             HT_insert:['css;div#content_left',2],
@@ -1312,38 +1312,6 @@ var SITEINFO=[
     },
 
     // =============== baidu 其它 ===========
-    {name: '百度貼吧列表',
-        url: /^http:\/\/tieba\.baidu\.(cn|com)\/f/i,
-        nextLink: '//div[@class="pager clearfix"]/descendant::a[@class="next"]',
-        preLink: '//div[@class="pager clearfix"]/descendant::a[@class="pre"]',
-        autopager: {
-            enable: false,
-            pageElement: '//ul[@id="thread_list"]/li',
-            replaceE: 'css;#frs_list_pager',
-            useiframe: true,
-                // newIframe: true,
-                iloaded: true,
-            // lazyImgSrc: "bpic",
-        }
-    },
-    {name: '百度貼吧帖子',
-        url:/^http:\/\/tieba\.baidu\.com\/p/i,
-        siteExample:'http://tieba.baidu.com/p/918674650',
-        nextLink:'//ul[@class="l_posts_num"]/descendant::a[text()="下一頁"]',
-        preLink:'//ul[@class="l_posts_num"]/descendant::a[text()="上一頁"]',
-        autopager:{
-            enable: false,
-            pageElement: "id('j_p_postlist')",  // "css;.l_post"
-            replaceE: "css;.l_posts_num > .l_pager",
-            useiframe: true,
-                // newIframe: true,
-                iloaded: true
-            // filter: function(pages){
-            //     var pb = unsafeWindow.pb;
-            //     pb.ForumListV3.initial();
-            // }
-        }
-    },
     {name: '百度吧內搜索',
         url: /^http:\/\/tieba\.baidu\.com\/f\/search/i,
         siteExample: 'http://tieba.baidu.com/f/search/',
@@ -4631,6 +4599,50 @@ var SITEINFO_TP=[
             pageElement: 'id("page-body")/div[starts-with(@class, "search post")]',
             replaceE: 'id("page-body")/ul[@class="linklist"]'
         }
+    },
+];
+
+//兼容 oautopager的規則放在這裡,此規則組..優先級最低(比統配規則還低)..
+//所以說盡量不要放規則在這個組裡面.
+var SITEINFO_comp=[
+    {name: 'discuz論壇通用搜索',
+        url: '^http://[^/]+/f/(?:discuz|search)',
+        nextLink: 'auto;',
+        pageElement: 'id("result-items")',
+    },
+    {name: 'View forum - 通用',
+        url: '^https?://.+?/viewforum\\.php\\?',
+        nextLink: '//span[@class="gensmall"]/b/b/following-sibling::a[1] | (//table/tbody/tr/td[@class="nav"])[last()]/b[last()]/following-sibling::a[1]  | //div[@class="pagination"]/span/strong/following-sibling::a[1] | //a[text()="Next"]',
+        pageElement: '//ul[contains(concat(" ",@class," ")," topics ")]|//form[table/@class="forumline"]',
+    },
+    {name: 'wiki 通用',
+        url: '.\\?(?:.+&)?search=',
+        nextLink: '//a[@class="mw-nextlink"]',
+        pageElement: '//ul[@class="mw-search-results"]',
+    },
+    {name: '通用 Forum 規則1',
+        url: '^https?://.*((showthread\\.php\\?)|(forum|thread))',
+        nextLink: '//a[@rel="next"]',
+        pageElement: '//div[@id="posts"]|//ol[@id="posts"]/li',
+        separatorReal: false
+    },
+    {name: '通用 Forum 規則2',
+        url: '^https?://[^?#]+?/showthread\\.php\\?',
+        nextLink: '//tr[@valign="top"]//div[@class="pagenav"]//a[contains(text(), ">")]',
+        pageElement: '(//div[@class="pagenav"])[1]|//div[@id="posts"]/node()',
+        separatorReal: false
+    },
+    {name: '通用 Forum 規則3',
+        url: '^https?://.*((forumdisplay\\.php\\?)|forum)',
+        nextLink: '//a[@rel="next" or (text()=">")]',
+        pageElement: '//tbody[starts-with(@id,"threadbits_forum_")]/tr[td[contains(@id,"td_threadtitle")] and not(td/div/text()[contains(.,"Sticky:")])]|//ol[@id="threads" and @class="threads"]/li',
+        separatorReal: false
+    },
+    {name: 'PHPWind 5.3.0 / 6.0.0 / 6.3.2 / 7.0.0 / 7.5.0 - View Thread',
+        url: '^https?://.+/read\\.php\\?.*tid((=[0-9]+.*)|(-[0-9]+.*\\.html?))$',
+        nextLink: 'auto;',
+        pageElement: '//form[@name="delatc"]',
+        exampleUrl: 'http://www.yydzh.com/read.php?tid=1584013',
     },
 ];
 

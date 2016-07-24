@@ -563,7 +563,7 @@ var SITEINFO=[
         },
     }, 
     {name: '《硬是要學！》網路生活通',
-        url: /http:\/\/www\.soft4fun\.net\//i,
+        url: /https?:\/\/www\.soft4fun\.net\//i,
         siteExample: 'http://www.soft4fun.net/',
         nextLink: 'auto;',
         autopager: {
@@ -1276,8 +1276,8 @@ var SITEINFO=[
         // url: "^https?://www\\.baidu\\.com/(s|baidu|#wd=)",
         url: "^https?://www\\.baidu\\.com/",
         enable:true,
-        nextLink:'//div[@id="page"]/a[contains(text(),"下一頁")][@href]',
-        preLink:'//div[@id="page"]/a[contains(text(),"上一頁")][@href]',
+        nextLink:'id("page")/a[text()="下一页>"]',
+        preLink:'id("page")/a[text()="上一頁>"]',
         autopager: {
             pageElement: 'css;div#content_left > *',
             HT_insert:['css;div#content_left',2],
@@ -1392,38 +1392,6 @@ var SITEINFO=[
     },
 
     // =============== baidu 其它 ===========
-    {name: '百度貼吧列表',
-        url: /^http:\/\/tieba\.baidu\.(cn|com)\/f/i,
-        nextLink: '//div[@class="pager clearfix"]/descendant::a[@class="next"]',
-        preLink: '//div[@class="pager clearfix"]/descendant::a[@class="pre"]',
-        autopager: {
-            enable: false,
-            pageElement: '//ul[@id="thread_list"]/li',
-            replaceE: 'css;#frs_list_pager',
-            useiframe: true,
-                // newIframe: true,
-                iloaded: true,
-            // lazyImgSrc: "bpic",
-        }
-    },
-    {name: '百度貼吧帖子',
-        url:/^http:\/\/tieba\.baidu\.com\/p/i,
-        siteExample:'http://tieba.baidu.com/p/918674650',
-        nextLink:'//ul[@class="l_posts_num"]/descendant::a[text()="下一頁"]',
-        preLink:'//ul[@class="l_posts_num"]/descendant::a[text()="上一頁"]',
-        autopager:{
-            enable: false,
-            pageElement: "id('j_p_postlist')",  // "css;.l_post"
-            replaceE: "css;.l_posts_num > .l_pager",
-            useiframe: true,
-                // newIframe: true,
-                iloaded: true
-            // filter: function(pages){
-            //     var pb = unsafeWindow.pb;
-            //     pb.ForumListV3.initial();
-            // }
-        }
-    },
     {name: '百度吧內搜索',
         url: /^http:\/\/tieba\.baidu\.com\/f\/search/i,
         siteExample: 'http://tieba.baidu.com/f/search/',
