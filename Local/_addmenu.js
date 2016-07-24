@@ -133,11 +133,9 @@ new function() {
                         gBrowser.addTab("http://subhd.com/search/" + encodeURIComponent(getBrowserSelection()));//SUBHD
                         gBrowser.addTab("http://www.163sub.com/Search?id=" + encodeURIComponent(getBrowserSelection()));//163sub
                         gBrowser.addTab("http://r3sub.com/search.php?s=" + encodeURIComponent(getBrowserSelection()));//R3字幕網
-                        //http://www.opensubtitles.org/zt/search2/sublanguageid-zht,chi,zhe/moviename-%SEL%
                         break;
                     case 2:
                         gBrowser.addTab("http://www.btstorrent.cc/results.php?q=" + encodeURIComponent(readFromClipboard()));//BTScene Torrents
-                        https://rarbg.to/torrents.php?category=14;48;17;44;45;47;42;46&search=Allegiant&order=seeders&by=DESC
                         gBrowser.addTab("https://rarbg.to/torrents.php?category=14;48;17;44;45;47;42;46&search=" + encodeURIComponent(readFromClipboard()) + "&order=seeders&by=DESC");//RARBG
                         gBrowser.addTab("http://kickasstorrentsan.com/usearch/" + encodeURIComponent(readFromClipboard()) + "/");//KickassTorrents
                         gBrowser.addTab("https://thepiratebay.org/search/" + encodeURIComponent(readFromClipboard()) + "/0/99/0");//海盜灣
