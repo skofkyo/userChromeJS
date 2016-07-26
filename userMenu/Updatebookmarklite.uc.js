@@ -36,6 +36,7 @@ var updatebookmark = {
 		var newbookmark = document.getElementById("placesContext_new:bookmark");
 		var menuItem = document.createElement("menuitem");
 		menuItem.setAttribute("id", "updatebookmarkUpdateCurrentURLMenuItem");
+		menuItem.setAttribute("class", "menuitem-iconic");
 		menuItem.setAttribute("label", "更新為當前網址");
 		menuItem.setAttribute("oncommand", "updatebookmark.updateURL();");
 		menuItem.setAttribute("closemenu", "single");
@@ -44,6 +45,7 @@ var updatebookmark = {
 		placesContextMenu.insertBefore(menuItem, newbookmark.nextSibling);
 		menuItem = document.createElement("menuitem");
 		menuItem.setAttribute("id", "updatebookmarkUpdateCurrentTitleMenuItem");
+		menuItem.setAttribute("class", "menuitem-iconic");
 		menuItem.setAttribute("label", "更新為當前標題");
 		menuItem.setAttribute("oncommand", "updatebookmark.updateTitle();");
 		menuItem.setAttribute("closemenu", "single");
@@ -52,6 +54,7 @@ var updatebookmark = {
 		placesContextMenu.insertBefore(menuItem, newbookmark.nextSibling);
 		menuItem = document.createElement("menuitem");
 		menuItem.setAttribute("id", "updatebookmarkMenuItem");
+		menuItem.setAttribute("class", "menuitem-iconic");
 		menuItem.setAttribute("label", "替換當前書籤");
 		menuItem.setAttribute("oncommand", "updatebookmark.updatebookreplace();");
 		menuItem.setAttribute("closemenu", "single");
@@ -60,6 +63,7 @@ var updatebookmark = {
 		placesContextMenu.insertBefore(menuItem, newbookmark.nextSibling);
 		menuItem = document.createElement("menuitem");
 		menuItem.setAttribute("id", "addnewbookmarkMenuItem");
+		menuItem.setAttribute("class", "menuitem-iconic");
 		menuItem.setAttribute("label", "在此書籤後面添加新書簽");
 		menuItem.setAttribute("oncommand", "updatebookmark.appendURL();");
 		menuItem.setAttribute("closemenu", "single");
