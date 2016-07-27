@@ -15,7 +15,7 @@ var updatebookmark = {
     init: function() {
         //window.addEventListener("load", updatebookmark.onload, false);
         //window.setTimeout("updatebookmark.onload();", 0);
-        this.additme();
+        this.additem();
     },
 /*
     uninit: function(event) {
@@ -35,7 +35,7 @@ var updatebookmark = {
         window.removeEventListener("load", updatebookmark.onload, false);
     },
 */
-    additme: function() {
+    additem: function() {
         var placesContextMenu = document.getElementById("placesContext");
         var newbookmark = document.getElementById("placesContext_new:bookmark");
         var menuItem = document.createElement("menuitem");
