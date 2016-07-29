@@ -5,9 +5,10 @@
 // @license               MIT License
 // @compatibility    Firefox 45+
 // @charset              UTF-8
-// @version              2016.7.17
+// @version              2016.7.29
 // @include              main
 // @include              chrome://browser/content/browser.xul
+// @note                   2016.7.30 部分元素使用複製 調整代碼
 // @note                   2016.7.17 V2修正CSS新視窗移動按鈕沒有圖示的問題
 // @note                   2016.7.17 修正PanelUI按鈕右鍵選單 新視窗無效的問題
 // @note                   2016.7.16 重寫代碼 使用新函數
@@ -18,8 +19,12 @@
     var mode = 0;//位置 0可移動按鈕 1頁面右鍵選單 2僅PanelUI按鈕右鍵選單
     var PUb = true;// true/false 移動按鈕模式時是否同時添加PanelUI按鈕右鍵選單
 
-    window.CustomFirefoxMenu = {
-
+    var CustomFirefoxMenu = {
+        
+        startup: function() {
+            if (PUb && mode !== 1 && mode !== 2 || mode == 2) this.addPUContextMenu();
+        },
+        
         init: function() {
             this.addmenuitem();
             if (mode == 0) {this.addmenumovebtn();} else if (mode == 1) {this.addContextMenu();}
@@ -51,7 +56,7 @@
         },
 
         addContextMenu: function() {
-            var ins = $("contentAreaContextMenu").childNodes[0];
+            var ins = $("contentAreaContextMenu").firstChild;
             ins.parentNode.insertBefore($C("menu", {
                 id: "CustomFirefoxMenu",
                 class: "menu-iconic",
@@ -69,9 +74,8 @@
                 id: "CustomFirefoxMenuPopup",
                 position: "after_start",
             });
-            mp.addEventListener('popupshowing', (event) => CustomFirefoxMenu.onpopup(event));
-            mp.addEventListener('popuphiding', (event) => CustomFirefoxMenu.hidepopup(event));
             $('mainPopupSet').appendChild(mp);
+            
             var menues = [
             {moveid: "file-menu"}, 
             {moveid: "edit-menu"}, 
@@ -81,11 +85,11 @@
             {moveid: "tools-menu"}, 
             {moveid: "helpMenu"}, 
             {label: "sep"}, 
-            {moveid: "menu_preferences"}, 
-            {moveid: "fullScreenItem"}, 
+            {moveid: "menu_preferences",clone: true}, 
+            {moveid: "fullScreenItem",clone: true}, 
             {moveid: "charsetMenu"}, 
-            {moveid: "menu_openDownloads"}, 
-            {moveid: "menu_openAddons"}, 
+            {moveid: "menu_openDownloads",clone: true}, 
+            {moveid: "menu_openAddons",clone: true}, 
             {moveid: "webDeveloperMenu"}, 
             {
                 label: "錯誤主控台",
@@ -94,34 +98,38 @@
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2ElEQVQ4jY2SURGDMBBEIwEJSHm7CpCAhEqoAyRUAhIqIRKQgAT60WMmTRPam8kMOXIve3tJqQhgsH0HqPJEfkhXISnbPjqAQ1LuFgOj7SMOPs/vev+Xgt66VFCraK2mB5I2SRswA2Mtv2wDGIDJ9ippL299SNolbbYXYOIzJttL/D9sr7XR5wi78os2xl7/NA7PjRw9wNfhlFJqAKa68Fb09hNQGPoG2V7DuK8RdhTwMYVqpPkK8Osp/+vB3C0OP3ILICkDtyYkPJgDNoQvJWA9n3Fctpy1LyNPBAjW0Ns9AAAAAElFTkSuQmCC"
             }, 
             {label: "sep"}, 
-            {moveid: "aboutName"}, 
+            {moveid: "aboutName",clone: true}, 
             {
                 label: "重新啟動瀏覽器",
                 tooltiptext: "重新啟動瀏覽器",
                 oncommand: "Services.appinfo.invalidateCachesOnRestart() || ('BrowserUtils' in window) ? BrowserUtils.restartApplication(): Application.restart();",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABgklEQVQ4jX1Su0pDQRC9hVjEVysBX8FCiKTZIsgumznnH2wikUQR9EsEwVrBwkrBXoPGSvATJIrxFcR8gkVAr81svIk3LizsnnmdOTNRNOSUSqUVknG4AA6H+fYdEVkDcEKyrYF7JL/0fSEii6mBJOdI1pNVScZq8wDeNMmniCz3BXvvZ0g+a1BbRLadc7P5fH40+BSLxUmSx5qkKyJLyep1NVxaayf+a5HkkRba6vWswa/GmCnFqgBaoQXFRgDsA/gmGfcYADhVYFsrVAY1EJFpADcJ/KBHCcA7ydh7P6P/B2V0q4kdyQ/F7kgeACgnE3RJxkGwMDIR2Q2CDU5G8fIwBvfqtJMQLAbwQnJV8d82ggZB1SBqyq0ow5r+j0OCda3wZIzJKFYm2dR2moGuMSZD8lH9N5I6XCVWdTxt/oVCYQzAufpd9xmdc7nEqrZEZNNam42iKLLWZknWwl6QbDvncn8qiMg8ycaQ/sNteO8X0nf0N1EVwBmAjjLq6H8jzf8HTUH5xYEpCK8AAAAASUVORK5CYII="
             }, 
-            {moveid: "menu_FileQuitItem"}
+            {moveid: "menu_FileQuitItem",clone: true}
             ];
 
-            var i, Item, menue, mid;
+            var i, item, menue, mid;
             for (i = 0; i < menues.length; i++) {
                 menue = menues[i];
                 mid = menue.moveid;
                 if (mid) {
-                    if (mid != null)
+                    if (mid != null && menue.clone) {
+                        mp.appendChild($(menue.moveid).cloneNode(true));
+                    } else if (mid != null) {
                         mp.appendChild($(menue.moveid));
+                    }
                 } else if (menue.label == "sep") {
-                    Item = $C("menuseparator");
-                    mp.appendChild(Item);
+                    item = $C("menuseparator");
+                    mp.appendChild(item);
                 } else {
-                    Item = $C('menuitem');
-                    Item.setAttribute('label', menue.label);
-                    Item.setAttribute('tooltiptext', menue.tooltiptext);
-                    Item.setAttribute('class', 'menuitem-iconic');
-                    Item.setAttribute('oncommand', menue.oncommand);
-                    Item.setAttribute('image', menue.image);
-                    mp.appendChild(Item);
+                    item = $C('menuitem', {
+                        label: menue.label,
+                        class: "menuitem-iconic",
+                        tooltiptext: menue.tooltiptext,
+                        oncommand: menue.oncommand,
+                        image: menue.image,
+                    });
+                    mp.appendChild(item);
                 }
             }
 
@@ -138,29 +146,6 @@
             sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
         },
         
-        onpopup: function(event) {
-            var popup = event.target;
-            if (popup.id != "CustomFirefoxMenuPopup") {
-                return;
-            }
-            if (popup.triggerNode) {
-                popup.triggerNode.setAttribute('open', 'true');
-            }
-        },
-
-        hidepopup: function(event) {
-            var popup = event.target;
-            if (popup.id != "CustomFirefoxMenuPopup") {
-                return;
-            }
-            if (popup.triggerNode) {
-                popup.triggerNode.removeAttribute('open');
-            }
-        },
-
-    };
-    
-    let pucm = {
         addPUContextMenu: function(event) {
             var pb = $("PanelUI-button")
             pb.addEventListener("contextmenu", function(event) {
@@ -168,17 +153,14 @@
                 event.preventDefault();
             }, false);
         },
-        startup: function() {
-            if (PUb && mode !== 1 && mode !== 2 || mode == 2) this.addPUContextMenu();
-        },
+
     };
 
-    pucm.startup();
-    window.CustomFirefoxMenu.init();
+    CustomFirefoxMenu.startup();
+    CustomFirefoxMenu.init();
+    window.CustomFirefoxMenu = CustomFirefoxMenu;
 
-    function $(id) {
-        return document.getElementById(id);
-    }
+    function $(id) document.getElementById(id);
 
     function $C(name, attr) {
         var el = document.createElement(name);
