@@ -23,7 +23,7 @@ var LaunchBrowser = {
         //瀏覽器檔案位址
         //path: 'C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe', //WIN64位元使用32位元IE
         path: 'C:\\Program Files\\Internet Explorer\\iexplore.exe', //WIN64位元使用64位元IE
-        //image: '' //可選，沒有則用系統圖標
+        //image: '' //可選，沒有則用系統圖示
     }, {
         name: 'Edge',
         path: 'microsoft-edge:',
