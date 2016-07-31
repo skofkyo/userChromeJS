@@ -475,8 +475,7 @@ ECM.toggle('javascript.enabled')
                             //var file = Services.dirsvc.get('UChrm', Ci.nsILocalFile);
                             //file.appendRelativePath("Local\\BackupProfiles\\BackupProfiles.bat");
                             //file.launch();
-                            var path = "\\chrome\\BackupProfiles\\BackupProfiles.bat";
-                            ECM.exec(path);
+                            ECM.open(0,["Local","BackupProfiles","BackupProfiles.bat"]);
                             break;
                         case 1:
                             //var editor = gPrefService.getCharPref("view_source.editor.path");
