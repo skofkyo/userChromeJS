@@ -6,58 +6,20 @@
 // @version             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @version             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @version             1.9.8  要素を追加する際に$(id)と書ける様に
+// @note                2016.8.1 調整代碼 增加可用函數
 // @note                2016.7.30 調整代碼 $C可以運行自定義函數
 // @note                extras_config_menu.uc.js から機能削減+α
 // @note                スクリプトの有効無効を切り替えるコードはalice0775氏のrebuild_userChrome.uc.xulから拝借
 // ==/UserScript==
-/*
-■ edit & open関数について
-
-ファイルを編集する場合は'edit'関数を使う
-ファイルやフォルダを開く場合は'open'関数を使う
-真偽値を切り替える場合は'toggle'関数を使う
-
-各関数の第一引数は基点にするフォルダを指定する
-  0 = chrome
-  1 = profile
-  2 = C:\\WINDOWS ※XPの場合
-  3 = C:\\Program Files ※XPの場合
-  4 = 第二引数にフルパスを書く場合 ※\\は\\\\にする
- 'C' = Cドライブ
- 'D' = Dドライブ
-
-第二引数は第一引数で指定した基点フォルダにあるファイルかフォルダ名を指定する
-[]で囲むのとファイル(フォルダ)名を''で括るのを忘れずに
-
-// profileフォルダ内のprefs.jsを編集する例
-ECM.edit(1, ['prefs.js'])
-
-// chromeフォルダを開く例
-ECM.open(0)
-
-// firefoxを起動する例(第三引数のパラメータは省略可)
-ECM.open(3, ['Mozilla Firefox', 'firefox.exe'], '-no-remote')
-
-// javascriptの有効無効を切り替える例
-ECM.toggle('javascript.enabled')
-
-*/
 (function() {
-
     'use strict';
-
     Cu.import('resource://gre/modules/Preferences.jsm');
-    
     var delay = 1000;//延遲加載腳本 如遇到UC選單ID移動失敗 嘗試增加延遲時間
-    
     var ECM = {
         menues: [
             /*直接移動的UC選單ID*/
             //"NewTabOverride_set",
             //"downloadPlus_set",
-            //"anobtn_set",
-            //"addMenu-rebuild",
-            //"sw-menuitem"
         ],
         mode: 1, //位置 0可移動按鈕 1網址列按鈕 2工具選單
         editor: 1,
@@ -67,23 +29,13 @@ ECM.toggle('javascript.enabled')
         removeExt: true, //腳本名稱不顯示 uc.js/uc.xul
         ecmp: true,//強制啟用腳本true/false 避免意外關閉
         
-        init: function() {
-            if (this.mode == 0) {this.addmovebtn();} else if (this.mode == 1) {this.addurlbarbtn();} else {this.addtoolsmenu();}
-            this.addstyle();
-            this.addmenuitem();
-            this.moveMenu();
-            this.addPrefListener(ECM.readLaterPrefListener);
-            window.addEventListener('unload', this, false);
-            if (this.ecmp) window.addEventListener('DOMWindowClose', ECM.ecmptrue, false);
-        },
-
         addmenuitem: function() {
             /*移動或複製元素ID 如果不存在此ID的話 會導致自定義選單無效
             if ($('ID') != null) 建議除了Firefox的元素以外 移動或複製時添加判斷 避免BUG _ExtrasConfigMenuPlus.js有例子*/
             var Folderimg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIklEQVQ4jcXTS08TYRSA4e8X8FOUBAEBp9yauDLuXCnqQqUUNMpFEzExpG60EBwGqAEWuGAhMXHBAiSiG4MRaKe1Q+lMLSQEgpIYaG3pXMrrYhSMkUTdeJJn+ybny/mE+O8THW58oSoSEbmaiFyNqkhEh+tifxxQFQmcFOytuCyDpb5ywo+rDqKHalAViVioIXEQiMg1sKdhRi9RUC9T3J6CfBIKuss0wEq57BSwhjroITZUX3YYyL/H1HyYWium5sfUfFiaDzvRghVvZne+icx8E5l3FyisT6EqEm97Jd/3wCnIvsHWb2IbHThGpyvVhaW3Ex/1shCsZCFYwWKwnMXeE4T7T7pvFWrYFhFZgq8z2EY7mUU/2aVWsuFWsuE24qOn+fTynLtKPgH5ZchrsKeBY6AqHoSqeGBnkuUxLwvBikOPKvk8dx47eQNruQVTa8aMX8OMX8VJ95Bfe8ZsoHJGqIN15BIPWRn3QvEjWDpYBlhpnFQHltGFpXdi6R2u5C3YGmfzdTcjbceaRHSoga05P5uv2iAzSzHdiZO+jZO+g7N6F2f13k+6Ka7dh53nfBg7gxCiRMRCjSQnzpLT++DLU/Y3etjfCLg2H/wiANtD5FaCzAaqpoUQQsSeeFGVWrAnITsCuzLsDhytMMH69BVGr5dedE855M3EQo2oSh0R2UNY9hCWa48UGahlSanfEUKU/DjGUiFE2V86/g/f7vfzDeaZGzZA26PeAAAAAElFTkSuQmCC"
             var Editimg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJPSURBVDhPhZNLaBNRFIYT1C5cZVXEpKZobBFF6KJtio+mFV0IIlVBXAnuFKIuLLVdCGoVURFsYqTUBPEB9bGK6Eaq4Eaw4EIDWYQsapImaZPMI+9kJr/njFMzZRAv/NxhuN9//nvPvRZLe3TRp1vXEM3/E69l5s9wOByecqWiFAqCqkkQVEEUVVGUVEkiybIqs4pFtUiq1moKYfv+GjidzhFajKVfCSSSSaSW00hnMsiurGA1l0Mun0eeVSigQKpWqy2C9xsNRtkgkUxhOZ1GJmsACRAEAaIoQpQkUCLUajWzgSTJBLercjUNZEiWQfFRLJVQItXrdTY4sC4BL+DIHJdjcsVMNov79+7g2NFDoDNChUTx0Wg0zAbszPulA9SqPp8dR2jmMr6GL+H8ueMcmyszDEVR2ODgugTlclk7JK48H5xAeGYPenfaEbg+gMXFbxrIajab/zCgeNQ6vA5NIuzvw47uTnyc68fDGyc0SAcZhkrDlKBCe5sPTuL940H0urZi4ckA/NNj4GQM6SDD/G02ePv0Gj7MDqPHZcdCsB++m22YIVar1dJkSjDm2fziXWAI3ds68Sk0CN/0Sa1da7EZjsfjiEajiEQiiMViTf3aWywXTnc9ePPSV9+9azs+E+y/dcoEc1UGeeY2Tk1dfUYGG7gL3r4ey88jhz3Kj+9f4L99RrtphtPWovNgA4bHJ668Im7jWgu3WK3W1F5Xx1Lg7llTZeO+KX7De9E7R+AmwyumN+x222022yP6OaJfT74gw7o8+v9RvW0dRvg3WHRZuzk0y/kAAAAASUVORK5CYII="
             var mp = $('ecm-popup');
-            /* ==================== ここから設定 ==================== */
+            /* ==================== 從這裡開始進行選單設定 ==================== */
 
             /*
             // メモリ開放
@@ -125,6 +77,17 @@ ECM.toggle('javascript.enabled')
 
             /* ==================== END ==================== */
 
+        },
+        
+        get focusedWindow() {
+            return gContextMenu && gContextMenu.target ? gContextMenu.target.ownerDocument.defaultView : (content ? content : gBrowser.selectedBrowser.contentWindowAsCPOW);
+        },
+
+        init: function() {
+            if (this.mode == 0) {this.addmovebtn();} else if (this.mode == 1) {this.addurlbarbtn();} else {this.addtoolsmenu();}
+            this.addstyle();this.addmenuitem();this.moveMenu();this.addPrefListener(ECM.readLaterPrefListener);
+            window.addEventListener('unload', function() {ECM.removePrefListener(ECM.readLaterPrefListener);}, false);
+            if (this.ecmp) window.addEventListener('DOMWindowClose', ECM.ecmptrue, false);
         },
 
         addmovebtn: function() {
@@ -176,6 +139,7 @@ ECM.toggle('javascript.enabled')
             }));
             var mp = $C("menupopup", {
                 id: "ecm-popup",
+                position: "after_start",
                 onclick: 'event.preventDefault(); event.stopPropagation();',
             });
             mp.addEventListener('popupshowing', (event) => ECM.onpopup(event));
@@ -208,6 +172,29 @@ ECM.toggle('javascript.enabled')
                 mp = $('ecm-popup');
                 Item = $(menue);
                 if (Item != null) mp.appendChild(Item);
+            }
+        },
+        
+        newMenuitem: function(menupopup,menus) {
+            //類似addMenuPlus的使用方式
+            for (let i = 0; i < menus.length; i++) {
+                let ms = menus[i];
+                if (ms.label == "sep") {
+                    menupopup.appendChild($C('menuseparator'));
+                } else {
+                    let item = $C('menuitem', {
+                        label: ms.label,
+                        class: "menuitem-iconic",
+                        url: ms.url || "", //開啟的鏈結 可用%u返回當前頁面網址%s返回當前選取的文字 %es返回當前選取的文字並進行UTF-8 URI編碼
+                        where: ms.where || "", //分頁開啟的位置 "tab"前景新分頁 "tabshifted"背景新分頁 "window"新視窗
+                        text: ms.text || "", //參數 %u返回當前頁面網址 %s返回當前選取的文字 %es返回當前選取的文字並進行UTF-8 URI編碼
+                        exec: ms.exec || "", //執行檔
+                        image: ms.image || this.setIcon(ms.exec), //根據執行檔添加圖示
+                        disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
+                        oncommand: ms.oncommand || "ECM.onCommand(event);",
+                    });
+                    menupopup.appendChild(item);
+                }
             }
         },
 
@@ -246,12 +233,6 @@ ECM.toggle('javascript.enabled')
             var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
             var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
             sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
-        },
-
-        handleEvent: function(event) {
-            if (event.type === 'unload') {
-                this.removePrefListener(ECM.readLaterPrefListener);
-            }
         },
 
         onClick: function(event) {
@@ -315,7 +296,57 @@ ECM.toggle('javascript.enabled')
                 file.reveal();
             }
         },
-
+        
+        onCommand: function(event) {
+            var menuitem = event.target;
+            var text = menuitem.getAttribute("text") || "";
+            var exec = menuitem.getAttribute("exec") || "";
+            var url = menuitem.getAttribute("url") || "";
+            var where = menuitem.getAttribute("where") || "";
+            if (url)
+                this.openCommand(event, this.convertText(url), where);
+            else if (exec)
+                this.exec(exec, this.convertText(text));
+            else if (text)
+                this.copy(this.convertText(text));
+        },
+        
+        openCommand: function(event, url, where, postData) {
+            var uri;
+            try {
+                uri = Services.io.newURI(url, null, null);
+            } catch (e) {
+                return this.log(U("URL 不正確: ") + url);
+            }
+            if (uri.scheme === "javascript")
+                loadURI(url);
+            else if (where)
+                openUILinkIn(uri.spec, where, false, postData || null);
+            else if (event.button == 1)
+                openNewTabWith(uri.spec);
+            else openUILink(uri.spec, event);
+        },
+        
+        convertText: function(text) {
+            var tab = document.popupNode && document.popupNode.localName == "tab" ? document.popupNode : null;
+            var win = tab ? tab.linkedBrowser.contentWindow : this.focusedWindow;
+            text = text.toLocaleLowerCase()
+            .replace("%u", win.location.href)
+            .replace("%s", this.getSelection(win))
+            .replace("%es%", encodeURIComponent(this.getSelection(win)))
+            .replace("%p", readFromClipboard())
+            .replace("%ep%", encodeURIComponent(readFromClipboard()))
+            .replace("%t", win.document.title);
+            if (text.indexOf('\\') === 0)
+                text = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + text;
+            return text;
+        },
+        
+        copy: function(aText) {
+            Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper).copyString(aText);
+            XULBrowserWindow.statusTextField.label = "Copy: " + aText;
+        },
+        
         exec: function(path, arg) {
             var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
             var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
@@ -347,6 +378,64 @@ ECM.toggle('javascript.enabled')
             } catch (e) {
                 this.log(e);
             }
+        },
+        
+        setIcon: function(path) {
+            if (path == "" || path == null) return "";
+            var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
+            if (path.indexOf('\\') === 0)
+                path = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + path;
+            file.initWithPath(path);
+            if (!file.exists()) return "chrome://browser/skin/aboutSessionRestore-window-icon.png";
+            let fileURL = Services.io.getProtocolHandler("file").QueryInterface(Ci.nsIFileProtocolHandler).getURLSpecFromFile(file);
+            return "moz-icon://" + fileURL + "?size=16";
+        },
+
+        setdisabled: function(path) {
+            if (path == "" || path == null || /(^microsoft)/.test(path)) {
+                return "false";
+            } else {
+                var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
+                if (path.indexOf('\\') === 0)
+                    path = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + path;
+                file.initWithPath(path);
+                if (!file.exists()) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+            }
+        },
+
+        getSelection: function(win) {
+            win || (win = this.focusedWindow);
+            var selection = this.getRangeAll(win).join(" ");
+            if (!selection) {
+                let element = document.commandDispatcher.focusedElement;
+                let isOnTextInput = function(elem) {
+                    return elem instanceof HTMLTextAreaElement ||
+                        (elem instanceof HTMLInputElement && elem.mozIsTextField(true));
+                };
+
+                if (isOnTextInput(element)) {
+                    selection = element.QueryInterface(Ci.nsIDOMNSEditableElement).editor.selection.toString();
+                }
+            }
+
+            if (selection) {
+                selection = selection.replace(/^\s+/, "").replace(/\s+$/, "").replace(/\s+/g, " ");
+            }
+            return selection;
+        },
+
+        getRangeAll: function(win) {
+            win || (win = this.focusedWindow);
+            var sel = win.getSelection();
+            var res = [];
+            for (var i = 0; i < sel.rangeCount; i++) {
+                res.push(sel.getRangeAt(i));
+            };
+            return res;
         },
         
         getLocalFile: function(path) {
@@ -518,11 +607,6 @@ ECM.toggle('javascript.enabled')
             }
         },
 
-        ecmptrue: function(event) {
-            var duc = Services.prefs.getCharPref("userChrome.disable.script").replace(/ExtrasConfigMenuPlus\.uc\.js\,/g, "")
-            Services.prefs.setCharPref("userChrome.disable.script", duc);
-        },
-
         clickScriptMenu: function(event) {
             var target = event.target;
             var script = target.script;
@@ -581,7 +665,13 @@ ECM.toggle('javascript.enabled')
                     }, 0);
                 }
             }
-        }
+        },
+
+        ecmptrue: function(event) {
+            var duc = Services.prefs.getCharPref("userChrome.disable.script").replace(/ExtrasConfigMenuPlus\.uc\.js\,/g, "")
+            Services.prefs.setCharPref("userChrome.disable.script", duc);
+        },
+
     };
     
     window.ECM = ECM;
