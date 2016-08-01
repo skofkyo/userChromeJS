@@ -137,6 +137,51 @@ ECM.toggle('javascript.enabled')
             }), menupopup.lastChild);
             /*==========例子二 使用自定義數組化函數==========*/
             
+            /*==========例子二之二 使用與addMenuPlus類似的函數添加方式==========*/
+            /*建立FX主選單*/
+            var menu = mp.appendChild($C("menu", {
+                class: "menu-iconic",
+                label: "Firefox選單",
+                image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABuElEQVQ4jZ2Tz0sUYRjH908IB6XbZpQdBL106NBF/4BtMy/doluw669g/YUkaCTYJXYtIsiDEHjYi4gQBFG3DmJ0Si/lKJsz78zOrDNus7w78/Egzjq9XtoH3svL83ye7/fheVKVvDZkjGqmOdbJ/zxjpENUclo21U5xDBnVzNS/n2LyGu6bYZzSfZxiBqeUpfb+EU7x3qWQGGA/v8Px+lPc1w8QMz04K0OtxPEu/I155OEPnFIWc+KqCvDK00SBR/Nol9Cz1I7jXXjlKaLAp7b2RAX8/faBi9E09jj59EqRHGyXkfr3JEAU0kQySACkvoM1e0sBNHa/EMkGYuZmC2DN9ye7W79x3z5Uiq3ZHuT+NgDV5cEWwF64nQCEvo1TzFBdHuB4fQJRSGOOdVJbfQxRCIA115ucQdPWUSKU1L++w3rWhyikqX9eiRUqQ/S3XiRr3Upsw5rrPfNedwHwt5ZUgCikaYpfioioUY9lA4TOIWLqugo4X6aweqBaOR+urWMv3b18E2Ml0zc4+fgS+ecnkQyIAg+p7+BvLiImu9VVNkY6RNvHlNeMVCWnZds657xmHOWuZE4BnUvgBJzQjdgAAAAASUVORK5CYII=",
+            }));
+            var menupopup = menu.appendChild($C("menupopup"));
+            /*建立子選單*/
+            /*移動選單列*/
+            var menus = [
+            {id: "file-menu"}, 
+            {id: "edit-menu"}, 
+            {id: "view-menu"}, 
+            {id: "history-menu"}, 
+            {id: "bookmarksMenu"}, 
+            {id: "tools-menu"}, 
+            {id: "helpMenu"}, 
+            {label: "sep"}, 
+            {id: "menu_preferences",clone: true}, //(複製)
+            {id: "fullScreenItem",clone: true}, //(複製)
+            {id: "charsetMenu"}, 
+            {id: "menu_openDownloads",clone: true}, //(複製)
+            {id: "menu_openAddons",clone: true}, //(複製)
+            {id: "webDeveloperMenu"}, 
+            {
+            id: "uc_javascriptConsole",
+            label: "錯誤主控台",
+            oncommand: "toJavaScriptConsole();",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA2ElEQVQ4jY2SURGDMBBEIwEJSHm7CpCAhEqoAyRUAhIqIRKQgAT60WMmTRPam8kMOXIve3tJqQhgsH0HqPJEfkhXISnbPjqAQ1LuFgOj7SMOPs/vev+Xgt66VFCraK2mB5I2SRswA2Mtv2wDGIDJ9ippL299SNolbbYXYOIzJttL/D9sr7XR5wi78os2xl7/NA7PjRw9wNfhlFJqAKa68Fb09hNQGPoG2V7DuK8RdhTwMYVqpPkK8Osp/+vB3C0OP3ILICkDtyYkPJgDNoQvJWA9n3Fctpy1LyNPBAjW0Ns9AAAAAElFTkSuQmCC",
+            }, 
+            {label: "sep"}, 
+            {id: "aboutName",clone: true}, //(複製)
+            {
+            id: "uc_restart",
+            label: "重新啟動瀏覽器",
+            oncommand: "Services.appinfo.invalidateCachesOnRestart() || BrowserUtils.restartApplication();",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABgklEQVQ4jX1Su0pDQRC9hVjEVysBX8FCiKTZIsgumznnH2wikUQR9EsEwVrBwkrBXoPGSvATJIrxFcR8gkVAr81svIk3LizsnnmdOTNRNOSUSqUVknG4AA6H+fYdEVkDcEKyrYF7JL/0fSEii6mBJOdI1pNVScZq8wDeNMmniCz3BXvvZ0g+a1BbRLadc7P5fH40+BSLxUmSx5qkKyJLyep1NVxaayf+a5HkkRba6vWswa/GmCnFqgBaoQXFRgDsA/gmGfcYADhVYFsrVAY1EJFpADcJ/KBHCcA7ydh7P6P/B2V0q4kdyQ/F7kgeACgnE3RJxkGwMDIR2Q2CDU5G8fIwBvfqtJMQLAbwQnJV8d82ggZB1SBqyq0ow5r+j0OCda3wZIzJKFYm2dR2moGuMSZD8lH9N5I6XCVWdTxt/oVCYQzAufpd9xmdc7nEqrZEZNNam42iKLLWZknWwl6QbDvncn8qiMg8ycaQ/sNteO8X0nf0N1EVwBmAjjLq6H8jzf8HTUH5xYEpCK8AAAAASUVORK5CYII=",
+            }, 
+            {id: "menu_FileQuitItem",clone: true}//(複製)
+            ];
+            //與addMenuPlus類似的函數添加方式
+            this.newMenuitem(menupopup,menus);
+            /*==========例子二之二 使用與addMenuPlus類似的函數添加方式==========*/
+            
             /*==========例子三 逐一建立選單==========*/
             /*建立UC主選單*/
             var menu = mp.appendChild($C("menu", {
@@ -239,6 +284,52 @@ ECM.toggle('javascript.enabled')
             }));
             /*==========例子四 使用自定義數組化函數==========*/
 
+            /*==========例子四之二 使用與addMenuPlus類似的函數添加方式==========*/
+            /*建立UC主選單*/
+            var menu = mp.appendChild($C("menu", {
+                class: "menu-iconic",
+                label: "UC選單",
+                image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA7ElEQVQ4jb3Rry/FYRTH8dcwN9gEkoDbJJMEE0yzmakUWdZMwb/AdNH/IDHzY6JysSmSYbsjEOwr3CccjwdXuWc74fmcz3mfffbQ4erFIGo/GdZwn3o46PM4wweq1FeYzAGbwVBP2nLQ8q63A2ik9wOmMYBxrJYilADv6X2JrtLSX4CToB1hAT3/AUzg0dfsd1hsFwBD2MNLBvoG2Q7D0cKBPmwEz3Fu2A/D/mLIVt0kzy3MYFbrW97SoBHMOynaHKawHo4cwEWWq8JKWu5GszCv8IQxOEymJk6xFK7XsIVzPOMV19jFyC8RO1ifx6Zags1CB0UAAAAASUVORK5CYII=",
+            }));
+            var menupopup = menu.appendChild($C("menupopup"));
+            /*建立子選單*/
+            var menus = [
+            {id: "redirector-icon"}, //Redirector
+            {id: "ucjs_UserAgentChanger"}, //UserAgentChange
+            {id: "ucjsMouseGestures"}, //設置滑鼠手勢
+            {id: "ucjsSuperDrag"}, //設置拖拽手勢
+            {id: "RefererChanger"}, //破解圖片外鏈
+            {id: "NewTabOverride_set"}, //NewTabOverride 設定
+            {id: "downloadPlus_set"}, //downloadPlus 設定
+            {id: "toolsbar_KeyChanger_rebuild"}, //KeyChanger
+            {id: "anobtn_set"}, //AnotherButton
+            {id: "addMenu-rebuild"}, //AddMenuPlus
+            {id: "sw-menuitem"}, //輔助定制翻頁規則
+            {id: "InspectElement-menuitem"}, //Inspect Element 設置
+            /*如果依然移動失敗可以手動建立*/
+            /*AddMenuPlus*/
+            {
+            label: "AddMenuPlus",
+            tooltiptext: "左鍵：重載配置 右鍵：編輯配置",
+            oncommand: "setTimeout(function(){ addMenu.rebuild(true); }, 10);",
+            onclick: "if (event.button == 2) { event.preventDefault(); addMenu.edit(addMenu.FILE); }",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABV0lEQVQ4jZ3OT0vCcBzH8e9JdvHqodsexh7AiIgfxKAY01hEpuV/Juwyhp2DICKykCIIIihJ0ccREUEEQRJhc074Ibv526en4PaB1/XDm1zXZa1Waz8J13UZOY5TQMI5jlMg27YLURSh3W5DCLG0KIpg23aBLMsqCiGwWCxiEULAsqwiHZ52B/legL3nKXa7E+w8/mH74RfZ+x/od9/YvP2Cdv2Jjc4H2OU71i/esHb+itWzF2SPbgZ0cPI0yPcCAIh9oLudAeWPH4ZJC7acqyGZplkKwxDz+TyWMAxhmmaJDMMoc87RaDQwnU6XxjmHYRhl0jStwjnHbDaLhXMOTdMqxBir9vt9JMEYq5KqqrUgCDCZTGIJggCqqtZIUZS653nQdR2j0WhpnudBUZQ6ybLc9H0f4/E4Ft/3IctykyRJyqXTaTsJSZJyREQpIsoQ0UpMGSJK/QP8ONQUf4hjuAAAAABJRU5ErkJggg==",
+            }, 
+            {
+            label: "輔助定制翻頁規則",
+            oncommand: "siteinfo_writer.show();",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADAklEQVRYhdVX643iMBCOIOAlIW/nZZGA7TwWQhSogBJSAiVQQkqgBEqgNJcw9+OSuyzHRrC7t6cb6ZOimc8zn2RnPJak/9kYY8Z+vxf7/V78EwFlWR52ux3sdjsoy/LwLwTUVVVBVVVQlmX97QK2221TliWUZQnb7bb56wUZY0ZRFMfNZnMtikIURQE3EG3syBgzvrR4nuen9XotNpsNPIL1ei3yPD99SfEsyy6vr6/QIc9zkef5Oc/zuuerW5/oc7Msu3yqeJqmlyzLIMsySNNUJEnyZq+7WN+XJEmTpqnorfuYCMbYKUkSSJIEOOeCUlrdcrr4rZ9SWnHORRdnjD23HYwxg1IqOOfAGLtbXJIkiXMOnPM/BHQiGGOCcw6UUvHUwVytVkdKKVBKYbVavfuLdZyBPE0vz/FhAcvl8rpcLmG5XA622ZbzroCWI1re9WEBURSJOI4hiqLzEC+OY4jjeFBAFEXnNtfwnREEwYEQUhNCmsViAYvFAgghgy224w1xCCF1L19DCKmDIPh9d1iWZRBCBCEEnkUQBE0QBM1H1hJCxC8BYRiKMAzhWXie13ie13xkbRiGb7cEY3zwfb/2PK/xfR983wfP8xqM8eE9dLwhzm0+3/drjPHw9Y0xFq7rAsZ48BC6rguu6w6eAYzxuc31+ODiOM7VcRywbXtwkeM44DjOoADbtkXLe/w3NE3zaNs22LYNpmm+24g6zkCeppfn8UZkWZZhGIYwTRMMwxCqqt5txaZpgmmadwWoqlr1c1iW9dyMoOv6Sdd1aHFXRBe/V1zXddFb/7HZQNO0i6ZpoGkazOdzoShKcxMHTdPeCFAUpZnP56KLaZr2uZlAUZSLqqrQg1BV9awoSt352u9zG4Oe/3PFO0MInWazmZjNZvAgBELoa0aynhmTyeSIELoihMTLywv0gRASCKHrZDI5SpL0tUPpPZNluZlOpzCdTkGW5b8/lt/aeDyuZVkGWZZhPB5//8NEkqTDaDSC0WgEkiR9/9NM+rnPosX/aT8Akr9qqnAmHOsAAAAASUVORK5CYII=",
+            }, 
+            {
+            label: "Inspect Element 設置",
+            oncommand: "InspectElement.openPref();",
+            image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAADaUlEQVQ4jbWTT0xaBxzHX83SQ8c6N5fNJjapszELmjT29U0JU0sLIiKIPuAhfx6gDIW9UqaMbbYur9nMDkvGpVnqpYs9rLt090VTDmt6aIOkS/BJXkilpQ/Z46WkxF6/O3SSNehhh/2S3+mX3zff/D7fH0H83yWU5G5Bksn9Fp9Uuv7DcqlNKMndPM+3CJJMHnvz7UfH3jsJlao1I0gyyfN8i1CSu3NPn757uIgkk3PcZYbSaJez+QIlSDJ5St2H82YHTqn7IEgymc0XKEqjXeYWvnIIkkwe6GSOu8yoPjj58sTpXrS1d25k8wWqXzcKmp1Dv24U2XyBamvv3Dhxuheq9ztexpNXp7KPH7e+JiQ+qXSNWO1Xez4ehME2DUpnwrlh45ZxygPXLAfjlAfnho1blM4Eg20aauoTjFrtX2/v7HY2uSpWavopN7tuot2Y9IYw5mBhoqcbPeZgMekNwUS7QXvY34vV2sVD6TyrvphgguEt2hfGuN1TWbt9Z0Wu7YXXbt9ZGbd7KrTvU0zPzP35rPpioonmKzqtj9q71DijvQDLdAAWhsWNm7eu7VQUDUEQR3YqiubGzVvXLAwLMxPAGe0FtHepoVK1ZRpHFySZ/LD3LMyuAJyzHPxcAmaHB3fvZ4y5XO4oQRBELpc7evd+xmh2eODnEnDOcjC7AujsPYt/hI4QgiSTQwbTpt5Cw+YOgo18Dpt3BkwgFBckmdzelt8SJJlkAqG4zTvzau4OQm+hMaQf3Ww4EktKR1mpO+XaXninXI3OcgtigFuEbtyuGGzO5ErqJ7PB5kzqxu2K/7NFhLjFvCTX5uXaXris1J1iSeloHDydTr9xL7M10KcZTjtnIogmlxG4lMCkL4QRuweTvhAClxKIJpfhDM6jTzO0kc0XKJ7nW14jl5eqH/UP6b/VjlgQjH0BfzSO+BKfmU9cQfK7HzCfuIL4Ep/xR+MIxBLQXDThvGniy6b/E0Xl+OraL/5Bw9hzK+NDKBJbL9fqDjYSw9L3P4KNxFCu1R2hSGzdyvgwaBh7/vOvv7lyub9UTYEUd5WB9L2H8dT11dR+TiwuHxa+WYHF5cN+zlLXV1N/PNiMibvKwIFPSxAEUSzW3ikq9Z79WFhoZtPKeGGhmQadolLvERXl+KEiTQ7/RbOJzgH1Nwy9+ifYA0eGAAAAAElFTkSuQmCC",
+            }, 
+            ];
+            //與addMenuPlus類似的函數添加方式
+            this.newMenuitem(menupopup,menus);
+            /*==========例子四之二 使用與addMenuPlus類似的函數添加方式==========*/
+            
             /*==========例子五 使用自定義數組化函數==========*/
             /*建立about主選單*/
             var menu = mp.appendChild($C("menu", {
@@ -475,6 +566,7 @@ ECM.toggle('javascript.enabled')
                             //var file = Services.dirsvc.get('UChrm', Ci.nsILocalFile);
                             //file.appendRelativePath("Local\\BackupProfiles\\BackupProfiles.bat");
                             //file.launch();
+                            
                             ECM.open(0,["Local","BackupProfiles","BackupProfiles.bat"]);
                             break;
                         case 1:
@@ -486,17 +578,23 @@ ECM.toggle('javascript.enabled')
                             //var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
                             //process.init(file);
                             //process.run(false, args, args.length);
-                            var path = gPrefService.getCharPref("view_source.editor.path");
-                            var arg = Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\BackupProfiles\\BackupProfiles.bat";
-                            ECM.exec(path, arg);
+                            
+                            //var path = gPrefService.getCharPref("view_source.editor.path");
+                            //var arg = Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\BackupProfiles\\BackupProfiles.bat";
+                            //ECM.exec(path, arg);
+                            
+                            ECM.edit(0,["Local","BackupProfiles","BackupProfiles.bat"]);
                             break;
                         case 2:
                             event.preventDefault();
                             //var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsILocalFile);
                             //file.initWithPath("D:\\FirefoxBackup");
                             //file.launch();
-                            var path = "D:\\FirefoxBackup";
-                            ECM.exec(path);
+                            
+                            //var path = "D:\\FirefoxBackup";
+                            //ECM.exec(path);
+                            
+                            ECM.open('D', ['FirefoxBackup']);
                             break;
                     }
                 }
