@@ -57,6 +57,7 @@ function subPopupshowing(event) {
 //     label: "重启浏览器",
 //     oncommand: "Application.restart();"
 // });
+
 page({
         label: "addMenuPlus重載/編輯",
         tooltiptext: "左鍵重載 ；右鍵編輯",
@@ -64,6 +65,62 @@ page({
         oncommand: "setTimeout(function(){ addMenu.rebuild(true); }, 10);",
 		onclick: "if (event.button == 2) { event.preventDefault(); addMenu.edit(addMenu.FILE); }",
         position: 9999
+})
+
+page({
+    label: "視窗置頂",
+    insertBefore: 'toolbar-context-reloadAllTabs',
+    type: "checkbox",
+    oncommand: function() {
+        if (document.getElementById('main-window').hasAttribute('ontop'))onTop = false;
+        else onTop = true;
+        try {
+            Components.utils.import("resource://gre/modules/ctypes.jsm");
+            var lib = ctypes.open("user32.dll");
+            var funcActiveWindow = 0;
+            try {
+                funcActiveWindow = lib.declare("GetActiveWindow", ctypes.winapi_abi, ctypes.int32_t);
+            } catch (ex) {
+                funcActiveWindow = lib.declare("GetActiveWindow", ctypes.stdcall_abi, ctypes.int32_t);
+            }
+            if (funcActiveWindow != 0) {
+                var activeWindow = funcActiveWindow();
+                var funcSetWindowPos = 0;
+                try {
+                    funcSetWindowPos = lib.declare("SetWindowPos",
+                        ctypes.winapi_abi,
+                        ctypes.bool,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.uint32_t);
+                } catch (ex) {
+                    funcSetWindowPos = lib.declare("SetWindowPos",
+                        ctypes.stdcall_abi,
+                        ctypes.bool,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.int32_t,
+                        ctypes.uint32_t);
+                }
+                var hwndAfter = -2;
+                if (onTop) {
+                    hwndAfter = -1;
+                    document.getElementById('main-window').setAttribute('ontop', 'true');
+                } else document.getElementById('main-window').removeAttribute('ontop');
+                funcSetWindowPos(activeWindow, hwndAfter, 0, 0, 0, 0, 19);
+            }
+            lib.close();
+        } catch (ex) {
+            alwaysontop_log(ex);
+        }
+    },
 })
 
 new function() {
