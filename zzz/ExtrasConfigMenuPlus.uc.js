@@ -179,11 +179,18 @@
             //類似addMenuPlus的使用方式
             for (let i = 0; i < menus.length; i++) {
                 let ms = menus[i];
-                if (ms.label == "sep") {
+                let item = $(ms.id);
+                if (item != null && ms.clone) {
+                    menupopup.appendChild(item.cloneNode(true));
+                } else if (item != null ) {
+                    menupopup.appendChild(item);
+                } else if (ms.label == "sep") {
                     menupopup.appendChild($C('menuseparator'));
                 } else {
                     let item = $C('menuitem', {
-                        label: ms.label,
+                        id: ms.id || "",
+                        label: ms.label || "",
+                        tooltiptext: ms.tooltiptext || "",
                         class: "menuitem-iconic",
                         url: ms.url || "", //開啟的鏈結 可用%u返回當前頁面網址%s返回當前選取的文字 %es返回當前選取的文字並進行UTF-8 URI編碼
                         where: ms.where || "", //分頁開啟的位置 "tab"前景新分頁 "tabshifted"背景新分頁 "window"新視窗
@@ -192,6 +199,7 @@
                         image: ms.image || this.setIcon(ms.exec), //根據執行檔添加圖示
                         disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
                         oncommand: ms.oncommand || "ECM.onCommand(event);",
+                        onclick: ms.onclick || "",
                     });
                     menupopup.appendChild(item);
                 }
