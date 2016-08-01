@@ -634,10 +634,14 @@ ECM.toggle('javascript.enabled')
             {label: "sep"},
             {
                 label: "視窗佔用螢幕左半部", 
-                oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(0, 0));",
+                oncommand: function() {
+                    window.innerWidth=screen.availWidth / 2, window.innerHeight=screen.availHeight; window.moveTo(-5, 0);
+                },
             },{
                 label: "視窗佔用螢幕右半部", 
-                oncommand: "resizeTo(screen.availWidth / 2, screen.availHeight, moveTo(screen.availWidth / 2, 0));",
+                oncommand: function() {
+                    window.innerWidth=screen.availWidth / 2, window.innerHeight=screen.availHeight; window.moveTo(screen.availWidth / 2, 0);
+                },
             }];
             let i,item,ms;
             for (i = 0; i < menus.length; i++) {
@@ -656,6 +660,52 @@ ECM.toggle('javascript.enabled')
             }
             /*==========例子九 使用自定義數組化函數==========*/
 
+            /*==========例子九之二 與addMenuPlus類似的函數添加方式==========*/
+            /*建立變更視窗尺寸主選單*/
+            var menu = mp.appendChild($C("menu", {
+                class: "menu-iconic",
+                label: "變更視窗尺寸",
+                image: "data:;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgMF/8QAIxAAAQQBBAEFAAAAAAAAAAAAAQIDBAURABIhQQYiIzEyof/EABUBAQEAAAAAAAAAAAAAAAAAAAUG/8QAHhEBAQABAwUAAAAAAAAAAAAAARECAANhBCEjQfD/2gAMAwEAAhEDEQA/ANRirmKZj2L0VT0V14JHuDc6d2Ckc5ycHrSi4pamPTSno8UR57CEOKSh9Sy0SrjPOOjqVXZUw8di19jMcjyWHFLBQhe5te9RBBAI+D+6O20hJsJTVbLkPxnyjKlE5eOB9hgZ9WetNeTczncjzEuo2bHT7NJk5B7FFHikfrr/2Q==",
+            }));
+            var menupopup = menu.appendChild($C("menupopup"));
+            /*建立子選單*/
+            var menus = [{
+                label: "800x600  4:3",
+                oncommand: "resizeTo(800,600);",
+            },{
+                label: "1024x768  4:3",
+                oncommand: "resizeTo(1024,768);",
+            },{
+                label: "1280x1024  4:3",
+                oncommand: "resizeTo(1280,1024);",
+            },
+            {label: "sep"},
+            {
+                label: "1280x800  16:10",
+                oncommand: "resizeTo(1280,800);",
+            },{
+                label: "1440x900  16:10",
+                oncommand: "resizeTo(1440,900);",
+            },{
+                label: "1680x1050  16:10",
+                oncommand: "resizeTo(1680,1050);",
+            },
+            {label: "sep"},
+            {
+                label: "視窗佔用螢幕左半部", 
+                oncommand: function() {
+                    window.innerWidth=screen.availWidth / 2, window.innerHeight=screen.availHeight; window.moveTo(-5, 0);
+                },
+            },{
+                label: "視窗佔用螢幕右半部", 
+                oncommand: function() {
+                    window.innerWidth=screen.availWidth / 2, window.innerHeight=screen.availHeight; window.moveTo(screen.availWidth / 2, 0);
+                },
+            }];
+            //與addMenuPlus類似的函數添加方式
+            this.newMenuitem(menupopup,menus);
+            /*==========例子九之二 與addMenuPlus類似的函數添加方式==========*/
+            
             /*==========例子十 與addMenuPlus類似的函數添加方式==========*/
             /*建立雜用選單主選單*/
             var menu = mp.appendChild($C("menu", {
