@@ -19,11 +19,9 @@
 (function() {
     'use strict';
     Cu.import('resource://gre/modules/Preferences.jsm');
-    var delay = 1000;//延遲加載腳本 如遇到UC選單ID移動失敗 嘗試增加延遲時間
+    var delay = 1000;//延遲加載腳本
     var ECM = {
         addmenuitem: function() {
-            var Folderimg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACIklEQVQ4jcXTS08TYRSA4e8X8FOUBAEBp9yauDLuXCnqQqUUNMpFEzExpG60EBwGqAEWuGAhMXHBAiSiG4MRaKe1Q+lMLSQEgpIYaG3pXMrrYhSMkUTdeJJn+ybny/mE+O8THW58oSoSEbmaiFyNqkhEh+tifxxQFQmcFOytuCyDpb5ywo+rDqKHalAViVioIXEQiMg1sKdhRi9RUC9T3J6CfBIKuss0wEq57BSwhjroITZUX3YYyL/H1HyYWium5sfUfFiaDzvRghVvZne+icx8E5l3FyisT6EqEm97Jd/3wCnIvsHWb2IbHThGpyvVhaW3Ex/1shCsZCFYwWKwnMXeE4T7T7pvFWrYFhFZgq8z2EY7mUU/2aVWsuFWsuE24qOn+fTynLtKPgH5ZchrsKeBY6AqHoSqeGBnkuUxLwvBikOPKvk8dx47eQNruQVTa8aMX8OMX8VJ95Bfe8ZsoHJGqIN15BIPWRn3QvEjWDpYBlhpnFQHltGFpXdi6R2u5C3YGmfzdTcjbceaRHSoga05P5uv2iAzSzHdiZO+jZO+g7N6F2f13k+6Ka7dh53nfBg7gxCiRMRCjSQnzpLT++DLU/Y3etjfCLg2H/wiANtD5FaCzAaqpoUQQsSeeFGVWrAnITsCuzLsDhytMMH69BVGr5dedE855M3EQo2oSh0R2UNY9hCWa48UGahlSanfEUKU/DjGUiFE2V86/g/f7vfzDeaZGzZA26PeAAAAAElFTkSuQmCC"
-            var Editimg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJPSURBVDhPhZNLaBNRFIYT1C5cZVXEpKZobBFF6KJtio+mFV0IIlVBXAnuFKIuLLVdCGoVURFsYqTUBPEB9bGK6Eaq4Eaw4EIDWYQsapImaZPMI+9kJr/njFMzZRAv/NxhuN9//nvPvRZLe3TRp1vXEM3/E69l5s9wOByecqWiFAqCqkkQVEEUVVGUVEkiybIqs4pFtUiq1moKYfv+GjidzhFajKVfCSSSSaSW00hnMsiurGA1l0Mun0eeVSigQKpWqy2C9xsNRtkgkUxhOZ1GJmsACRAEAaIoQpQkUCLUajWzgSTJBLercjUNZEiWQfFRLJVQItXrdTY4sC4BL+DIHJdjcsVMNov79+7g2NFDoDNChUTx0Wg0zAbszPulA9SqPp8dR2jmMr6GL+H8ueMcmyszDEVR2ODgugTlclk7JK48H5xAeGYPenfaEbg+gMXFbxrIajab/zCgeNQ6vA5NIuzvw47uTnyc68fDGyc0SAcZhkrDlKBCe5sPTuL940H0urZi4ckA/NNj4GQM6SDD/G02ePv0Gj7MDqPHZcdCsB++m22YIVar1dJkSjDm2fziXWAI3ds68Sk0CN/0Sa1da7EZjsfjiEajiEQiiMViTf3aWywXTnc9ePPSV9+9azs+E+y/dcoEc1UGeeY2Tk1dfUYGG7gL3r4ey88jhz3Kj+9f4L99RrtphtPWovNgA4bHJ668Im7jWgu3WK3W1F5Xx1Lg7llTZeO+KX7De9E7R+AmwyumN+x222022yP6OaJfT74gw7o8+v9RvW0dRvg3WHRZuzk0y/kAAAAASUVORK5CYII="
             var mp = $('ecm-popup');
             /* ==================== 從這裡開始進行選單設定 ==================== */
             /*==========Firefox選單==========*/
@@ -166,10 +164,97 @@
             }, ];
             this.newMenuitem(menupopup,menus);
             /*==========google 捷徑==========*/
+            /*==========移動選單==========*/
             if ($('redirector-icon') != null) mp.appendChild($('redirector-icon')); //Redirector
             if ($('ucjs_UserAgentChanger') != null) mp.appendChild($('ucjs_UserAgentChanger')); //UserAgentChange
             if ($('EncodeDecodeHtml') != null) mp.appendChild($('EncodeDecodeHtml')); //EncodeDecodeHtml
-            /*==========例子六之二 多開火狐測試配置選單==========*/
+            if ($('gm_general_menu') != null) mp.appendChild($('gm_general_menu')); //Greasemonkey
+            /*==========移動選單==========*/
+            /*==========Stylish選單版==========*/
+            if ($('stylish-popup') != null) {
+                var menu = mp.appendChild($C("menu", {
+                    id: "uc_stylish_menu",
+                    class: "menu-iconic",
+                    label: "Stylish",
+                    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABv0lEQVQ4jaXQQWhSARzH8T8Ir23JCnwonSINRhITD4LhoMkrViBUh4JKiMGixMOCYQhKrmt5qJPxQATFg7HqFOUjhCeDIcy8ed3ZY4jowce302Tr+brsD7/j//Pn/xMR4YwRvuxv2VKs3CdX3KDw4S4iwq+bYVvmAi8za4gIgUAATdOIx+MEg0EURcF3TmHvxnVnYPvNOn6/n06nw78zmUzI5/O8X73qDHi8S7Pl6XRKp9PBMAz6/T6WZVEqlf4PqKo6u5jL5XiQXOVd+R4iwu2VANFolErkmh04zkmg2WwSCoVwuVyICM+vXHIusadn6OkZNiIrmKZ56vfhcEir1SKVSrGgKHyOzinxGDj8tIOqqlSrVcbjsa1IwzAIX3Q7A3u7m4gIre8qW5vLPHoYp1AoMBgMZkgoFHIGFhQFr9fLrbiLSukCv/d9vH61SDqdngGapjkDy+7zjEYjarUayWSSWCxGIpGg2+0CYFkWkbV1ygdHlA+O7IB7adH298nRdZ3tYtkZ2H12h3A4TDabpdFoYJom7Xaber3O4ydPefH242x5LtDTM4gI1p/LHLZ9/Pjq4ec3DyJyatEGnCV/ARO+PKSENlD/AAAAAElFTkSuQmCC",
+                }));
+                var cs = $("stylish-popup").cloneNode(true);
+                var macs = menu.appendChild(cs);
+                macs.removeAttribute("position");
+            }
+            /*==========Stylish選單版==========*/
+            /*==========切換代理設置==========*/
+            var menu = mp.appendChild($C("menu", {
+                id: "uc_quickProxy_menu",
+                class: "menu-iconic",
+                label: "切換代理設置",
+                image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACZElEQVQ4jZ2S3U9SARjG36v+HNfFyc0/wM115VoFB7U8tYM0N71AlHNKCdE1NmUIWE1EjHNAM/MLBMuPymqKill+TAtHTjTNsppu1UqfLpzYUfOiZ3vv3ue35333EB2SqqSpQGXwxnJE6TsryLtqo29LXeYbZAWJO7yr0AWD93SeIK1Z3P3oj75FPPkZqxvbmE1soHt4DhV3HkFtlMZY8V7aEfO54oYz+RWBXa01AoaX/zn51SFojL5PRyDXLK3fOp/MgOFlEBHSmHRI/mZUmMpxs9KEqmoLuoOdYHgZzaEYNKI0kjJzoq/K3PAYX7d/KAB2hw0cx0Gr1aKwsBD321rB8DJmE+sQXGGkflJsfbjW+3Ie75eTRwA6nQ5FRUXQ6/Xo6t5LkFxdg9Q3BY0oh4mI6KqpZWdmcR1tQ9MKgMNlx3gsip5gF2pqahAKB8HwMuKLCQzEEmAF6SMREeWIMt4lv6B9bF0BcNbX4cXIM1itVthsthSgo3cAz98sgxXk30REdKncvzOx8AGR4ZgC4PG6YTabMfR0AHa7PQWYnHqNvujiQYIrppaVB4PTiC+tgOFlZGZlIo1Jx133bXiaGlFbWwuXy5UCeAId8ARjBz/grvudYn0Ec4m9E3IzCLkZeyn2QbJfSgH8kSgMdb1QNJMztW419oyD4WXos0gx+6B9gKt9VNkDIqJsrTM7rzyAXEvwxCaev9EJ1ihtHlvns5dvsbrKwM8yRxje0CQio3EMvVpCaCQOd88EDHUhqEub5441/6VTF4udAU2pd5M1SrsaQYba6Pul0jcuqEqaCk4y/rf+AMrf4D2zeD50AAAAAElFTkSuQmCC",
+            }));
+            var menupopup = menu.appendChild($C("menupopup"));
+            var menus = [{
+                id: "uc_noproxy",
+                label: "不使用代理",
+                type: "checkbox",
+                closemenu: "none",
+                oncommand: function() {
+                    gPrefService.setIntPref("network.proxy.type", 0);
+                    //gBrowser.mCurrentBrowser.reload();//重新載入分頁
+                    gBrowser.reloadAllTabs();//重新載入所有分頁
+                    $("uc_systemproxy").setAttribute('checked', 'false');
+                    $("uc_proxyhinet").setAttribute('checked', 'false');
+                    $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "network.proxy.type", "不使用代理", false, "", null);
+                },
+            }, {
+                id: "uc_systemproxy",
+                label: "使用系統代理設定",
+                type: "checkbox",
+                closemenu: "none",
+                oncommand: function() {
+                    gPrefService.setIntPref("network.proxy.type", 5);
+                    //gBrowser.mCurrentBrowser.reload();//重新載入分頁
+                    gBrowser.reloadAllTabs();//重新載入所有分頁
+                    $("uc_noproxy").setAttribute('checked', 'false');
+                    $("uc_proxyhinet").setAttribute('checked', 'false');
+                    $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "network.proxy.type", "使用系統代理設定", false, "", null);
+                },
+            }, {
+                id: "uc_proxyhinet",
+                label: "proxy.hinet.net : 80",
+                type: "checkbox",
+                closemenu: "none",
+                oncommand: function() {
+                    gPrefService.setIntPref("network.proxy.type", 1);
+                    gPrefService.setCharPref("network.proxy.http", "proxy.hinet.net");
+                    gPrefService.setIntPref("network.proxy.http_port", 80);
+                    //gBrowser.mCurrentBrowser.reload();//重新載入分頁
+                    gBrowser.reloadAllTabs();//重新載入所有分頁
+                    $("uc_noproxy").setAttribute('checked', 'false');
+                    $("uc_systemproxy").setAttribute('checked', 'false');
+                    $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "network.proxy.type", "全局代理切換為proxy.hinet.net : 80", false, "", null);
+                },
+            }, {
+                id: "uc_proxyUnblock",
+                label: "Unblock Youku",
+                type: "checkbox",
+                closemenu: "none",
+                oncommand: function() {
+                    gPrefService.setIntPref("network.proxy.type", 2);
+                    //gPrefService.setCharPref("network.proxy.autoconfig_url", "https://github.com/whuhacker/Unblock-Youku-Firefox/raw/master/data/proxy.pac");
+                    gPrefService.setCharPref("network.proxy.autoconfig_url", "http://yo.uku.im/proxy.pac");
+                    //gBrowser.mCurrentBrowser.reload();//重新載入分頁
+                    gBrowser.reloadAllTabs();//重新載入所有分頁
+                    $("uc_noproxy").setAttribute('checked', 'false');
+                    $("uc_systemproxy").setAttribute('checked', 'false');
+                    $("uc_proxyhinet").setAttribute('checked', 'false');
+                    Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "network.proxy.type", "PAC自動代理 Unblock Youku", false, "", null);
+                },
+            }];
+            this.newMenuitem(menupopup,menus);
+            /*==========切換代理設置==========*/
+            /*==========多開火狐測試配置選單==========*/
             var menu = mp.appendChild($C("menu", {
                 class: "menu-iconic",
                 label: "多開火狐測試配置選單",
@@ -201,7 +286,6 @@
                 text: "-no-remote -profile ..\\test_profiles",
                 exec: "\\..\\Firefox\\firefox.exe",
             }];
-            //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
             /*==========多開火狐測試配置選單==========*/
             /*==========備份Firefox==========*/
@@ -227,7 +311,6 @@
             /*==========備份Firefox==========*/
             /* ==================== END ==================== */
         },
-        mode: 0, //位置 0可移動按鈕 1網址列按鈕 2工具選單
         editor: 1,
         //editor: 'D:\\Software\\TeraPad\\TeraPad.exe',
         removeExt: true, //腳本名稱不顯示 uc.js/uc.xul
@@ -236,10 +319,9 @@
             return gContextMenu && gContextMenu.target ? gContextMenu.target.ownerDocument.defaultView : (content ? content : gBrowser.selectedBrowser.contentWindowAsCPOW);
         },
         init: function() {
-            if (this.mode == 0) {this.addmovebtn();} else if (this.mode == 1) {this.addurlbarbtn();} else {this.addtoolsmenu();}
+            this.addmovebtn();
             this.addstyle();
             this.addmenuitem();
-            this.moveMenu();
             this.addPrefListener(ECM.readLaterPrefListener);
             window.addEventListener('unload', function() {ECM.removePrefListener(ECM.readLaterPrefListener);}, false);
             if (this.ecmp) window.addEventListener('DOMWindowClose', ECM.ecmptrue, false);
@@ -279,41 +361,6 @@
                 });
             } catch (e) {};
         },
-        addurlbarbtn: function() {
-            var toolbarbutton = $("urlbar-icons").appendChild($C("toolbarbutton", {
-                id: "ExtrasConfigMenu",
-                class: "toolbarbutton-1 chromeclass-toolbar-additional",
-                label: "ExtrasConfigMenu+",
-                tooltiptext: '左鍵：ExtrasConfigMenu+選單\n中鍵：打開Chrome資料夾\n右鍵：重新啟動(清除緩存)',
-                onclick: 'ECM.onClick(event)',
-                type: 'menu',
-                context: "_child",
-            }));
-            var mp = $C("menupopup", {
-                id: "ecm-popup",
-                position: "after_start",
-                onclick: 'event.preventDefault(); event.stopPropagation();',
-            });
-            mp.addEventListener('popupshowing', (event) => ECM.onpopup(event));
-            mp.addEventListener('popuphiding', (event) => ECM.hidepopup(event));
-            toolbarbutton.appendChild(mp);
-        },
-        addtoolsmenu: function() {
-            var menu = $("devToolsSeparator").parentNode.insertBefore($C("menu", {
-                id: "ExtrasConfigMenu",
-                class: "menu-iconic",
-                label: "ExtrasConfigMenu+",
-                tooltiptext: '中鍵：打開Chrome資料夾\n右鍵：重新啟動(清除緩存)',
-                onclick: 'ECM.onClick(event)',
-            }), $("devToolsSeparator"));
-            var mp = $C("menupopup", {
-                id: "ecm-popup",
-                onclick: 'event.preventDefault(); event.stopPropagation();',
-            });
-            mp.addEventListener('popupshowing', (event) => ECM.onpopup(event));
-            mp.addEventListener('popuphiding', (event) => ECM.hidepopup(event));
-            menu.appendChild(mp);
-        },
         newMenuitem: function(menupopup,menus) {
             //類似addMenuPlus的使用方式
             for (let i = 0; i < menus.length; i++) {
@@ -339,6 +386,7 @@
                         disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
                         oncommand: ms.oncommand || "ECM.onCommand(event);",
                         onclick: ms.onclick || "",
+                        closemenu: ms.closemenu || "",
                         type: ms.type || "",
                         checked: ms.checked || "",
                         accesskey: ms.accesskey || "",
@@ -347,37 +395,113 @@
                 }
             }
         },
+        onpopup: function(event) {
+            var mp = event.target;
+            if (mp !== event.currentTarget) {
+                return;
+            }
+            /*==========切換代理設置==========*/
+            var npt = gPrefService.getIntPref("network.proxy.type");
+            var nph = gPrefService.getCharPref("network.proxy.http");
+            var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
+            try {
+                if (npt == 0) {
+                    $("uc_noproxy").setAttribute('checked', 'true');
+                    $("uc_systemproxy").setAttribute('checked', 'false');
+                    $("uc_proxyhinet").setAttribute('checked', 'false');
+                    $("uc_proxyUnblock").setAttribute('checked', 'false');
+                } else if (npt == 5) {
+                    $("uc_noproxy").setAttribute('checked', 'false');
+                    $("uc_systemproxy").setAttribute('checked', 'true');
+                    $("uc_proxyhinet").setAttribute('checked', 'false');
+                    $("uc_proxyUnblock").setAttribute('checked', 'false');
+                } else if (npt == 1 && nph == "proxy.hinet.net") {
+                    $("uc_noproxy").setAttribute('checked', 'false');
+                    $("uc_systemproxy").setAttribute('checked', 'false');
+                    $("uc_proxyhinet").setAttribute('checked', 'true');
+                    $("uc_proxyUnblock").setAttribute('checked', 'false');
+                } else if (npt == 2 && /\.pac$/.test(npa)) {
+                    $("uc_noproxy").setAttribute('checked', 'false');
+                    $("uc_systemproxy").setAttribute('checked', 'false');
+                    $("uc_proxyhinet").setAttribute('checked', 'false');
+                    $("uc_proxyUnblock").setAttribute('checked', 'true');
+                }
+            } catch (e) {};
+            /*==========切換代理設置==========*/
+            /*==========Stylish選單版==========*/
+            var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
+            try {
+                if (ess == true) {
+                    mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: none;');
+                    mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: -moz-box;');
+                } else if (ess == false) {
+                    mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: -moz-box;');
+                    mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: none;');
+                }
+                if (/\.css$/.test(gBrowser.selectedBrowser.currentURI.spec)){
+                    mp.querySelector('#stylish-add-file').setAttribute('style', 'display: -moz-box;');
+                } else {
+                    mp.querySelector('#stylish-add-file').setAttribute('style', 'display: none;');
+                }
+            } catch (e) {};
+            /*==========Stylish選單版==========*/
+            var nodes = mp.querySelectorAll('.ecm.menu-iconic');
+            for (var i = 0, len = nodes.length; i < len; i++) {
+                nodes[i].parentNode.removeChild(nodes[i]);
+            }
+            var sep = document.createElement('menuseparator');
+            sep.setAttribute('class', 'ecm menu-iconic');
+            mp.appendChild(sep);
+            var scripts = userChrome_js.scripts.concat(userChrome_js.overlays);
+            for (let j = 0, lenj = userChrome_js.arrSubdir.length; j < lenj; j++) {
+                var dirName = (userChrome_js.arrSubdir[j] == '') ? 'root' : userChrome_js.arrSubdir[j];
+                var flg = false;
+                for (var i = 0, len = scripts.length; i < len; i++) {
+                    var script = scripts[i];
+                    if (script.dir !== dirName) continue;
+                    flg = true;
+                    break;
+                }
+                if (!flg) continue;
+                var menu = mp.appendChild(document.createElement('menu'));
+                menu.setAttribute('label', 'chrome/' + (dirName == 'root' ? '' : dirName));
+                menu.setAttribute('class', 'ecm menu-iconic');
+                menu.dirName = dirName;
+                var mp = menu.appendChild(document.createElement('menupopup'));
+                mp.setAttribute('onpopupshowing', 'event.stopPropagation();');
+                var flg = false;
+                for (let i = 0, len = scripts.length; i < len; i++) {
+                    var script = scripts[i];
+                    var type = script.filename.lastIndexOf('uc.js') !== -1;
+                    if (script.dir != dirName) continue;
+                    if (flg && type !== flg) {
+                        var sep = document.createElement('menuseparator');
+                        mp.appendChild(sep);
+                    }
+                    flg = type;
+                    var mi = mp.appendChild(document.createElement('menuitem'));
+                    mi.setAttribute('label', this.removeExt ? script.filename.replace(/\.uc\.js$|\.uc\.xul$/g, '') : script.filename);
+                    mi.setAttribute('oncommand', 'ECM.chgScriptStat(script.filename);');
+                    mi.setAttribute('onclick', 'if (event.button !== 0) { event.preventDefault(); event.stopPropagation(); ECM.clickScriptMenu(event); }');
+                    //mi.setAttribute('closemenu', 'none');
+                    mi.setAttribute('type', 'checkbox');
+                    mi.setAttribute('checked', !userChrome_js.scriptDisable[script.filename]);
+                    if (script.description) {
+                        mi.setAttribute('tooltiptext', '左鍵：啟用 / 禁用\n中鍵：復選啟用 / 禁用\n右鍵：編輯\n\n' + '說明：' + script.description);
+                    } else {
+                        mi.setAttribute('tooltiptext', '左鍵：啟用 / 禁用\n中鍵：復選啟用 / 禁用\n右鍵：編輯');
+                    }
+                    mi.script = script;
+                }
+                mp = event.target;
+            }
+        },
         addstyle: function() {
-            var style = ' \
-                @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
-                #urlbar-icons #ExtrasConfigMenu > dropmarker { display: none; } \
-                #urlbar-icons #ExtrasConfigMenu .toolbarbutton-icon {\
-                    padding: 0!important;\
-                    background: none !important;\
-                    border: none !important;\
-                    box-shadow: none !important;\
-                }\
-                #urlbar-icons #ExtrasConfigMenu {\
-                    padding: 0px 2px !important;\
-                    margin: -6px 0 !important;\
-                }\
-                #ecm-popup menu menupopup menuitem[checked="false"] {\
-                    -moz-box-ordinal-group:99!important;\
-                }\
-                menu#ExtrasConfigMenu,\
-                #urlbar-icons #ExtrasConfigMenu .toolbarbutton-icon {\
-                    list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAaUlEQVQ4jbWSSwrAMAgFPZ6/O+XmaVdCm6gRbAOzMgyPpyAilwHLy2bbJ1V1BczcE7QTlAXtDj4RIOJ4ks2MlyDCNuFREmQAM4+IJcU2R8QRdlMu8XfB8ZSrCYhouiVWE4RbqCbwIKJ5Az/o8unP1INsAAAAAElFTkSuQmCC) !important;\
-                }\
-                '.replace(/\s+/g, " ");
-            var sspi = document.createProcessingInstruction(
-                'xml-stylesheet',
-                'type="text/css" href="data:text/css,' + encodeURIComponent(style) + '"'
-            );
-            document.insertBefore(sspi, document.documentElement);
-            //移動按鈕的樣式
             var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
             + '#ExtrasConfigMenu .toolbarbutton-icon' 
             + '{list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAn0lEQVRYhe3W0QqAIAwFUL/vbv//M0H2JAyRbDpd0YL7EGgdFm4lZs7MnIkoE1Eu96lzlfV1evuaD5IAAL4AlwoAmALI/UMAGZcKBCAALYQLoPSDf1ZAzgT3CuzM9wH1JHUF3K2p855P0NLtCoBTfWrMj2EAAmABmPoptQDIhuMCkN0NwKFqRBYATetdAhgZQksr4Ap4Mh1NAfULtcPoAr5fptLBChDyAAAAAElFTkSuQmCC)}' 
+            + '#ecm-popup menu:not(#redirector-icon):not(#uc_quickProxy_menu) menupopup menuitem[checked="false"]'
+            + '{-moz-box-ordinal-group:99!important;}'
             + '}';
             var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
             var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
@@ -621,78 +745,6 @@
                 this.setPref(prefName, !pref);
             }
         },
-        onpopup: function(event) {
-            var popup = event.target;
-            if (popup.id != "ecm-popup") {
-                return;
-            }
-            if (popup.triggerNode) {
-                popup.triggerNode.setAttribute('open', 'true');
-            }
-            var mp = event.target;
-            if (mp !== event.currentTarget) {
-                return;
-            }
-            var nodes = popup.querySelectorAll('.ecmmenu-iconic');
-            for (var i = 0, len = nodes.length; i < len; i++) {
-                nodes[i].parentNode.removeChild(nodes[i]);
-            }
-            var sep = document.createElement('menuseparator');
-            sep.setAttribute('class', 'ecmmenu-iconic');
-            mp.appendChild(sep);
-            var scripts = userChrome_js.scripts.concat(userChrome_js.overlays);
-            for (let j = 0, lenj = userChrome_js.arrSubdir.length; j < lenj; j++) {
-                var dirName = (userChrome_js.arrSubdir[j] == '') ? 'root' : userChrome_js.arrSubdir[j];
-                var flg = false;
-                for (var i = 0, len = scripts.length; i < len; i++) {
-                    var script = scripts[i];
-                    if (script.dir !== dirName) continue;
-                    flg = true;
-                    break;
-                }
-                if (!flg) continue;
-                var menu = mp.appendChild(document.createElement('menu'));
-                menu.setAttribute('label', 'chrome/' + (dirName == 'root' ? '' : dirName));
-                menu.setAttribute('class', 'ecmmenu-iconic');
-                menu.dirName = dirName;
-                var mp = menu.appendChild(document.createElement('menupopup'));
-                mp.setAttribute('onpopupshowing', 'event.stopPropagation();');
-                var flg = false;
-                for (let i = 0, len = scripts.length; i < len; i++) {
-                    var script = scripts[i];
-                    var type = script.filename.lastIndexOf('uc.js') !== -1;
-                    if (script.dir != dirName) continue;
-                    if (flg && type !== flg) {
-                        var sep = document.createElement('menuseparator');
-                        mp.appendChild(sep);
-                    }
-                    flg = type;
-                    var mi = mp.appendChild(document.createElement('menuitem'));
-                    mi.setAttribute('label', this.removeExt ? script.filename.replace(/\.uc\.js$|\.uc\.xul$/g, '') : script.filename);
-                    mi.setAttribute('oncommand', 'ECM.chgScriptStat(script.filename);');
-                    mi.setAttribute('onclick', 'if (event.button !== 0) { event.preventDefault(); event.stopPropagation(); ECM.clickScriptMenu(event); }');
-                    //mi.setAttribute('closemenu', 'none');
-                    mi.setAttribute('type', 'checkbox');
-                    mi.setAttribute('checked', !userChrome_js.scriptDisable[script.filename]);
-                    if (script.description) {
-                        mi.setAttribute('tooltiptext', '左鍵：啟用 / 禁用\n中鍵：復選啟用 / 禁用\n右鍵：編輯\n\n' + '說明：' + script.description);
-                    } else {
-                        mi.setAttribute('tooltiptext', '左鍵：啟用 / 禁用\n中鍵：復選啟用 / 禁用\n右鍵：編輯');
-                    }
-                    mi.script = script;
-                }
-                mp = event.target;
-            }
-        },
-        hidepopup: function(event) {
-            var popup = event.target;
-            if (popup.id != "ecm-popup") {
-                return;
-            }
-            if (popup.triggerNode) {
-                popup.triggerNode.removeAttribute('open');
-            }
-        },
         clickScriptMenu: function(event) {
             var target = event.target;
             var script = target.script;
@@ -760,7 +812,7 @@
         if (attr) 
             Object.keys(attr).forEach(function(n) {
                     if (typeof attr[n] === 'function') {
-                        if (attr[n] != "") el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
+                        el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
                     } else {
                         if (attr[n] != "") el.setAttribute(n, attr[n])
                     }
