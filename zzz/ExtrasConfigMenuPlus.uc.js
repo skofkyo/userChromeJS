@@ -1,13 +1,17 @@
 // ==UserScript==
 // @name                ExtrasConfigMenuPlus.uc.js
+// @modified    skofkyo
 // @include             main
 // @charset             UTF-8
-// @version             2.0.1  Fx47以降でアイコン右クリックによる再起動ができなくなっていたのを修正
-// @version             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
-// @version             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
-// @version             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                2016.8.1 調整代碼 增加可用函數
+// @version             2.0.1 mod
+// @note             2.0.1  Fx47以降でアイコン右クリックによる再起動ができなくなっていたのを修正
+// @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
+// @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
+// @note             1.9.8  要素を追加する際に$(id)と書ける様に
+// @note                2016.8.2 調整代碼 修正函數
+// @note                2016.8.1 調整代碼 增加可用函數 主要取至addMenuPlus
 // @note                2016.7.30 調整代碼 $C可以運行自定義函數
+// @note                原版http://u6.getuploader.com/script/download/1494/ExtrasConfigMenuPlus.uc.js
 // @note                extras_config_menu.uc.js から機能削減+α
 // @note                スクリプトの有効無効を切り替えるコードはalice0775氏のrebuild_userChrome.uc.xulから拝借
 // ==/UserScript==
@@ -85,7 +89,10 @@
 
         init: function() {
             if (this.mode == 0) {this.addmovebtn();} else if (this.mode == 1) {this.addurlbarbtn();} else {this.addtoolsmenu();}
-            this.addstyle();this.addmenuitem();this.moveMenu();this.addPrefListener(ECM.readLaterPrefListener);
+            this.addstyle();
+            this.addmenuitem();
+            this.moveMenu();
+            this.addPrefListener(ECM.readLaterPrefListener);
             window.addEventListener('unload', function() {ECM.removePrefListener(ECM.readLaterPrefListener);}, false);
             if (this.ecmp) window.addEventListener('DOMWindowClose', ECM.ecmptrue, false);
         },
@@ -179,27 +186,30 @@
             //類似addMenuPlus的使用方式
             for (let i = 0; i < menus.length; i++) {
                 let ms = menus[i];
-                let item = $(ms.id);
-                if (item != null && ms.clone) {
+                let item = $(ms.mid);//選取元素
+                if (item != null && ms.clone) {//元素存在並複製元素來添加
                     menupopup.appendChild(item.cloneNode(true));
-                } else if (item != null ) {
+                } else if (item != null ) {//元素存在僅移動元素
                     menupopup.appendChild(item);
-                } else if (ms.label == "sep") {
+                } else if (ms.label == "sep") {//建立分割線
                     menupopup.appendChild($C('menuseparator'));
-                } else {
+                } else if (!ms.mid) {//不是移動元素才建立新menuitem
                     let item = $C('menuitem', {
                         id: ms.id || "",
                         label: ms.label || "",
                         tooltiptext: ms.tooltiptext || "",
                         class: "menuitem-iconic",
-                        url: ms.url || "", //開啟的鏈結 可用%u返回當前頁面網址%s返回當前選取的文字 %es返回當前選取的文字並進行UTF-8 URI編碼
+                        url: ms.url || "", //開啟的鏈結 可用 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字%ep%返回剪貼簿文字並進行UTF-8 URI編碼
                         where: ms.where || "", //分頁開啟的位置 "tab"前景新分頁 "tabshifted"背景新分頁 "window"新視窗
-                        text: ms.text || "", //參數 %u返回當前頁面網址 %s返回當前選取的文字 %es返回當前選取的文字並進行UTF-8 URI編碼
-                        exec: ms.exec || "", //執行檔
+                        text: ms.text || "", //參數 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字%ep%返回剪貼簿文字並進行UTF-8 URI編碼
+                        exec: ms.exec || "", //執行檔路徑 ※※※測試過用來開啟.bat批次檔會造成火狐崩潰 改用ECM.open();正常※※※
                         image: ms.image || this.setIcon(ms.exec), //根據執行檔添加圖示
                         disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
                         oncommand: ms.oncommand || "ECM.onCommand(event);",
                         onclick: ms.onclick || "",
+                        type: ms.type || "",
+                        checked: ms.checked || "",
+                        accesskey: ms.accesskey || "",
                     });
                     menupopup.appendChild(item);
                 }
@@ -339,27 +349,26 @@
             var tab = document.popupNode && document.popupNode.localName == "tab" ? document.popupNode : null;
             var win = tab ? tab.linkedBrowser.contentWindow : this.focusedWindow;
             text = text.toLocaleLowerCase()
-            .replace("%u", win.location.href)
-            .replace("%s", this.getSelection(win))
-            .replace("%es%", encodeURIComponent(this.getSelection(win)))
-            .replace("%p", readFromClipboard())
-            .replace("%ep%", encodeURIComponent(readFromClipboard()))
-            .replace("%t", win.document.title);
+            .replace("%u", win.location.href)//當前網址
+            .replace("%s", this.getSelection(win))//當前選取的文字
+            .replace("%es%", encodeURIComponent(this.getSelection(win)))//對選取文字進行URI編碼
+            .replace("%p", readFromClipboard())//剪貼簿文字
+            .replace("%ep%", encodeURIComponent(readFromClipboard()));//對剪貼簿文字進行URI編碼
             if (text.indexOf('\\') === 0)
-                text = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + text;
+                text = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + text;//開頭為"\\"則為配置資料夾的相對路徑加上text的路徑
             return text;
         },
         
         copy: function(aText) {
             Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper).copyString(aText);
-            XULBrowserWindow.statusTextField.label = "Copy: " + aText;
+            //XULBrowserWindow.statusTextField.label = "Copy: " + aText;
         },
         
         exec: function(path, arg) {
             var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
             var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
             if (path.indexOf('\\') === 0)
-                path = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + path;
+                path = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + path;//開頭為"\\"則為配置資料夾的相對路徑加上exec的路徑
             try {
                 var a;
                 if (typeof arg == 'string' || arg instanceof String) {
@@ -695,9 +704,9 @@
         if (attr) 
             Object.keys(attr).forEach(function(n) {
                     if (typeof attr[n] === 'function') {
-                        el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
+                        if (attr[n] != "") el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
                     } else {
-                        el.setAttribute(n, attr[n])
+                        if (attr[n] != "") el.setAttribute(n, attr[n])
                     }
             });
         return el;
