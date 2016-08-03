@@ -109,6 +109,10 @@
                 text: "\\Chrome\\userChrome.css",
                 exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe",
             }, {
+                label: "編輯hosts",
+                text: "C:\\Windows\\System32\\drivers\\etc\\hosts",
+                exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe",
+            }, {
                 label: "我的電腦",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAChElEQVQ4ja2SPWgTARiGP4o4SrUWWkU6OIiKg4II4s+giAqCk4iDg+BQ6qJUoYgIVfxph1Ys/tBorpekpL0kXhoTvDQkVZrkLmlyuWujbU2tdKldO3R9HGqFqKMvfNP78cD7fa/I/9SPH8tMu87vcd0KrlOhUilj2yVsu0S5PEWpVGRqqkC1WqUOMO06KIrye1RVxe/3E4mE0XWdWGyMRCKOYXxgqmiRSMT/DRAJI1smka3zSPMqTwNf6Xy5yM0X32l/vsTl7iWKRYtYbOzfgIbGILLdQHZXkNYlQu+n8YerBGMzRAyXAf9nigWTaFRHZmdnSafTlEolXLeCqqrsPhBkc7OG7PyE7Khyv6/Gk9df6X5Vo/ftPHf6ahQKeSKRMBKJRDh1+ixdXXdxXQefz8fxMyEadw0hW8NIS5rLHV/ofDhL+70atx584+rtBQqFPJqmIcOZ15xdFbo/XcNxbEZGRjh8MkDbPi8N23xI8xiHztlc6ZjhwvV5Lt1Y4NiVL5hmlkAggESjURzHIRQK4Tg2oZDGrj2DtO33sKlpEGkK0rg3y9GLNgfPz3DkYo2WE0Xy+Ul8Ph+i6zqO46BpGpVKeT2XPEI29yLyGJFepOkN0mIgrUmkNYO0vcM0swwNDdUDNspil+sLY1l5LCuHZeUwzSymmSWfn1x/+UYETdNYXPzGx48TZDJpUqlxDOMDiUSc0dFRgsEgw8PD+P1+VFVFURRyudz6FzKZzPpB/tDa2hrJpEFPTw9er5eVlZW/dmRiYoKBgQF0Xa8zl5eXsSyTXG6SZNJA00ZRFIW5ubl6SH//M7q67tLf/6zOSKXGSaXGicff4/EM4vEMoijeX1X/j/oJtgkk7jUiT9AAAAAASUVORK5CYII=",
                 text: "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
@@ -168,6 +172,7 @@
             if ($('redirector-icon') != null) mp.appendChild($('redirector-icon')); //Redirector
             if ($('ucjs_UserAgentChanger') != null) mp.appendChild($('ucjs_UserAgentChanger')); //UserAgentChange
             if ($('EncodeDecodeHtml') != null) mp.appendChild($('EncodeDecodeHtml')); //EncodeDecodeHtml
+            if ($('eom-menu') != null) mp.appendChild($('eom-menu')); //擴充套件及外掛管理器
             if ($('gm_general_menu') != null) mp.appendChild($('gm_general_menu')); //Greasemonkey
             /*==========移動選單==========*/
             /*==========Stylish選單版==========*/
@@ -333,7 +338,6 @@
                 onclick: 'event.preventDefault(); event.stopPropagation();',
             });
             mp.addEventListener('popupshowing', (event) => ECM.onpopup(event));
-            mp.addEventListener('popuphiding', (event) => ECM.hidepopup(event));
             $('mainPopupSet').appendChild(mp);
             try {
                 CustomizableUI.createWidget({
