@@ -8,7 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                !!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.5!!!自用完整版 有精簡用不到的代碼
 // @note                2016.8.2 調整代碼 修正函數
 // @note                2016.8.1 調整代碼 增加可用函數 主要取至addMenuPlus
 // @note                2016.7.30 調整代碼 $C可以運行自定義函數
@@ -45,7 +45,7 @@
             {mid: "charsetMenu"}, //文字編碼
             {mid: "menu_openDownloads",clone: true}, //下載(複製)
             {mid: "menu_openAddons",clone: true}, //附加元件(複製)
-            {mid: "webDeveloperMenu"}, //網頁開發者
+            //{mid: "webDeveloperMenu"}, //網頁開發者
             {
             id: "uc_javascriptConsole",
             label: "錯誤主控台",
@@ -74,7 +74,7 @@
             var menus = [
             //{mid: "redirector-icon"}, //Redirector
             //{mid: "ucjs_UserAgentChanger"}, //UserAgentChange
-            //{mid: "EncodeDecodeHtml"}, //EncodeDecodeHtml
+            //{mid: "EncodeDecodeHtml_menu"}, //EncodeDecodeHtml
             {mid: "InspectElement-menuitem"}, //Inspect Element 設置
             {mid: "toolsbar_KeyChanger_rebuild"}, //KeyChanger
             {mid: "ucjsMouseGestures"}, //設置滑鼠手勢
@@ -113,6 +113,14 @@
                 text: "C:\\Windows\\System32\\drivers\\etc\\hosts",
                 exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe",
             }, {
+                label: "userChromeJS",
+                exec: Services.dirsvc.get('Docs', Ci.nsILocalFile).path + '\\GitHub\\userChromeJS',
+            },  {
+                label: "GitHub",
+                image: "https://assets-cdn.github.com/favicon.ico",
+                url: "https://github.com/",
+                where: "tab",
+            },  {
                 label: "我的電腦",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAChElEQVQ4ja2SPWgTARiGP4o4SrUWWkU6OIiKg4II4s+giAqCk4iDg+BQ6qJUoYgIVfxph1Ys/tBorpekpL0kXhoTvDQkVZrkLmlyuWujbU2tdKldO3R9HGqFqKMvfNP78cD7fa/I/9SPH8tMu87vcd0KrlOhUilj2yVsu0S5PEWpVGRqqkC1WqUOMO06KIrye1RVxe/3E4mE0XWdWGyMRCKOYXxgqmiRSMT/DRAJI1smka3zSPMqTwNf6Xy5yM0X32l/vsTl7iWKRYtYbOzfgIbGILLdQHZXkNYlQu+n8YerBGMzRAyXAf9nigWTaFRHZmdnSafTlEolXLeCqqrsPhBkc7OG7PyE7Khyv6/Gk9df6X5Vo/ftPHf6ahQKeSKRMBKJRDh1+ixdXXdxXQefz8fxMyEadw0hW8NIS5rLHV/ofDhL+70atx584+rtBQqFPJqmIcOZ15xdFbo/XcNxbEZGRjh8MkDbPi8N23xI8xiHztlc6ZjhwvV5Lt1Y4NiVL5hmlkAggESjURzHIRQK4Tg2oZDGrj2DtO33sKlpEGkK0rg3y9GLNgfPz3DkYo2WE0Xy+Ul8Ph+i6zqO46BpGpVKeT2XPEI29yLyGJFepOkN0mIgrUmkNYO0vcM0swwNDdUDNspil+sLY1l5LCuHZeUwzSymmSWfn1x/+UYETdNYXPzGx48TZDJpUqlxDOMDiUSc0dFRgsEgw8PD+P1+VFVFURRyudz6FzKZzPpB/tDa2hrJpEFPTw9er5eVlZW/dmRiYoKBgQF0Xa8zl5eXsSyTXG6SZNJA00ZRFIW5ubl6SH//M7q67tLf/6zOSKXGSaXGicff4/EM4vEMoijeX1X/j/oJtgkk7jUiT9AAAAAASUVORK5CYII=",
                 text: "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}",
@@ -171,9 +179,13 @@
             /*==========移動選單==========*/
             if ($('redirector-icon') != null) mp.appendChild($('redirector-icon')); //Redirector
             if ($('ucjs_UserAgentChanger') != null) mp.appendChild($('ucjs_UserAgentChanger')); //UserAgentChange
-            if ($('EncodeDecodeHtml') != null) mp.appendChild($('EncodeDecodeHtml')); //EncodeDecodeHtml
+            if ($('EncodeDecodeHtml_menu') != null) mp.appendChild($('EncodeDecodeHtml_menu')); //EncodeDecodeHtml
             if ($('eom-menu') != null) mp.appendChild($('eom-menu')); //擴充套件及外掛管理器
-            if ($('gm_general_menu') != null) mp.appendChild($('gm_general_menu')); //Greasemonkey
+            var g = $('gm_general_menu');//Greasemonkey
+            if (g != null) {//Greasemonkey
+                g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');//Greasemonkey
+                mp.appendChild(g); //Greasemonkey
+            } //Greasemonkey
             /*==========移動選單==========*/
             /*==========Stylish選單版==========*/
             if ($('stylish-popup') != null) {
@@ -181,11 +193,31 @@
                     id: "uc_stylish_menu",
                     class: "menu-iconic",
                     label: "Stylish",
-                    image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABv0lEQVQ4jaXQQWhSARzH8T8Ir23JCnwonSINRhITD4LhoMkrViBUh4JKiMGixMOCYQhKrmt5qJPxQATFg7HqFOUjhCeDIcy8ed3ZY4jowce302Tr+brsD7/j//Pn/xMR4YwRvuxv2VKs3CdX3KDw4S4iwq+bYVvmAi8za4gIgUAATdOIx+MEg0EURcF3TmHvxnVnYPvNOn6/n06nw78zmUzI5/O8X73qDHi8S7Pl6XRKp9PBMAz6/T6WZVEqlf4PqKo6u5jL5XiQXOVd+R4iwu2VANFolErkmh04zkmg2WwSCoVwuVyICM+vXHIusadn6OkZNiIrmKZ56vfhcEir1SKVSrGgKHyOzinxGDj8tIOqqlSrVcbjsa1IwzAIX3Q7A3u7m4gIre8qW5vLPHoYp1AoMBgMZkgoFHIGFhQFr9fLrbiLSukCv/d9vH61SDqdngGapjkDy+7zjEYjarUayWSSWCxGIpGg2+0CYFkWkbV1ygdHlA+O7IB7adH298nRdZ3tYtkZ2H12h3A4TDabpdFoYJom7Xaber3O4ydPefH242x5LtDTM4gI1p/LHLZ9/Pjq4ec3DyJyatEGnCV/ARO+PKSENlD/AAAAAElFTkSuQmCC",
+                    accesskey: "S",
+                    image: "chrome://stylish/skin/16.png",
                 }));
                 var cs = $("stylish-popup").cloneNode(true);
                 var macs = menu.appendChild(cs);
                 macs.removeAttribute("position");
+                macs.addEventListener("popupshowing", function(event) {
+                    var mp = event.target;
+                    if (mp !== event.currentTarget) {
+                        return;
+                    }
+                    var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
+                    if (ess == true) {
+                        mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: none;');
+                        mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: -moz-box;');
+                    } else {
+                        mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: -moz-box;');
+                        mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: none;');
+                    }
+                    if (/\.css$/.test(gBrowser.selectedBrowser.currentURI.spec)) {
+                        mp.querySelector('#stylish-add-file').setAttribute('style', 'display: -moz-box;');
+                    } else {
+                        mp.querySelector('#stylish-add-file').setAttribute('style', 'display: none;');
+                    }
+                }, false);
             }
             /*==========Stylish選單版==========*/
             /*==========切換代理設置==========*/
@@ -193,9 +225,37 @@
                 id: "uc_quickProxy_menu",
                 class: "menu-iconic",
                 label: "切換代理設置",
+                accesskey: "P",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACZElEQVQ4jZ2S3U9SARjG36v+HNfFyc0/wM115VoFB7U8tYM0N71AlHNKCdE1NmUIWE1EjHNAM/MLBMuPymqKill+TAtHTjTNsppu1UqfLpzYUfOiZ3vv3ue35333EB2SqqSpQGXwxnJE6TsryLtqo29LXeYbZAWJO7yr0AWD93SeIK1Z3P3oj75FPPkZqxvbmE1soHt4DhV3HkFtlMZY8V7aEfO54oYz+RWBXa01AoaX/zn51SFojL5PRyDXLK3fOp/MgOFlEBHSmHRI/mZUmMpxs9KEqmoLuoOdYHgZzaEYNKI0kjJzoq/K3PAYX7d/KAB2hw0cx0Gr1aKwsBD321rB8DJmE+sQXGGkflJsfbjW+3Ie75eTRwA6nQ5FRUXQ6/Xo6t5LkFxdg9Q3BY0oh4mI6KqpZWdmcR1tQ9MKgMNlx3gsip5gF2pqahAKB8HwMuKLCQzEEmAF6SMREeWIMt4lv6B9bF0BcNbX4cXIM1itVthsthSgo3cAz98sgxXk30REdKncvzOx8AGR4ZgC4PG6YTabMfR0AHa7PQWYnHqNvujiQYIrppaVB4PTiC+tgOFlZGZlIo1Jx133bXiaGlFbWwuXy5UCeAId8ARjBz/grvudYn0Ec4m9E3IzCLkZeyn2QbJfSgH8kSgMdb1QNJMztW419oyD4WXos0gx+6B9gKt9VNkDIqJsrTM7rzyAXEvwxCaev9EJ1ihtHlvns5dvsbrKwM8yRxje0CQio3EMvVpCaCQOd88EDHUhqEub5441/6VTF4udAU2pd5M1SrsaQYba6Pul0jcuqEqaCk4y/rf+AMrf4D2zeD50AAAAAElFTkSuQmCC",
             }));
-            var menupopup = menu.appendChild($C("menupopup"));
+            var menupopup = menu.appendChild($C("menupopup", {
+                onpopupshowing: function(event) {
+                var npt = gPrefService.getIntPref("network.proxy.type");
+                var nph = gPrefService.getCharPref("network.proxy.http");
+                var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
+                    if (npt == 0) {
+                        $("uc_noproxy").setAttribute('checked', 'true');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 5) {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'true');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 1 && nph == "proxy.hinet.net") {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'true');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 2 && /\.pac$/.test(npa)) {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'true');
+                    }
+                },
+            }));
             var menus = [{
                 id: "uc_noproxy",
                 label: "不使用代理",
@@ -259,6 +319,10 @@
             }];
             this.newMenuitem(menupopup,menus);
             /*==========切換代理設置==========*/
+            var w = $('webDeveloperMenu');//網頁開發者
+            w.setAttribute('class', 'menu-iconic');
+            w.setAttribute('image', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPGSURBVDhPTZN7TNNXFMd/RdlgmcPFEOjQKB1YaYsVqR1YRltAoCjj0QpbC0QQeaSADg11QCLDAoJ1YAtFsDwLKI+iIpaQEVEGE9EJy7ZAzJJtZtlDjG7OmKXr735Hq7idf869597PN+fcfC9FvQztKStjZu4nF8dWW2ndUnDEknFQPaCVJZu07/hXZnj6lG10nG0KOs1gcmsYq5wz5xcNOgsazWVvbe3nbbrm6WenTbMoqp4g/OQO4htuwCaB7k9vTrVhvU/52467rKC6FyJpB3qcC9k+I+tUw43F+osLqLr2PV04uEgrGu/Ylbppe8THV+mQjAs0L+Yctgh0ixtYn/o6GB9u9WonYvcy7fjds0Pf4szkD7a2+Z9J271fcfjyElG0fEWUZ2chKR4looMDNkFiO3gSw11heL37qzEU6V2a6vNzOGGetiUoM6FSqkiLXo/l5Uew3rmPzKYpRJavjJM5AG5yp40tbQJPrD++KuAal9b9TU3PAvJbpuj38qvBOXQSEZnFePrkCR7/8gC9/ZeQ2/gFRIdHwUvtoQXyDkSldC65McvfoNYxywJ3xLX+/VHlBBT62ySx8zvIeu/j/MTXmL4+gV3iGIRHRMPcYUL2yWH4JnWTnIpxxB/oszG31+6kuKGfRfH3tkKYYyHJdTeJoGoOx/oXcW9mCvxYFbg5RgSm1yI4VAyRQoMdGYNElNZDdq4wwdHGKEoY1Ri2LdKIoPReEnviFlHXVeHHhS7kFFeAX2iGrH4ekoqb4CgNeD+vD+LcYcL9oM0psFmgC6Mi4k3MAKl+2S+hD0lHGsjTyY2YbXZBYEo5pJUzCNOMQXTMCoF6FGL1FcgKhsnuD81gSxofrvfXMp0PyYs8Z+HI9PjSHGB/PvE6UpP8wc0agOjoNQgLRsDPtiAkZ4goy8cQl2/5h72nGZtDGyz/udHXHGKsFANzHnRriSstSKyASD1KhIeGIMq/hESNlaR+YkVE1kWaF2+ysyKbybvhht2vBG4ZGapnk16Yb19DC8R7iCjLQqeWjJC9hcNEfnSExOYNEvY+k52fYrZzFN3wi211emBbQocLdbuZ4vw25v37Q6sH1HL3B9tTOx5Fl15HfMUNoqydRmTJOPh5V8muQiuEeVee81J6Ch1wkOrCCxubStcVLPVvQGcp9ZfbWkrm5SeXsqTHJ/0VTX+w07vo4Nw+uzC7/TFfXjO+NTRL4mACEtqdv/ZleLjsl1KlMULK2dab7pTXSuIzKJf9r7l5FjFcPdUUxUhYqW2lGGve8uQq1v4Ppv4FRNDMTne1uc8AAAAASUVORK5CYII=');
+            mp.appendChild(w); //網頁開發者
             /*==========多開火狐測試配置選單==========*/
             var menu = mp.appendChild($C("menu", {
                 class: "menu-iconic",
@@ -404,51 +468,6 @@
             if (mp !== event.currentTarget) {
                 return;
             }
-            /*==========切換代理設置==========*/
-            var npt = gPrefService.getIntPref("network.proxy.type");
-            var nph = gPrefService.getCharPref("network.proxy.http");
-            var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
-            try {
-                if (npt == 0) {
-                    $("uc_noproxy").setAttribute('checked', 'true');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 5) {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'true');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 1 && nph == "proxy.hinet.net") {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'true');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 2 && /\.pac$/.test(npa)) {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'true');
-                }
-            } catch (e) {};
-            /*==========切換代理設置==========*/
-            /*==========Stylish選單版==========*/
-            var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
-            try {
-                if (ess == true) {
-                    mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: none;');
-                    mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: -moz-box;');
-                } else if (ess == false) {
-                    mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: -moz-box;');
-                    mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: none;');
-                }
-                if (/\.css$/.test(gBrowser.selectedBrowser.currentURI.spec)){
-                    mp.querySelector('#stylish-add-file').setAttribute('style', 'display: -moz-box;');
-                } else {
-                    mp.querySelector('#stylish-add-file').setAttribute('style', 'display: none;');
-                }
-            } catch (e) {};
-            /*==========Stylish選單版==========*/
             var nodes = mp.querySelectorAll('.ecm.menu-iconic');
             for (var i = 0, len = nodes.length; i < len; i++) {
                 nodes[i].parentNode.removeChild(nodes[i]);
@@ -469,7 +488,9 @@
                 if (!flg) continue;
                 var menu = mp.appendChild(document.createElement('menu'));
                 menu.setAttribute('label', 'chrome/' + (dirName == 'root' ? '' : dirName));
+                menu.setAttribute('tooltiptext', '右鍵：打開資料夾');
                 menu.setAttribute('class', 'ecm menu-iconic');
+                menu.setAttribute('onclick', 'ECM.menuClick(event);');
                 menu.dirName = dirName;
                 var mp = menu.appendChild(document.createElement('menupopup'));
                 mp.setAttribute('onpopupshowing', 'event.stopPropagation();');
@@ -504,12 +525,29 @@
             var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
             + '#ExtrasConfigMenu .toolbarbutton-icon' 
             + '{list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAn0lEQVRYhe3W0QqAIAwFUL/vbv//M0H2JAyRbDpd0YL7EGgdFm4lZs7MnIkoE1Eu96lzlfV1evuaD5IAAL4AlwoAmALI/UMAGZcKBCAALYQLoPSDf1ZAzgT3CuzM9wH1JHUF3K2p855P0NLtCoBTfWrMj2EAAmABmPoptQDIhuMCkN0NwKFqRBYATetdAhgZQksr4Ap4Mh1NAfULtcPoAr5fptLBChDyAAAAAElFTkSuQmCC)}' 
-            + '#ecm-popup menu:not(#redirector-icon):not(#uc_quickProxy_menu) menupopup menuitem[checked="false"]'
+            + '#ecm-popup menu:not(#uc_quickProxy_menu) menupopup menuitem[checked="false"]:not(#redirector-toggle)'
             + '{-moz-box-ordinal-group:99!important;}'
             + '}';
             var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
             var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
             sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
+        },
+        menuClick: function(event) {
+            switch (event.button) {
+                case 2:
+                    var menu = event.target;
+                    var label = menu.getAttribute("label");
+                    if (label == "chrome/") {
+                        var rlabel = label.replace("chrome/", "chrome");
+                        var fdir = "\\" + rlabel;
+                        ECM.exec(fdir);
+                    } else {
+                        var rlabel = label.replace("\/", "\\");
+                        var fdir = "\\" + rlabel;
+                        ECM.exec(fdir);
+                    }
+                    break;
+            }
         },
         onClick: function(event) {
             if (event.button === 1) {

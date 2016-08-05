@@ -1032,7 +1032,35 @@ ECM.toggle('javascript.enabled')
                 label: "切換代理設置",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACZElEQVQ4jZ2S3U9SARjG36v+HNfFyc0/wM115VoFB7U8tYM0N71AlHNKCdE1NmUIWE1EjHNAM/MLBMuPymqKill+TAtHTjTNsppu1UqfLpzYUfOiZ3vv3ue35333EB2SqqSpQGXwxnJE6TsryLtqo29LXeYbZAWJO7yr0AWD93SeIK1Z3P3oj75FPPkZqxvbmE1soHt4DhV3HkFtlMZY8V7aEfO54oYz+RWBXa01AoaX/zn51SFojL5PRyDXLK3fOp/MgOFlEBHSmHRI/mZUmMpxs9KEqmoLuoOdYHgZzaEYNKI0kjJzoq/K3PAYX7d/KAB2hw0cx0Gr1aKwsBD321rB8DJmE+sQXGGkflJsfbjW+3Ie75eTRwA6nQ5FRUXQ6/Xo6t5LkFxdg9Q3BY0oh4mI6KqpZWdmcR1tQ9MKgMNlx3gsip5gF2pqahAKB8HwMuKLCQzEEmAF6SMREeWIMt4lv6B9bF0BcNbX4cXIM1itVthsthSgo3cAz98sgxXk30REdKncvzOx8AGR4ZgC4PG6YTabMfR0AHa7PQWYnHqNvujiQYIrppaVB4PTiC+tgOFlZGZlIo1Jx133bXiaGlFbWwuXy5UCeAId8ARjBz/grvudYn0Ec4m9E3IzCLkZeyn2QbJfSgH8kSgMdb1QNJMztW419oyD4WXos0gx+6B9gKt9VNkDIqJsrTM7rzyAXEvwxCaev9EJ1ihtHlvns5dvsbrKwM8yRxje0CQio3EMvVpCaCQOd88EDHUhqEub5441/6VTF4udAU2pd5M1SrsaQYba6Pul0jcuqEqaCk4y/rf+AMrf4D2zeD50AAAAAElFTkSuQmCC",
             }));
-            var menupopup = menu.appendChild($C("menupopup"));
+            //添加onpopupshowing條件函數
+            var menupopup = menu.appendChild($C("menupopup", {
+                onpopupshowing: function(event) {
+                var npt = gPrefService.getIntPref("network.proxy.type");
+                var nph = gPrefService.getCharPref("network.proxy.http");
+                var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
+                    if (npt == 0) {
+                        $("uc_noproxy").setAttribute('checked', 'true');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 5) {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'true');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 1 && nph == "proxy.hinet.net") {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'true');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 2 && /\.pac$/.test(npa)) {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'true');
+                    }
+                },
+            }));
             /*建立子選單*/
             var menus = [{
                 id: "uc_noproxy",
@@ -1103,32 +1131,6 @@ ECM.toggle('javascript.enabled')
                 });
                 menupopup.appendChild(item);
             }
-            var npt = gPrefService.getIntPref("network.proxy.type");
-            var nph = gPrefService.getCharPref("network.proxy.http");
-            var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
-            try {
-                if (npt == 0) {
-                    $("uc_noproxy").setAttribute('checked', 'true');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 5) {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'true');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 1 && nph == "proxy.hinet.net") {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'true');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 2 && /\.pac$/.test(npa)) {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'true');
-                }
-            } catch (e) {};
             /*==========例子十三 使用自定義數組化函數==========*/
             
             /*==========例子十三之二 使用與addMenuPlus類似的函數添加方式==========*/
@@ -1141,7 +1143,35 @@ ECM.toggle('javascript.enabled')
                 label: "切換代理設置",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACZElEQVQ4jZ2S3U9SARjG36v+HNfFyc0/wM115VoFB7U8tYM0N71AlHNKCdE1NmUIWE1EjHNAM/MLBMuPymqKill+TAtHTjTNsppu1UqfLpzYUfOiZ3vv3ue35333EB2SqqSpQGXwxnJE6TsryLtqo29LXeYbZAWJO7yr0AWD93SeIK1Z3P3oj75FPPkZqxvbmE1soHt4DhV3HkFtlMZY8V7aEfO54oYz+RWBXa01AoaX/zn51SFojL5PRyDXLK3fOp/MgOFlEBHSmHRI/mZUmMpxs9KEqmoLuoOdYHgZzaEYNKI0kjJzoq/K3PAYX7d/KAB2hw0cx0Gr1aKwsBD321rB8DJmE+sQXGGkflJsfbjW+3Ie75eTRwA6nQ5FRUXQ6/Xo6t5LkFxdg9Q3BY0oh4mI6KqpZWdmcR1tQ9MKgMNlx3gsip5gF2pqahAKB8HwMuKLCQzEEmAF6SMREeWIMt4lv6B9bF0BcNbX4cXIM1itVthsthSgo3cAz98sgxXk30REdKncvzOx8AGR4ZgC4PG6YTabMfR0AHa7PQWYnHqNvujiQYIrppaVB4PTiC+tgOFlZGZlIo1Jx133bXiaGlFbWwuXy5UCeAId8ARjBz/grvudYn0Ec4m9E3IzCLkZeyn2QbJfSgH8kSgMdb1QNJMztW419oyD4WXos0gx+6B9gKt9VNkDIqJsrTM7rzyAXEvwxCaev9EJ1ihtHlvns5dvsbrKwM8yRxje0CQio3EMvVpCaCQOd88EDHUhqEub5441/6VTF4udAU2pd5M1SrsaQYba6Pul0jcuqEqaCk4y/rf+AMrf4D2zeD50AAAAAElFTkSuQmCC",
             }));
-            var menupopup = menu.appendChild($C("menupopup"));
+            //添加onpopupshowing條件函數
+            var menupopup = menu.appendChild($C("menupopup", {
+                onpopupshowing: function(event) {
+                var npt = gPrefService.getIntPref("network.proxy.type");
+                var nph = gPrefService.getCharPref("network.proxy.http");
+                var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
+                    if (npt == 0) {
+                        $("uc_noproxy").setAttribute('checked', 'true');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 5) {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'true');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 1 && nph == "proxy.hinet.net") {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'true');
+                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                    } else if (npt == 2 && /\.pac$/.test(npa)) {
+                        $("uc_noproxy").setAttribute('checked', 'false');
+                        $("uc_systemproxy").setAttribute('checked', 'false');
+                        $("uc_proxyhinet").setAttribute('checked', 'false');
+                        $("uc_proxyUnblock").setAttribute('checked', 'true');
+                    }
+                },
+            }));
             /*建立子選單*/
             var menus = [{
                 id: "uc_noproxy",
@@ -1202,31 +1232,52 @@ ECM.toggle('javascript.enabled')
             }];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
-            
-            var npt = gPrefService.getIntPref("network.proxy.type");
-            var nph = gPrefService.getCharPref("network.proxy.http");
-            var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
-            try {
-                if (npt == 0) {
-                    $("uc_noproxy").setAttribute('checked', 'true');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 5) {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'true');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 1 && nph == "proxy.hinet.net") {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'true');
-                    $("uc_proxyUnblock").setAttribute('checked', 'false');
-                } else if (npt == 2 && /\.pac$/.test(npa)) {
-                    $("uc_noproxy").setAttribute('checked', 'false');
-                    $("uc_systemproxy").setAttribute('checked', 'false');
-                    $("uc_proxyhinet").setAttribute('checked', 'false');
-                    $("uc_proxyUnblock").setAttribute('checked', 'true');
-                }
-            } catch (e) {};
             /*==========例子十三之二 使用與addMenuPlus類似的函數添加方式==========*/
+            
+            /*==========Stylish選單版==========*/
+            if ($('stylish-popup') != null) {
+                var menu = mp.appendChild($C("menu", {
+                    id: "uc_stylish_menu",
+                    class: "menu-iconic",
+                    label: "Stylish",
+                    accesskey: "S",
+                    image: "chrome://stylish/skin/16.png",
+                }));
+                var cs = $("stylish-popup").cloneNode(true);
+                var macs = menu.appendChild(cs);
+                macs.removeAttribute("position");
+                macs.addEventListener("popupshowing", function(event) {
+                    var mp = event.target;
+                    if (mp !== event.currentTarget) {
+                        return;
+                    }
+                    var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
+                    if (ess == true) {
+                        mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: none;');
+                        mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: -moz-box;');
+                    } else {
+                        mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: -moz-box;');
+                        mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: none;');
+                    }
+                    if (/\.css$/.test(gBrowser.selectedBrowser.currentURI.spec)) {
+                        mp.querySelector('#stylish-add-file').setAttribute('style', 'display: -moz-box;');
+                    } else {
+                        mp.querySelector('#stylish-add-file').setAttribute('style', 'display: none;');
+                    }
+                }, false);
+            }
+            /*==========Stylish選單版==========*/
+            
+            /*==========移動選單並添加圖示==========*/
+            var w = $('webDeveloperMenu');//網頁開發者
+            w.setAttribute('class', 'menu-iconic');//網頁開發者
+            w.setAttribute('image', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPGSURBVDhPTZN7TNNXFMd/RdlgmcPFEOjQKB1YaYsVqR1YRltAoCjj0QpbC0QQeaSADg11QCLDAoJ1YAtFsDwLKI+iIpaQEVEGE9EJy7ZAzJJtZtlDjG7OmKXr735Hq7idf869597PN+fcfC9FvQztKStjZu4nF8dWW2ndUnDEknFQPaCVJZu07/hXZnj6lG10nG0KOs1gcmsYq5wz5xcNOgsazWVvbe3nbbrm6WenTbMoqp4g/OQO4htuwCaB7k9vTrVhvU/52467rKC6FyJpB3qcC9k+I+tUw43F+osLqLr2PV04uEgrGu/Ylbppe8THV+mQjAs0L+Yctgh0ixtYn/o6GB9u9WonYvcy7fjds0Pf4szkD7a2+Z9J271fcfjyElG0fEWUZ2chKR4looMDNkFiO3gSw11heL37qzEU6V2a6vNzOGGetiUoM6FSqkiLXo/l5Uew3rmPzKYpRJavjJM5AG5yp40tbQJPrD++KuAal9b9TU3PAvJbpuj38qvBOXQSEZnFePrkCR7/8gC9/ZeQ2/gFRIdHwUvtoQXyDkSldC65McvfoNYxywJ3xLX+/VHlBBT62ySx8zvIeu/j/MTXmL4+gV3iGIRHRMPcYUL2yWH4JnWTnIpxxB/oszG31+6kuKGfRfH3tkKYYyHJdTeJoGoOx/oXcW9mCvxYFbg5RgSm1yI4VAyRQoMdGYNElNZDdq4wwdHGKEoY1Ri2LdKIoPReEnviFlHXVeHHhS7kFFeAX2iGrH4ekoqb4CgNeD+vD+LcYcL9oM0psFmgC6Mi4k3MAKl+2S+hD0lHGsjTyY2YbXZBYEo5pJUzCNOMQXTMCoF6FGL1FcgKhsnuD81gSxofrvfXMp0PyYs8Z+HI9PjSHGB/PvE6UpP8wc0agOjoNQgLRsDPtiAkZ4goy8cQl2/5h72nGZtDGyz/udHXHGKsFANzHnRriSstSKyASD1KhIeGIMq/hESNlaR+YkVE1kWaF2+ysyKbybvhht2vBG4ZGapnk16Yb19DC8R7iCjLQqeWjJC9hcNEfnSExOYNEvY+k52fYrZzFN3wi211emBbQocLdbuZ4vw25v37Q6sH1HL3B9tTOx5Fl15HfMUNoqydRmTJOPh5V8muQiuEeVee81J6Ch1wkOrCCxubStcVLPVvQGcp9ZfbWkrm5SeXsqTHJ/0VTX+w07vo4Nw+uzC7/TFfXjO+NTRL4mACEtqdv/ZleLjsl1KlMULK2dab7pTXSuIzKJf9r7l5FjFcPdUUxUhYqW2lGGve8uQq1v4Ppv4FRNDMTne1uc8AAAAASUVORK5CYII=');//網頁開發者
+            mp.appendChild(w); //網頁開發者
+            
+            
+            var g = $('gm_general_menu');//Greasemonkey
+            if (g != null) {//Greasemonkey
+                g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');//Greasemonkey
+                mp.appendChild(g); //Greasemonkey
+            } //Greasemonkey
+            /*==========移動選單並添加圖示==========*/

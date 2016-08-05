@@ -8,6 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
+// @note                2016.8.5 調整代碼 修正函數
 // @note                2016.8.2 調整代碼 修正函數
 // @note                2016.8.1 調整代碼 增加可用函數 主要取至addMenuPlus
 // @note                2016.7.30 調整代碼 $C可以運行自定義函數
@@ -207,6 +208,7 @@
                         disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
                         oncommand: ms.oncommand || "ECM.onCommand(event);",
                         onclick: ms.onclick || "",
+                        closemenu: ms.closemenu || "",
                         type: ms.type || "",
                         checked: ms.checked || "",
                         accesskey: ms.accesskey || "",
@@ -253,6 +255,24 @@
             sss.loadAndRegisterSheet(ios.newURI("data:text/css;base64," + btoa(cssStr), null, null), sss.USER_SHEET);
         },
 
+        menuClick: function(event) {
+            switch (event.button) {
+                case 2:
+                    var menu = event.target;
+                    var label = menu.getAttribute("label");
+                    if (label == "chrome/") {
+                        var rlabel = label.replace("chrome/", "chrome");
+                        var fdir = "\\" + rlabel;
+                        ECM.exec(fdir);
+                    } else {
+                        var rlabel = label.replace("\/", "\\");
+                        var fdir = "\\" + rlabel;
+                        ECM.exec(fdir);
+                    }
+                    break;
+            }
+        },
+        
         onClick: function(event) {
             if (event.button === 1) {
                 //gBrowser.selectedTab = gBrowser.addTab("about:config")
@@ -555,13 +575,13 @@
                 return;
             }
 
-            var nodes = popup.querySelectorAll('.ecmmenu-iconic');
+            var nodes = popup.querySelectorAll('.ecm.menu-iconic');
             for (var i = 0, len = nodes.length; i < len; i++) {
                 nodes[i].parentNode.removeChild(nodes[i]);
             }
             
             var sep = document.createElement('menuseparator');
-            sep.setAttribute('class', 'ecmmenu-iconic');
+            sep.setAttribute('class', 'ecm menu-iconic');
             mp.appendChild(sep);
 
             var scripts = userChrome_js.scripts.concat(userChrome_js.overlays);
@@ -579,7 +599,9 @@
 
                 var menu = mp.appendChild(document.createElement('menu'));
                 menu.setAttribute('label', 'chrome/' + (dirName == 'root' ? '' : dirName));
-                menu.setAttribute('class', 'ecmmenu-iconic');
+                menu.setAttribute('tooltiptext', '右鍵：打開資料夾');
+                menu.setAttribute('class', 'ecm menu-iconic');
+                menu.setAttribute('onclick', 'ECM.menuClick(event);');
                 menu.dirName = dirName;
 
                 var mp = menu.appendChild(document.createElement('menupopup'));
@@ -704,7 +726,7 @@
         if (attr) 
             Object.keys(attr).forEach(function(n) {
                     if (typeof attr[n] === 'function') {
-                        if (attr[n] != "") el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
+                        el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
                     } else {
                         if (attr[n] != "") el.setAttribute(n, attr[n])
                     }

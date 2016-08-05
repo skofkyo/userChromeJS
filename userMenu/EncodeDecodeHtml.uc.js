@@ -5,9 +5,10 @@
 // @license               MIT License
 // @compatibility    Firefox 45+
 // @charset              UTF-8
-// @version              2016.7.17
+// @version              2016.8.2
 // @include              main
 // @include              chrome://browser/content/browser.xul
+// @note                   2016.8.2 調整代碼 修正CSS
 // @note                   2016.7.17 修正移動按鈕圖示 新視窗無法顯示的問題
 // @note                   2016.7.16 重寫代碼 使用新函數
 // @note                   需搭配html檔 https://github.com/skofkyo/userChromeJS/tree/master/Local/html
@@ -20,20 +21,25 @@
         mode: 2, //位置 0可移動按鈕 1網址列按鈕 2工具選單
 
         init: function() {
-            this.addmenuitem();
             if (this.mode == 0) {this.addmenumovebtn();} else if (this.mode == 1) {this.addurlbarbtn();} else {this.addtoolsmenu();}
+            this.addmenuitem();
             this.addstyle();
         },
 
         addmenumovebtn: function() {
+            var mp = $C("menupopup", {
+                id: "EncodeDecodeHtmlPopup",
+                position: "after_start",
+            });
+            $('mainPopupSet').appendChild(mp);
             CustomizableUI.createWidget({
-                id: 'EncodeDecodeHtml',
+                id: 'EncodeDecodeHtml_btn',
                 type: 'custom',
                 defaultArea: CustomizableUI.AREA_NAVBAR,
                 onBuild: function(aDocument) {
                     var tb = aDocument.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'toolbarbutton');
                     var props = {
-                        id: 'EncodeDecodeHtml',
+                        id: 'EncodeDecodeHtml_btn',
                         class: 'toolbarbutton-1 chromeclass-toolbar-additional',
                         removable: 'true',
                         overflows: "false",
@@ -51,36 +57,35 @@
 
         addurlbarbtn: function() {
             var toolbarbutton = $("urlbar-icons").appendChild($C("toolbarbutton", {
-                id: "EncodeDecodeHtml",
+                id: "EncodeDecodeHtml_btn",
                 class: "toolbarbutton-1 chromeclass-toolbar-additional",
                 label: "編碼工具",
                 tooltiptext: '編碼工具',
                 type: 'menu',
-                popup: "EncodeDecodeHtmlPopup"
             }));
-        },
-
-        addtoolsmenu: function() {
-            var ins = $("devToolsSeparator");
-            ins.parentNode.insertBefore($C("menu", {
-                id: "EncodeDecodeHtml",
-                class: "menu-iconic",
-                label: "編碼工具",
-            }), ins);
-            var m = $('EncodeDecodeHtml');
-            var mp = $('EncodeDecodeHtmlPopup');
-            mp.removeAttribute("position");
-            m.appendChild(mp);
-        },
-
-        addmenuitem: function() {
             var mp = $C("menupopup", {
                 id: "EncodeDecodeHtmlPopup",
                 position: "after_start",
             });
-            mp.addEventListener('popupshowing', (event) => EncodeDecodeHtml.onpopup(event));
-            mp.addEventListener('popuphiding', (event) => EncodeDecodeHtml.hidepopup(event));
-            $('mainPopupSet').appendChild(mp);
+            toolbarbutton.appendChild(mp);
+        },
+
+        addtoolsmenu: function() {
+            var menu = $("devToolsSeparator").parentNode.insertBefore($C("menu", {
+                id: "EncodeDecodeHtml_menu",
+                class: "menu-iconic",
+                label: "編碼工具",
+                image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADAUlEQVR42mWTW0iTYRzGNYtwbURSkBbtZje7DOsuIigkbAhWHpdOnTqttGwHrVlpJzoS1VQ0c8sDobVzq3TfqgvZdKdIhW2wahdeGINM3dzV3qfvk5Vu/eHhhe99n9/7vf9DWtp6pCfWTRvWzQltStlLT0sNlUrFDYVCSqfT+d5oNgcGNJqwzmhcnp2bW/b5/eFJuz1gslje60wmpVSp5CaZeTze1pnZuZ8ut4d4PF/ibrc37nS6iGN6mpgtFmKlKOJwOOJulyvucbnI7MzMT8bzD5Cbm8uaoGyR8QkbmZx0IPjtOyKRCObn59Hb14cWqRSdN29iQK2GzWYj1MdPEcazDhAIWFYaYDK/o2+axtLSMlZXo/D7A3it1aKjsxO19fWQt7ZCq9OSCYpKBjC/Q9lsC5Z3H4idBiwu/kYkGoXP78Po2Bjar11DTW0tFK1t0Ov1hKKohaQnMJnec+lpsKBRTh52P4fT8wU/foTgdruheamBTKFAUbkQp0Q1ONFwiWTLngUT1VkHfLq1O5hfdozwikXYdeYiOHVKZFa1IfO4GJxDJdh1rAy8k+XIr8gjn+9k/w/gttwK1ghzyWNxDoaadmC0jY1XUg4GK9lQF7LxojgLjyr3Qiw6QLiy2/8DMi88DrIKzxLW6RawKy6D1dABjvgKOCfqsO2wEOyj1WAVnAOrqIlktjxJBjAJufuka2F/mYTklDYhq0oBTuN1sMVKsAUScI4IsTNPhH2nG3FQdJ48UPUspPSBgPVh3BoZGhohPaou9HZ3o6+3F/fu30dVNZ04gQAlxUWQy6QYGR4m49aUMtKxzfzWEjWZLWRqyomVlQhisRgCgUQf3LiBOomELmMr3mi1xESfZTx/zVto8fUGY3StD+xT8V+LiyQajRKfz0dGx0ZJ+9WrpFosJnKFIq4zGIjeYGAA/IR3bcK28/n8fKlUNtjf/+Kr1+sN04MVo/sgrtZo4lK5PFZUWhoWVlR8bW5uHmTOMp4N05k0ohm0OLSyaXETyk58y0gd5z+RasELwMhMQQAAAABJRU5ErkJggg==",
+            }), $("devToolsSeparator"));
+
+            var mp = $C("menupopup", {
+                id: "EncodeDecodeHtmlPopup",
+            });
+            menu.appendChild(mp);
+        },
+
+        addmenuitem: function() {
+            var mp = $('EncodeDecodeHtmlPopup');
             var menues = [{
                 label: "Unicode轉換",
                 tooltiptext: "Unicode轉換",
@@ -151,18 +156,17 @@
             //選單和網址列的圖示
             var style = ' \
                 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
-                menu#EncodeDecodeHtml,\
-                #urlbar-icons #EncodeDecodeHtml .toolbarbutton-icon {\
+                #urlbar-icons > #EncodeDecodeHtml .toolbarbutton-icon {\
                     list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADAUlEQVR42mWTW0iTYRzGNYtwbURSkBbtZje7DOsuIigkbAhWHpdOnTqttGwHrVlpJzoS1VQ0c8sDobVzq3TfqgvZdKdIhW2wahdeGINM3dzV3qfvk5Vu/eHhhe99n9/7vf9DWtp6pCfWTRvWzQltStlLT0sNlUrFDYVCSqfT+d5oNgcGNJqwzmhcnp2bW/b5/eFJuz1gslje60wmpVSp5CaZeTze1pnZuZ8ut4d4PF/ibrc37nS6iGN6mpgtFmKlKOJwOOJulyvucbnI7MzMT8bzD5Cbm8uaoGyR8QkbmZx0IPjtOyKRCObn59Hb14cWqRSdN29iQK2GzWYj1MdPEcazDhAIWFYaYDK/o2+axtLSMlZXo/D7A3it1aKjsxO19fWQt7ZCq9OSCYpKBjC/Q9lsC5Z3H4idBiwu/kYkGoXP78Po2Bjar11DTW0tFK1t0Ov1hKKohaQnMJnec+lpsKBRTh52P4fT8wU/foTgdruheamBTKFAUbkQp0Q1ONFwiWTLngUT1VkHfLq1O5hfdozwikXYdeYiOHVKZFa1IfO4GJxDJdh1rAy8k+XIr8gjn+9k/w/gttwK1ghzyWNxDoaadmC0jY1XUg4GK9lQF7LxojgLjyr3Qiw6QLiy2/8DMi88DrIKzxLW6RawKy6D1dABjvgKOCfqsO2wEOyj1WAVnAOrqIlktjxJBjAJufuka2F/mYTklDYhq0oBTuN1sMVKsAUScI4IsTNPhH2nG3FQdJ48UPUspPSBgPVh3BoZGhohPaou9HZ3o6+3F/fu30dVNZ04gQAlxUWQy6QYGR4m49aUMtKxzfzWEjWZLWRqyomVlQhisRgCgUQf3LiBOomELmMr3mi1xESfZTx/zVto8fUGY3StD+xT8V+LiyQajRKfz0dGx0ZJ+9WrpFosJnKFIq4zGIjeYGAA/IR3bcK28/n8fKlUNtjf/+Kr1+sN04MVo/sgrtZo4lK5PFZUWhoWVlR8bW5uHmTOMp4N05k0ohm0OLSyaXETyk58y0gd5z+RasELwMhMQQAAAABJRU5ErkJggg==) ;\
                 }\
-                #urlbar-icons #EncodeDecodeHtml > dropmarker { display: none; } \
-                #urlbar-icons #EncodeDecodeHtml .toolbarbutton-icon {\
+                #urlbar-icons > #EncodeDecodeHtml > dropmarker { display: none; } \
+                #urlbar-icons > #EncodeDecodeHtml .toolbarbutton-icon {\
                     padding: 0!important;\
                     background: none !important;\
                     border: none !important;\
                     box-shadow: none !important;\
                 }\
-                #urlbar-icons #EncodeDecodeHtml {\
+                #urlbar-icons > #EncodeDecodeHtml {\
                     padding: 0px 2px !important;\
                     margin: -6px 0 !important;\
                 }\
