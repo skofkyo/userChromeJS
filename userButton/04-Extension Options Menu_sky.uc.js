@@ -1,18 +1,20 @@
 // ==UserScript==
 // @name                Extension Options Menu.uc.js
 // @description         拡張を操作するボタンを追加
-// @version             3.0.8.6 延續Oos的mod版本 使用CustomizableUI.createWidget.jsm建立按鈕 結合copysysinfo_0.2.uc.js腳本功能
-// @version             3.0.8 (Fx44以降) 再起動に関する修正
-// @version             3.0.7 メニューにアイコンが出ていなかったのを修正
-// @version             3.0.6 互換性を考慮して書き換え デフォルトでボタンはカスタマイズパレットに配置
-// @version             3.0.5 ツールチップに操作法を表示するように コメントアウト內CSSを更新
-// @version             3.0.4 一部アドオンの設定畫面が機能していなかったのを修正、メニューパネル內でドロップマーカーが出ないようにするCSSを追記
-// @version             3.0.3 (Fx29以降用) ボタンをツールバーパレットから自由に配置できるように変更(メニューパネル內への配置にも対応 ※コメントアウト內のcssを追加するように)
-// @version             3.0.1  アルファベット順でソート時にセパレータが出てたのを修正
-// @version             3.0.0  プラグインも表示するように アイテムのソート方法を指定できるように
-// @downloadURL         http://u6.getuploader.com/script/search?q=Extension+Options+Menu.uc.js
-// @note                3.0.8.6 mod by skofkyo
+// @version             3.0.8.7
+// @modified    skofkyo
+// @note             3.0.8.7 複製清單 說明為換行添加
+// @note             3.0.8.6 延續Oos的mod版本 使用CustomizableUI.createWidget.jsm建立按鈕 結合copysysinfo_0.2.uc.js腳本功能
+// @note             3.0.8 (Fx44以降) 再起動に関する修正
+// @note             3.0.7 メニューにアイコンが出ていなかったのを修正
+// @note             3.0.6 互換性を考慮して書き換え デフォルトでボタンはカスタマイズパレットに配置
+// @note             3.0.5 ツールチップに操作法を表示するように コメントアウト內CSSを更新
+// @note             3.0.4 一部アドオンの設定畫面が機能していなかったのを修正、メニューパネル內でドロップマーカーが出ないようにするCSSを追記
+// @note             3.0.3 (Fx29以降用) ボタンをツールバーパレットから自由に配置できるように変更(メニューパネル內への配置にも対応 ※コメントアウト內のcssを追加するように)
+// @note             3.0.1  アルファベット順でソート時にセパレータが出てたのを修正
+// @note             3.0.0  プラグインも表示するように アイテムのソート方法を指定できるように
 // @note                作成にあたりアドオン版Extension Options Menuとucjs_optionsmenu_0.8.uc.jsとtoggleRestartlessAddons.jsを參考にさせてもらいました
+// @downloadURL         http://u6.getuploader.com/script/search?q=Extension+Options+Menu.uc.js
 // @charset              UTF-8
 // ==/UserScript==
 /*
@@ -130,6 +132,7 @@ Ctrl + 右鍵：移除擴充套件
                     label: "擴充套件及外掛管理器",
                     tooltiptext: "中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)\n右鍵：打開擴充套件管理員",
                     onclick: 'EOM.iconClick(event);',
+                    
                 }), $("devToolsSeparator"));
             var mp = document.createElement('menupopup');
             mp.setAttribute('id', 'eom-popup');
@@ -150,15 +153,11 @@ Ctrl + 右鍵：移除擴充套件
             popup.addEventListener("mouseover", function(event) {
                 event.originalTarget.setAttribute('closemenu', "none")
             }, true);
-            var nodes = popup.querySelectorAll('.menu-iconic');
+            var nodes = popup.querySelectorAll('.eom.menuitem-iconic');
             for (var i = 0, len = nodes.length; i < len; i++) {
                 nodes[i].parentNode.removeChild(nodes[i]);
             }
-            var nodes = popup.querySelectorAll('.menuitem-iconic');
-            for (var i = 0, len = nodes.length; i < len; i++) {
-                nodes[i].parentNode.removeChild(nodes[i]);
-            }
-            var nodes = popup.querySelectorAll('#eom-menugroup');
+            var nodes = popup.querySelectorAll('.eom.menu-iconic');
             for (var i = 0, len = nodes.length; i < len; i++) {
                 nodes[i].parentNode.removeChild(nodes[i]);
             }
@@ -195,7 +194,7 @@ Ctrl + 右鍵：移除擴充套件
                         mi = popup.appendChild($C('menuitem', {
                             label: this.SHOW_VERSION ? addon.name += ' ' + '[' + addon.version + ']' : addon.name,
                             tooltiptext: '左鍵：啟用 / 禁用擴充套件' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' + '\n中鍵：打開擴充套件首頁 - ' + addon.homepageURL + '\n右鍵：打開擴充套件選項 - ' + addon.optionsURL + '\nCtrl + 左鍵：打開擴充套件的安裝資料夾\nCtrl + 中鍵：複製擴充套件 ID - ' + addon.id + ' 和\n　　　　　　圖示網址 - ' + addon.iconURL + '\nCtrl + 右鍵：移除擴充套件' + '\n\n更新日期：' + updateDate + '\n說明：' + addon.description,
-                            class: 'menuitem-iconic',
+                            class: 'eom menuitem-iconic',
                             image: icon,
                             onclick: "EOM.itemClick(event);"
                         }));
@@ -219,7 +218,8 @@ Ctrl + 右鍵：移除擴充套件
                     }
                 });
             var menugroup = popup.insertBefore($C("menugroup", {
-                id: "eom-menugroup"
+                id: "eom-menugroup",
+                class: 'eom menuitem-iconic',
             }), $("eom-sep"));
             for (let i = 0, menu; menu = mMenus[i]; i++) {
                 let menuItem = menugroup.appendChild($C("menuitem", {
@@ -233,7 +233,7 @@ Ctrl + 右鍵：移除擴充套件
             }
             var m = document.createElement("menu");
             m.setAttribute("id", "EOM-menu");
-            m.setAttribute("class", "menu-iconic");
+            m.setAttribute("class", "eom menu-iconic");
             m.setAttribute("label", "複製火狐資訊"); 
             m.setAttribute("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACSElEQVQ4jX2Tv27cRRSFv/n9xrvEBglZCRAplkwgQCJkxYBAAqUAISpEAwUFBQ/AE0CR10gkOgpaRMETQEWaNIkcCgwyTjDgP8kSxzvn3Eux65VXII5G082de797Tvn82u/7SgZJlghjBw5jG1lIoknYpqnRWqOpYbfMjHFVMBgOGZ5driWiIzKweyKN3SNXLOMw8gKysMTGr3u5/2BMzZLlmeVaPnnvyTKoheRYeXxOKMmEo2auXr/Bzu6DUiNMRsdCLfQ9yMmgdpRS+D/JoqlR7cAZRCTXvrnDrc19PvvwOfZ2/+LuH7vzrxKeXz3LhfPnJnzamOow4Z5SYOXpRbZ39lA7ZPXcGQY1gDJX4dQAbM+gVttEBKXA+1dWeHt9mZ39MdENee3yJTLnKQAcHhnZNJkqC0cPCaV0PHZqkS+/2sAyX3x6ia+//R5HTBtI1i6usv7yBSwhNaok7Dqj3XWFF1Ye5+DgAKvx8Qdv8XA0ginUvitkBorpCE1CMpnJz9v3uffnIR+98yy1T2rf03UdTywtzdovpfBoPDGWpAkDhcmE737Y4pd7I5YGYuu3bX7a3JqHOB3h9fWLU6eaOrHlAqXAm2tPUfNvFgfBu1fWeOPy+X8B7LpCZmILWdTWGrYowCsvnubVl5aJmAI9PfxPE40ejnEEPu5ANo+apyCnd3pu/ye3eXjUTjJQbmzu5dXrN1BM0mcLKXAI2diapNSa/Xzzzt3MjKyZbgejcfnx9n2aGmrjSWxlpEl0pUkhWTMXRpja0f4BNHzC0imxpuoAAAAASUVORK5CYII=");
             popup.insertBefore(m, $("eom-sep"));
@@ -546,7 +546,7 @@ Ctrl + 右鍵：移除擴充套件
             var isSelected = false; // 選択されているか（テーマの場合のみ）
             var isDefTheme = false; // default テーマか（テーマの場合のみ）
             for (var j = 0; j < Addons.length; j++) {
-                var line = Addons[j].name + this.STR_SEP + Addons[j].version;
+                var line = Addons[j].name + this.STR_SEP + '[' +Addons[j].version + ']';
                 if (Addons[j].type == "theme") { // テーマの場合
                     if (Addons[j].name == defThemeStr) // default テーマの場合
                         isDefTheme = true;
@@ -558,7 +558,7 @@ Ctrl + 右鍵：移除擴充套件
                     if (Addons[j].userDisabled)
                         line += this.STR_DISABLE;
                 }
-                if (this.description) line += this.STR_SEP + Addons[j].description;
+                if (this.description) line += this.STR_SEP + '\n說明：' + Addons[j].description;
                 result.push(line);
             }
             // ------------------------------------------------------------------------------
@@ -683,14 +683,14 @@ Ctrl + 右鍵：移除擴充套件
                 for (var i = 0, len = userChrome_js.scripts.length; i < len; i++) {
                     var script = userChrome_js.scripts[i];
                     if (script.dir != dirName) continue;
-                    var line = script.filename + (this.description ? ((script.description == script.filename) ? "" : this.STR_SEP + script.description) : "") + (userChrome_js.scriptDisable[script.filename] ? " (已停用)" : "");
+                    var line = script.filename + (userChrome_js.scriptDisable[script.filename] ? " (已停用)" : "") + (this.description ? ((script.description == script.filename) ? "" : this.STR_SEP + '\n說明：' + script.description) : "");
                     result.push(line);
                 }
                 // uc.xul ファイル・リスト
                 for (var i = 0, len = userChrome_js.overlays.length; i < len; i++) {
                     var script = userChrome_js.overlays[i];
                     if (script.dir != dirName) continue;
-                    var line = script.filename + (this.description ? ((script.description == script.filename) ? "" : this.STR_SEP + script.description) : "") + (userChrome_js.scriptDisable[script.filename] ? " (已停用)" : "");
+                    var line = script.filename + (userChrome_js.scriptDisable[script.filename] ? " (已停用)" : "") + (this.description ? ((script.description == script.filename) ? "" : this.STR_SEP + '\n說明：' + script.description) : "");
                     result.push(line);
                 }
             }

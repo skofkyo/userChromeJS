@@ -8,7 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                2016.8.6!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.7!!!自用完整版 有精簡用不到的代碼
 // @note                2016.8.2 調整代碼 修正函數
 // @note                2016.8.1 調整代碼 增加可用函數 主要取至addMenuPlus
 // @note                2016.7.30 調整代碼 $C可以運行自定義函數
@@ -211,31 +211,70 @@
                 ins.insertBefore($C("menuitem", {
                     class: "menuitem-iconic",
                     label: "複製使用者腳本清單",
+                    tooltiptext: "左鍵：複製使用者腳本清單\n右鍵：複製使用者腳本清單(包含說明)",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABkUlEQVQ4jWNgwALCIsprgrNaNmDDYXFVsy0tQzmx6WNgYGBgiNKNUnJpnPjVdt6K/7bzVvy3W7Tmv+Pqbf+d1mz/77Rm+3/nlVv+ByfW7IYbMqWywWfrosUP101vO7tycuWRJV3lx/v6Gn5OnNb6v29Ky//49t7/tvNXYhgSlFCznYGBgYlh4+x5l/78efn/w/sZWPGZY73/k9owDXGbtOhvvH6kNsPm+Ytv/P79DKcBH97P+H/mRM//2M4J/+0Xr4Mb4DFt2f8og1ADogz48H7G/+b+tv+2C1YNZQNq6mr/e1f0/vern/rfu2suDVxwbGf7/90rmzDw8V1t/z+8n/G/qbflv/3Mpf9dlmz677x8M+kuqGts+O9ZP+m/T/vs/54TFmIacPtK//+rZ3ow8J0rE2Au+I7ihb55P2P0QtXhBty5MgGvAR3lRVd8s5uP+Rd0HfEv6DoSFlM1lYGBgYFhzbTZ5//8eUPQC9NrC1dizX1dWaUGa2fMObdiYuuehR0lG7Dh6bWFK8v8YtSx6QcABcSOiExaoIIAAAAASUVORK5CYII=",
-                    oncommand: function() {
-                        Cu.import("resource://gre/modules/AddonManager.jsm");
-                        AddonManager.getAddonsByTypes(['greasemonkey-user-script', 'userscript'], function(aAddons) {
-                            var downURLs = [];
-                            aAddons.forEach(function(aAddon) {
-                                var name, downURL;
-                                if (aAddon._script) { // Greasemonkey
-                                    name = aAddon._script.name;
-                                    downURL = aAddon._script._downloadURL;
-                                } else { // Scriptish
-                                    name = aAddon._name;
-                                    downURL = aAddon._downloadURL;
-                                    if (!downURL && item._updateURL) {
-                                        downURL = item._updateURL.replace(/\.meta\.js$/, '.user.js');
-                                    }
-                                    if (!downURL && item._homepageURL) {
-                                        downURL = item._homepageURL;
-                                    }
-                                }
-                                downURLs.push(name + '\n' + downURL);
-                            });
-                            Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(downURLs.join('\n'));
-                        });
-                        Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單已複製", false, "", null);
+                    onclick: function() {
+                        switch (event.button) {
+                            case 0:
+                                Cu.import("resource://gre/modules/AddonManager.jsm");
+                                AddonManager.getAddonsByTypes(['greasemonkey-user-script', 'userscript'], function(aAddons) {
+                                    var downURLs = [];
+                                    aAddons.forEach(function(aAddon) {
+                                        var name, downURL;
+                                        if (aAddon._script) { // Greasemonkey
+                                            name = aAddon._script.name;
+                                            downURL = aAddon._script._downloadURL;
+                                        } else { // Scriptish
+                                            name = aAddon._name;
+                                            downURL = aAddon._downloadURL;
+                                            if (!downURL && item._updateURL) {
+                                                downURL = item._updateURL.replace(/\.meta\.js$/, '.user.js');
+                                            }
+                                            if (!downURL && item._homepageURL) {
+                                                downURL = item._homepageURL;
+                                            }
+                                        }
+                                        if (aAddon.isActive)
+                                            downURLs.push(name + ' ' + '[' + aAddon.version + ']' + '\n' + downURL);
+                                        else
+                                            downURLs.push(name + ' ' + '[' + aAddon.version + ']' + ' (已停用)' + '\n' + downURL);
+                                    });
+                                    ECM.copy(downURLs.join('\n'));
+                                });
+                                Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單已複製", false, "", null);
+                                break;
+                            case 2:
+                                Cu.import("resource://gre/modules/AddonManager.jsm");
+                                AddonManager.getAddonsByTypes(['greasemonkey-user-script', 'userscript'], function(aAddons) {
+                                    var downURLs = [];
+                                    aAddons.forEach(function(aAddon) {
+                                        var name, downURL;
+                                        if (aAddon._script) { // Greasemonkey
+                                            name = aAddon._script.name;
+                                            downURL = aAddon._script._downloadURL;
+                                            description = aAddon._script._description;
+                                        } else { // Scriptish
+                                            name = aAddon._name;
+                                            downURL = aAddon._downloadURL;
+                                            description = aAddon._description;
+                                            if (!downURL && item._updateURL) {
+                                                downURL = item._updateURL.replace(/\.meta\.js$/, '.user.js');
+                                            }
+                                            if (!downURL && item._homepageURL) {
+                                                downURL = item._homepageURL;
+                                            }
+                                        }
+                                        if (aAddon.isActive)
+                                            downURLs.push(name + ' ' + '[' + aAddon.version + ']' + '\n說明：' + description + '\n' + downURL);
+                                        else
+                                            downURLs.push(name + ' ' + '[' + aAddon.version + ']' + ' (已停用)' + '\n說明：' + description + '\n' + downURL);
+                                    });
+                                    ECM.copy(downURLs.join('\n'));
+                                });
+                                $('ecm-popup').hidePopup();
+                                Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單已複製", false, "", null);
+                                break;
+                        }
                     },
                 }), ins.childNodes[6]);
             } //Greasemonkey
@@ -260,9 +299,13 @@
                     var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
                     if (ess == true) {
                         mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: none;');
+                        mp.querySelector('#stylish-turn-on').removeAttribute("class");
+                        mp.querySelector('#stylish-turn-on').removeAttribute("image");
                         mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: -moz-box;');
                     } else {
                         mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: -moz-box;');
+                        mp.querySelector('#stylish-turn-on').setAttribute('class', 'menuitem-iconic');
+                        mp.querySelector('#stylish-turn-on').setAttribute('image', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEYElEQVRYhdXWa0xTZxgH8Ae5GMY2hyxzBMMmwaDBLGQYGczFhWXTjM0lS/jgkpkYBERBLgVahEIRatjMPs6h07BLNKwskyKMayl3WuglXCawhkuQyKhUpIVKkfa/T3Y7PaelIDPZ2/w/nffk95zT93nfQ/R/HiJVeLBQsS/yuWCZPdG+JZqDx0tVb1eUqCP0F1UHUKzaD1H/XhT1haCw7w0IFUGyfMUuQUH7jj1bBsdLyPOS5p0UseaQvlQdiRJ1BLjwQuVuCBWBKFC8hvzeAOT1+N8UyLeHPhNe0v9umFgbMyrWRGEj+IUef+T1vAxBt5+F3+Ur2ByuPnxMrI0xbR5/EYKuF8Dv8kVOh09FvIR83MYvad47ItZGW7YCz+3cjpwOH/DavSvde3LloT1iTYx+PfwbbRS+GzqKq8Mf49vBWJd4drs3stu9kCXflr9uAWJNdJszXNS/F9WTuZhdvgubw2/5iQGKv26grD+ME+e1eSJLvg0ZTRThHFfFxDnDL2ujcG9JDRvWXMZiNeHW6JeceGarB9JbqMl5AeooFRf+leYgDCsTsGLV7VSOnmLhGTIPpLcQUhsploVfVEdFOvvPRxbqsYbHrNw3D2DK1A3z2jzrmsW2iMv9b7Hw882EtCb6iVVAqSpSwIX/MHoCT7DMiG5Rhq/VBxgLTjqRCbPVwJg38KCKhZ9vJqQ1koHjDURIuVa7Zv4WVmG0Z3pJgYLeAM7VXjl2ijF3xbaACx07mXgTIbWRcLqGmNt1sSpcx9Xn86s6rGDBnvLhj1y22rixjTH/+uBnLPxcAyG5jj5kFCDq3z/riIuUwXiMeXuWbLPI69nhFOe1eaJluoRxT9XYWRZ+tp6QUkdfOBQQqnfc4YqUQTBjzh6TbQZ53S+57PPm6WLGPVVjZ9j474SUOw4FFClDdFzb69zqIJZx354rQ+87xTNbPfCnsYEx/9rAJ2y8jpBcR8cYBQj7gqVce7viQTlMuGfP+FILBJ1+nPjPIycYcxdtU8htfYWFn6njWIRCxW4B18FSPvwBjJhiZOiRBKXKN+04T+6F2+NpWLDqGPOU+u858aRajjYUKgIjnZ1qKsMNLGKClUmzHCPGGjy0jrGuPbSOoagzhIUn1xKSa6iCVQARUX5vgIrrVBMpXsekWYZH0LmdawOfcuN3CIm/0RHOAvjd/nHOjlRRbyCGF3/BAsZcZm5Niyvao07xJCnVc+L/FOEnc9XnP458jrvGX7GAEUZmLN1onC4EX/6q8yeX0lribRfHMRERv8s3mN/pq3fVahkyDxR07kKZMhxlynCIe/dxthrjyWsIp6vJve9DntzrcE6Ht8UZzrW3r4vX0E238KcjW+YVy2v3NGwFnlBNG/sofToy5RSa1erxx6ZxKZkTpJS6YfjfI15CnuktlJDeQjMbwROldP2khIKfCXcoxCetmeJSG+nquQbSsfBaMiXVUn2SlFJPSihoy2BXI0FCO1OkFPZcsP9q/A07pcDUS67ktwAAAABJRU5ErkJggg==');
                         mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: none;');
                     }
                     if (/\.css$/.test(gBrowser.selectedBrowser.currentURI.spec)) {
@@ -281,13 +324,23 @@
                         AddonManager.getAddonsByTypes(['userstyle'], function(aAddons) {
                             var userstyles = [];
                             aAddons.forEach(function(aAddon) {
-                                var name;
-                                if (aAddon) {
-                                    name = aAddon.name;
+                                var name, homeURL;
+                                name = aAddon.name;
+                                homeURL = aAddon.homepageURL;
+                                if (homeURL) {
+                                    if (aAddon.isActive)
+                                        //userstyles.push('\n' + name + '\n' + homeURL + '\n');
+                                        userstyles.push(name + '\n' + homeURL);
+                                    else
+                                        userstyles.push(name + ' (已停用)' + '\n' + homeURL);
+                                } else {
+                                    if (aAddon.isActive)
+                                        userstyles.push(name);
+                                    else
+                                        userstyles.push(name + ' (已停用)');
                                 }
-                                userstyles.push(name);
                             });
-                            Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper).copyString(userstyles.join('\n'));
+                            ECM.copy(userstyles.join('\n'));
                         });
                         Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Stylish", "使用者樣式清單已複製", false, "", null);
                     },
@@ -713,17 +766,18 @@
         menuClick: function(event) {
             switch (event.button) {
                 case 2:
-                    var menu = event.target;
-                    var label = menu.getAttribute("label");
+                    var menu,label,rlabel,fdir;
+                    menu = event.target;
+                    label = menu.getAttribute("label");
                     if (label == "chrome/") {
-                        var rlabel = label.replace("chrome/", "chrome");
-                        var fdir = "\\" + rlabel;
-                        ECM.exec(fdir);
+                        rlabel = label.replace("chrome/", "chrome");
                     } else {
-                        var rlabel = label.replace("\/", "\\");
-                        var fdir = "\\" + rlabel;
-                        ECM.exec(fdir);
+                        rlabel = label.replace("\/", "\\");
                     }
+                    event.preventDefault();
+                    event.stopPropagation();
+                    fdir = "\\" + rlabel;
+                    ECM.exec(fdir);
                     break;
             }
         },
