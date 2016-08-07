@@ -17,8 +17,6 @@
 // @note                スクリプトの有効無効を切り替えるコードはalice0775氏のrebuild_userChrome.uc.xulから拝借
 // ==/UserScript==
 (function() {
-    'use strict';
-    Cu.import('resource://gre/modules/Preferences.jsm');
     var delay = 1000;//延遲加載腳本
     var ECM = {
         addmenuitem: function() {
@@ -205,7 +203,6 @@
             /*==========Greasemonkey==========*/
             var g = $('gm_general_menu'); //Greasemonkey
             if (g != null) { //Greasemonkey
-                g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png'); //Greasemonkey
                 mp.appendChild(g); //Greasemonkey
                 var ins = document.querySelector("#gm_general_menu menupopup");
                 ins.insertBefore($C("menuitem", {
@@ -216,63 +213,38 @@
                     onclick: function() {
                         switch (event.button) {
                             case 0:
-                                Cu.import("resource://gre/modules/AddonManager.jsm");
-                                AddonManager.getAddonsByTypes(['greasemonkey-user-script', 'userscript'], function(aAddons) {
+                                AddonManager.getAddonsByTypes(['greasemonkey-user-script'], function(aAddons) {
                                     var downURLs = [];
                                     aAddons.forEach(function(aAddon) {
-                                        var name, downURL;
-                                        if (aAddon._script) { // Greasemonkey
-                                            name = aAddon._script.name;
-                                            downURL = aAddon._script._downloadURL;
-                                        } else { // Scriptish
-                                            name = aAddon._name;
-                                            downURL = aAddon._downloadURL;
-                                            if (!downURL && item._updateURL) {
-                                                downURL = item._updateURL.replace(/\.meta\.js$/, '.user.js');
-                                            }
-                                            if (!downURL && item._homepageURL) {
-                                                downURL = item._homepageURL;
-                                            }
-                                        }
+                                        var name = aAddon._script.name;
+                                        var downURL = aAddon._script._downloadURL;
+                                        var ver = aAddon.version;
                                         if (aAddon.isActive)
-                                            downURLs.push(name + ' ' + '[' + aAddon.version + ']' + '\n' + downURL);
+                                            downURLs.push(name + ' ' + '[' + ver + ']' + '\n' + downURL);
                                         else
-                                            downURLs.push(name + ' ' + '[' + aAddon.version + ']' + ' (已停用)' + '\n' + downURL);
+                                            downURLs.push(name + ' ' + '[' + ver + ']' + ' (已停用)' + '\n' + downURL);
                                     });
                                     ECM.copy(downURLs.join('\n'));
                                 });
                                 Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單已複製", false, "", null);
                                 break;
                             case 2:
-                                Cu.import("resource://gre/modules/AddonManager.jsm");
-                                AddonManager.getAddonsByTypes(['greasemonkey-user-script', 'userscript'], function(aAddons) {
+                                AddonManager.getAddonsByTypes(['greasemonkey-user-script'], function(aAddons) {
                                     var downURLs = [];
                                     aAddons.forEach(function(aAddon) {
-                                        var name, downURL;
-                                        if (aAddon._script) { // Greasemonkey
-                                            name = aAddon._script.name;
-                                            downURL = aAddon._script._downloadURL;
-                                            description = aAddon._script._description;
-                                        } else { // Scriptish
-                                            name = aAddon._name;
-                                            downURL = aAddon._downloadURL;
-                                            description = aAddon._description;
-                                            if (!downURL && item._updateURL) {
-                                                downURL = item._updateURL.replace(/\.meta\.js$/, '.user.js');
-                                            }
-                                            if (!downURL && item._homepageURL) {
-                                                downURL = item._homepageURL;
-                                            }
-                                        }
+                                        var name = aAddon._script.name;
+                                        var downURL = aAddon._script._downloadURL;
+                                        var ver = aAddon.version;
+                                        var dc = aAddon._script._description;
                                         if (aAddon.isActive)
-                                            downURLs.push(name + ' ' + '[' + aAddon.version + ']' + '\n說明：' + description + '\n' + downURL);
+                                            downURLs.push(name + ' ' + '[' + ver + ']' + '\n說明：' + dc + '\n' + downURL);
                                         else
-                                            downURLs.push(name + ' ' + '[' + aAddon.version + ']' + ' (已停用)' + '\n說明：' + description + '\n' + downURL);
+                                            downURLs.push(name + ' ' + '[' + ver + ']' + ' (已停用)' + '\n說明：' + dc + '\n' + downURL);
                                     });
                                     ECM.copy(downURLs.join('\n'));
                                 });
                                 $('ecm-popup').hidePopup();
-                                Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單已複製", false, "", null);
+                                Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單(包含說明)已複製", false, "", null);
                                 break;
                         }
                     },
@@ -286,7 +258,6 @@
                     class: "menu-iconic",
                     label: "Stylish",
                     accesskey: "S",
-                    image: "chrome://stylish/skin/16.png",
                 }));
                 var cs = $("stylish-popup").cloneNode(true);
                 var macs = menu.appendChild(cs);
@@ -299,13 +270,9 @@
                     var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
                     if (ess == true) {
                         mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: none;');
-                        mp.querySelector('#stylish-turn-on').removeAttribute("class");
-                        mp.querySelector('#stylish-turn-on').removeAttribute("image");
                         mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: -moz-box;');
                     } else {
                         mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: -moz-box;');
-                        mp.querySelector('#stylish-turn-on').setAttribute('class', 'menuitem-iconic');
-                        mp.querySelector('#stylish-turn-on').setAttribute('image', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEYElEQVRYhdXWa0xTZxgH8Ae5GMY2hyxzBMMmwaDBLGQYGczFhWXTjM0lS/jgkpkYBERBLgVahEIRatjMPs6h07BLNKwskyKMayl3WuglXCawhkuQyKhUpIVKkfa/T3Y7PaelIDPZ2/w/nffk95zT93nfQ/R/HiJVeLBQsS/yuWCZPdG+JZqDx0tVb1eUqCP0F1UHUKzaD1H/XhT1haCw7w0IFUGyfMUuQUH7jj1bBsdLyPOS5p0UseaQvlQdiRJ1BLjwQuVuCBWBKFC8hvzeAOT1+N8UyLeHPhNe0v9umFgbMyrWRGEj+IUef+T1vAxBt5+F3+Ur2ByuPnxMrI0xbR5/EYKuF8Dv8kVOh09FvIR83MYvad47ItZGW7YCz+3cjpwOH/DavSvde3LloT1iTYx+PfwbbRS+GzqKq8Mf49vBWJd4drs3stu9kCXflr9uAWJNdJszXNS/F9WTuZhdvgubw2/5iQGKv26grD+ME+e1eSJLvg0ZTRThHFfFxDnDL2ujcG9JDRvWXMZiNeHW6JeceGarB9JbqMl5AeooFRf+leYgDCsTsGLV7VSOnmLhGTIPpLcQUhsploVfVEdFOvvPRxbqsYbHrNw3D2DK1A3z2jzrmsW2iMv9b7Hw882EtCb6iVVAqSpSwIX/MHoCT7DMiG5Rhq/VBxgLTjqRCbPVwJg38KCKhZ9vJqQ1koHjDURIuVa7Zv4WVmG0Z3pJgYLeAM7VXjl2ijF3xbaACx07mXgTIbWRcLqGmNt1sSpcx9Xn86s6rGDBnvLhj1y22rixjTH/+uBnLPxcAyG5jj5kFCDq3z/riIuUwXiMeXuWbLPI69nhFOe1eaJluoRxT9XYWRZ+tp6QUkdfOBQQqnfc4YqUQTBjzh6TbQZ53S+57PPm6WLGPVVjZ9j474SUOw4FFClDdFzb69zqIJZx354rQ+87xTNbPfCnsYEx/9rAJ2y8jpBcR8cYBQj7gqVce7viQTlMuGfP+FILBJ1+nPjPIycYcxdtU8htfYWFn6njWIRCxW4B18FSPvwBjJhiZOiRBKXKN+04T+6F2+NpWLDqGPOU+u858aRajjYUKgIjnZ1qKsMNLGKClUmzHCPGGjy0jrGuPbSOoagzhIUn1xKSa6iCVQARUX5vgIrrVBMpXsekWYZH0LmdawOfcuN3CIm/0RHOAvjd/nHOjlRRbyCGF3/BAsZcZm5Niyvao07xJCnVc+L/FOEnc9XnP458jrvGX7GAEUZmLN1onC4EX/6q8yeX0lribRfHMRERv8s3mN/pq3fVahkyDxR07kKZMhxlynCIe/dxthrjyWsIp6vJve9DntzrcE6Ht8UZzrW3r4vX0E238KcjW+YVy2v3NGwFnlBNG/sofToy5RSa1erxx6ZxKZkTpJS6YfjfI15CnuktlJDeQjMbwROldP2khIKfCXcoxCetmeJSG+nquQbSsfBaMiXVUn2SlFJPSihoy2BXI0FCO1OkFPZcsP9q/A07pcDUS67ktwAAAABJRU5ErkJggg==');
                         mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: none;');
                     }
                     if (/\.css$/.test(gBrowser.selectedBrowser.currentURI.spec)) {
@@ -320,13 +287,11 @@
                     label: "複製使用者樣式清單",
                     image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABkUlEQVQ4jWNgwALCIsprgrNaNmDDYXFVsy0tQzmx6WNgYGBgiNKNUnJpnPjVdt6K/7bzVvy3W7Tmv+Pqbf+d1mz/77Rm+3/nlVv+ByfW7IYbMqWywWfrosUP101vO7tycuWRJV3lx/v6Gn5OnNb6v29Ky//49t7/tvNXYhgSlFCznYGBgYlh4+x5l/78efn/w/sZWPGZY73/k9owDXGbtOhvvH6kNsPm+Ytv/P79DKcBH97P+H/mRM//2M4J/+0Xr4Mb4DFt2f8og1ADogz48H7G/+b+tv+2C1YNZQNq6mr/e1f0/vern/rfu2suDVxwbGf7/90rmzDw8V1t/z+8n/G/qbflv/3Mpf9dlmz677x8M+kuqGts+O9ZP+m/T/vs/54TFmIacPtK//+rZ3ow8J0rE2Au+I7ihb55P2P0QtXhBty5MgGvAR3lRVd8s5uP+Rd0HfEv6DoSFlM1lYGBgYFhzbTZ5//8eUPQC9NrC1dizX1dWaUGa2fMObdiYuuehR0lG7Dh6bWFK8v8YtSx6QcABcSOiExaoIIAAAAASUVORK5CYII=",
                     oncommand: function() {
-                        Cu.import("resource://gre/modules/AddonManager.jsm");
                         AddonManager.getAddonsByTypes(['userstyle'], function(aAddons) {
                             var userstyles = [];
                             aAddons.forEach(function(aAddon) {
-                                var name, homeURL;
-                                name = aAddon.name;
-                                homeURL = aAddon.homepageURL;
+                                var name = aAddon.name;
+                                var homeURL = aAddon.homepageURL;
                                 if (homeURL) {
                                     if (aAddon.isActive)
                                         //userstyles.push('\n' + name + '\n' + homeURL + '\n');
@@ -356,7 +321,7 @@
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACZElEQVQ4jZ2S3U9SARjG36v+HNfFyc0/wM115VoFB7U8tYM0N71AlHNKCdE1NmUIWE1EjHNAM/MLBMuPymqKill+TAtHTjTNsppu1UqfLpzYUfOiZ3vv3ue35333EB2SqqSpQGXwxnJE6TsryLtqo29LXeYbZAWJO7yr0AWD93SeIK1Z3P3oj75FPPkZqxvbmE1soHt4DhV3HkFtlMZY8V7aEfO54oYz+RWBXa01AoaX/zn51SFojL5PRyDXLK3fOp/MgOFlEBHSmHRI/mZUmMpxs9KEqmoLuoOdYHgZzaEYNKI0kjJzoq/K3PAYX7d/KAB2hw0cx0Gr1aKwsBD321rB8DJmE+sQXGGkflJsfbjW+3Ie75eTRwA6nQ5FRUXQ6/Xo6t5LkFxdg9Q3BY0oh4mI6KqpZWdmcR1tQ9MKgMNlx3gsip5gF2pqahAKB8HwMuKLCQzEEmAF6SMREeWIMt4lv6B9bF0BcNbX4cXIM1itVthsthSgo3cAz98sgxXk30REdKncvzOx8AGR4ZgC4PG6YTabMfR0AHa7PQWYnHqNvujiQYIrppaVB4PTiC+tgOFlZGZlIo1Jx133bXiaGlFbWwuXy5UCeAId8ARjBz/grvudYn0Ec4m9E3IzCLkZeyn2QbJfSgH8kSgMdb1QNJMztW419oyD4WXos0gx+6B9gKt9VNkDIqJsrTM7rzyAXEvwxCaev9EJ1ihtHlvns5dvsbrKwM8yRxje0CQio3EMvVpCaCQOd88EDHUhqEub5441/6VTF4udAU2pd5M1SrsaQYba6Pul0jcuqEqaCk4y/rf+AMrf4D2zeD50AAAAAElFTkSuQmCC",
             }));
             var menupopup = menu.appendChild($C("menupopup", {
-                onpopupshowing: function(event) {
+                onpopupshowing: function() {
                 var npt = gPrefService.getIntPref("network.proxy.type");
                 var nph = gPrefService.getCharPref("network.proxy.http");
                 var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
@@ -695,6 +660,25 @@
             }
         },
         onpopup: function(event) {
+            var g = $('gm_general_menu'); //Greasemonkey
+            if (g != null) {
+                var ege = gPrefService.getBoolPref("extensions.greasemonkey.enabled");
+                if (ege == true) {
+                    g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');
+                } else {
+                    g.setAttribute('image', 'chrome://greasemonkey/skin/icon16disabled.png');
+                }
+            }
+            var s = $('stylish-popup'); //Stylish
+            if (s != null) {
+                var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
+                var usm = $('uc_stylish_menu');
+                if (ess == true) {
+                    if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16.png');
+                } else {
+                    if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16w.png');
+                }
+            }
             var mp = event.target;
             if (mp !== event.currentTarget) {
                 return;
@@ -756,7 +740,7 @@
             var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
             + '#ExtrasConfigMenu .toolbarbutton-icon' 
             + '{list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAn0lEQVRYhe3W0QqAIAwFUL/vbv//M0H2JAyRbDpd0YL7EGgdFm4lZs7MnIkoE1Eu96lzlfV1evuaD5IAAL4AlwoAmALI/UMAGZcKBCAALYQLoPSDf1ZAzgT3CuzM9wH1JHUF3K2p855P0NLtCoBTfWrMj2EAAmABmPoptQDIhuMCkN0NwKFqRBYATetdAhgZQksr4Ap4Mh1NAfULtcPoAr5fptLBChDyAAAAAElFTkSuQmCC)}' 
-            + '#ecm-popup menu:not(#uc_quickProxy_menu) menupopup menuitem[checked="false"]:not(#redirector-toggle)'
+            + '#ecm-popup menu:not(#uc_quickProxy_menu):not(#gm_general_menu) menupopup menuitem[checked="false"]:not(#redirector-toggle)'
             + '{-moz-box-ordinal-group:99!important;}'
             + '}';
             var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
