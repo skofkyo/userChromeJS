@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name                Extension Options Menu.uc.js
 // @description         拡張を操作するボタンを追加
-// @version             3.0.8.8
+// @version             3.0.8.9
 // @modified    skofkyo
+// @note             3.0.8.9 擴充套件清單包含說明時也同時添加首頁鏈結
 // @note             3.0.8.8 增加GM腳本清單 Stylish樣式清單 但不包含在全組態清單裡面 未安裝GM,Stylish時不添加選單
 // @note             3.0.8.7 複製清單 說明為換行添加
 // @note             3.0.8.6 延續Oos的mod版本 使用CustomizableUI.createWidget.jsm建立按鈕 結合ucjs_copysysinfo_0.2.uc.js腳本功能
@@ -32,7 +33,7 @@ Ctrl + 中鍵：複製擴充套件 ID 和圖示網址（如果可用）到剪貼
 Ctrl + 右鍵：移除擴充套件
 */
 (function() {
-    Cu.import("resource://gre/modules/AddonManager.jsm");
+    if (!window.AddonManager) Cu.import("resource://gre/modules/AddonManager.jsm");
     window.EOM = {
         mode: 0, //位置 0可移動按鈕 1工具選單
         ADDON_TYPES: ['extension', 'plugin'], // 顯示的項目類型
@@ -188,17 +189,26 @@ Ctrl + 右鍵：移除擴充套件
                         prevType = type;
                         var icon = addon.iconURL || type == 'extension' && 'chrome://mozapps/skin/extensions/extensionGeneric-16.png' || type == 'plugin' && 'chrome://mozapps/skin/plugins/pluginGeneric-16.png';
                         date = new Date(addon.updateDate);
-                        updateDate = date.getFullYear() + '年' + (date.getMonth() + 1) + "月" + date.getDate() + '日';
+                        updateDate = date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
                         mi = popup.appendChild($C('menuitem', {
                             label: this.SHOW_VERSION ? addon.name += ' ' + '[' + addon.version + ']' : addon.name,
-                            tooltiptext: '左鍵：啟用 / 禁用擴充套件' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' + '\n中鍵：打開擴充套件首頁 - ' + addon.homepageURL + '\n右鍵：打開擴充套件選項 - ' + addon.optionsURL + '\nCtrl + 左鍵：打開擴充套件的安裝資料夾\nCtrl + 中鍵：複製擴充套件 ID - ' + addon.id + ' 和\n　　　　　　圖示網址 - ' + addon.iconURL + '\nCtrl + 右鍵：移除擴充套件' + '\n\n更新日期：' + updateDate + '\n說明：' + addon.description,
+                            tooltiptext: '左鍵：啟用 / 禁用擴充套件' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' 
+                            + '\n中鍵：打開擴充套件首頁 - ' + addon.homepageURL 
+                            + '\n右鍵：打開擴充套件選項 - ' + addon.optionsURL 
+                            + '\nCtrl + 左鍵：打開擴充套件的安裝資料夾\nCtrl + 中鍵：複製擴充套件 ID - ' + addon.id + ' 和\n　　　　　　圖示網址 - ' + addon.iconURL 
+                            + '\nCtrl + 右鍵：移除擴充套件' 
+                            + '\n\n更新日期：' + updateDate 
+                            + '\n說明：' + addon.description,
                             class: 'eom menuitem-iconic',
                             image: icon,
                             closemenu: "none",
                             onclick: "EOM.itemClick(event);"
                         }));
                         if (addon.type == 'plugin') {
-                            mi.setAttribute("tooltiptext", '左鍵：啟用 / 禁用外掛' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' + '\nCtrl + 中鍵：複製外掛 ID - ' + addon.id + ' 和\n　　　　　　圖示網址 - ' + addon.iconURL + '\n\n更新日期：' + updateDate + '\n說明：' + addon.description)
+                            mi.setAttribute("tooltiptext", '左鍵：啟用 / 禁用外掛' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' 
+                            + '\nCtrl + 中鍵：複製外掛 ID - ' + addon.id + ' 和\n　　　　　　圖示網址 - ' + addon.iconURL 
+                            + '\n\n更新日期：' + updateDate 
+                            + '\n說明：' + addon.description)
                         }
                         mi._Addon = addon;
                         this.setDisable(mi, addon.userDisabled);
@@ -276,8 +286,7 @@ Ctrl + 右鍵：移除擴充套件
                 }
             }
             if ($('gm_general_menu') != null) { //Greasemonkey
-                var ins = document.querySelector("#EOM-menu menupopup");
-                ins.insertBefore($C("menuitem", {
+                mp.insertBefore($C("menuitem", {
                     class: "menuitem-iconic",
                     label: "Greasemonkey腳本清單",
                     image: "chrome://greasemonkey/skin/icon16.png",
@@ -297,8 +306,8 @@ Ctrl + 右鍵：移除擴充套件
                         });
                         Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單已複製", false, "", null);
                     },
-                }), ins.childNodes[5]);
-                ins.insertBefore($C("menuitem", {
+                }), mp.childNodes[5]);
+                mp.insertBefore($C("menuitem", {
                     class: "menuitem-iconic",
                     label: "Greasemonkey腳本清單(包含說明)",
                     image: "chrome://greasemonkey/skin/icon16.png",
@@ -319,11 +328,10 @@ Ctrl + 右鍵：移除擴充套件
                         });
                         Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單(包含說明)已複製", false, "", null);
                     },
-                }), ins.childNodes[12]);
+                }), mp.childNodes[12]);
             }
             if ($('stylish-popup') != null) { //Stylish
-                var ins = document.querySelector("#EOM-menu menupopup");
-                ins.insertBefore($C("menuitem", {
+                mp.insertBefore($C("menuitem", {
                     class: "menuitem-iconic",
                     label: "Stylish樣式清單",
                     image: "chrome://stylish/skin/16.png",
@@ -349,7 +357,7 @@ Ctrl + 右鍵：移除擴充套件
                         });
                         Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Stylish", "使用者樣式清單已複製", false, "", null);
                     },
-                }), ins.childNodes[6]);
+                }), mp.childNodes[6]);
             }
         },
         iconClick: function(event) {
@@ -626,7 +634,8 @@ Ctrl + 右鍵：移除擴充套件
                     if (Addons[j].userDisabled)
                         line += this.STR_DISABLE;
                 }
-                if (this.description) line += this.STR_SEP + '\n說明：' + Addons[j].description;
+                if (Addons[j].type == "extension" && this.description) line += this.STR_SEP + '\n首頁：' + Addons[j].homepageURL + '\n說明：' + Addons[j].description;
+                if (Addons[j].type == "plugin" && this.description || Addons[j].type == "theme" && this.description) line += this.STR_SEP + '\n說明：' + Addons[j].description;
                 result.push(line);
             }
             // ------------------------------------------------------------------------------
