@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name                Extension Options Menu.uc.js
 // @description         拡張を操作するボタンを追加
-// @version             3.0.8.7
+// @version             3.0.8.8
 // @modified    skofkyo
+// @note             3.0.8.8 增加GM腳本清單 Stylish樣式清單 但不包含在全組態清單裡面 未安裝GM,Stylish時不添加選單
 // @note             3.0.8.7 複製清單 說明為換行添加
-// @note             3.0.8.6 延續Oos的mod版本 使用CustomizableUI.createWidget.jsm建立按鈕 結合copysysinfo_0.2.uc.js腳本功能
+// @note             3.0.8.6 延續Oos的mod版本 使用CustomizableUI.createWidget.jsm建立按鈕 結合ucjs_copysysinfo_0.2.uc.js腳本功能
 // @note             3.0.8 (Fx44以降) 再起動に関する修正
 // @note             3.0.7 メニューにアイコンが出ていなかったのを修正
 // @note             3.0.6 互換性を考慮して書き換え デフォルトでボタンはカスタマイズパレットに配置
@@ -31,6 +32,7 @@ Ctrl + 中鍵：複製擴充套件 ID 和圖示網址（如果可用）到剪貼
 Ctrl + 右鍵：移除擴充套件
 */
 (function() {
+    Cu.import("resource://gre/modules/AddonManager.jsm");
     window.EOM = {
         mode: 0, //位置 0可移動按鈕 1工具選單
         ADDON_TYPES: ['extension', 'plugin'], // 顯示的項目類型
@@ -97,14 +99,11 @@ Ctrl + 右鍵：移除擴充套件
                         class: 'toolbarbutton-1 chromeclass-toolbar-additional',
                         removable: 'true',
                         overflows: "false",
-                        label: '附加元件管理員',
-                        //label: '擴充套件及外掛管理器',
-                        tooltiptext: "左鍵：擴充套件及外掛選單\n中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)\n右鍵：打開擴充套件管理員",
+                        label: '擴充套件選單',
+                        tooltiptext: "左鍵：擴充套件及外掛選單\n中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)\n右鍵：打開附加元件管理員",
                         onclick: 'EOM.iconClick(event);',
-                        style: '-moz-transform: scale(0.875);',
                         type: 'menu',
-                        style: "list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=)",
-                        //image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=',
+                        style: "-moz-transform: scale(0.875),list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACdUlEQVQ4jZWRPUwTARiGz5g4ODi4YKKxiFDBFrBQfoRGKGCxlist7V17Xq/X3pX2/rDXH3qFlmptIcTEEAYXV1cmFxMNIXExjsZJ4ghxhTiIGn2dcClCeJMn+fLm+57lI4gTctVsXWiz9n8zd/YdmMzW5yftN6R7YHRnwstg0h+B7fYYCMJy7lSCSW/4xQwng45rcJH0awBnTiUgQ9HUDCeBimnwBNg6QRDHC5pvdL/qsA3BYnfg1qATTg+FkPgQzKyOCS8D29A4LHYHbvYM41q77WODoH/EvUOGRfg5CQFeQTiRBq8Z4DUDzGwGAV6Bn5MwzSYxODaFw7uzh8OEN7wb0wyIevlYhHQJLt8DEKb27py5a+BPW2ffW6vdIXhC8d+JTBmz2UoDQrqEiJT7ySQzB5wyj7vTDIjeO65tDx2HO8jDHeTBJrNI5atHwqZyyJdr4putLTtJxzfvz0Q2CKc78JlTCuDVIlg5j4S+BNmoH0kgpiKXK5kAnAVwGUATwQqyPhUSvjKCuvF49VmUU41fanEZ2sIK1OIyFKMGxahBLS6Djs+hd3icv27pabXaHZ86bEPvCAAXALQAaAJwPsjLu+rCCrTFFYh6GVEp/yUqz28L6TJic0Xcm+Ew4g7AQ8XhcPnQ8EYyLOxqpVUk81VI2XIdQDMAk5RdrCeyFSTzVSSyjyAX6yCZxNGCdPkpRH0JJM1nDnsvzRcSmQpy1bV/+Dn5/4LU/BOMeujvrV0DV8ydfS1OD/VDKtSQr60jX1tHrroGX0RqFPhY8SUrF/aiirHnDkTfU5R4kaJilyaD3IeoYuwJemVf0Cv7/NziPhkWNv8CjYdwg9vkXo0AAAAASUVORK5CYII=);",
                         popup: "eom-popup"
                     };
                     for (var p in props)
@@ -132,7 +131,6 @@ Ctrl + 右鍵：移除擴充套件
                     label: "擴充套件及外掛管理器",
                     tooltiptext: "中鍵：啟用 / 停用 DOM & Element Inspector (重新啟動瀏覽器)\n右鍵：打開擴充套件管理員",
                     onclick: 'EOM.iconClick(event);',
-                    
                 }), $("devToolsSeparator"));
             var mp = document.createElement('menupopup');
             mp.setAttribute('id', 'eom-popup');
@@ -150,9 +148,9 @@ Ctrl + 右鍵：移除擴充套件
         populateMenu: function(event) {
             var popup = event.target;
             if (popup !== event.currentTarget) return;
-            popup.addEventListener("mouseover", function(event) {
-                event.originalTarget.setAttribute('closemenu', "none")
-            }, true);
+            //popup.addEventListener("mouseover", function(event) {
+            //    event.originalTarget.setAttribute('closemenu', "none")
+            //}, true);
             var nodes = popup.querySelectorAll('.eom.menuitem-iconic');
             for (var i = 0, len = nodes.length; i < len; i++) {
                 nodes[i].parentNode.removeChild(nodes[i]);
@@ -196,6 +194,7 @@ Ctrl + 右鍵：移除擴充套件
                             tooltiptext: '左鍵：啟用 / 禁用擴充套件' + ' (Size: ' + Math.floor(addon.size / 1024) + 'KB)' + '\n中鍵：打開擴充套件首頁 - ' + addon.homepageURL + '\n右鍵：打開擴充套件選項 - ' + addon.optionsURL + '\nCtrl + 左鍵：打開擴充套件的安裝資料夾\nCtrl + 中鍵：複製擴充套件 ID - ' + addon.id + ' 和\n　　　　　　圖示網址 - ' + addon.iconURL + '\nCtrl + 右鍵：移除擴充套件' + '\n\n更新日期：' + updateDate + '\n說明：' + addon.description,
                             class: 'eom menuitem-iconic',
                             image: icon,
+                            closemenu: "none",
                             onclick: "EOM.itemClick(event);"
                         }));
                         if (addon.type == 'plugin') {
@@ -267,9 +266,6 @@ Ctrl + 右鍵：移除擴充套件
                 if (this.MENU_LIST[i].disp) {
                     var menuItem = document.createElement("menuitem");
                     if (this.MENU_LIST[i].label == 'configuration') {
-                        menuItem.setAttribute("class", "menuitem-iconic");
-                        menuItem.setAttribute("label", this.MENU_LIST[i].label + "sinfo");
-                        menuItem.setAttribute("image", this.MENU_LIST[i].image);
                     } else {
                         menuItem.setAttribute("class", "menuitem-iconic");
                         menuItem.setAttribute("label", this.MENU_LIST[i].label + "(包含說明)");
@@ -279,14 +275,87 @@ Ctrl + 右鍵：移除擴充套件
                     mp.appendChild(menuItem);
                 }
             }
+            if ($('gm_general_menu') != null) { //Greasemonkey
+                var ins = document.querySelector("#EOM-menu menupopup");
+                ins.insertBefore($C("menuitem", {
+                    class: "menuitem-iconic",
+                    label: "Greasemonkey腳本清單",
+                    image: "chrome://greasemonkey/skin/icon16.png",
+                    oncommand: function() {
+                        AddonManager.getAddonsByTypes(['greasemonkey-user-script'], function(aAddons) {
+                            var downURLs = [];
+                            aAddons.forEach(function(aAddon) {
+                                var name = aAddon._script.name;
+                                var downURL = aAddon._script._downloadURL;
+                                var ver = aAddon.version;
+                                if (aAddon.isActive)
+                                    downURLs.push(name + ' ' + '[' + ver + ']' + '\n' + downURL);
+                                else
+                                    downURLs.push(name + ' ' + '[' + ver + ']' + ' (已停用)' + '\n' + downURL);
+                            });
+                            EOM.copy(downURLs.join('\n'));
+                        });
+                        Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單已複製", false, "", null);
+                    },
+                }), ins.childNodes[5]);
+                ins.insertBefore($C("menuitem", {
+                    class: "menuitem-iconic",
+                    label: "Greasemonkey腳本清單(包含說明)",
+                    image: "chrome://greasemonkey/skin/icon16.png",
+                    oncommand: function() {
+                        AddonManager.getAddonsByTypes(['greasemonkey-user-script'], function(aAddons) {
+                            var downURLs = [];
+                            aAddons.forEach(function(aAddon) {
+                                var name = aAddon._script.name;
+                                var downURL = aAddon._script._downloadURL;
+                                var ver = aAddon.version;
+                                var dc = aAddon._script._description;
+                                if (aAddon.isActive)
+                                    downURLs.push(name + ' ' + '[' + ver + ']' + '\n說明：' + dc + '\n' + downURL);
+                                else
+                                    downURLs.push(name + ' ' + '[' + ver + ']' + ' (已停用)' + '\n說明：' + dc + '\n' + downURL);
+                            });
+                            EOM.copy(downURLs.join('\n'));
+                        });
+                        Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Greasemonkey", "使用者腳本清單(包含說明)已複製", false, "", null);
+                    },
+                }), ins.childNodes[12]);
+            }
+            if ($('stylish-popup') != null) { //Stylish
+                var ins = document.querySelector("#EOM-menu menupopup");
+                ins.insertBefore($C("menuitem", {
+                    class: "menuitem-iconic",
+                    label: "Stylish樣式清單",
+                    image: "chrome://stylish/skin/16.png",
+                    oncommand: function() {
+                        AddonManager.getAddonsByTypes(['userstyle'], function(aAddons) {
+                            var userstyles = [];
+                            aAddons.forEach(function(aAddon) {
+                                var name = aAddon.name;
+                                var homeURL = aAddon.homepageURL;
+                                if (homeURL) {
+                                    if (aAddon.isActive)
+                                        userstyles.push(name + '\n' + homeURL);
+                                    else
+                                        userstyles.push(name + ' (已停用)' + '\n' + homeURL);
+                                } else {
+                                    if (aAddon.isActive)
+                                        userstyles.push(name);
+                                    else
+                                        userstyles.push(name + ' (已停用)');
+                                }
+                            });
+                            EOM.copy(userstyles.join('\n'));
+                        });
+                        Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification("", "Stylish", "使用者樣式清單已複製", false, "", null);
+                    },
+                }), ins.childNodes[6]);
+            }
         },
         iconClick: function(event) {
             if (event.target !== event.currentTarget) return;
             switch (event.button) {
                 case 1:
-                    var {
-                        AddonManager
-                    } = Components.utils.import("resource://gre/modules/AddonManager.jsm", {});
                     var AddonIDs = [
                         'inspector@mozilla.org',
                         'InspectElement@zbinlin',
@@ -296,7 +365,7 @@ Ctrl + 右鍵：移除擴充套件
                             addon.userDisabled = addon.userDisabled ? false : true;
                         });
                     }
-                    Application.restart();
+                    ('BrowserUtils' in window) ? BrowserUtils.restartApplication(): Application.restart();
                     break;
                 case 2:
                     //"switchToTabHavingURI" in window ? switchToTabHavingURI("about:addons", true) : gBrowser.selectedTab = gBrowser.addTab('about:addons');
@@ -465,10 +534,9 @@ Ctrl + 右鍵：移除擴充套件
             }
             Components.classes["@mozilla.org/widget/clipboardhelper;1"].getService(Components.interfaces.nsIClipboardHelper).copyString(txt);
             this.alert(cmd);
-            //XULBrowserWindow.statusTextField.label = "清單已複製";
-            //setTimeout(function() {
-            //    XULBrowserWindow.statusTextField.label = "";
-            //}, 2000);
+        },
+        copy: function(aText) {
+            Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper).copyString(aText);
         },
         alert: function(aString, aTitle) {
             let EaTitle = "Extension Options Menu";
@@ -772,14 +840,13 @@ Ctrl + 右鍵：移除擴充套件
     function $(id) document.getElementById(id);
     function $C(name, attr) {
         var el = document.createElement(name);
-        if (attr) Object.keys(attr)
-            .forEach(function(n) {
-                if (typeof attr[n] == 'function') {
-                    el.setAttribute(n, attr[n].toSource() + '.call(this, event);');
-                } else {
-                    el.setAttribute(n, attr[n])
-                }
-            });
+        if (attr) Object.keys(attr).forEach(function(n) {
+            if (typeof attr[n] == 'function') {
+                el.setAttribute(n, attr[n].toSource() + '.call(this, event);');
+            } else {
+                el.setAttribute(n, attr[n])
+            }
+        });
         return el;
     }
     function addStyle(css) {
