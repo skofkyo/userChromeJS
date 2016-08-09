@@ -1,0 +1,10 @@
+@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
+@-moz-document url(chrome://browser/content/browser.xul) {
+/*去除前进后退按钮圆圈*/
+#nav-bar #back-button > .toolbarbutton-icon,
+#nav-bar #forward-button > .toolbarbutton-icon{
+   -moz-appearance: none !important;
+   border: 0px solid transparent !important;
+   box-shadow: none !important;
+   background: none !important;
+}

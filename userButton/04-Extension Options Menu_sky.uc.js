@@ -553,7 +553,7 @@ Ctrl + 右鍵：移除擴充套件
             if (aString == "UA") {
                 Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification(image, aTitle || EaTitle, "使用者代理字串UserAgent已複製", false, "", null);
             } else if (aString == "extension" && this.description) {
-                Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification(image, aTitle || EaTitle, "Extension擴充套件(包含說明)清單已複製", false, "", null);
+                Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification(image, aTitle || EaTitle, "Extension擴充套件(包含說明,首頁)清單已複製", false, "", null);
             } else if (aString == "extension") {
                 Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService).showAlertNotification(image, aTitle || EaTitle, "Extension擴充套件清單已複製", false, "", null);
             } else if (aString == "theme" && this.description) {

@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// ==UserScript==
+// @name           zcust_autopopup.uc.xul
+// @namespace      lidanny2012/custautopopup@gmail.com
+// @description    自定义自动弹出按钮(ctrl+alt+右键添加/ctrl+alt+中键删除)
+// @include        chrome://browser/content/browser.xul
+// @compatibility  Firefox 23
+// @author         dannylee
+// @version        1.1
+// @note           2014/2/25 Fixed "menu-button" only Popup on dropmaker, added 1 seconds delay runtime after started
+// @note           report bug: https://g.mozest.com/thread-43513-4-1  
+// ==/UserScript==
+ -->
+<overlay id="cust_autopopup" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<script type="application/x-javascript" xmlns="http://www.w3.org/1999/xhtml"><![CDATA[
+
+if (window.cust_autopopup) {
+	window.cust_autopopup.uninit();
+	delete window.cust_autopopup;
+}
+
+window.cust_autopopup = {
+	poppref: Components.classes["@mozilla.org/preferences-service;1"].
+	      getService(Components.interfaces.nsIPrefService).
+	      getBranch("userChromeJS.autopopup.").
+	      QueryInterface(Components.interfaces.nsIPrefBranch2),
+	PopElement: null,
+	DropElement: null,
+	PopTimer: null,
+	HideTimer: null, 
+	isshow: false,
+	notDelay: 200,
+	Poplist: [],
+	Preflist: "",
+	
+	init: function() {
+		cust_autopopup.getPopPrefs();
+		var XID = [];
+	  for (var i=0; i < cust_autopopup.Poplist.length; i++) {
+	  	XID = cust_autopopup.Poplist[i].split(":");
+	  	if (XID[0] == "bookmark-item")
+	  	  cust_autopopup.addbookmarkpopevent(XID[1]);
+	  	else
+	  	  cust_autopopup.addpopevent(XID[0], XID[2]);
+	  }
+	  window.addEventListener("click", cust_autopopup, true);
+	  window.addEventListener("unload", cust_autopopup.uninit, false);
+	},
+	
+	uninit: function() {
+	  window.removeEventListener("click", cust_autopopup, true);
+	  cust_autopopup.PopTimer = null; 
+	  cust_autopopup.HideTimer = null; 
+	},
+	
+	handleEvent: function (e) {
+    if (!e.ctrlKey || !e.altKey || e.shiftKey || (e.button != 2 && e.button != 1)) return;
+    e.stopPropagation();
+    e.preventDefault();
+    if (e.type != "click") return;
+    var win = e.originalTarget.ownerDocument;
+    if (!win || (win && win.location != "chrome://browser/content/browser.xul")) 
+      return;
+    var parentelem = e.target;
+    var orgelem = e.originalTarget; 
+    var elem = orgelem.id;
+    if (!elem || elem == "") elem = orgelem.className;
+    //Application.console.log("parentelem: " + parentelem.className + "elem: " + orgelem.className);
+    if (!elem || elem == "") return;
+    if (elem == "bookmark-item") {
+      if (e.button == 2 && cust_autopopup.addbookmarkPrefs(orgelem.label)) { 
+        var alertSvr = Components.classes["@mozilla.org/alerts-service;1"].getService(Components.interfaces.nsIAlertsService);
+        alertSvr.showAlertNotification(null, "CUSTOM AutoPopup", orgelem.label + "已设置为自动弹出！", false, "", null);
+      } else if (e.button == 1 && cust_autopopup.delbookmarkPrefs(orgelem.label)) {
+        var alertSvr = Components.classes["@mozilla.org/alerts-service;1"].getService(Components.interfaces.nsIAlertsService);
+        alertSvr.showAlertNotification(null, "CUSTOM AutoPopup",  "已删除" + orgelem.label + "自动弹出设置！", false, "", null);
+      }
+      return;
+    }
+    var pelem = "";
+    if (parentelem != orgelem && parentelem.getAttribute('type') != "menu-button") {
+      if (!parentelem.id || parentelem.id == "") return;
+      var targetitem = AnonymousEid(elem, parentelem.id);
+      if (targetitem)
+        pelem = parentelem.id;
+    } else if (parentelem != orgelem && parentelem.getAttribute('type') == "menu-button") {
+      elem = parentelem.id;
+    }
+    if (e.button == 2) {
+      if (orgelem && cust_autopopup.addPopPrefs(elem, pelem)) {
+        var alertSvr = Components.classes["@mozilla.org/alerts-service;1"].getService(Components.interfaces.nsIAlertsService);
+        alertSvr.showAlertNotification(null, "CUSTOM AutoPopup", elem + "已设置为自动弹出！", false, "", null);
+      }
+    } else if (e.button == 1) {
+      if (orgelem && cust_autopopup.delPopPrefs(elem, pelem)) {
+        var alertSvr = Components.classes["@mozilla.org/alerts-service;1"].getService(Components.interfaces.nsIAlertsService);
+        alertSvr.showAlertNotification(null, "CUSTOM AutoPopup",  "已删除" + elem + "自动弹出设置！", false, "", null);
+      }
+    }
+  },
+	
+	getPopPrefs: function() {
+ 	  if (cust_autopopup.poppref.prefHasUserValue("list")) { 
+ 	  	  cust_autopopup.Preflist = cust_autopopup.poppref.getCharPref("list");
+        cust_autopopup.Poplist = cust_autopopup.Preflist.split("|");
+     } else {
+     	 cust_autopopup.Preflist = "";
+     	 cust_autopopup.Poplist = [];
+     }
+	},
+	
+	addPopPrefs: function(aid, tid) {
+		if (aid == "") return false;
+		if (cust_autopopup.Preflist.indexOf(aid + ":") != -1)
+		  return false;
+		else {
+			var pid = cust_autopopup.addpopevent(aid, tid);
+			if (pid) {
+			  cust_autopopup.Poplist.push(aid + ":" + pid + ":" + tid);
+			  cust_autopopup.Preflist = cust_autopopup.Poplist.join("|");
+			  cust_autopopup.poppref.setCharPref("list", cust_autopopup.Preflist);
+			  return true;
+		  }
+		  return false;
+		}
+	},
+	
+	addbookmarkPrefs: function(aid) {
+		if (!aid || aid == "") return false;
+		if (cust_autopopup.Preflist.indexOf("bookmark-item:" + aid) != -1)
+		  return false;
+		else {
+			var pid = cust_autopopup.addbookmarkpopevent(aid);
+			if (pid) {
+			  cust_autopopup.Poplist.push("bookmark-item:" + aid + ":" + "");
+			  cust_autopopup.Preflist = cust_autopopup.Poplist.join("|");
+			  cust_autopopup.poppref.setCharPref("list", cust_autopopup.Preflist);
+			  return true;
+		  }
+		  return false;
+		}
+	},
+	
+	delPopPrefs: function(aid, tid) {
+	  if (aid == "") return false;
+	  var ft = cust_autopopup.Preflist.indexOf(aid + ":");
+		if (ft == -1)
+		  return false;
+		else {
+			var popidx = -1;
+			for (var j = 0; j < cust_autopopup.Poplist.length; j++) {
+        if (cust_autopopup.Poplist[j].indexOf(aid + ":") != -1) {
+        	popidx = j;
+          break;
+        }
+      }
+      if (popidx != -1) {
+        cust_autopopup.Poplist.splice(popidx, 1);
+        cust_autopopup.Preflist = cust_autopopup.Poplist.join("|");
+        cust_autopopup.poppref.setCharPref("list", cust_autopopup.Preflist);
+        cust_autopopup.delpopevent(aid, tid);
+        return true;
+      } else
+      	return false;
+		}
+	},
+	
+	delbookmarkPrefs: function(aid) {
+	  if (!aid || aid == "") return false;
+	  var ft = cust_autopopup.Preflist.indexOf("bookmark-item:" + aid);
+		if (ft == -1)
+		  return false;
+		else {
+			var popidx = -1;
+			for (var j = 0; j < cust_autopopup.Poplist.length; j++) {
+        if (cust_autopopup.Poplist[j].indexOf("bookmark-item:" + aid) != -1) {
+        	popidx = j;
+          break;
+        }
+      }
+      if (popidx != -1) {
+        cust_autopopup.Poplist.splice(popidx, 1);
+        cust_autopopup.Preflist = cust_autopopup.Poplist.join("|");
+        cust_autopopup.poppref.setCharPref("list", cust_autopopup.Preflist);
+        cust_autopopup.delbookmarkpopevent(aid);
+        return true;
+      } else
+      	return false;
+		}
+	},
+	
+	delpopevent: function(aid, tid) {
+	  if (tid && tid != "" && tid != null && tid != "null")
+	    var aitem = AnonymousEid(aid, tid);
+	  else
+		  var aitem = Eid(aid);
+		if (aitem) {
+		  var type = aitem.getAttribute('type');
+		  let boxitem = null;
+      if (type == 'menu-button') {
+         boxitem = document.getAnonymousElementByAttribute(aitem, "className", "box-inherit toolbarbutton-menubutton-button");
+       }
+		  aitem.removeEventListener('mouseover', cust_autopopup.MouseOver, false); 
+      aitem.removeEventListener('mouseout', cust_autopopup.MouseOut, false);
+      if (boxitem) {
+        boxitem.removeEventListener('mouseover', cust_autopopup.MouseOver, false); 
+        boxitem.removeEventListener('mouseout', cust_autopopup.MouseOut, false);
+      }
+		}  
+	},
+	
+	delbookmarkpopevent: function(aid) {
+	  if (!aid || aid == "")
+	    return;
+	  else
+		  var aitem = Ebookmarkid(aid);
+		if (aitem) {
+		  aitem.removeEventListener('mouseover', cust_autopopup.MouseOver, false); 
+      aitem.removeEventListener('mouseout', cust_autopopup.MouseOut, false);
+		}  
+	},
+	
+	addpopevent: function(eaid, tid) {
+	  if (tid && tid != "" && tid != null && tid != "null")
+	    var aitem = AnonymousEid(eaid, tid);
+	  else
+	    var aitem = Eid(eaid);
+	  if (aitem) {
+	    var type = aitem.getAttribute('type');
+	    //Application.console.log("localName: " + aitem.localName + "||type: " + type);
+	    if (IsButton(aitem)) {
+            if (aitem.localName == 'statusbarpanel') {
+               var aconitemID = cust_autopopup.CheckContentItem(aitem);
+               return aconitemID;
+            } else if (aitem.localName == 'image') {
+               var aconitemID = cust_autopopup.CheckContentItem(aitem);
+               if (aconitemID) 
+                 return aconitemID;
+               else {
+                 var paitem = aitem.parentNode;
+                 aconitemID = cust_autopopup.CheckContentItem(paitem);
+                 return aconitemID;
+               }
+            } else {
+            	if (type != 'menu' && type != 'menu-button') {
+            	  var aconitemID = cust_autopopup.CheckContentItem(aitem);
+                return aconitemID;
+              } else {
+              	var nodes = null;
+              	let boxitem = null;
+                if (type == 'menu-button') {
+                   boxitem = document.getAnonymousElementByAttribute(aitem, "className", "box-inherit toolbarbutton-menubutton-button");
+                }
+              	for(var i=0; i<2; i++) {
+                  try {
+                      nodes = i==0x01 ? aitem.childNodes : aitem.ownerDocument.getAnonymousNodes(aitem);
+                      if (nodes != null && nodes.length && nodes[0].localName == 'menupopup') {
+                      	if (nodes[0].id) {
+                      		 var s = aitem.getAttribute("onmouseover");
+                           if (s) {
+                           	 aitem.addEventListener('mouseover', eval("cust_autopopup.MouseOver;" + s), false); 
+                             aitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                             if (boxitem) {
+                               boxitem.addEventListener('mouseover', eval("cust_autopopup.MouseOver;" + s), false); 
+                               boxitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                             }
+                           }else {
+                             aitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                             aitem.addEventListener('mouseover', cust_autopopup.MouseOver, false); 
+                             if (boxitem) {
+                               boxitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                               boxitem.addEventListener('mouseover', cust_autopopup.MouseOver, false); 
+                             }
+                           }
+                      	   return nodes[0].id;
+                      	}else if (nodes[0].className) {
+                      		 var s = aitem.getAttribute("onmouseover");
+                           if (s) {
+                           	 aitem.addEventListener('mouseover', eval("cust_autopopup.MouseOver;" + s), false); 
+                             aitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                             if (boxitem) {
+                               boxitem.addEventListener('mouseover', eval("cust_autopopup.MouseOver;" + s), false); 
+                               boxitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                             }
+                           }else {
+                             aitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                             aitem.addEventListener('mouseover', cust_autopopup.MouseOver, false); 
+                             if (boxitem) {
+                               boxitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                               boxitem.addEventListener('mouseover', cust_autopopup.MouseOver, false); 
+                             }
+                           }
+                      		return nodes[0].className;
+                        } else
+                          return null;
+                      }
+                  }catch(e) { return null; }
+                }
+                return null;
+              }
+            }
+      } else 
+        return null;
+	  } else
+      return null;
+	},
+	
+	addbookmarkpopevent: function(eaid) {
+	  if (!eaid || eaid == "")
+	    return false;
+	  else
+	    var aitem = Ebookmarkid(eaid);
+	  if (aitem) {
+	    var type = aitem.getAttribute('type');
+	    if (IsButton(aitem)) {
+              if (type == 'menu' || type == 'menu-button') {
+              	var nodes = null;
+              	for(var i=0; i<2; i++) {
+                  try {
+                      nodes = i==0x01 ? aitem.childNodes : aitem.ownerDocument.getAnonymousNodes(aitem);
+                      if (nodes != null && nodes.length && nodes[0].localName == 'menupopup') {
+                        var s = aitem.getAttribute("onmouseover");
+                        if (s) {
+                        	aitem.addEventListener('mouseover', eval("cust_autopopup.MouseOver;" + s), false); 
+                          aitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                        }else {
+                          aitem.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+                          aitem.addEventListener('mouseover', cust_autopopup.MouseOver, false); 
+                        }
+                      	return true;
+                      }
+                  }catch(e) { return false; }
+                }
+                return false;
+              } else
+                return false;
+      } else 
+        return false;
+	  } else
+      return false;
+	},
+	
+	MouseOver: function (e) {
+    if (!document.hasFocus())
+        return;
+    if (cust_autopopup.HideTimer) {
+        window.clearTimeout(cust_autopopup.HideTimer);
+        cust_autopopup.HideTimer = null;
+    }
+    var orgelem = e.originalTarget; 
+    if (!orgelem) 
+      orgelem = e.target;
+    if (orgelem && orgelem.className == "box-inherit toolbarbutton-menubutton-button"){
+      var elem = e.target.id;
+      if (!elem || elem =="") 
+      elem = e.target.className;
+    } else {
+      var elem = orgelem.id;
+      if (!elem || elem =="") 
+      elem = orgelem.className;
+    }
+    
+    if (!elem || elem =="") return;
+    try {
+        if ('PopupAutoComplete' == elem.substr(0,17))
+            return;
+        for(var elt = orgelem; elt!=null; elt=elt.parentNode) {
+              if (elt.localName=='popup' || elt.localName=='menupopup')
+                  return;
+        }
+    }catch(ex) {}
+    	
+    if (cust_autopopup.PopElement) {
+        if (cust_autopopup.DropElement != null && orgelem == cust_autopopup.DropElement && cust_autopopup.isshow)
+            return;
+        try { 
+            if (cust_autopopup.PopElement.localName != 'dropmarker') {
+            	for(var elt=orgelem; elt!=null; elt = elt.parentNode) {
+                    if (elt == cust_autopopup.PopElement) return;
+              }
+            }
+        }catch(ex) {}
+        cust_autopopup.HidePopup();
+    }
+    var poprl = "", popid = null, popitem = null, rlarra = [], ptagid = null;
+    if (elem == "bookmark-item") {
+      var labeltag = orgelem.label;
+      var nodes = null;
+        	for(var i=0; i<2; i++) {
+            try {
+                nodes = i==0x01 ? orgelem.childNodes : orgelem.ownerDocument.getAnonymousNodes(orgelem);
+                if (nodes != null && nodes.length && nodes[0].localName == 'menupopup') {
+                  popitem = nodes[0];
+                }
+            }catch(e) { }
+          }
+      
+    } else {
+      for (var j = 0; j < cust_autopopup.Poplist.length; j++) {
+      	rlarra = []; ptagid = null;
+        poprl = cust_autopopup.Poplist[j];
+        if (poprl.indexOf(elem + ":") != -1) {
+          rlarra = poprl.split(":");
+          popid = rlarra[1];
+          ptagid = rlarra[2];
+          if (!ptagid || ptagid == "" || ptagid == null || ptagid == "null")
+            popitem = Eid(popid);
+          else
+            popitem = AnonymousEid(popid, ptagid);
+          break;
+        }
+      }
+    }
+    if (popitem) {
+      cust_autopopup.DropElement = orgelem;
+      cust_autopopup.PopElement = popitem;
+      cust_autopopup.PopTimer = setTimeout(cust_autopopup.AutoPopup, cust_autopopup.notDelay);
+    }
+  },
+
+  MouseOut: function(e) {
+    var bookpop = document.getElementById("placesContext");
+    if (bookpop) {
+      if (bookpop.state == "open")
+        return;
+    }
+        if (cust_autopopup.PopTimer) {
+            window.clearTimeout(cust_autopopup.PopTimer);
+            cust_autopopup.PopTimer = null;
+        }
+        if (!cust_autopopup.HideTimer && cust_autopopup.PopElement != null)
+            cust_autopopup.HideTimer = window.setTimeout(cust_autopopup.HidePopup, 500);
+  },
+  
+  HidePopup: function() {
+        try {
+            if (cust_autopopup.PopElement.localName=='dropmarker')
+                cust_autopopup.PopElement.parentNode.closePopup();
+            else
+                cust_autopopup.PopElement.hidePopup();
+        }catch(e) {}
+        cust_autopopup.HideTimer = null; 
+        cust_autopopup.DropElement = null;
+        cust_autopopup.PopElement = null;
+        cust_autopopup.isshow = false;
+  },
+  
+  AutoPopup: function() {
+        cust_autopopup.PopTimer = null;
+        if (cust_autopopup.DropElement) {
+            try {
+              	cust_autopopup.PopElement.showPopup(cust_autopopup.DropElement, -1, -1, 'popup', 'bottomleft', 'topleft'); 
+              	cust_autopopup.isshow = true;
+            }catch(e) { cust_autopopup.PopElement = null; cust_autopopup.isshow = false;}
+        }
+  },
+  
+  CheckContentItem: function(elt) {
+    if (!elt) return null;
+    var acontext = elt.hasAttribute("context") ? elt.getAttribute("context") : "";
+    if (acontext != "") {
+      var conitem = elt.ownerDocument.getElementById(acontext);
+      if (!conitem) conitem = elt.ownerDocument.getElementsByClassName(acontext);
+      if (conitem) {
+      	  var s = elt.getAttribute("onmouseover");
+          if (s) {
+          	elt.addEventListener('mouseover', eval("cust_autopopup.MouseOver;" + s), false); 
+            elt.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+          }else {
+            elt.addEventListener('mouseout', cust_autopopup.MouseOut, false);
+            elt.addEventListener('mouseover', cust_autopopup.MouseOver, false); 
+          }
+          return acontext;
+      } else
+      	return null;
+    } else
+      return null;
+  }
+};
+function AnonymousEid(aid, pid) {
+  var parentelem = document.getElementById(pid);
+  if (parentelem) {
+    var targetitem = document.getAnonymousElementByAttribute(parentelem, "anonid", aid);
+    if (targetitem)
+      return targetitem;
+    else
+      return null;
+  } else
+    return null;
+}
+function Eid(aid) {
+	var aitem = document.getElementById(aid);
+	if (aitem)
+	  return aitem;
+	else {
+	  aitem = document.getElementsByClassName(aid)[0];
+	  if (aitem) 
+	    return aitem; 
+	  else
+	  	return null;
+	}
+}
+function Ebookmarkid(alabel) {
+	if (!alabel || alabel == "")
+	  return null;
+	else {
+	  var aitem = document.getElementsByClassName("bookmark-item");
+	  if (aitem) {
+	    for (var i = 0; i < aitem.length; i++) {
+	      if (aitem[i].label == alabel)
+	        return aitem[i]; 
+	    }
+	    return null;
+	  } else
+	  	return null;
+	}
+}
+function IsButton(elt) {
+   try {
+     return elt.localName=='toolbarbutton' || elt.localName=='button' || elt.localName=='statusbarpanel' || elt.localName=='image';
+   }catch(e) { return false; }
+}
+setTimeout(cust_autopopup.init, 1000);
+  ]]></script>
+</overlay>
