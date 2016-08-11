@@ -8,7 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                2016.8.7!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.11!!!自用完整版 有精簡用不到的代碼
 // @note                2016.8.2 調整代碼 修正函數
 // @note                2016.8.1 調整代碼 增加可用函數 主要取至addMenuPlus
 // @note                2016.7.30 調整代碼 $C可以運行自定義函數
@@ -188,22 +188,27 @@
             this.newMenuitem(menupopup,menus);
             /*==========google 捷徑==========*/
             /*==========移動選單==========*/
-            if ($('redirector-icon') != null) mp.appendChild($('redirector-icon')); //Redirector
-            if ($('ucjs_UserAgentChanger') != null) mp.appendChild($('ucjs_UserAgentChanger')); //UserAgentChange
-            if ($('EncodeDecodeHtml_menu') != null) mp.appendChild($('EncodeDecodeHtml_menu')); //EncodeDecodeHtml
-            if ($('eom-menu') != null) {//擴充套件及外掛管理器
-                var menu = mp.appendChild($('eom-menu')); 
-                menu.addEventListener("click", function(event) {
+            var menus = [
+            {mid: "redirector-icon"},//Redirector
+            {mid: "ucjs_UserAgentChanger"},//UserAgentChange
+            {mid: "EncodeDecodeHtml_menu"},//EncodeDecodeHtml
+            {mid: "eom-menu"},//擴充套件及外掛管理器
+            {mid: "gm_general_menu"},//Greasemonkey
+            ];
+            this.newMenuitem(mp,menus);
+            /*//擴充套件及外掛管理器 添加點擊事件//*/
+            if ($('eom-menu') != null) {
+                $('eom-menu').addEventListener("click", function(event) {
                     if (event.button == 2) {
                         mp.hidePopup();
                     }
                 }, false);
             }
+            /*//擴充套件及外掛管理器 添加點擊事件//*/
             /*==========移動選單==========*/
-            /*==========Greasemonkey==========*/
+            /*==========Greasemonkey 添加複製選單==========*/
             var g = $('gm_general_menu'); //Greasemonkey
             if (g != null) { //Greasemonkey
-                mp.appendChild(g); //Greasemonkey
                 var ins = document.querySelector("#gm_general_menu menupopup");
                 ins.insertBefore($C("menuitem", {
                     class: "menuitem-iconic",
@@ -250,7 +255,7 @@
                     },
                 }), ins.childNodes[6]);
             } //Greasemonkey
-            /*==========Greasemonkey==========*/
+            /*==========Greasemonkey 添加複製選單==========*/
             /*==========Stylish選單版==========*/
             if ($('stylish-popup') != null) {
                 var menu = mp.appendChild($C("menu", {
@@ -438,6 +443,18 @@
                 label: "正式版64BIT測試配置",
                 text: "-no-remote -profile ..\\releases_profiles_64BIT",
                 exec: "\\..\\Firefox_releases_64BIT\\firefox.exe",
+            },{
+                label: "pcxFirefox測試配置",
+                text: "-no-remote -profile ..\\pcxFirefox_profiles",
+                exec: "\\..\\pcxFirefox\\firefox.exe",
+            },{
+                label: "pcxFirefox64BIT測試配置",
+                text: "-no-remote -profile ..\\pcxFirefox_profiles_64BIT",
+                exec: "\\..\\pcxFirefox_64BIT\\firefox.exe",
+            },{
+                label: "tete009測試配置",
+                text: "-no-remote -profile ..\\tete009_profiles",
+                exec: "\\..\\tete009\\firefox.exe",
             },{
                 label: "正式版(Unbranded)測試配置",
                 text: "-no-remote -profile ..\\releases_profiles_Unbranded",
