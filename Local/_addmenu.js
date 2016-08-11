@@ -1,55 +1,4 @@
 //====================================================================//
-// command 屬性からオリジナルの hidden 等を連動させる関數
-function syncHidden(event) {
-	Array.slice(event.target.children).forEach(function(elem){
-		var command = elem.getAttribute('command');
-		if (!command) return;
-		var original = document.getElementById(command);
-		if (!original) {
-			elem.hidden = true;
-			return;
-		};
-		elem.hidden = original.hidden;
-		elem.collapsed = original.collapsed;
-		elem.disabled = original.disabled;
-	});
-};
-
-/**
- * ファイルメニューなどを右クリックメニューから無理矢理使えるようにする
- */
-
-// 既存の menupopup をサブメニューとして利用する関數
-// menu に subpopup 屬性が必要
-function subPopupshowing(event) {
-	var subPopup = document.getElementById(event.currentTarget.getAttribute('subpopup'));
-	if (!subPopup) return;
-
-	var popup = event.target;
-	if (!popup.hasAttribute('style')) {
-		popup.style.cssText = [
-			'-moz-appearance: none !important;'
-			,'max-height: 1px !important;'
-			,'border: none !important;'
-			,'background: transparent !important;'
-			,'opacity: 0 !important;'
-		].join(' ');
-	}
-	popup.style.setProperty('min-width', (popup._width || 100)+'px', 'important');
-
-	var {screenY, screenX, width} = popup.boxObject;
-	var popupshown = function(evt) {
-		var utils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
-		utils.sendMouseEvent('mousemove', screenX, screenY, 0, 1, 0);
-		subPopup.removeEventListener('popupshown', popupshown, false);
-		popup._width = subPopup.boxObject.width;
-	};
-	setTimeout(function() {
-		subPopup.addEventListener('popupshown', popupshown, false);
-		subPopup.openPopupAtScreen(screenX-2, screenY-2, true);
-	}, 0);
-};
-//====================================================================//
 // 可以导入多文件的配置。默认在这个文件加载后执行。 include('');
 // 调整位置3种方法: insertBefore, insertAfter, position
 
@@ -63,11 +12,12 @@ page({
         tooltiptext: "左鍵重載 ；右鍵編輯",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABO0lEQVRIib2WYbGDMBCEKwEJSNj5zkClIAEJOKgEJCChEpCAhEro+5N04Eho0r5yM/yBy+3tsrnkcqkMYJF0rV1XHWb2NLMnMEpq/q2wpAbozGwyszkCBbAH0H0NAgzAY10889wltZ+waH33BUCqBilkEaXrnQq3InYpJsAC9IFpfD95MwBj+DYfggBDAmTjrpy9g1nW64acZI2XDBhTeZkmRy9rMjdYeCNXzT4JjS6uRrdLTFDv9+WOA+id9FMKaGOCT/aFM0vaFN4EtSDFdc4EOk26c8xwmr1LN2zMPRg/xxs2JPsRtKMu6boeQ6HB0a3Lj6AY0RSejaRm/R+BDugzk/54qIaCLXBzTHMFk0dHtWMlyczuJQCRyTcn7VugcAAO1QA+wv/w0s1mNgHdL25DL3f9/G7n7V0af9jEflS+F9XNAAAAAElFTkSuQmCC",
         oncommand: "setTimeout(function(){ addMenu.rebuild(true); }, 10);",
-		onclick: "if (event.button == 2) { event.preventDefault(); addMenu.edit(addMenu.FILE); }",
+        onclick: "if (event.button == 2) { event.preventDefault(); addMenu.edit(addMenu.FILE); }",
         position: 9999
 })
 
 page({
+    id: "uc_windowontop",
     label: "視窗置頂",
     insertBefore: 'toolbar-context-reloadAllTabs',
     type: "checkbox",
@@ -113,8 +63,13 @@ page({
                 if (onTop) {
                     hwndAfter = -1;
                     document.getElementById('main-window').setAttribute('ontop', 'true');
-                } else document.getElementById('main-window').removeAttribute('ontop');
-                funcSetWindowPos(activeWindow, hwndAfter, 0, 0, 0, 0, 19);
+                    document.getElementById('uc_windowontop').setAttribute('label', '取消視窗置頂');
+                    funcSetWindowPos(activeWindow, hwndAfter, 0, 0, 0, 0, 19);
+                } else {
+                    document.getElementById('main-window').removeAttribute('ontop');
+                    document.getElementById('uc_windowontop').setAttribute('label', '視窗置頂');
+                    funcSetWindowPos(activeWindow, hwndAfter, 0, 0, 0, 0, 19);
+                }
             }
             lib.close();
         } catch (ex) {
@@ -122,6 +77,69 @@ page({
         }
     },
 })
+//WIN10 解析度1920*1080
+var resize = PageMenu({
+    insertBefore: 'toolbar-context-reloadAllTabs',
+    label: "變更視窗尺寸",
+    image: "data:;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAQABADASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgMF/8QAIxAAAQQBBAEFAAAAAAAAAAAAAQIDBAURABIhQQYiIzEyof/EABUBAQEAAAAAAAAAAAAAAAAAAAUG/8QAHhEBAQABAwUAAAAAAAAAAAAAARECAANhBCEjQfD/2gAMAwEAAhEDEQA/ANRirmKZj2L0VT0V14JHuDc6d2Ckc5ycHrSi4pamPTSno8UR57CEOKSh9Sy0SrjPOOjqVXZUw8di19jMcjyWHFLBQhe5te9RBBAI+D+6O20hJsJTVbLkPxnyjKlE5eOB9hgZ9WetNeTczncjzEuo2bHT7NJk5B7FFHikfrr/2Q=="
+});
+resize([{
+    label: "800x600  4:3",
+    //oncommand: "resizeTo(800,600);window.moveTo(560, 210);",
+    oncommand: function() {
+        window.innerWidth = 800, window.innerHeight = 600;
+        window.moveTo(560, 210);
+    },
+}, {
+    label: "1024x768  4:3",
+    //oncommand: "resizeTo(1024,768);window.moveTo(448, 126);",
+    oncommand: function() {
+        window.innerWidth = 1024, window.innerHeight = 768;
+        window.moveTo(448, 126);
+    },
+}, {
+    label: "1280x1024  4:3",
+    //oncommand: "resizeTo(1280,1024);window.moveTo(320, 0);",
+    oncommand: function() {
+        window.innerWidth = 1280, window.innerHeight = 1024;
+        window.moveTo(320, 0);
+    },
+}, {}, {
+    label: "1280x800  16:10",
+    //oncommand: "resizeTo(1280,800);window.moveTo(320, 110);",
+    oncommand: function() {
+        window.innerWidth = 1280, window.innerHeight = 800;
+        window.moveTo(320, 110);
+    },
+}, {
+    label: "1440x900  16:10",
+    //oncommand: "resizeTo(1440,900);window.moveTo(270, 60);",
+    oncommand: function() {
+        window.innerWidth = 1440, window.innerHeight = 900;
+        window.moveTo(270, 60);
+    },
+}, {
+    label: "1680x1050  16:10",
+    //oncommand: "resizeTo(1680,1050);window.moveTo(120, 0);",
+    oncommand: function() {
+        window.innerWidth = 1680, window.innerHeight = 1050;
+        window.moveTo(120, 0);
+    },
+}, {}, {
+    label: "視窗佔用螢幕左半部", 
+    //oncommand: "resizeTo(screen.availWidth / 2,screen.availHeight);window.moveTo(-5, 0);",
+    oncommand: function() {
+        window.innerWidth = screen.availWidth / 2, window.innerHeight = screen.availHeight;
+        window.moveTo(-5, 0);
+    },
+}, {
+    label: "視窗佔用螢幕右半部", 
+    //oncommand: "resizeTo(screen.availWidth / 2,screen.availHeight);window.moveTo(screen.availWidth / 2, 0);",
+    oncommand: function() {
+        window.innerWidth = screen.availWidth / 2, window.innerHeight = screen.availHeight;
+        window.moveTo(screen.availWidth / 2, 0);
+    },
+}]);
 
 new function() {
     var items = [{
@@ -687,10 +705,15 @@ tab({
         insertBefore: "context_reloadTab",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB2UlEQVQ4jY2Tu47aQBSGzzskZaI026Sl5xnQYol+W7qgXERcbJMuL5EWhNA0WQN9noEHQArg9dxsj21sj/8UxsasWCkj/c3M+b5zTjFERHdENPzP3NGNMzz6Pg5HH89BAM45hJSQSkFpDa01dBgiimOcJbcFR78WbLdb/H56gud58DwPq9UKq/Uam80GRPSdiPqdvCciGgacIwgCCCEwm82w3+/biQLOwYWAlBJSSquUKpVSpdK6HI/HP4iIhlwICCmhtMZ8Psff/b6dqH1Tql0nDEOEUYTpdPqTiGjY7BtGERaLBY6+j4BzCCEglaqhKEIcxzDG1EkSuK5bC5oCYwyWy2UNnydqwSRBmqbIsqzO6XQRRHGMOI6RpikYY1ewMaYF8zy/SitoOmRZBsYYlFJX8Ol0Qp7nKIoCRVGgLEuUZXkRNIV5noMxBh2G7URduAGttbDWXgTJuXsjiKII3bsGttaiqqo2rwqa7rdgay3SNIXSuhoMBp+IiO6TNK2aYsYYjDFX3bvwbreD7z/DfXxcE9FbIqIPRHTffJh+v/8rSZJ29253YwwOhwMmX7/9IaJ3t/4FOY4zaQQvxw84r7647vpV+Hw+Oo4zGY1Gn1+m1+s9ENGbbvE/7y7BpIiSLPIAAAAASUVORK5CYII=",
 })
-
 tab({
         label: '複製頁面標題',
         text: "%TITLE%",
+        insertBefore: "Faviconbase64",
+        image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB2UlEQVQ4jY2Tu47aQBSGzzskZaI026Sl5xnQYol+W7qgXERcbJMuL5EWhNA0WQN9noEHQArg9dxsj21sj/8UxsasWCkj/c3M+b5zTjFERHdENPzP3NGNMzz6Pg5HH89BAM45hJSQSkFpDa01dBgiimOcJbcFR78WbLdb/H56gud58DwPq9UKq/Uam80GRPSdiPqdvCciGgacIwgCCCEwm82w3+/biQLOwYWAlBJSSquUKpVSpdK6HI/HP4iIhlwICCmhtMZ8Psff/b6dqH1Tql0nDEOEUYTpdPqTiGjY7BtGERaLBY6+j4BzCCEglaqhKEIcxzDG1EkSuK5bC5oCYwyWy2UNnydqwSRBmqbIsqzO6XQRRHGMOI6RpikYY1ewMaYF8zy/SitoOmRZBsYYlFJX8Ol0Qp7nKIoCRVGgLEuUZXkRNIV5noMxBh2G7URduAGttbDWXgTJuXsjiKII3bsGttaiqqo2rwqa7rdgay3SNIXSuhoMBp+IiO6TNK2aYsYYjDFX3bvwbreD7z/DfXxcE9FbIqIPRHTffJh+v/8rSZJ29253YwwOhwMmX7/9IaJ3t/4FOY4zaQQvxw84r7647vpV+Hw+Oo4zGY1Gn1+m1+s9ENGbbvE/7y7BpIiSLPIAAAAASUVORK5CYII=",
+})
+tab({
+        label: '複製 Favicon 的 URL',
+        text: "%FAVICON%",
         insertAfter: "Faviconbase64",
         image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB2UlEQVQ4jY2Tu47aQBSGzzskZaI026Sl5xnQYol+W7qgXERcbJMuL5EWhNA0WQN9noEHQArg9dxsj21sj/8UxsasWCkj/c3M+b5zTjFERHdENPzP3NGNMzz6Pg5HH89BAM45hJSQSkFpDa01dBgiimOcJbcFR78WbLdb/H56gud58DwPq9UKq/Uam80GRPSdiPqdvCciGgacIwgCCCEwm82w3+/biQLOwYWAlBJSSquUKpVSpdK6HI/HP4iIhlwICCmhtMZ8Psff/b6dqH1Tql0nDEOEUYTpdPqTiGjY7BtGERaLBY6+j4BzCCEglaqhKEIcxzDG1EkSuK5bC5oCYwyWy2UNnydqwSRBmqbIsqzO6XQRRHGMOI6RpikYY1ewMaYF8zy/SitoOmRZBsYYlFJX8Ol0Qp7nKIoCRVGgLEuUZXkRNIV5noMxBh2G7URduAGttbDWXgTJuXsjiKII3bsGttaiqqo2rwqa7rdgay3SNIXSuhoMBp+IiO6TNK2aYsYYjDFX3bvwbreD7z/DfXxcE9FbIqIPRHTffJh+v/8rSZJ29253YwwOhwMmX7/9IaJ3t/4FOY4zaQQvxw84r7647vpV+Hw+Oo4zGY1Gn1+m1+s9ENGbbvE/7y7BpIiSLPIAAAAASUVORK5CYII=",
 })
@@ -767,3 +790,56 @@ tab({
 //			},
 //    insertBefore: "context-sep-selectall",
 //});
+
+
+//====================================================================//
+// command 屬性からオリジナルの hidden 等を連動させる関數
+function syncHidden(event) {
+	Array.slice(event.target.children).forEach(function(elem){
+		var command = elem.getAttribute('command');
+		if (!command) return;
+		var original = document.getElementById(command);
+		if (!original) {
+			elem.hidden = true;
+			return;
+		};
+		elem.hidden = original.hidden;
+		elem.collapsed = original.collapsed;
+		elem.disabled = original.disabled;
+	});
+};
+
+/**
+ * ファイルメニューなどを右クリックメニューから無理矢理使えるようにする
+ */
+
+// 既存の menupopup をサブメニューとして利用する関數
+// menu に subpopup 屬性が必要
+function subPopupshowing(event) {
+	var subPopup = document.getElementById(event.currentTarget.getAttribute('subpopup'));
+	if (!subPopup) return;
+
+	var popup = event.target;
+	if (!popup.hasAttribute('style')) {
+		popup.style.cssText = [
+			'-moz-appearance: none !important;'
+			,'max-height: 1px !important;'
+			,'border: none !important;'
+			,'background: transparent !important;'
+			,'opacity: 0 !important;'
+		].join(' ');
+	}
+	popup.style.setProperty('min-width', (popup._width || 100)+'px', 'important');
+
+	var {screenY, screenX, width} = popup.boxObject;
+	var popupshown = function(evt) {
+		var utils = window.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsIDOMWindowUtils);
+		utils.sendMouseEvent('mousemove', screenX, screenY, 0, 1, 0);
+		subPopup.removeEventListener('popupshown', popupshown, false);
+		popup._width = subPopup.boxObject.width;
+	};
+	setTimeout(function() {
+		subPopup.addEventListener('popupshown', popupshown, false);
+		subPopup.openPopupAtScreen(screenX-2, screenY-2, true);
+	}, 0);
+};

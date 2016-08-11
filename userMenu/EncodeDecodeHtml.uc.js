@@ -5,10 +5,9 @@
 // @license               MIT License
 // @compatibility    Firefox 45+
 // @charset              UTF-8
-// @version              2016.8.2
+// @version              2016.7.17
 // @include              main
 // @include              chrome://browser/content/browser.xul
-// @note                   2016.8.2 調整代碼 修正CSS
 // @note                   2016.7.17 修正移動按鈕圖示 新視窗無法顯示的問題
 // @note                   2016.7.16 重寫代碼 使用新函數
 // @note                   需搭配html檔 https://github.com/skofkyo/userChromeJS/tree/master/Local/html
@@ -213,7 +212,7 @@
             //  }
             //}
             //gBrowser.selectedTab = gBrowser.addTab(Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\JavaScriptBeautify.html");
-            var url = Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\JavaScriptBeautify.html";
+            var url = Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\JavaScriptBeautify2.html";
             var rurl = url.replace(/\\/g, "\/");
             switchToTabHavingURI("file:\/\/\/" + rurl, true);
         },
