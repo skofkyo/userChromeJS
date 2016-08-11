@@ -774,7 +774,7 @@ ECM.toggle('javascript.enabled')
             {label: "sep"},//分割線
             {
                 label: "google翻譯剪貼簿文字",
-                url: "https://translate.google.com.tw/?hl=zh-tw#auto/zh-TW/%p",//%p%返回剪貼簿裡的文字
+                url: "https://translate.google.com.tw/?hl=zh-tw#auto/zh-TW/%p",//%p返回剪貼簿裡的文字
                 where: "tab",//不添加where的話為當前網頁開啟 "tab"前景新分頁 "tabshifted"背景新分頁 "window"新視窗
                 image: "https://translate.google.com.tw/favicon.ico",
             },{

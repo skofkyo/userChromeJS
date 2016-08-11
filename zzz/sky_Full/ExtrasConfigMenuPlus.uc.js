@@ -8,7 +8,8 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                2016.8.11!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.12!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.12 修正開啟新視窗沒有添加選單的問題
 // @note                2016.8.2 調整代碼 修正函數
 // @note                2016.8.1 調整代碼 增加可用函數 主要取至addMenuPlus
 // @note                2016.7.30 調整代碼 $C可以運行自定義函數
@@ -17,7 +18,7 @@
 // @note                スクリプトの有効無効を切り替えるコードはalice0775氏のrebuild_userChrome.uc.xulから拝借
 // ==/UserScript==
 (function() {
-    var delay = 1000;//延遲加載腳本
+    var delay = 1000;//延遲加載選單
     var ECM = {
         addmenuitem: function() {
             var mp = $('ecm-popup');
@@ -273,7 +274,7 @@
                         return;
                     }
                     var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
-                    if (ess == true) {
+                    if (ess) {
                         mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: none;');
                         mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: -moz-box;');
                     } else {
@@ -602,10 +603,14 @@
         get focusedWindow() {
             return gContextMenu && gContextMenu.target ? gContextMenu.target.ownerDocument.defaultView : (content ? content : gBrowser.selectedBrowser.contentWindowAsCPOW);
         },
+        startup: function() {
+            setTimeout(function() {
+                ECM.addmenuitem();
+            }, delay);
+        },
         init: function() {
             this.addmovebtn();
             this.addstyle();
-            this.addmenuitem();
             this.addPrefListener(ECM.readLaterPrefListener);
             window.addEventListener('unload', function() {ECM.removePrefListener(ECM.readLaterPrefListener);}, false);
             if (this.ecmp) window.addEventListener('DOMWindowClose', ECM.ecmptrue, false);
@@ -655,7 +660,7 @@
                     menupopup.appendChild($C('menuseparator'));
                 } else if (!ms.mid) {//不是移動元素才建立新menuitem
                     let item = $C('menuitem', {
-                        id: ms.id || "",
+                        id: ms.id || "noname",
                         label: ms.label || "",
                         tooltiptext: ms.tooltiptext || "",
                         class: "menuitem-iconic",
@@ -667,7 +672,7 @@
                         disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
                         oncommand: ms.oncommand || "ECM.onCommand(event);",
                         onclick: ms.onclick || "",
-                        closemenu: ms.closemenu || "",
+                        closemenu: ms.closemenu || "",//"none"點擊選單不離開選單
                         type: ms.type || "",
                         checked: ms.checked || "",
                         accesskey: ms.accesskey || "",
@@ -680,7 +685,7 @@
             var g = $('gm_general_menu'); //Greasemonkey
             if (g != null) {
                 var ege = gPrefService.getBoolPref("extensions.greasemonkey.enabled");
-                if (ege == true) {
+                if (ege) {
                     g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');
                 } else {
                     g.setAttribute('image', 'chrome://greasemonkey/skin/icon16disabled.png');
@@ -690,7 +695,7 @@
             if (s != null) {
                 var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
                 var usm = $('uc_stylish_menu');
-                if (ess == true) {
+                if (ess) {
                     if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16.png');
                 } else {
                     if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16w.png');
@@ -767,7 +772,7 @@
         menuClick: function(event) {
             switch (event.button) {
                 case 2:
-                    var menu,label,rlabel,fdir;
+                    var menu, label, rlabel, fdir;
                     menu = event.target;
                     label = menu.getAttribute("label");
                     if (label == "chrome/") {
@@ -784,8 +789,6 @@
         },
         onClick: function(event) {
             if (event.button === 1) {
-                //gBrowser.selectedTab = gBrowser.addTab("about:config")
-                //switchToTabHavingURI("about:config", true);
                 ECM.open(0);
             } else if (event.button === 2) {
                 event.preventDefault();
@@ -801,9 +804,6 @@
             var path = UI.ConvertFromUnicode(this.getPath(key, pathArray));
             if (this.editor === 1) {
                 if (!vieweditor) {
-                    //alert("請先設定文字編輯器的路徑!!!\nabout:config view_source.editor.path\n字串值填入路徑 例如：C:\\Windows\\notepad.exe");
-                    //switchToTabHavingURI("about:config?filter=view_source.editor.path", true);
-                    //return;
                     alert("請先設定文字編輯器的路徑!!!");
                     var fp = Cc['@mozilla.org/filepicker;1'].createInstance(Ci.nsIFilePicker);
                     fp.init(window, "設定全局腳本編輯器", fp.modeOpen);
@@ -882,7 +882,6 @@
         },
         copy: function(aText) {
             Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper).copyString(aText);
-            //XULBrowserWindow.statusTextField.label = "Copy: " + aText;
         },
         exec: function(path, arg) {
             var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
@@ -1078,14 +1077,12 @@
         },
     };
     window.ECM = ECM;
-    setTimeout(function(event) {
-        ECM.init();
-    }, delay);
+    ECM.startup();
+    ECM.init();
     function $(id) { return document.getElementById(id); }
     function $C(name, attr) {
         var el = document.createElement(name);
-        if (attr) 
-            Object.keys(attr).forEach(function(n) {
+        if (attr) Object.keys(attr).forEach(function(n) {
                     if (typeof attr[n] === 'function') {
                         el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
                     } else {

@@ -8,6 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
+// @note                2016.8.12 修正開啟新視窗沒有添加選單的問題
 // @note                2016.8.5 調整代碼 修正函數
 // @note                2016.8.2 調整代碼 修正函數
 // @note                2016.8.1 調整代碼 增加可用函數 主要取至addMenuPlus
@@ -19,7 +20,7 @@
 (function() {
     'use strict';
     Cu.import('resource://gre/modules/Preferences.jsm');
-    var delay = 1000;//延遲加載腳本 如遇到UC選單ID移動失敗 嘗試增加延遲時間
+    var delay = 1000;//延遲加載選單 如遇到UC選單ID移動失敗 嘗試增加延遲時間
     var ECM = {
         menues: [
             /*直接移動的UC選單ID*/
@@ -88,11 +89,16 @@
             return gContextMenu && gContextMenu.target ? gContextMenu.target.ownerDocument.defaultView : (content ? content : gBrowser.selectedBrowser.contentWindowAsCPOW);
         },
 
+        startup: function() {
+            setTimeout(function() {
+                ECM.addmenuitem();
+                ECM.moveMenu();
+            }, delay);
+        },
+
         init: function() {
             if (this.mode == 0) {this.addmovebtn();} else if (this.mode == 1) {this.addurlbarbtn();} else {this.addtoolsmenu();}
             this.addstyle();
-            this.addmenuitem();
-            this.moveMenu();
             this.addPrefListener(ECM.readLaterPrefListener);
             window.addEventListener('unload', function() {ECM.removePrefListener(ECM.readLaterPrefListener);}, false);
             if (this.ecmp) window.addEventListener('DOMWindowClose', ECM.ecmptrue, false);
@@ -197,7 +203,7 @@
                 } else if (!ms.mid) {//不是移動元素才建立新menuitem
                     let item = $C('menuitem', {
                         id: ms.id || "",
-                        label: ms.label || "",
+                        label: ms.label || "noname",
                         tooltiptext: ms.tooltiptext || "",
                         class: "menuitem-iconic",
                         url: ms.url || "", //開啟的鏈結 可用 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字%ep%返回剪貼簿文字並進行UTF-8 URI編碼
@@ -208,7 +214,7 @@
                         disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
                         oncommand: ms.oncommand || "ECM.onCommand(event);",
                         onclick: ms.onclick || "",
-                        closemenu: ms.closemenu || "",
+                        closemenu: ms.closemenu || "",//"none"點擊選單不離開選單
                         type: ms.type || "",
                         checked: ms.checked || "",
                         accesskey: ms.accesskey || "",
@@ -232,7 +238,7 @@
                     padding: 0px 2px !important;\
                     margin: -6px 0 !important;\
                 }\
-                #ecm-popup menu menupopup menuitem[checked="false"] {\
+                #ecm-popup menu menupopup menuitem[checked="false"]:not(#redirector-toggle):not(.gm-enabled-item) {\
                     -moz-box-ordinal-group:99!important;\
                 }\
                 menu#ExtrasConfigMenu,\
@@ -258,17 +264,18 @@
         menuClick: function(event) {
             switch (event.button) {
                 case 2:
-                    var menu = event.target;
-                    var label = menu.getAttribute("label");
+                    var menu, label, rlabel, fdir;
+                    menu = event.target;
+                    label = menu.getAttribute("label");
                     if (label == "chrome/") {
-                        var rlabel = label.replace("chrome/", "chrome");
-                        var fdir = "\\" + rlabel;
-                        ECM.exec(fdir);
+                        rlabel = label.replace("chrome/", "chrome");
                     } else {
-                        var rlabel = label.replace("\/", "\\");
-                        var fdir = "\\" + rlabel;
-                        ECM.exec(fdir);
+                        rlabel = label.replace("\/", "\\");
                     }
+                    event.preventDefault();
+                    event.stopPropagation();
+                    fdir = "\\" + rlabel;
+                    ECM.exec(fdir);
                     break;
             }
         },
@@ -714,17 +721,14 @@
     };
     
     window.ECM = ECM;
-
-    setTimeout(function(event) {
-        ECM.init();
-    }, delay);
+    ECM.startup();
+    ECM.init();
 
     function $(id) { return document.getElementById(id); }
 
     function $C(name, attr) {
         var el = document.createElement(name);
-        if (attr) 
-            Object.keys(attr).forEach(function(n) {
+        if (attr) Object.keys(attr).forEach(function(n) {
                     if (typeof attr[n] === 'function') {
                         el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
                     } else {
