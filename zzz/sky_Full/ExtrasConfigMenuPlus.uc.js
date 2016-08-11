@@ -660,8 +660,8 @@
                     menupopup.appendChild($C('menuseparator'));
                 } else if (!ms.mid) {//不是移動元素才建立新menuitem
                     let item = $C('menuitem', {
-                        id: ms.id || "noname",
-                        label: ms.label || "",
+                        id: ms.id || "",
+                        label: ms.label || "noname",
                         tooltiptext: ms.tooltiptext || "",
                         class: "menuitem-iconic",
                         url: ms.url || "", //開啟的鏈結 可用 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字 %ep%返回剪貼簿文字並進行UTF-8 URI編碼
