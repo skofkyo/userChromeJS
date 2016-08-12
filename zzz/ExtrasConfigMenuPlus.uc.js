@@ -8,6 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
+// @note                2016.8.13 增加newMenuitem的建立方式
 // @note                2016.8.12 修正開啟新視窗沒有添加選單的問題
 // @note                2016.8.5 調整代碼 修正函數
 // @note                2016.8.2 調整代碼 修正函數
@@ -189,32 +190,39 @@
             }
         },
         
-        newMenuitem: function(menupopup,menus) {
+        newMenuitem: function(menupopup, menus, mp) {
             //類似addMenuPlus的使用方式
             for (let i = 0; i < menus.length; i++) {
                 let ms = menus[i];
-                let item = $(ms.mid);//選取元素
-                if (item != null && ms.clone) {//元素存在並複製元素來添加
+                let item = $(ms.mid); //選取元素
+                if (item != null && ms.clone) { //元素存在並複製元素來添加
                     menupopup.appendChild(item.cloneNode(true));
-                } else if (item != null ) {//元素存在僅移動元素
+                } else if (item != null) { //元素存在僅移動元素
                     menupopup.appendChild(item);
-                } else if (ms.label == "sep") {//建立分割線
+                } else if (ms.label == "sep") { //建立分割線
                     menupopup.appendChild($C('menuseparator'));
-                } else if (!ms.mid) {//不是移動元素才建立新menuitem
+                } else if (ms.childs) { //建立一個階層式選單
+                    var menu=mp.appendChild($C("menu",{"class":"menu-iconic",id:ms.id||"",label:ms.label||"noname",tooltiptext:ms.tooltiptext||"",image:ms.image||"",src:ms.src||"",style:ms.style||"",oncommand:ms.oncommand||"",onclick:ms.onclick||"",accesskey:ms.accesskey||"",condition:ms.condition||""}));
+                    menupopup=menu.appendChild($C("menupopup",{id:ms.id+"-popup"||"",onpopupshowing:ms.onpopupshowing||""}));
+                    ECM.newMenuitem(menupopup, ms.childs);
+                } else if (!ms.mid) { //不是移動元素才建立新menuitem
                     let item = $C('menuitem', {
                         id: ms.id || "",
                         label: ms.label || "noname",
                         tooltiptext: ms.tooltiptext || "",
                         class: "menuitem-iconic",
-                        url: ms.url || "", //開啟的鏈結 可用 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字%ep%返回剪貼簿文字並進行UTF-8 URI編碼
+                        url: ms.url || "", //開啟的鏈結 可用 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字 %ep%返回剪貼簿文字並進行UTF-8 URI編碼
                         where: ms.where || "", //分頁開啟的位置 "tab"前景新分頁 "tabshifted"背景新分頁 "window"新視窗
-                        text: ms.text || "", //參數 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字%ep%返回剪貼簿文字並進行UTF-8 URI編碼
+                        text: ms.text || "", //參數 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字 %ep%返回剪貼簿文字並進行UTF-8 URI編碼
                         exec: ms.exec || "", //執行檔路徑 ※※※測試過用來開啟.bat批次檔會造成火狐崩潰 改用ECM.open();正常※※※
                         image: ms.image || this.setIcon(ms.exec), //根據執行檔添加圖示
+                        src: ms.src || "",
                         disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
                         oncommand: ms.oncommand || "ECM.onCommand(event);",
                         onclick: ms.onclick || "",
-                        closemenu: ms.closemenu || "",//"none"點擊選單不離開選單
+                        style: ms.style || "",
+                        condition: ms.condition || "", //顯示條件
+                        closemenu: ms.closemenu || "", //"none"點擊選單不離開選單
                         type: ms.type || "",
                         checked: ms.checked || "",
                         accesskey: ms.accesskey || "",
