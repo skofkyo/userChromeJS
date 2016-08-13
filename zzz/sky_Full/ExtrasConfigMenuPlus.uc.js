@@ -11,6 +11,7 @@
 // @note                2016.8.13!!!自用完整版 有精簡用不到的代碼
 // @note                2016.8.13 增加newMenuitem的建立方式
 // @note                2016.8.12 修正開啟新視窗沒有添加選單的問題
+// @note                2016.8.5 調整代碼 修正函數
 // @note                2016.8.2 調整代碼 修正函數
 // @note                2016.8.1 調整代碼 增加可用函數 主要取至addMenuPlus
 // @note                2016.7.30 調整代碼 $C可以運行自定義函數
@@ -1038,7 +1039,7 @@
                     if (typeof attr[n] === 'function') {
                         el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
                     } else {
-                        if (attr[n] != "") el.setAttribute(n, attr[n])
+                        if (attr[n] != "" && attr[n] != "undefined-popup") el.setAttribute(n, attr[n]);
                     }
             });
         return el;
