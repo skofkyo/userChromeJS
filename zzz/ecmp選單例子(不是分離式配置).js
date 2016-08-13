@@ -182,9 +182,6 @@ ECM.toggle('javascript.enabled')
             ];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
-            //或自定義添加到已存在的menupopup位置
-            //this.newMenuitem(0, menus, $("contentAreaContextMenu"));//添加到右鍵選單
-            //this.newMenuitem(0, menus, document.querySelector("#gm_general_menu menupopup"));//添加到GM的工具選單
             /*==========例子二之二 使用與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子二之三 直接建立一個階層式選單組==========*/
