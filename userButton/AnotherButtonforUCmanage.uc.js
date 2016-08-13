@@ -152,7 +152,7 @@
             for (var i = 0; i < this.anomenu.length; i++) {
                 var obj = this.anomenu[i];
                 try {
-                    $("menu_ToolsPopup").insertBefore($(obj.id), $("menu_ToolsPopup").firstChild);
+                    $("main-menubar").insertBefore($(obj.id), $("main-menubar").childNodes[7]);
                 } catch (e) {}
             }
             $("anobtn_popup").removeEventListener('popupshowing', (event) => anobtn.onpopup(event));
