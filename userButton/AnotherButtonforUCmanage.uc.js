@@ -462,13 +462,13 @@
                     event.preventDefault();
                     event.stopPropagation();
                     fdir = "\\" + rlabel;
-                    ECM.exec(fdir);
+                    anobtn.exec(fdir);
                     break;
             }
         },
         onClick: function(event) {
             if (event.button === 1) {
-                ECM.open(0);
+                anobtn.open(0);
             } else if (event.button === 2) {
                 event.preventDefault();
                 event.stopPropagation();
@@ -611,8 +611,8 @@
             observe: function(aSubject, aTopic, aPrefstring) {
                 if (aTopic === 'nsPref:changed') {
                     setTimeout(() => {
-                        var s = ECM.getPref('userChrome.disable.script');
-                        userChrome_js.scriptDisable = ECM.restoreState(s.split(','));
+                        var s = anobtn.getPref('userChrome.disable.script');
+                        userChrome_js.scriptDisable = anobtn.restoreState(s.split(','));
                     }, 0);
                 }
             }

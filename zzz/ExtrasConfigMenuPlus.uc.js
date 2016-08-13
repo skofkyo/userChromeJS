@@ -8,6 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
+// @note                2016.8.14 微調代碼
 // @note                2016.8.13 v3 階層式選單可用insertBefore: "ID",insertAfter: "ID" 改變添加的位置 ※請先確認ID 100%存在
 // @note                2016.8.13 v2 修正一個bug
 // @note                2016.8.13 增加newMenuitem的建立方式
@@ -441,7 +442,7 @@
 
                 file.initWithPath(path);
                 if (!file.exists()) {
-                    //Cu.reportError('File Not Found: ' + path);
+                    Cu.reportError('File Not Found: ' + path);
                     alert("程序路徑出錯或程序不存在，請檢查配置");
                     return;
                 }
@@ -470,7 +471,7 @@
 
         setdisabled: function(path) {
             if (path == "" || path == null || /(^microsoft)/.test(path)) {
-                return "false";
+                return "";
             } else {
                 var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
                 if (path.indexOf('\\') === 0)
@@ -758,7 +759,7 @@
     ECM.init();
 
     function $(id) { return document.getElementById(id); }
-
+    function log() { Application.console.log("[ExtrasConfigMenuPlus] " + Array.slice(arguments)); }
     function $C(name, attr) {
         var el = document.createElement(name);
         if (attr) Object.keys(attr).forEach(function(n) {
