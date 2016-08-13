@@ -182,12 +182,14 @@ ECM.toggle('javascript.enabled')
             ];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到右鍵選單
             /*==========例子二之二 使用與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子二之三 直接建立一個階層式選單組==========*/
-            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立會添加錯誤
-            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立會添加錯誤
-            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立會添加錯誤
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
             var menus = [{
                 label: "Firefox選單",
                 //insertBefore: "context-navigation",//頁面右鍵選單第一個ID
@@ -226,6 +228,8 @@ ECM.toggle('javascript.enabled')
             }];
             //建立一個階層式選單組
             this.newMenuitem(0, menus, mp);
+            //或自定義添加到已存在的menupopup位置 (未使用insertBefore,insertAfter)
+            //this.newMenuitem(0, menus, $("contentAreaContextMenu"));//添加到右鍵選單
             /*==========例子二之三 直接建立一個階層式選單組==========*/
             
             /*==========例子三 逐一建立選單==========*/
@@ -376,12 +380,14 @@ ECM.toggle('javascript.enabled')
             ];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到右鍵選單
             /*==========例子四之二 使用與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子四之三 直接建立一組階層式選單組==========*/
-            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立會添加錯誤
-            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立會添加錯誤
-            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立會添加錯誤
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
             var menus = [{
                 label: "UC選單",
                 //insertBefore: "context-navigation",//頁面右鍵選單第一個ID
@@ -407,7 +413,7 @@ ECM.toggle('javascript.enabled')
             }];
             //建立一個階層式選單組
             this.newMenuitem(0, menus, mp);
-            //或自定義添加到已存在的menupopup位置
+            //或自定義添加到已存在的menupopup位置 (未使用insertBefore,insertAfter)
             //this.newMenuitem(0, menus, $("contentAreaContextMenu"));//添加到右鍵選單
             //this.newMenuitem(0, menus, $("menu_ToolsPopup"));//添加到工具選單
             //this.newMenuitem(0, menus, document.querySelector("#gm_general_menu menupopup"));//添加到GM的工具選單
@@ -499,10 +505,14 @@ ECM.toggle('javascript.enabled')
             }];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("menu_ToolsPopup"),menus);//添加到工具選單
             /*==========例子六之二 使用與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子六之三 直接建立一個階層式選單組==========*/
-            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立會添加錯誤
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
             var menus = [{
                 label: "多開火狐測試配置選單",
                 //insertBefore: "context-navigation",//頁面右鍵選單第一個ID
@@ -626,7 +636,7 @@ ECM.toggle('javascript.enabled')
             }];
             //建立一個階層式選單組
             this.newMenuitem(0, menus, mp);
-            //或自定義添加到已存在的menupopup位置
+            //或自定義添加到已存在的menupopup位置 (未使用insertBefore,insertAfter)
             //this.newMenuitem(0, menus, $("contentAreaContextMenu"));//添加到右鍵選單
             //this.newMenuitem(0, menus, $("menu_ToolsPopup"));//添加到工具選單
             //this.newMenuitem(0, menus, document.querySelector("#gm_general_menu menupopup"));//添加到GM的工具選單
@@ -767,6 +777,8 @@ ECM.toggle('javascript.enabled')
             }];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到頁面右鍵選單
             /*==========例子七之三 使用與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子八 選單三合一點擊==========*/
@@ -836,6 +848,9 @@ ECM.toggle('javascript.enabled')
                 }
             }];
             this.newMenuitem(mp, menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到頁面右鍵選單
+            //this.newMenuitem($("menu_ToolsPopup"),menus);//添加到工具選單
             /*==========例子八之二 選單三合一點擊==========*/
             
             /*==========例子九 使用自定義數組化函數==========*/
@@ -982,6 +997,9 @@ ECM.toggle('javascript.enabled')
             }];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到頁面右鍵選單
+            //this.newMenuitem($("menu_ToolsPopup"),menus);//添加到工具選單
             /*==========例子九之二 與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子十 與addMenuPlus類似的函數添加方式==========*/
@@ -1024,6 +1042,9 @@ ECM.toggle('javascript.enabled')
             ];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到頁面右鍵選單
+            //this.newMenuitem($("menu_ToolsPopup"),menus);//添加到工具選單
             /*==========例子十 使用與addMenuPlus類似的函數添加方式==========*/
 
             /*==========例子十一 與addMenuPlus類似的函數添加方式==========*/
@@ -1086,6 +1107,9 @@ ECM.toggle('javascript.enabled')
             }, ];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到頁面右鍵選單
+            //this.newMenuitem($("menu_ToolsPopup"),menus);//添加到工具選單
             /*==========例子十一 使用與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子十二 使用自定義數組化函數==========*/
@@ -1253,6 +1277,9 @@ ECM.toggle('javascript.enabled')
             }];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到頁面右鍵選單
+            //this.newMenuitem($("menu_ToolsPopup"),menus);//添加到工具選單
             /*==========例子十二之二 使用與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子十三 使用自定義數組化函數==========*/
@@ -1465,10 +1492,15 @@ ECM.toggle('javascript.enabled')
             }];
             //與addMenuPlus類似的函數添加方式
             this.newMenuitem(menupopup,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到頁面右鍵選單
+            //this.newMenuitem($("menu_ToolsPopup"),menus);//添加到工具選單
             /*==========例子十三之二 使用與addMenuPlus類似的函數添加方式==========*/
             
             /*==========例子十三之三 直接建立一個階層式選單組==========*/
-            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立會添加錯誤
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
+            //※insertBefore,insertAfter侷限在只建立一組階層式選單 例子十四 連續多組建立時要個別添加
             var menus = [{
                 id: "uc_quickProxy_menu",
                 label: "切換代理設置",
@@ -1568,7 +1600,7 @@ ECM.toggle('javascript.enabled')
             }];
             //建立一個階層式選單組
             this.newMenuitem(0, menus, mp);
-            //或自定義添加到已存在的menupopup位置
+            //或自定義添加到已存在的menupopup位置 (未使用insertBefore,insertAfter)
             //this.newMenuitem(0, menus, $("contentAreaContextMenu"));//添加到右鍵選單
             //this.newMenuitem(0, menus, $("menu_ToolsPopup"));//添加到工具選單
             //this.newMenuitem(0, menus, document.querySelector("#gm_general_menu menupopup"));//添加到GM的工具選單
@@ -1642,13 +1674,17 @@ ECM.toggle('javascript.enabled')
             },
             ];
             this.newMenuitem(mp,menus);
+            //或自定義添加到已存在的menupopup位置 (未建立新的主選單)
+            //this.newMenuitem($("contentAreaContextMenu"),menus);//添加到頁面右鍵選單
+            //this.newMenuitem($("menu_ToolsPopup"),menus);//添加到工具選單
             /*==========移動選單 & 建立item==========*/
             /*==========例子十四 連續建立多個階層式選單組==========*/
-            //※連續建立不要使用insertBefore,insertAfter
-            //※連續建立不要使用insertBefore,insertAfter
-            //※連續建立不要使用insertBefore,insertAfter
+            //※連續建立 使用insertBefore,insertAfter時 必須全部個別添加
+            //※連續建立 使用insertBefore,insertAfter時 必須全部個別添加
+            //※連續建立 使用insertBefore,insertAfter時 必須全部個別添加
             var menus = [{
                 label: "Firefox選單",
+                //insertBefore: "context-navigation",//頁面右鍵選單第一個ID
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABuElEQVQ4jZ2Tz0sUYRjH908IB6XbZpQdBL106NBF/4BtMy/doluw669g/YUkaCTYJXYtIsiDEHjYi4gQBFG3DmJ0Si/lKJsz78zOrDNus7w78/Egzjq9XtoH3svL83ye7/fheVKVvDZkjGqmOdbJ/zxjpENUclo21U5xDBnVzNS/n2LyGu6bYZzSfZxiBqeUpfb+EU7x3qWQGGA/v8Px+lPc1w8QMz04K0OtxPEu/I155OEPnFIWc+KqCvDK00SBR/Nol9Cz1I7jXXjlKaLAp7b2RAX8/faBi9E09jj59EqRHGyXkfr3JEAU0kQySACkvoM1e0sBNHa/EMkGYuZmC2DN9ye7W79x3z5Uiq3ZHuT+NgDV5cEWwF64nQCEvo1TzFBdHuB4fQJRSGOOdVJbfQxRCIA115ucQdPWUSKU1L++w3rWhyikqX9eiRUqQ/S3XiRr3Upsw5rrPfNedwHwt5ZUgCikaYpfioioUY9lA4TOIWLqugo4X6aweqBaOR+urWMv3b18E2Ml0zc4+fgS+ecnkQyIAg+p7+BvLiImu9VVNkY6RNvHlNeMVCWnZds657xmHOWuZE4BnUvgBJzQjdgAAAAASUVORK5CYII=",
                 childs: [
                 {mid: "file-menu"}, //檔案
@@ -1683,6 +1719,7 @@ ECM.toggle('javascript.enabled')
                 ]
             },{
                 label: "UC選單",
+                //insertBefore: "context-navigation",//頁面右鍵選單第一個ID
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA7ElEQVQ4jb3Rry/FYRTH8dcwN9gEkoDbJJMEE0yzmakUWdZMwb/AdNH/IDHzY6JysSmSYbsjEOwr3CccjwdXuWc74fmcz3mfffbQ4erFIGo/GdZwn3o46PM4wweq1FeYzAGbwVBP2nLQ8q63A2ik9wOmMYBxrJYilADv6X2JrtLSX4CToB1hAT3/AUzg0dfsd1hsFwBD2MNLBvoG2Q7D0cKBPmwEz3Fu2A/D/mLIVt0kzy3MYFbrW97SoBHMOynaHKawHo4cwEWWq8JKWu5GszCv8IQxOEymJk6xFK7XsIVzPOMV19jFyC8RO1ifx6Zags1CB0UAAAAASUVORK5CYII=",
                 childs: [
                 //{mid: "redirector-icon"}, //Redirector
@@ -1702,6 +1739,7 @@ ECM.toggle('javascript.enabled')
                 ]
             },{
                 label: "多功能選單",
+                //insertBefore: "context-navigation",//頁面右鍵選單第一個ID
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVQ4jWNwcXH5TwlmcHFx+c+AA8AV4ZFnoIoLKDKA5oBiFxAMRJq7gGIwGgZDIQwAgtu+D+QGAkQAAAAASUVORK5CYII=",
                 childs: [{
                     label: "編輯user.js",
@@ -1744,6 +1782,7 @@ ECM.toggle('javascript.enabled')
                 }, ]
             },{
                 label: "Google 捷徑",
+                //insertBefore: "context-navigation",//頁面右鍵選單第一個ID
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEHklEQVRYhb2WXWwUVRTH56XBotQn33wQBXlTov3gQWtErKB9IGkptPYBxYox6INRa0LQQELRYqEJ8NAPLMQ0bCuBVqzQZhGpH91YJGYJaYMW0O1XZnb6xc7u7Nxz9u+D203vzGx3tlZPcl723j2///m4d66ieDRd1/OIqIqIWolokJl1ZraSHiaiweRapa7reV7jZjTTNNcRURszx+DRmDlKRCdN01y7ZDCAlUKIBmYmr2AXIUIIcTgUCuVmm/XjzHxzqWAXIUHTNNd4gluW9RQza26BaHwURvsXmHn/bYS3bYZasgHqi0UIl5Vg+r23YJxuBo3+lU6ECmC9l8wdcJoYw+z+j6BuKoT6QsHivqkQs598CJoYcxWRthKTk5P3u5U91tcD7ZXizGCba6XPwbzS59oO15kQQjTYNxtnTmUNXuhz9ftd2yGEqLeXfp192mN9PWkDT9VUItJyDLFvziHWcx6RluOYerNKhh+pAxKJdPMgpFYQUZvU8/FRaC8/6wDr1VsRvxZwDQoA8cEBhHeU4t7xz9PuSTGIWhVFURQAD9ovmUjjOw749J7XkJibyxg4YUQy7gEAZjY0TVulEFGVFCA6AtG7ArO1j6Tg4W2bwTNTngJnY0S0XSGiVknZnToIfw6EPwfGsYegbclH7NKFZYcnBTQpRDQo/fhrSUqA8Ocgfm41IMR/JSCgMLO+8EfR/7AkgG5ULhpk48GIZ79yU06EmVWFmS1JwOUVkgD+Y9+yCWj/SUKBmeP/q4C2q3FXAWFJgL0FwR3LJqAz4KiA6hzC6y9JAkb7n4DF2Q/hbZUdAq4OyXGIKOByDD9NwS/0rMYzvq3oGvFnLcA3YDkETMzIV/P8MZTGPBG9g6g/F3VdTyPfV4Z8XxlKul5HODbtGX4vlkB5oyHBdzZFHfuIqELRdT2PmaXVowMHUvB5r+79ADPxzFexRUDtmZgj+w5n/w0AD8x/jE4uXByPqCg++6pDROnXu9E/di0t/Nb0Xezq9mHjwVkJXt5oIBp3lL954ed4LbM8aRfv9jsEzHv5t++i4XobOm9dxFe/X8KJYDve8O9Fga8c+b4yFJ2qxfOfhVICfhiW37XMbJmm+Zj9QXLYntGXw91pRWTygvadKD7yi+PsA4AQ4pDjRQRgJTPfsG/u/fNHFJ+tzlpAUUcFWoLdDjgz/wbgvnSP0jXJ16tkE4aGvT8fRWFHuSf47u8+xtDUiBt8EsCjrvAFlVjvJgL4ZzhPD53Hnu8PYEt3DTZ0VqCoowIlXbtQc3kfTgTbMTx12+2vYOZJy7KeXBRuq0TQNdISLFn2xTO3WygUyhVC1NtPR5ZgSwhxCOl67rUaRNSavDi8gg0ianYctX9jmqatIqLtRNRERAFmVpk5nnSViALJtQrM33Ae7G92y3s6IRzKLQAAAABJRU5ErkJggg==",
                 childs: [{
                     label: "雲端硬碟",
