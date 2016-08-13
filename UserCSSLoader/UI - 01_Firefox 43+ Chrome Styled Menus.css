@@ -1,16 +1,28 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
-#FirefoxBtnpopup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
+#eom-popup [label="undefined"]{
+    margin-right: -3px !important;
+    margin-left: 3px !important;
+}
+#ecm-popup,#CustomFirefoxMenuPopup,#FirefoxBtnpopup,#anoBtn_Popup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
     margin-top: -5px !important;
 }
-#eom-menugroup .menu-iconic-icon {margin-right:-4px !Important;}
+#userChromejs_options,#greasemonkey-tbb menupopup,#stylish-popup {
+    margin-top: 6px !important;
+}
+
+#UserScriptLoader-popup{
+    margin-top: 10px !important;
+}
 
 menupopup.textbox-contextmenu,
 popupset > menupopup,
 popupset > menupopup menupopup,
 popupset >*:not(menupopup) menupopup,
 #placesContext,
+#placesContext menupopup,
 #PlacesToolbar menupopup,
+#stylish-edit menupopup,
 #downloadsContextMenu,
 #alltabs-popup,
 toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup,
@@ -41,7 +53,9 @@ popupset > menupopup,
 popupset > menupopup menupopup,
 popupset >*:not(menupopup) menupopup,
 #placesContext,
+#placesContext menupopup,
 #PlacesToolbar menupopup,
+#stylish-edit menupopup,
 #downloadsContextMenu,
 #alltabs-popup,
 toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup {
@@ -58,7 +72,9 @@ menuseparator:not([hidden]) {
     opacity:0.6 !important;
 }
 
-menuseparator,#context-sep-navigation, #page-menu-separator,[tooltiptext^="囧rz"] {
+menuseparator,#context-sep-navigation,
+#page-menu-separator,[tooltiptext^="囧rz"],
+#context-navigation {
 display: none !important; 
 }
 
