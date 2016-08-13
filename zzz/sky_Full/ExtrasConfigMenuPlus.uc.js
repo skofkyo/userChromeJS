@@ -9,6 +9,8 @@
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
 // @note                2016.8.13!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.13 v3 階層式選單可用insertBefore: "ID",insertAfter: "ID" 改變添加的位置
+// @note                2016.8.13 v2 修正一個bug
 // @note                2016.8.13 增加newMenuitem的建立方式
 // @note                2016.8.12 修正開啟新視窗沒有添加選單的問題
 // @note                2016.8.5 調整代碼 修正函數
@@ -520,25 +522,26 @@
             this.newMenuitem(0, menus, mp);
             /*==========多開火狐測試配置選單==========*/
             /*==========備份Firefox==========*/
-            mp.appendChild($C("menuitem", {
+            var menus = [{
                 label: "備份Firefox",
-                class: "menuitem-iconic",
                 image: "data:image/png;base64,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",
                 tooltiptext: "左鍵：備份\n中鍵：編輯BackupProfiles.bat\n右鍵：打開備份資料夾",
                 onclick: function() {
                     switch (event.button) {
                         case 0:
-                            ECM.open(0,["Local","BackupProfiles","BackupProfiles.bat"]);
+                            ECM.open(0, ["Local", "BackupProfiles", "BackupProfiles.bat"]);
                             break;
                         case 1:
-                            ECM.edit(0,["Local","BackupProfiles","BackupProfiles.bat"]);
+                            ECM.edit(0, ["Local", "BackupProfiles", "BackupProfiles.bat"]);
                             break;
                         case 2:
+                            event.preventDefault();
                             ECM.open('D', ['FirefoxBackup']);
                             break;
                     }
                 }
-            }));
+            }];
+            this.newMenuitem(mp, menus);
             /*==========備份Firefox==========*/
             /* ==================== END ==================== */
         },
@@ -605,8 +608,31 @@
                 } else if (ms.label == "sep") { //建立分割線
                     menupopup.appendChild($C('menuseparator'));
                 } else if (ms.childs) { //建立一個階層式選單
-                    var menu=mp.appendChild($C("menu",{"class":"menu-iconic",id:ms.id||"",label:ms.label||"noname",tooltiptext:ms.tooltiptext||"",image:ms.image||"",src:ms.src||"",style:ms.style||"",oncommand:ms.oncommand||"",onclick:ms.onclick||"",accesskey:ms.accesskey||"",condition:ms.condition||""}));
-                    menupopup=menu.appendChild($C("menupopup",{id:ms.id+"-popup"||"",onpopupshowing:ms.onpopupshowing||""}));
+                    var ins, menu;
+                    menu = $C("menu", {
+                        "class": "menu-iconic",
+                        id: ms.id || "",
+                        label: ms.label || "noname",
+                        tooltiptext: ms.tooltiptext || "",
+                        image: ms.image || "",
+                        src: ms.src || "",
+                        style: ms.style || "",
+                        oncommand: ms.oncommand || "",
+                        onclick: ms.onclick || "",
+                        accesskey: ms.accesskey || "",
+                        condition: ms.condition || ""
+                    });
+                    if (ms.insertBefore && (mp = $(ms.insertBefore))) {//添加到ID的上方
+                        ins = mp.parentNode.insertBefore(menu, mp);
+                    } else if (ms.insertAfter && (mp = $(ms.insertAfter))) {//添加到ID的下方
+                        ins = mp.parentNode.insertBefore(menu, mp.nextSibling);
+                    } else {
+                        ins = mp.appendChild(menu);
+                    }
+                    menupopup = ins.appendChild($C("menupopup", {
+                        id: ms.id + "-popup" || "",
+                        onpopupshowing: ms.onpopupshowing || ""
+                    }));
                     ECM.newMenuitem(menupopup, ms.childs);
                 } else if (!ms.mid) { //不是移動元素才建立新menuitem
                     let item = $C('menuitem', {

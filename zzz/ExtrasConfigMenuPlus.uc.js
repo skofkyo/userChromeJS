@@ -8,6 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
+// @note                2016.8.13 v3 階層式選單可用insertBefore: "ID",insertAfter: "ID" 改變添加的位置 ※請先確認ID 100%存在
 // @note                2016.8.13 v2 修正一個bug
 // @note                2016.8.13 增加newMenuitem的建立方式
 // @note                2016.8.12 修正開啟新視窗沒有添加選單的問題
@@ -203,8 +204,31 @@
                 } else if (ms.label == "sep") { //建立分割線
                     menupopup.appendChild($C('menuseparator'));
                 } else if (ms.childs) { //建立一個階層式選單
-                    var menu=mp.appendChild($C("menu",{"class":"menu-iconic",id:ms.id||"",label:ms.label||"noname",tooltiptext:ms.tooltiptext||"",image:ms.image||"",src:ms.src||"",style:ms.style||"",oncommand:ms.oncommand||"",onclick:ms.onclick||"",accesskey:ms.accesskey||"",condition:ms.condition||""}));
-                    menupopup=menu.appendChild($C("menupopup",{id:ms.id+"-popup"||"",onpopupshowing:ms.onpopupshowing||""}));
+                    var ins, menu;
+                    menu = $C("menu", {
+                        "class": "menu-iconic",
+                        id: ms.id || "",
+                        label: ms.label || "noname",
+                        tooltiptext: ms.tooltiptext || "",
+                        image: ms.image || "",
+                        src: ms.src || "",
+                        style: ms.style || "",
+                        oncommand: ms.oncommand || "",
+                        onclick: ms.onclick || "",
+                        accesskey: ms.accesskey || "",
+                        condition: ms.condition || ""
+                    });
+                    if (ms.insertBefore && (mp = $(ms.insertBefore))) {//添加到ID的上方
+                        ins = mp.parentNode.insertBefore(menu, mp);
+                    } else if (ms.insertAfter && (mp = $(ms.insertAfter))) {//添加到ID的下方
+                        ins = mp.parentNode.insertBefore(menu, mp.nextSibling);
+                    } else {
+                        ins = mp.appendChild(menu);
+                    }
+                    menupopup = ins.appendChild($C("menupopup", {
+                        id: ms.id + "-popup" || "",
+                        onpopupshowing: ms.onpopupshowing || ""
+                    }));
                     ECM.newMenuitem(menupopup, ms.childs);
                 } else if (!ms.mid) { //不是移動元素才建立新menuitem
                     let item = $C('menuitem', {
