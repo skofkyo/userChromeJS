@@ -185,7 +185,7 @@
 		width: 90px !important;
 	}
     
-/*================附加元件管理員 顯示ID 浮動版================*/
+/*================附加元件管理員 顯示ID 浮動版================
 	.addon[selected="true"]::after {
 		content: " ID: " attr(value) !important;
 		position: fixed !important;
@@ -196,7 +196,7 @@
 		cursor: default !important;
 		color: #0066CC !important;
 	}
-
+*/
 /*================附加元件管理員 顯示啟用停用數================*/
 	.addon {
 		counter-increment: addoncount !important;

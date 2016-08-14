@@ -1,4 +1,5 @@
-@-moz-document domain('tieba.baidu.com') {
+/*@-moz-document domain('tieba.baidu.com') {*/
+@-moz-document regexp("^.*tieba.baidu.com((?!mo_device|pn=0\&).)*$") {/*排除手機版*/
 /* Tensile Tieba by 864907600cc */
 /* Tieba Index */
 #head:not(.search_theme_3), #container:not([class]), #editor, .content {

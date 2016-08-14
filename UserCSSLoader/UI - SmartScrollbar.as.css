@@ -1,0 +1,55 @@
+/* AGENT_SHEET */
+/*滾動條背景基本樣式*/
+scrollbar {
+    -moz-appearance: none !important;
+    background-color: transparent !important;
+    background-image: none !important;/* 滾動條背景透明 */
+    position: relative !important;/* 滾動條背景圖案不顯示 */
+    overflow: hidden !important;/* 更改滾動條的定位方式為相對 */
+    z-index: 999999999 !important;/* 把滾動條提到Z軸最上層 */
+}
+/*滾動條按鈕基本樣式*/
+scrollbar thumb {
+    -moz-appearance: none !important;
+    background-color: rgba(205,205,205,.5) !important;
+    border-radius: 4px !important;/*滾動條按鈕圓角*/
+    border: 0px !important;/*滾動條按鈕邊框*/
+    border-color: rgba(205,205,205,.1) !important;/*滾動條按鈕邊框顏色和透明度*/
+}
+/*滾動條按鈕:鼠標懸停與點擊拖動時基本樣式*/
+scrollbar:hover thumb,
+scrollbar thumb:hover,
+scrollbar thumb:active {
+    background-color: rgba(205,205,205,1) !important;
+    border: 0px !important;
+}
+/*垂直滾動條*/
+/*把滾動條位置移到屏幕外，這裡的像素應該等於垂直滾動條寬度的負值*/
+scrollbar[orient="vertical"] {
+    margin-left: -5px !important;
+    min-width: 8px !important;
+    max-width: 8px !important;
+}
+/*垂直滾動條按鈕的左邊框樣式*/
+scrollbar thumb[orient="vertical"] {
+    border-style: none none none solid !important;
+}
+/*水平滾動條*/
+/*把滾動條位置移到屏幕外，這裡的像素應該等於垂直滾動條寬度的負值*/
+scrollbar[orient="horizontal"] {
+    margin-top: -5px !important;
+    min-height: 8px !important;
+    max-height: 8px !important;
+}
+/*水平滾動條按鈕的上邊框樣式*/
+scrollbar thumb[orient="horizontal"] {
+    border-style: solid none none none !important;
+}
+/*去除垂直與水平滾動條相交匯的角落*/
+scrollbar scrollcorner {
+    display: none ! important;
+}
+/*滾動條兩端按鈕不顯示*/
+scrollbar scrollbarbutton {
+    display: none ! important;
+}
