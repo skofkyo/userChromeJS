@@ -1,17 +1,19 @@
 /* AGENT_SHEET */
 /*滾動條背景基本樣式*/
 scrollbar {
+    margin: unset!important;
+    pointer-events: auto!important;
     -moz-appearance: none !important;
-    background-color: transparent !important;
-    background-image: none !important;/* 滾動條背景透明 */
-    position: relative !important;/* 滾動條背景圖案不顯示 */
-    overflow: hidden !important;/* 更改滾動條的定位方式為相對 */
+    background-color: transparent !important;/* 滾動條背景透明 */
+    background-image: none !important;/* 滾動條背景圖案不顯示 */
+    position: relative !important;/* 更改滾動條的定位方式為相對 */
+    overflow: hidden !important;
     z-index: 999999999 !important;/* 把滾動條提到Z軸最上層 */
 }
 /*滾動條按鈕基本樣式*/
 scrollbar thumb {
     -moz-appearance: none !important;
-    background-color: rgba(205,205,205,.5) !important;
+    background-color: rgba(205,205,205,.3) !important;
     border-radius: 4px !important;/*滾動條按鈕圓角*/
     border: 0px !important;/*滾動條按鈕邊框*/
     border-color: rgba(205,205,205,.1) !important;/*滾動條按鈕邊框顏色和透明度*/
@@ -20,13 +22,13 @@ scrollbar thumb {
 scrollbar:hover thumb,
 scrollbar thumb:hover,
 scrollbar thumb:active {
-    background-color: rgba(205,205,205,1) !important;
+    background-color: rgba(205,205,205,.9) !important;
     border: 0px !important;
 }
 /*垂直滾動條*/
 /*把滾動條位置移到屏幕外，這裡的像素應該等於垂直滾動條寬度的負值*/
 scrollbar[orient="vertical"] {
-    margin-left: -5px !important;
+    margin-left: -8px !important;
     min-width: 8px !important;
     max-width: 8px !important;
 }
@@ -37,7 +39,7 @@ scrollbar thumb[orient="vertical"] {
 /*水平滾動條*/
 /*把滾動條位置移到屏幕外，這裡的像素應該等於垂直滾動條寬度的負值*/
 scrollbar[orient="horizontal"] {
-    margin-top: -5px !important;
+    margin-top: -8px !important;
     min-height: 8px !important;
     max-height: 8px !important;
 }

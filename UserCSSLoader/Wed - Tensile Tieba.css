@@ -1,5 +1,5 @@
 /*@-moz-document domain('tieba.baidu.com') {*/
-@-moz-document regexp("^.*tieba.baidu.com((?!mo_device|pn=0\&).)*$") {/*±Æ°£¤â¾÷ª©*/
+@-moz-document regexp("^.*tieba.baidu.com((?!mo_device|pn=0\&).)*$") {/*æŽ’é™¤æ‰‹æ©Ÿç‰ˆ*/
 /* Tensile Tieba by 864907600cc */
 /* Tieba Index */
 #head:not(.search_theme_3), #container:not([class]), #editor, .content {
