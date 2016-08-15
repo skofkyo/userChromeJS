@@ -10,6 +10,7 @@
 // @note           0.0.5 Remove E4X
 // @note           CSS を微調整
 // @note           SmartScrollbar に改名
+// @charset      UTF-8
 // ==/UserScript==
 // thx! http://www.geocities.jp/adsldenet/past/sample.html
 (function() {
