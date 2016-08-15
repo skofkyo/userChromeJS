@@ -36,17 +36,15 @@
         /*滾動條按鈕基本樣式*/\
         html|html scrollbar thumb {\
             -moz-appearance: none !important;\
-            background-color: rgba(205,205,205,.3) !important;\
+            background-color: rgba(205,205,205,.3) !important;/*滾動條顏色,透明度*/\
             border-radius: 4px !important;/*滾動條按鈕圓角*/\
-            border: 0px !important;/*滾動條按鈕邊框*/\
-            border-color: rgba(205,205,205,.1) !important;/*滾動條按鈕邊框顏色和透明度*/\
+            border: none !important;/*滾動條按鈕無邊框*/\
         }\
         /*滾動條按鈕:鼠標懸停與點擊拖動時基本樣式*/\
         html|html scrollbar:hover thumb,\
         html|html scrollbar thumb:hover,\
         html|html scrollbar thumb:active {\
-            background-color: rgba(205,205,205,.9) !important;\
-            border: 0px !important;\
+            background-color: rgba(205,205,205,.9) !important;/*滾動條顏色,透明度*/\
         }\
         /*垂直滾動條*/\
         /*把滾動條位置移到屏幕外，這裡的像素應該等於垂直滾動條寬度的負值*/\
@@ -55,20 +53,12 @@
             min-width: 8px !important;\
             max-width: 8px !important;\
         }\
-        /*垂直滾動條按鈕的左邊框樣式*/\
-        html|html scrollbar thumb[orient="vertical"] {\
-            border-style: none none none solid !important;\
-        }\
         /*水平滾動條*/\
         /*把滾動條位置移到屏幕外，這裡的像素應該等於垂直滾動條寬度的負值*/\
         html|html scrollbar[orient="horizontal"] {\
             margin-top: -8px !important;\
             min-height: 8px !important;\
             max-height: 8px !important;\
-        }\
-        /*水平滾動條按鈕的上邊框樣式*/\
-        html|html > scrollbar thumb[orient="horizontal"] {\
-            border-style: solid none none none !important;\
         }\
         /*去除垂直與水平滾動條相交匯的角落*/\
         html|html scrollbar scrollcorner {\

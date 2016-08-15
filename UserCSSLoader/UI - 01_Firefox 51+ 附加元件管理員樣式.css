@@ -1,165 +1,167 @@
 @-moz-document url("about:addons") {
-  
 /*================主選項================*/
-    .category:not([selected]) {
-        font-family: 微軟正黑體 !important;
-        color: #AAA !important;
-    }
+.category:not([selected]) {
+  font-family: 微軟正黑體 !important;
+  color: #AAA !important;
+}
 
-    #categories .category-name {
-        font-size: 20px !important;
-    }
+#categories .category-name {
+  font-size: 20px !important;
+}
 
-    .category[selected="true"] {
-        border-left-color: #E78700 !important;
-        border-radius: 0 !important;
-        font-weight: bold;
-        font-family: 微軟正黑體 !important;
-        color: #FFF !important;
-        background-color: yellowgreen !important;
-    }
+.category[selected="true"] {
+  border-left-color: #E78700 !important;
+  border-radius: 0 !important;
+  font-weight: bold;
+  font-family: 微軟正黑體 !important;
+  color: #FFF !important;
+  background-color: yellowgreen !important;
+}
+.category:not([selected="true"]) {
+  padding-inline-start: 11px;
+  border-inline-start: solid 4px transparent !important;
+}
+/*
+.category {
+  border-width: 0 0 0 5px !important;
+}
+*/
+.category-icon {
+  margin-top: -2px !important;
+}
 
-    .category {
-        border-width: 0 0 0 5px !important;
-    }
+#category-extension > .category-icon {
+  list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAVFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////+/v790dHRgYGAAAAByde+IAAAAF3RSTlMAAlmy6iLM6cv2fiMGWvU6t3/r5vkhfRJog0oAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAABa0lEQVRIx8WV2ZKDIBBFRdQouEVjOvr/Hzo4sgrSmJqq6adg5RR9e+FmmR0kpwWIKGhOsqQoK9BRlUnEA6x4JDCkBmgYF79azhqAGs+tA+gHdRh6gA5FRgBmTk+AEUUmAG5OHGBGESG5NacW4HXzliXlFqHlbU4sRcsXFTv6Iu+I9eUDbuhS2PH5Y4QeXymCrHGNawDZ4sj2fwjpxgmmsSPpSC0LU5epiKlzcHl3xMnj9//9m4vlFWNVkTDi5LEjzTGNgxisPIy4eVCzv0x3/4Rc5yGWtwgj13nosXQilkcbRmJ5hBPz80Dlewhe5CACPVta/rxopacWHxhPLT6Wnlo5/PNrjgy/q9ZfMeF++7uhrW87q/UQ7X7K+ryxPCOW+8lihIbfRqT72dYnV8yoPSHmLdcPOfbCWO6nrA9DLF9S1ochlvsp67txy5J4i+V+LFFLYsVss9DuZ/qyYi6mrOyG8X2J7A8AvUR+ALi2RTXnst/vAAAAAElFTkSuQmCC") !important;
+}
 
-    .category-icon {
-        margin-top: -2px !important;
-    }
+.icon {
+  list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAUVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQECLi4ufn58HkhK+AAAAF3RSTlMAAlmy6iLM6cv2fiMGWvU6t3/r5vkhfRJog0oAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAABa0lEQVRIx8WV2ZKDIBBFRdQouEVjOvr/Hzo4sgrSmJqq6adg5RR9e+FmmR0kpwWIKGhOsqQoK9BRlUnEA6x4JDCkBmgYF79azhqAGs+tA+gHdRh6gA5FRgBmTk+AEUUmAG5OHGBGESG5NacW4HXzliXlFqHlbU4sRcsXFTv6Iu+I9eUDbuhS2PH5Y4QeXymCrHGNawDZ4sj2fwjpxgmmsSPpSC0LU5epiKlzcHl3xMnj9//9m4vlFWNVkTDi5LEjzTGNgxisPIy4eVCzv0x3/4Rc5yGWtwgj13nosXQilkcbRmJ5hBPz80Dlewhe5CACPVta/rxopacWHxhPLT6Wnlo5/PNrjgy/q9ZfMeF++7uhrW87q/UQ7X7K+ryxPCOW+8lihIbfRqT72dYnV8yoPSHmLdcPOfbCWO6nrA9DLF9S1ochlvsp67txy5J4i+V+LFFLYsVss9DuZ/qyYi6mrOyG8X2J7A8AvUR+ALi2RTXnst/vAAAAAElFTkSuQmCC") !important;
+}
 
-    #category-extension > .category-icon {
-        list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAVFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////+/v790dHRgYGAAAAByde+IAAAAF3RSTlMAAlmy6iLM6cv2fiMGWvU6t3/r5vkhfRJog0oAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAABa0lEQVRIx8WV2ZKDIBBFRdQouEVjOvr/Hzo4sgrSmJqq6adg5RR9e+FmmR0kpwWIKGhOsqQoK9BRlUnEA6x4JDCkBmgYF79azhqAGs+tA+gHdRh6gA5FRgBmTk+AEUUmAG5OHGBGESG5NacW4HXzliXlFqHlbU4sRcsXFTv6Iu+I9eUDbuhS2PH5Y4QeXymCrHGNawDZ4sj2fwjpxgmmsSPpSC0LU5epiKlzcHl3xMnj9//9m4vlFWNVkTDi5LEjzTGNgxisPIy4eVCzv0x3/4Rc5yGWtwgj13nosXQilkcbRmJ5hBPz80Dlewhe5CACPVta/rxopacWHxhPLT6Wnlo5/PNrjgy/q9ZfMeF++7uhrW87q/UQ7X7K+ryxPCOW+8lihIbfRqT72dYnV8yoPSHmLdcPOfbCWO6nrA9DLF9S1ochlvsp67txy5J4i+V+LFFLYsVss9DuZ/qyYi6mrOyG8X2J7A8AvUR+ALi2RTXnst/vAAAAAElFTkSuQmCC") !important;
-    }
+.addon-view[type="plugin"] .icon {
+  list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAG1BMVEUAAAAAAADo6OggICCnp6e/v79UVFRgYGB/f3+841cVAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxIAAAsSAdLdfvwAAABgSURBVDjLY2AY3IBREAwEUJnkyygBAVQGzoTIgEioDJxJloyxsbEhhCuMymQAuwXMFURl4pMRCQ0NBXFDIQDKdBREuAM9xEZlRmXIlxErxwYSBWFJExPgkenABRgGMQAAJsIunzhrJukAAAAASUVORK5CYII=") !important;
+}
 
-    .icon {
-        list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAUVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQECLi4ufn58HkhK+AAAAF3RSTlMAAlmy6iLM6cv2fiMGWvU6t3/r5vkhfRJog0oAAAABYktHRACIBR1IAAAACXBIWXMAAC4jAAAuIwF4pT92AAABa0lEQVRIx8WV2ZKDIBBFRdQouEVjOvr/Hzo4sgrSmJqq6adg5RR9e+FmmR0kpwWIKGhOsqQoK9BRlUnEA6x4JDCkBmgYF79azhqAGs+tA+gHdRh6gA5FRgBmTk+AEUUmAG5OHGBGESG5NacW4HXzliXlFqHlbU4sRcsXFTv6Iu+I9eUDbuhS2PH5Y4QeXymCrHGNawDZ4sj2fwjpxgmmsSPpSC0LU5epiKlzcHl3xMnj9//9m4vlFWNVkTDi5LEjzTGNgxisPIy4eVCzv0x3/4Rc5yGWtwgj13nosXQilkcbRmJ5hBPz80Dlewhe5CACPVta/rxopacWHxhPLT6Wnlo5/PNrjgy/q9ZfMeF++7uhrW87q/UQ7X7K+ryxPCOW+8lihIbfRqT72dYnV8yoPSHmLdcPOfbCWO6nrA9DLF9S1ochlvsp67txy5J4i+V+LFFLYsVss9DuZ/qyYi6mrOyG8X2J7A8AvUR+ALi2RTXnst/vAAAAAElFTkSuQmCC") !important;
-    }
-
-    .addon-view[type="plugin"] .icon {
-        list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAG1BMVEUAAAAAAADo6OggICCnp6e/v79UVFRgYGB/f3+841cVAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxIAAAsSAdLdfvwAAABgSURBVDjLY2AY3IBREAwEUJnkyygBAVQGzoTIgEioDJxJloyxsbEhhCuMymQAuwXMFURl4pMRCQ0NBXFDIQDKdBREuAM9xEZlRmXIlxErxwYSBWFJExPgkenABRgGMQAAJsIunzhrJukAAAAASUVORK5CYII=") !important;
-    }
-
-    #category-plugin > .category-icon {
-        list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAHlBMVEUAAAD///8XFxff399YWFhAQECrq6ufn5+AgIAAAAC6vxKJAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxIAAAsSAdLdfvwAAABgSURBVDjLY2AY3IBREAwEUJnkyygBAVQGzoTIgEioDJxJloyxsbEhhCuMymQAuwXMFURl4pMRCQ0NBXFDIQDKdBREuAM9xEZlRmXIlxErxwYSBWFJExPgkenABRgGMQAAJsIunzhrJukAAAAASUVORK5CYII=") !important;
-    }
+#category-plugin > .category-icon {
+  list-style-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAHlBMVEUAAAD///8XFxff399YWFhAQECrq6ufn5+AgIAAAAC6vxKJAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxIAAAsSAdLdfvwAAABgSURBVDjLY2AY3IBREAwEUJnkyygBAVQGzoTIgEioDJxJloyxsbEhhCuMymQAuwXMFURl4pMRCQ0NBXFDIQDKdBREuAM9xEZlRmXIlxErxwYSBWFJExPgkenABRgGMQAAJsIunzhrJukAAAAASUVORK5CYII=") !important;
+}
 	
 /*================附加元件管理員圖示大小================*/
 
-    .icon-container,
-    .icon {
-        width: 20px !important;
-        height: 20px !important;
-    }
+.icon-container,
+.icon {
+  width: 20px !important;
+  height: 20px !important;
+}
 
-    .icon-container {
-        margin: 3px 0 0 5px !important;
-        padding: 0 !important;
-    }
+.icon-container {
+  margin: 3px 0 0 5px !important;
+  padding: 0 !important;
+}
 
 /*================附加元件管理員文字大小================*/
 
-    .addon .name-container {
-        margin-top: 2px !important;
-        font-family: 微軟正黑體 !important;
-        font-size: 14px !important;
-    }
+.addon .name-container {
+  margin-top: 2px !important;
+  font-family: 微軟正黑體 !important;
+  font-size: 14px !important;
+}
 
 /*================附加元件管理員 套件名稱與說明併為一行================*/
 
-    .content-inner-container {
-        -moz-box-orient: horizontal !important;
-    }
+.content-inner-container {
+  -moz-box-orient: horizontal !important;
+}
 
-    .addon:not([selected]) .name-container {
-        min-width: 300px !important;
-        max-width: 300px !important;
-    }
+.addon:not([selected]) .name-container {
+  min-width: 300px !important;
+  max-width: 300px !important;
+}
 
-    .addon[selected] .name-container {
-        min-width: 300px !important;
-        max-width: 1000px !important;
-    }
+.addon[selected] .name-container {
+  min-width: 300px !important;
+  max-width: 1000px !important;
+}
 /*================附加元件管理員背景樣式================*/
       
-	.addon:not([selected]):hover {
-		background: -moz-linear-gradient( hsla(100,65%,94%,.6) 0px, hsla(100,35%,80%,.6) 100%) border-box !important;
-	}
-	/*.addon[selected]{background:none !important;}*/
-	.addon[selected] {
-		background: -moz-linear-gradient( hsla(220,65%,84%,.6) 0px, hsla(220,35%,60%,.6) 100%) border-box !important;
-	}
+.addon:not([selected]):hover {
+  background: -moz-linear-gradient( hsla(100,65%,94%,.6) 0px, hsla(100,35%,80%,.6) 100%) border-box !important;
+}
+/*.addon[selected]{background:none !important;}*/
+.addon[selected] {
+  background: -moz-linear-gradient( hsla(220,65%,84%,.6) 0px, hsla(220,35%,60%,.6) 100%) border-box !important;
+}
 /*================附加元件管理員 鼠標停留時才顯示選項按鈕================*/
 
-    .addon:not(:hover)  :-moz-any(.control-container, .details) {
-        display: none !important;
-    }
+.addon:not(:hover)  :-moz-any(.control-container, .details) {
+  display: none !important;
+}
 
-    .control-container, .details {
-        margin: -4px 0 !important;
-    }
+.control-container, .details {
+  margin: -4px 0 !important;
+}
 	
 /*================附加元件管理員 邊界調整================*/
-    #header {
-        margin: 5px!important;
-    }
+#header {
+  margin: 5px!important;
+}
 
-    #view-port,
-    .view-header,
-    .view-pane > .list > scrollbox,
-    #detail-view > .box-inherit {
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    
-    .view-header {
-        border-bottom: none !important;
-    }
-    
-    .list > scrollbox > .scrollbox-innerbox {
-        border-top: 1px solid #c1c1c1 !important;
-        border-bottom: 1px solid #c1c1c1 !important;
-        border-right: none !important;
-        border-left: none !important;
-    }
+#view-port,
+.view-header,
+.view-pane > .list > scrollbox,
+#detail-view > .box-inherit {
+  padding: 0 !important;
+  margin: 0 !important;
+}
 
-    #categories,#addons-page {
-        padding: 0 !important;
-    }
+.view-header {
+  border-bottom: none !important;
+}
 
-    #categories {
-        padding: 40px 0 0 0 !important;
-        margin: 0 !important;
-        background: #333 !important;
-        width: 180px !important;
-    }
+.list > scrollbox > .scrollbox-innerbox {
+  border-top: 1px solid #c1c1c1 !important;
+  border-bottom: 1px solid #c1c1c1 !important;
+  border-right: none !important;
+  border-left: none !important;
+}
 
-    .content-container {
-        margin-top: -2px !important;
-        margin-bottom: -2px !important;
-    }
+#categories,#addons-page {
+  padding: 0 !important;
+}
 
-    .description {
-        margin-top: 4px !important;
-    }
+#categories {
+  padding: 40px 0 0 0 !important;
+  margin: 0 !important;
+  background: #333 !important;
+  width: 180px !important;
+}
 
-    .sorter {
-        height: 22px !important;
-        margin-top: 4px !important;
-    }
+.content-container {
+  margin-top: -2px !important;
+  margin-bottom: -2px !important;
+}
 
-    .text-link {
-        margin-top: 8px !important;
-    }
+.description {
+  margin-top: 4px !important;
+}
+
+.sorter {
+  height: 22px !important;
+  margin-top: 4px !important;
+}
+
+.text-link {
+  margin-top: 8px !important;
+}
 /*================讓附加元件管理員部分元素文字可選取================*/
-    #detail-desc,
-    #detail-fulldesc,
-    #detail-name {
-		-moz-user-select: text !important;
-		cursor: text !important;
-	}
-    
+#detail-desc,
+#detail-fulldesc,
+#detail-name {
+  -moz-user-select: text !important;
+  cursor: text !important;
+}
 /*================附加元件管理員 移除多餘按鈕================*/
-    #nav-header,
+#nav-header,
     #addon-list .addon-control[anonid=compatibilityButton],
     #addon-list .addon-control[anonid=publishButton],
     #menuitem_showCompatibilityResults,
@@ -170,101 +172,99 @@
     toolbarbutton[class="nav-button header-button"][command="cmd_forward"],
     .details.button-link,
     #detail-contributions {
-        display: none !important;
-    }
-	
-
+  display: none !important;
+}
 /*================附加元件管理員 顯示最後更新日期================*/
-	.date-updated {
-		display: -moz-box !important;
-	}
+.date-updated {
+  display: -moz-box !important;
+}
 
-	.date-updated {
-		margin-top: 4px !important;
-		margin-right: 0px !important;
-		width: 90px !important;
-	}
-    
+.date-updated {
+  margin-top: 4px !important;
+  margin-right: 0px !important;
+  width: 90px !important;
+}
 /*================附加元件管理員 顯示ID 浮動版================
-	.addon[selected="true"]::after {
-		content: " ID: " attr(value) !important;
-		position: fixed !important;
-		font-weight: bold !important;
-		font-size: 16px !important;
-		top: 12px !important;
-		left: 320px !important;
-		cursor: default !important;
-		color: #0066CC !important;
-	}
+.addon[selected="true"]::after {
+  content: " ID: " attr(value) !important;
+  position: fixed !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  top: 12px !important;
+  left: 320px !important;
+  cursor: default !important;
+  color: #0066CC !important;
+}
 */
 /*================附加元件管理員 顯示啟用停用數================*/
-	.addon {
-		counter-increment: addoncount !important;
-		content: counter(addoncount) !important;
-	}
+.addon {
+  counter-increment: addoncount !important;
+  content: counter(addoncount) !important;
+}
 
-	.addon[active="false"] {
-		counter-increment: disabled !important;
-	}
+.addon[active="false"] {
+  counter-increment: disabled !important;
+}
 
-	#addon-list:after {
-		content: "("counter(addoncount)" 啟用, "counter(disabled)" 停用)" !important;
-		position: fixed !important;
-		top: 12px !important;
-		left: 190px !important;
-		font-weight: bold !important;
-		font-size: 16px !important;
-		color: #0066CC !important;
-	}
+#addon-list:after {
+  content: "("counter(addoncount)" 啟用, "counter(disabled)" 停用)" !important;
+  position: fixed !important;
+  top: 12px !important;
+  left: 190px !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  color: #0066CC !important;
+}
 
 /*================附加元件管理員 顯示版本================*/
-	#search-list .addon:not([type="userstyle"])[status="installed"] .name-container > spacer,
-	#addon-list .addon:not([type="userstyle"])[status="installed"] .name-container > spacer,
-	#updates-list .addon:not([type="userstyle"])[status="installed"] .name-container > spacer {
-		-moz-binding: url('data:application/xml,\
-		\
-		<?xml version="1.0"?>\%0A\
-		<bindings xmlns="http://www.mozilla.org/xbl">\%0A\
-		<binding id="addonversion">\%0A\
-		<implementation>\%0A\
-		<constructor>\%0A\
-		<![CDATA[\%0A\
-		var richlistitem = document.getBindingParent(this);\%0A\
-		\%0A\
-		var nameLabel = document.getAnonymousElementByAttribute(richlistitem, "anonid", "name");\%0A\
-		var label = richlistitem._version = document.createElement("label");\%0A\
-		label.setAttribute("anonid", label.className = "version");\%0A\
-		this.parentNode.insertBefore(label, nameLabel.nextSibling);\%0A\
-		var addon = richlistitem.mAddon;\%0A\
-		shouldShowVersionNumber(addon) ? label.value = addon.version : label.hidden = true;\%0A\
-		\%0A\
-		var str = \'this._icon.src = "";\\n\';\%0A\
-		richlistitem._initWithAddon = eval(`(${\%0A\
-		String.replace(richlistitem._initWithAddon, str, [str,\%0A\
-		" if (shouldShowVersionNumber(this.mAddon))",\%0A\
-		" this._version.value = this.mAddon.version;",\%0A\
-		" else",\%0A\
-		" this._version.hidden = true;\\n"\%0A\
-		].join("\\n"))\%0A\
-		})`);\%0A\
-		str = \'this._showStatus("update-available");\\n\';\%0A\
-		richlistitem.onNewInstall = eval(`(${\%0A\
-		String.replace(richlistitem.onNewInstall, str, str +\%0A\
-		" this._updateUpgradeInfo();"\%0A\
-		)\%0A\
-		})`);\%0A\
-		richlistitem._updateUpgradeInfo = function _updateUpgradeInfo() {\%0A\
-		// Only update the version string if we\'re displaying the upgrade info\%0A\
-		if (this.hasAttribute("upgrade") && shouldShowVersionNumber(this.mAddon))\%0A\
-		this._version.value = this.mManualUpdate.version;\%0A\
-		}\%0A\
-		]]>\%0A\
-		</constructor>\%0A\
-		</implementation>\%0A\
-		</binding>\%0A\
-		</bindings>\
-		\
-		') !important;
-	}
-	
+
+#search-list .addon:not([type="userstyle"])[status="installed"] .name-container > spacer,
+#addon-list .addon:not([type="userstyle"])[status="installed"] .name-container > spacer,
+#updates-list .addon:not([type="userstyle"])[status="installed"] .name-container > spacer {
+-moz-binding: url('data:application/xml,\
+\
+<?xml version="1.0"?>\%0A\
+<bindings xmlns="http://www.mozilla.org/xbl">\%0A\
+<binding id="addonversion">\%0A\
+<implementation>\%0A\
+<constructor>\%0A\
+<![CDATA[\%0A\
+var richlistitem = document.getBindingParent(this);\%0A\
+\%0A\
+var nameLabel = document.getAnonymousElementByAttribute(richlistitem, "anonid", "name");\%0A\
+var label = richlistitem._version = document.createElement("label");\%0A\
+label.setAttribute("anonid", label.className = "version");\%0A\
+this.parentNode.insertBefore(label, nameLabel.nextSibling);\%0A\
+var addon = richlistitem.mAddon;\%0A\
+shouldShowVersionNumber(addon) ? label.value = addon.version : label.hidden = true;\%0A\
+\%0A\
+var str = \'this._icon.src = "";\\n\';\%0A\
+richlistitem._initWithAddon = eval(`(${\%0A\
+String.replace(richlistitem._initWithAddon, str, [str,\%0A\
+" if (shouldShowVersionNumber(this.mAddon))",\%0A\
+" this._version.value = this.mAddon.version;",\%0A\
+" else",\%0A\
+" this._version.hidden = true;\\n"\%0A\
+].join("\\n"))\%0A\
+})`);\%0A\
+str = \'this._showStatus("update-available");\\n\';\%0A\
+richlistitem.onNewInstall = eval(`(${\%0A\
+String.replace(richlistitem.onNewInstall, str, str +\%0A\
+" this._updateUpgradeInfo();"\%0A\
+)\%0A\
+})`);\%0A\
+richlistitem._updateUpgradeInfo = function _updateUpgradeInfo() {\%0A\
+// Only update the version string if we\'re displaying the upgrade info\%0A\
+if (this.hasAttribute("upgrade") && shouldShowVersionNumber(this.mAddon))\%0A\
+this._version.value = this.mManualUpdate.version;\%0A\
+}\%0A\
+]]>\%0A\
+</constructor>\%0A\
+</implementation>\%0A\
+</binding>\%0A\
+</bindings>\
+\
+') !important;
+}
+
 }

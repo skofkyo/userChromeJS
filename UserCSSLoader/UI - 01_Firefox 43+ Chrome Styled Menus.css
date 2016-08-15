@@ -1,18 +1,20 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
-#eom-popup [label="undefined"]{
-    margin-right: -3px !important;
-    margin-left: 3px !important;
-}
-#ecm-popup,#CustomFirefoxMenuPopup,#FirefoxBtnpopup,#anoBtn_Popup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu{
-    margin-top: -5px !important;
-}
-#userChromejs_options,#greasemonkey-tbb menupopup,#stylish-popup {
-    margin-top: 6px !important;
+#eom-popup [label="undefined"] {
+  margin-right: -3px !important;
+  margin-left: 3px !important;
 }
 
-#UserScriptLoader-popup{
-    margin-top: 10px !important;
+#ecm-popup,#CustomFirefoxMenuPopup,#FirefoxBtnpopup,#anoBtn_Popup,#anobtn_popup,#eom-button-popup,#secureLoginButtonMenu {
+  margin-top: -5px !important;
+}
+
+#userChromejs_options,#greasemonkey-tbb menupopup,#stylish-popup {
+  margin-top: 6px !important;
+}
+
+#UserScriptLoader-popup {
+  margin-top: 10px !important;
 }
 
 menupopup.textbox-contextmenu,
@@ -28,24 +30,23 @@ popupset >*:not(menupopup) menupopup,
 toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup,
 toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup menu,
 toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup menuitem,
-splitmenu
- {
-    background-color: #D7E2EC !important;
-    -moz-appearance: none !important;
-    /*
-    background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAABCAYAAADAW76WAAAAEElEQVQImWNgoAOYOXPmfwAGyQLLd07gdAAAAABJRU5ErkJggg==);
-    background-repeat: repeat-y; 
-    */
+splitmenu {
+  background-color: #D7E2EC !important;
+  -moz-appearance: none !important;
+  /*
+  background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAABCAYAAADAW76WAAAAEElEQVQImWNgoAOYOXPmfwAGyQLLd07gdAAAAABJRU5ErkJggg==);
+  background-repeat: repeat-y; 
+  */
 }
 
 menu, 
 menuitem, 
 splitmenu {
-    height: 24px !important;
+  height: 24px !important;
 }
 
 #contentAreaContextMenu > menugroup {
-    height: 36px !important;
+  height: 36px !important;
 }
 /* Small Borders */
 menupopup.textbox-contextmenu,
@@ -59,23 +60,23 @@ popupset >*:not(menupopup) menupopup,
 #downloadsContextMenu,
 #alltabs-popup,
 toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup {
-    border: 1px solid #999 !important;
+  border: 1px solid #999 !important;
 }
 
 menuseparator:not([hidden]) {
-    -moz-appearance: none !important;
-    height: 1px !important;
-    margin: 0 0 0 28px  !important;
-    border: none !important;
-    border-top: 1px solid #999 !important;
-    padding: 0px !important;
-    opacity:0.6 !important;
+  -moz-appearance: none !important;
+  height: 1px !important;
+  margin: 0 0 0 28px  !important;
+  border: none !important;
+  border-top: 1px solid #999 !important;
+  padding: 0px !important;
+  opacity: 0.6 !important;
 }
 
 menuseparator,#context-sep-navigation,
 #page-menu-separator,[tooltiptext^="囧rz"],
 #context-navigation {
-display: none !important; 
+  display: none !important;
 }
 
 toolbarbutton:not(#bookmarks-menu-button):not(#alltabs-button):not(.bookmark-item)  menupopup[_moz-menuactive="true"],
@@ -87,13 +88,11 @@ menupopup menu[_moz-menuactive="true"],
 menupopup menuitem[_moz-menuactive="true"],
 menupopup[_moz-menuactive="true"],
 splitmenu[_moz-menuactive="true"] {
-    background-color: #4281F4 !important;
-    color: #FFF !important;
-    -moz-appearance: none !important;
+  background-color: #4281F4 !important;
+  color: #FFF !important;
+  -moz-appearance: none !important;
 }
 
 menuitem[disabled]:not([_moz-menuactive]) {
-    background: transparent !important;
+  background: transparent !important;
 }
-
-/* Make text visible for checkbox menuitems until Bug 605985 is resolved*/
