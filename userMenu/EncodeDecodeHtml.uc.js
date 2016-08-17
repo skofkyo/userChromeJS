@@ -169,22 +169,22 @@
         },
 
         onCommand: function(event) {
-            var tar, html, resize, url, rurl;
+            var tar, html, width, height, dir, rdir;
             tar = event.target;
             html = tar.getAttribute("html");
-            name = tar.getAttribute("label");
+            //name = tar.getAttribute("label");
             width = tar.getAttribute("w");
             height = tar.getAttribute("h");
-            url = Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\" + html + "\.html";
-            rurl = url.replace(/\\/g, "\/");
+            dir = Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\" + html + "\.html";
+            rdir = dir.replace(/\\/g, "\/");
             if (this.win) {
-                var winopts = "titlebar,resizable,scrollbars," + "width=" + width + ",height=" + height;
-                window.open("file:\/\/\/" + rurl, "WindowName", winopts);
+                var winopts = "titlebar,resizable,scrollbars" + ",width=" + width + ",height=" + height;
+                window.open("file:\/\/\/" + rdir, "WindowName", winopts);
             } else {
                 if (this.tab)
-                    switchToTabHavingURI("file:\/\/\/" + rurl, true);
+                    switchToTabHavingURI("file:\/\/\/" + rdir, true);
                 else
-                    openUILinkIn("file:\/\/\/" + rurl, "tab");
+                    openUILinkIn("file:\/\/\/" + rdir, "tab");
             }
         },
 
