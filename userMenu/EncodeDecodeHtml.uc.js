@@ -97,8 +97,8 @@
             }, {
                 label: "Javascript/HTML 格式化",
                 html: "JavaScriptBeautify2",
-                w: "1440",
-                h: "800",
+                w: "740",
+                h: "804",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAhklEQVQ4jbWTQQrFIAxEc6LGG2WpCB7AhbjIterZ5q/8SEUbaDswEMnMW0WityQieJQTEVggy9y46PPVJoDVW0CMEVd5722AlNJU7goh3AMA4OQDzfG/2Bzj5AMAbIDmeAL0twmw0/eAWuuynHNeA0aIqk7lUsq+TEQ0hlZW1fs/Y76+N/QDfH54UpD++6YAAAAASUVORK5CYII="
             }, {
                 label: "CSS格式化",
