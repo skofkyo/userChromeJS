@@ -20,8 +20,9 @@
     var EncodeDecodeHtml = {
 
         mode: 2, //位置 0可移動按鈕 1網址列按鈕 2工具選單
-        win: false, // 用視窗開啟 true / 用分頁開啟 false
-        tab: true, // 使用分頁開啟時 切換到相同的分頁(不重複開啟分頁) true / 再開啟一個分頁 false
+        win: false, // true 用視窗開啟  / false 用分頁開啟 
+        Dialog: true, // 使用視窗開啟時 true 用window.openDialog開啟(速度快 無右鍵選單 視窗自動置中)  / false 用window.open開啟(速度慢 有右鍵選單 視窗無法自動置中) 
+        tab: true, //  使用分頁開啟時 true 切換到相同的分頁(不重複開啟分頁)  / false 再開啟一個分頁 
 
         init: function() {
             this.addmenuitem();
@@ -131,6 +132,8 @@
                 h: "500",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC80lEQVRYhe2UW0gUURjHPwspupARgi89R0S99NBb2EPQQ09RRFIQEcquWJurrqu7zsw5Z2Y3U9OVyltUkqbZVQoKKexKT4VGdEHLVcjW3VlbU9dNt38PuTJKgWj1ND/4MzBwft+c831niExMTEwMyLIolBXuZ0yAMRWcqeBcheAqBNcguGhgjG39Jw5Jkquam1sxMRFDPP4D8Xh8JlNTv579/f0oL6sAY8L6u+ILdrhKFPeVKy2YnJzEt9FRhMM69DkJD4cRnZhALBZD5WkfmJttMhZfsCMzM3OFUD0I6SFERiK43d6O3x1feVkFurq7MBYdQ29vL7jMzyaKL8pRWOjadfFSI75Gwuh6/Qq59vy3KSkp24locyK2E/ZWReFQFAGFiWm5+CWfKaBBcA0q16AKDarwoCDP0WrwbNm3b79SVenDkB6AruvgCu8hh6Mo58bNmwiGB/H4ySPY7QVtRJSc2J3NZkvxeEsRjcYwPh6dd6LRGDThgaFLSUS0WpaUYN9AD4b0QQimRsluL7C2XWvDl5Afz188hdPpum7srcViWevxliIY8WNw+P28Exzpn/sBRERJsqT4e/veIRAagMq175SVlb2ztr4eDx/fR0/fOzCuQpblNMOiJXl5jqaFtMBZWHx59hXluyvKTiOg+/Hm/UswmQ9QamrqKoUJ1NRVYyDwAR0POsC5OjNAjAm4XSWQJAXXb1xF57N7OFVxEgcPHLqb6G9ycvI2a3YO3JITHZ13UNdQh9xcO1wuadYQVvvOoPv1KwSGP6H1WjOcjqImIqKlOTnHyn3VVeCqhM/BjxgZC2N0PDIrkdEQghE/Gpsa4NG8yMjI2GHY3KIdaywWa4uqafCWqqg9X41z9T7cutsykwuNNfCWqpBlGUcOH80nouVz+rsox1IiWrdnz177cduJ7sQddrtKUFzshttVAqaIuCXLej89PX0XEa2cnmoji3YkTb9cT0QbyfAfmM4GIkojomX0Z/6Gw8TExMTk//ITMvlwcO0adboAAAAASUVORK5CYII="
             }, {
+                label: "sep",
+            }, {
                 label: "線上圖片編輯",
                 oncommand: 'openUILinkIn("https://pixlr.com/editor/", "tab");',
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABnklEQVQ4jWNgoABcv3tdjSyND14/kMys99kZk+O2l2TNu88sj/LPU/5q7Cn64e6zu3JEa7x69Srb9PUlk9O7zf+bBYr8X7NxYQzRml+9ui9RPtP5VOuakP/2MdL/q1ozpxOt+e7r62pZE40fzzmS9d8jVeG/f4L18atXr7IRpfnWk/MGGRP0Xi45U/TfL1v1v42f6r37r+5LEKX59KXDLtmT9N+uuFj23zdH5b+Rq+SrO3euqhCl+eHDh0rN3RU/8pvC/ntlKv7XcxT6cPXqBW2iNDMwMDAWVKS9ev/+/f+Kior/OsYKP06c2W9DrGaGhrbKrU+ePPlfVlb238rO/NfBo3udiNZ8aPOKlKXLFv9PS0v77+Bq9erBgweSRGl8+/Yt38Ys11PzfOX/W5to/s8vzF5HtK0MDAwMm6tiNp6eXf6/O8Tsf6Ku+CsGBgZGojXvXzw1vcaQ83+aFu9/b3HG/3O6mysvXLigffXqVZX79+9LvH37lg9vwqlNCFwbb6F+PVBN8O20ltrGI0eOWJw6dcoAZsC7d+/48RkAABBmw+1iCsQFAAAAAElFTkSuQmCC"
@@ -142,6 +145,8 @@
                 label: "線上CSS壓縮",
                 oncommand: 'openUILinkIn("http://csscompressor.com/", "tab");',
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA7UlEQVQ4jWPITr7+PzMRgVOS7vy/FJT3/7+vLwp+FZv2f/b6l//nrnkCx/PXPv3PkJl0/X96/DU4Tky4/f+if87//15eKPhVdMr/mete/J+z+gkcz1vzZNQAqhhQXXP7f1X1LTgurb73/1pB+/+/OTko+E1l/f81Ox7+X7ftHhyv337vP4PBgRP/9ZCw+r5j/3c9fvr//bt3KPjDw1P/P83X+v9poT4CLzL8z2B26NR/44Mn4Vhn/4n/u7EZ8Og0RNNiEwReaj5qAFUMsDh86r/ZIQTWP3Di/54nz7AYcOb/p0VG/z8tMUfgpZb/ATI29NPOivDIAAAAAElFTkSuQmCC"
+            }, {
+                label: "sep",
             }, {
                 label: "打開html資料夾",
                 oncommand: "FileUtils.getFile('UChrm', ['Local','html']).reveal();",
@@ -169,22 +174,23 @@
         },
 
         onCommand: function(event) {
-            var tar, html, width, height, dir, rdir;
-            tar = event.target;
-            html = tar.getAttribute("html");
-            //name = tar.getAttribute("label");
-            width = tar.getAttribute("w");
-            height = tar.getAttribute("h");
-            dir = Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\" + html + "\.html";
-            rdir = dir.replace(/\\/g, "\/");
+            var tar = event.target;
+            var html = tar.getAttribute("html");
+            var width = tar.getAttribute("w");
+            var height = tar.getAttribute("h");
+            var filedir = "file:\/\/\/" + Services.dirsvc.get("UChrm", Ci.nsILocalFile).path + "\\Local\\html\\" + html + "\.html".replace("\\", "\/");
             if (this.win) {
-                var winopts = "titlebar,resizable,scrollbars" + ",width=" + width + ",height=" + height;
-                window.open("file:\/\/\/" + rdir, "WindowName", winopts);
+                //https://developer.mozilla.org/en-US/docs/Web/API/Window/open
+                var winopts = "titlebar,resizable,scrollbars,centerscreen" + ",width=" + width + ",height=" + height;
+                if (this.Dialog)
+                    window.openDialog(filedir, "", winopts);
+                else
+                    window.open(filedir, "", winopts);
             } else {
                 if (this.tab)
-                    switchToTabHavingURI("file:\/\/\/" + rdir, true);
+                    switchToTabHavingURI(filedir, true);
                 else
-                    openUILinkIn("file:\/\/\/" + rdir, "tab");
+                    openUILinkIn(filedir, "tab");
             }
         },
 

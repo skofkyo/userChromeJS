@@ -162,8 +162,6 @@
                             anoBtn.open(0);
                             break;
                         case 2:
-                            event.preventDefault();
-                            event.stopPropagation();
                             Services.appinfo.invalidateCachesOnRestart();
                             ('BrowserUtils' in window) ? BrowserUtils.restartApplication(): Application.restart();
                             break;
@@ -326,7 +324,7 @@
                     }
                     event.preventDefault();
                     event.stopPropagation();
-                    fdir = "\\" + rlabel;
+                    fdir = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + "\\" + rlabel;
                     anoBtn.Exec(fdir);
                     break;
             }
@@ -585,8 +583,6 @@
         Exec: function(path, arg) {
             var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);
             var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
-            if (path.indexOf('\\') === 0)
-                path = Services.dirsvc.get("ProfD", Ci.nsILocalFile).path + path;
             try {
                 var a;
                 if (typeof arg == 'string' || arg instanceof String) {
