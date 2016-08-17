@@ -289,6 +289,7 @@
             var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
             + '#ExtrasConfigMenu .toolbarbutton-icon' 
             + '{list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAn0lEQVRYhe3W0QqAIAwFUL/vbv//M0H2JAyRbDpd0YL7EGgdFm4lZs7MnIkoE1Eu96lzlfV1evuaD5IAAL4AlwoAmALI/UMAGZcKBCAALYQLoPSDf1ZAzgT3CuzM9wH1JHUF3K2p855P0NLtCoBTfWrMj2EAAmABmPoptQDIhuMCkN0NwKFqRBYATetdAhgZQksr4Ap4Mh1NAfULtcPoAr5fptLBChDyAAAAAElFTkSuQmCC)}' 
+            +'#navigator-toolbox #ExtrasConfigMenu .toolbarbutton-icon{width: 16px !important;height: 16px !important;}'
             + '}';
             var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
             var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);

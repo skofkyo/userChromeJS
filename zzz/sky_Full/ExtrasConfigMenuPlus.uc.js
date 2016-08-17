@@ -70,6 +70,7 @@
                 //{mid: "ucjs_UserAgentChanger"}, //UserAgentChange
                 //{mid: "EncodeDecodeHtml_menu"}, //EncodeDecodeHtml
                 {mid: "InspectElement-menuitem"}, //Inspect Element 設置
+                {mid: "uc_SmartScrollbar"}, //SmartScrollbar
                 {mid: "toolsbar_KeyChanger_rebuild"}, //KeyChanger
                 {mid: "ucjsMouseGestures"}, //設置滑鼠手勢
                 {mid: "ucjsSuperDrag"}, //設置拖拽手勢
@@ -99,6 +100,9 @@
                 }, {
                     label: "編輯hosts",
                     text: "C:\\Windows\\System32\\drivers\\etc\\hosts",
+                    exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe",
+                }, {
+                    label: "Notepad2",
                     exec: "\\Chrome\\Local\\Notepad2\\Notepad2.exe",
                 }, {
                     label: "Local",
@@ -742,7 +746,8 @@
             var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
             + '#ExtrasConfigMenu .toolbarbutton-icon' 
             + '{list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAn0lEQVRYhe3W0QqAIAwFUL/vbv//M0H2JAyRbDpd0YL7EGgdFm4lZs7MnIkoE1Eu96lzlfV1evuaD5IAAL4AlwoAmALI/UMAGZcKBCAALYQLoPSDf1ZAzgT3CuzM9wH1JHUF3K2p855P0NLtCoBTfWrMj2EAAmABmPoptQDIhuMCkN0NwKFqRBYATetdAhgZQksr4Ap4Mh1NAfULtcPoAr5fptLBChDyAAAAAElFTkSuQmCC)}' 
-            + '#ecm-popup menu:not(#uc_quickProxy_menu) menupopup menuitem[checked="false"]:not(#redirector-toggle):not(.gm-enabled-item)'
+            +'#navigator-toolbox #ExtrasConfigMenu .toolbarbutton-icon{width: 16px !important;height: 16px !important;}'
+            + '#ecm-popup menu:not(#uc_quickProxy_menu) menupopup menuitem[checked="false"]:not(#redirector-toggle):not(.gm-enabled-item):not(#uc_SmartScrollbar)'
             + '{-moz-box-ordinal-group:99!important;}'
             + '}';
             var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
