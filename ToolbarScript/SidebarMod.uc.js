@@ -37,7 +37,8 @@
             }, {
                 id: 'Sidebartranslatebutton',
                 name: 'Google翻譯',
-                url: 'https://translate.google.com/m/translate#auto/zh-TW/',
+                //url: 'https://translate.google.com/m/translate#auto/zh-TW/',
+                url: 'https://translate.google.com/#auto/zh-TW/',
                 favicon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVQ4jY2SP4viQBiHX0UQWz/AXb+VX8Iu/YqFhdhcd5BKEOTKC9jJFYrFgo3FIjYiCRauhTCQDMp4bJFklzCuLJLOWNj8rpDMJt7u7Q08xQzze953/hAR0el4QJLw8KR4fXkE/Wtch01zjP6gmxLsd9uPJafjAf1BF82WjmZLR61eRa1eVfNmS4cMxP8JksGk6FPB6XjAii1Qq1fBBYMMBL79+InvDIrbB0CzIpSmQHF0RnF0vkiTFxZX7A+6MOzwU0FxdEZKYJpj1fp1eO5KzF0JzYreF/iekzr77QMUhh2q1zDsUIULPQl6fXkEFww53cWKLWCaY3DBVMuaFWHuSsT7fM/5W5DTXYUMBGQgUJoCpelFst9tcc84DDuE7znQrAiFnrwIkuGY/W6rBIYdQgYC7RmHZkXwPQf3jL8JiCglISLKVCaqzfhZfc9RcMFwc/eMfGd9EWQbS+R0F9nGEtnGEpnKBJnKJFWxPNygPNygPePggqE942nBdTjG9xyUhxvVcqEnsWILrNjiTfCRJN9ZI99Zp8LxWsy73ztTmYCI6ObuGV/7Tym+/PqtICL6A7F/dNYyWabFAAAAAElFTkSuQmCC'
             }, {
                 id: 'Sidebaryoutubebutton',
@@ -106,6 +107,13 @@
                 sidebarBoxArrow.className = sidebarBox.hidden ? 'right' : '';
             },
             AutoClick: function(event) {
+                //PlacesCommandHook.showPlacesOrganizer("UnfiledBookmarks");
+                //PlacesCommandHook.showPlacesOrganizer("History");
+                //PlacesCommandHook.showPlacesOrganizer("Downloads");
+                //PlacesCommandHook.showPlacesOrganizer("Tags");
+                //PlacesCommandHook.showPlacesOrganizer("AllBookmarks");
+                //PlacesCommandHook.showPlacesOrganizer("BookmarksToolbar");
+                //PlacesCommandHook.showPlacesOrganizer("BookmarksMenu");
                 var B = $("SidebarBookmarkstogglebutton");
                 var H = $("SidebarHistorytogglebutton");
                 var D = $("Sidebardownloadsbutton");
@@ -115,12 +123,12 @@
                 B.addEventListener("mouseover", function(event) {t = setTimeout(function(event) {B.click()}, 400)}, false);
                 B.addEventListener("mouseout", function(event) {clearTimeout(t)}, false);
                 B.addEventListener("click", function(event) {
-                    if (event.button == 2) $("bookmarksShowAll").click()
+                    if (event.button == 2) PlacesCommandHook.showPlacesOrganizer("AllBookmarks");
                 }, false);
                 H.addEventListener("mouseover", function(event) {t = setTimeout(function(event) {H.click()}, 400)}, false);
                 H.addEventListener("mouseout", function(event) {clearTimeout(t)}, false);
                 H.addEventListener("click", function(event) {
-                    if (event.button == 2) $("menu_showAllHistory").click()
+                    if (event.button == 2) PlacesCommandHook.showPlacesOrganizer('History');
                 }, false);
                 D.addEventListener("mouseover", function(event) {t = setTimeout(function(event) {D.click()}, 400)}, false);
                 D.addEventListener("mouseout", function(event) {clearTimeout(t)}, false);

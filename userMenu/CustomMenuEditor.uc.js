@@ -5,7 +5,7 @@
 // @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2016.7.16            
+// @version              2016.8.19        
 // @include              main
 // @include              chrome://browser/content/browser.xul
 // ==/UserScript==
@@ -60,8 +60,14 @@
                 #context-openlinkincurrent,\
                 /*用新分頁開啟鏈結*/\
                 #context-openlinkintab,\
+                /*新增容器分頁*/\
+                #menu_newUserContext,\
                 /*用新容器分頁開啟鏈結*/\
                 #context-openlinkinusercontext-menu,\
+                /*將鏈結儲存至 Pocket*/\
+                #context-savelinktopocket,\
+                /*將頁面儲存至 Pocket*/\
+                #context-pocket,\
                 /*用新視窗開啟鏈結*/\
                 #context-openlink,\
                 /*用新隱私視窗開啟鏈結*/\

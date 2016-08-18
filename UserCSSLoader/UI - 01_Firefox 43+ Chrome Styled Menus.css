@@ -17,6 +17,7 @@
   margin-top: 10px !important;
 }
 
+menugroup,
 menupopup.textbox-contextmenu,
 popupset > menupopup,
 popupset > menupopup menupopup,
@@ -73,9 +74,11 @@ menuseparator:not([hidden]) {
   opacity: 0.6 !important;
 }
 
-menuseparator,#context-sep-navigation,
-#page-menu-separator,[tooltiptext^="囧rz"],
-#context-navigation {
+#context-navigation,
+#context-sep-navigation,
+menuseparator,
+#page-menu-separator,
+[tooltiptext^="囧rz"] {
   display: none !important;
 }
 

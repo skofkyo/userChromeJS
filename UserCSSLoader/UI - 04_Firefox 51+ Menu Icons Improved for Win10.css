@@ -130,6 +130,10 @@ menuitem[oncommand="gSyncUI.doSync(event);"]
 
 /* :::::::::::::::::::::::::::::::::::::::::::::::::::Main Context Menu::::::::::::::::::::::::::::::::::::::::::::::::: */
 
+#context-savelinktopocket,
+#context-pocket
+{list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABS0lEQVRYhe2WwZGDMAxFXQIlUIrsCnyxdKWElEAnKYESKIESfORiOyWwBzaJh2CQTXaTmUQzOkr/YUvfCPHxYUFXQVIfFE3/mpJ6C7oSLxGPIMTLxH/zC/AFeHMASb1X2Bat6rVWYVcGIKmPDcsrOnPFvaJzXLsFkQTwCtula3IgluJzHbaHT4DTbE1cCLHptpszkGrowDScE+Oc2v4WSBws6GoLwoFpSsR5ADsQa+LzC4sDp7cIkuwRiCPiQZLdXJFciCxxRVNQ2AkPdOIXpCHyxWnyQKe5MAdgBaJEPCiabj1yXC6CuFyHkD1H8dfHKz6CrrMBDuYIul7sbNrhnp0p0xIl91gyP8/Z4ULxXS/5Mwimkd0hcgxqN7Fji8fhAHXJit2/mqwD1NnCjyCmyboWiUPqhTwUI+jagWlu/4lReoWtA9M87Pe7xw9WjlUxAplQfwAAAABJRU5ErkJggg==) !important;}
+
 #context-back, /*-- Back */
 menuitem[oncommand="BrowserBack(event, true)"],
 #historyMenuBack
@@ -724,7 +728,9 @@ menubar > menu#grouptabs-menu > .menu-iconic-text, menubar > menu#grouptabs-cgm 
 
 #view-menu,
 #viewMenu,
-[label="檢視"]
+#viewButton,
+#viewMenu
+/*[label="檢視"]*/
 {list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIhSURBVDhPrZPNqxJRGMbvf3D3QbiJVoGY2Acig8kVVHS0EO5dlFAhDBIj1CY3p1WLgqBbCkU3CQI3grVoM0guZrBFkdsiTdCL5ec4kszARZ/OGceL94Nq0YGHGc77Pr/zzvueWVv7nyuZTNqoRCpiyf7PfGpIUKlUOKQKA/8RRBP4FRMzLCtg7wzIwPyxEBpYtxLyx51kxRmQQRJHIHSTGfcD8XicoyKWuKXB6k/tCIRumEnUYI/FYk2v1wuXywWHwwG3241wONykMfMAqxr2WQebSxP4UCiE02ecuHY3h8KHHzhx+xNOXt2B7eJlExiNRis0j30uU4k9zeropi0YDKr0JNx724L0dQ9sbb1o4tKOgVMPxnDckUxIIBCorUDIEkD8fj/6/T6ey2PsjmeofPwCQgiuiA+x8WqGs4+G+PztJ1iVKxC7ORnWLEmSYBgGcrIK/vUMmykCjuPgdDpx480M57Y1KN91tFqtwxCOAdYzmUxtOByi0dPhfjrBzcfvTbOf30SiNMf57Qm66hSj0Qj1eh0+n4/1pLQ/0iVkMBjgvjTGVmEPQmEXt97Nwb2c43pBhaZpYPFOp4NyuQyPxwPqEw/cC0EQiKIoyCm/sPFsggtPJhCKE/Q1wzy92+2i3W6j0WgglUohEoksGrm62FSy2WxelmVV13VMp4vSe72eWX6xWEQ6nc6zC/fXH01VVY6axWq1SodCROuWLuZvrd9KMIgX5g5/JAAAAABJRU5ErkJggg==) !important;}
 
 #history-menu
