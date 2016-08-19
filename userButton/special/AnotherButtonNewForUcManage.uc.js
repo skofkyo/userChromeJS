@@ -15,7 +15,7 @@
 // @downloadURL		https://github.com/feiruo/userChromeJS/raw/master/anoBtn/anoBtn.uc.js
 // @note			支持菜單和腳本設置重載
 // @note			需要 _anoBtn.js 配置文件
-// @version			1.4.0.2 	2016.08.19 	16:30	可對新建的選單添加onpopupshowing 可複製已有的menupopup過來建立新選單 補上開關排序CSS
+// @version			1.4.0.2 	2016.08.19 	16:30	可對新建的選單添加onpopupshowing 補上開關排序CSS
 // @version			1.4.0.1 	2016.08.17 	09:30	增加UC腳本管理功能
 // @version			1.4.0 	2016.03.30 	15:30	修改機制，遍歷文件支持參數，開放生成函數AnoBtn_BuildPopup，方法[PopupBuild = new AnoBtn_BuildPopup('PopupID');PopupBuild.Build(Menus)]。
 // @version			1.3.9 	2016.03.24 	17:30	Fix clone & load。
@@ -260,34 +260,6 @@
             var mp = event.target;
             if (mp !== event.currentTarget) {
                 return;
-            }
-            var g = $('gm_general_menu'); //Greasemonkey
-            if (g != null) {
-                var ege = gPrefService.getBoolPref("extensions.greasemonkey.enabled");
-                if (ege) {
-                    g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');
-                } else {
-                    g.setAttribute('image', 'chrome://greasemonkey/skin/icon16disabled.png');
-                }
-            }
-            var s = $('stylish-popup'); //Stylish
-            if (s != null) {
-                var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
-                var usm = $('uc_stylish_menu');
-                if (ess) {
-                    if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16.png');
-                    mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: none;');
-                    mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: -moz-box;');
-                } else {
-                    if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16w.png');
-                    mp.querySelector('#stylish-turn-on').setAttribute('style', 'display: -moz-box;');
-                    mp.querySelector('#stylish-turn-off').setAttribute('style', 'display: none;');
-                }
-                if (/\.css$/.test(gBrowser.selectedBrowser.currentURI.spec)) {
-                    mp.querySelector('#stylish-add-file').setAttribute('style', 'display: -moz-box;');
-                } else {
-                    mp.querySelector('#stylish-add-file').setAttribute('style', 'display: none;');
-                }
             }
             var nodes = mp.querySelectorAll('.AnoBtnUc.menu-iconic');
             for (var i = 0, len = nodes.length; i < len; i++) {
@@ -1142,9 +1114,6 @@
                     id: menuObj.id + "-popup" || "",
                     onpopupshowing: menuObj.onpopupshowing || ""
                 }));
-            } else if (menuObj.popid) {
-                Popup = menu.appendChild($(menuObj.popid).cloneNode(true));
-                Popup.removeAttribute("position");
             } else {
                 Popup = menu.appendChild($C("menupopup"));
             }
@@ -1164,7 +1133,7 @@
                 }
                 if (typeof val == "function")
                     menuObj[key] = val = "(" + val.toSource() + ").call(this, event);"
-                if (key != "onpopupshowing" && key != "popid") menu.setAttribute(key, val);
+                if (key != "onpopupshowing") menu.setAttribute(key, val);
             }
 
             let cls = menu.classList;

@@ -253,13 +253,6 @@ var anomenu = [
         id: "gm_general_menu",
         image: "chrome://greasemonkey/skin/icon16.png",
         clone: false
-    }, {//Stylish 選單版
-        id: "uc_stylish_menu",
-        label: "Stylish",
-        image: "chrome://stylish/skin/16.png",
-        accesskey: "S",
-        popid: "stylish-popup",//複製Stylish的menupopup
-        child: []//必須加child才是階層式選單
     }, {
         id: "uc_quickProxy_menu",
         label: "切換代理設置",
