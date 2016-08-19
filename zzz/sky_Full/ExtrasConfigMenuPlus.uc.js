@@ -8,7 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                2016.8.14!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.20!!!自用完整版 有精簡用不到的代碼
 // @note                2016.8.14 微調代碼
 // @note                2016.8.13 v3 階層式選單可用insertBefore: "ID",insertAfter: "ID" 改變添加的位置
 // @note                2016.8.13 v2 修正一個bug
@@ -197,6 +197,7 @@
             /*==========Greasemonkey 添加複製選單==========*/
             var g = $('gm_general_menu'); //Greasemonkey
             if (g != null) { //Greasemonkey
+                g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');
                 var ins = document.querySelector("#gm_general_menu menupopup");
                 ins.insertBefore($C("menuitem", {
                     class: "menuitem-iconic",
@@ -250,6 +251,7 @@
                     id: "uc_stylish_menu",
                     class: "menu-iconic",
                     label: "Stylish",
+                    image: "chrome://stylish/skin/16.png",
                     accesskey: "S",
                 }));
                 var cs = $("stylish-popup").cloneNode(true);
@@ -666,25 +668,6 @@
             }
         },
         onpopup: function(event) {
-            var g = $('gm_general_menu'); //Greasemonkey
-            if (g != null) {
-                var ege = gPrefService.getBoolPref("extensions.greasemonkey.enabled");
-                if (ege) {
-                    g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');
-                } else {
-                    g.setAttribute('image', 'chrome://greasemonkey/skin/icon16disabled.png');
-                }
-            }
-            var s = $('stylish-popup'); //Stylish
-            if (s != null) {
-                var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
-                var usm = $('uc_stylish_menu');
-                if (ess) {
-                    if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16.png');
-                } else {
-                    if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16w.png');
-                }
-            }
             var mp = event.target;
             if (mp !== event.currentTarget) {
                 return;
@@ -740,6 +723,25 @@
                     mi.script = script;
                 }
                 mp = event.target;
+            }
+            var s = $('stylish-popup'); //Stylish
+            if (s != null) {
+                var ess = gPrefService.getBoolPref("extensions.stylish.styleRegistrationEnabled");
+                var usm = $('uc_stylish_menu');
+                if (ess) {
+                    if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16.png');
+                } else {
+                    if (usm != null) usm.setAttribute('image', 'chrome://stylish/skin/16w.png');
+                }
+            }
+            var g = $('gm_general_menu'); //Greasemonkey
+            if (g != null) {
+                var ege = gPrefService.getBoolPref("extensions.greasemonkey.enabled");
+                if (ege) {
+                    g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');
+                } else {
+                    g.setAttribute('image', 'chrome://greasemonkey/skin/icon16disabled.png');
+                }
             }
         },
         addstyle: function() {
