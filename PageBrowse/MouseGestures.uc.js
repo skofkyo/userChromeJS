@@ -1,14 +1,20 @@
 // ==UserScript==
 // @name                 Mousegestures.uc.js
 // @namespace            Mousegestures@gmail.com
-// @description          自定義鼠標手勢，搜集修改自網絡各種代碼，配置外放，自用 DIY版
-// @author               紫雲飛
+// @description          自定義滑鼠手勢
+// @author          紫雲飛&w13998686967&黒仪大螃蟹
+// @include         chrome://browser/content/browser.xul
 // @homepageURL          http://www.cnblogs.com/ziyunfei/archive/2011/12/15/2289504.html
+// @version         2016.8.21
+// @note         2016.8.21 增加開關 by skofkyo 
+// @note         2016.2.22  取用黒仪大蚂蚁的描繪軌跡 by w13998686967
+// @note         2014.11.02 搜集修改自網絡各種代碼，配置外放，自用 DIY版 by w13998686967
 // @charset              UTF-8
 // ==/UserScript==
 (function() {
     var ucjsMouseGestures = {
-        Locus: true, // true / false 是否使用描繪軌跡
+        Locus: true, // true / false 是否使用手勢描繪軌跡
+        mgbtn: false, // true / false 執行手勢後是否取消按左右鍵(影響連續搖擺手勢)
         trailColor: '#ff1f1f', // 軌跡顏色
         trailSize: 3, // 軌跡粗細 單位px
         lastX: 0,
@@ -94,6 +100,7 @@
             var UI = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
             UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0 ? "gbk" : "UTF-8";
             var process = Cc['@mozilla.org/process/util;1'].createInstance(Ci.nsIProcess);
+
             try {
                 var path = UI.ConvertFromUnicode(aFile.path);
                 var args = [path];
@@ -140,8 +147,10 @@
                         var [distX, distY] = [(subX > 0 ? subX : (-subX)), (subY > 0 ? subY : (-subY))];
                         var direction;
                         if (distX < 10 && distY < 10) return;
-                        if (distX > distY) direction = subX < 0 ? "L" : "R";
-                        else direction = subY < 0 ? "U" : "D";
+                        if (distX > distY)
+                            direction = subX < 0 ? "L" : "R";
+                        else
+                            direction = subY < 0 ? "U" : "D";
                         if (this.Locus) {
                             var browser = gBrowser.selectedBrowser;
                             if (!this.xdTrailArea) {
@@ -224,8 +233,6 @@
                     break;
                 case "DOMMouseScroll":
                     if (this.isMouseDownR) {
-                        event.preventDefault();
-                        event.stopPropagation();
                         this.shouldFireContext = false;
                         this.hideFireContext = true;
                         this.directionChain = "W" + (event.detail > 0 ? "+" : "-");
@@ -237,19 +244,21 @@
             }
         },
         stopGesture: function(event) {
-            (this.GESTURES[this.directionChain] ? this.GESTURES[this.directionChain].cmd(this, event) & (XULBrowserWindow.statusTextField.label = "") : (XULBrowserWindow.statusTextField.label = "未知手勢: " + this.directionChain)) & (this.directionChain = "");
+            (this.GESTURES[this.directionChain] ? this.GESTURES[this.directionChain].cmd(this, event) & (XULBrowserWindow.statusTextField.label = "") : (XULBrowserWindow.statusTextField.label = "未知手勢:" + this.directionChain)) & (this.directionChain = "");
             //if (this.GESTURES[this.directionChain]) this.GESTURES[this.directionChain].cmd(this, event);
             //this.directionChain = "";
             XULBrowserWindow.statusTextField.label = ""; // 清除提示
             this.xdTrailArea = null; // 修復與nextpage的衝突，當nextpage啟用預讀時只能被MouseDragGestures調用一次，不能接著再用
             event.preventDefault();
             event.stopPropagation();
-            this.isMouseDownL = false;
-            //this.isMouseDownM = false;
-            this.isMouseDownR = false; // 取消鼠標按鍵
+            if (this.mgbtn) {
+                this.isMouseDownL = false;
+                //this.isMouseDownM = false;
+                this.isMouseDownR = false; // 取消鼠標按鍵
+            }
             this.hideFireContext = true;
         }
     };
     ucjsMouseGestures.createMenuitem();
     ucjsMouseGestures.init();
-})()
+})();

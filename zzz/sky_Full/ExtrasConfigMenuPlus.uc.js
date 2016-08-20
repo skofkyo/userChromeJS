@@ -8,7 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                2016.8.20!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.21!!!自用完整版 有精簡用不到的代碼
 // @note                2016.8.14 微調代碼
 // @note                2016.8.13 v3 階層式選單可用insertBefore: "ID",insertAfter: "ID" 改變添加的位置
 // @note                2016.8.13 v2 修正一個bug
@@ -27,6 +27,11 @@
     var ECM = {
         addmenuitem: function() {
             var mp = $('ecm-popup');
+            var foximg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAC+klEQVQ4ja3TayyVcRwH8F9NF1Kazlwex+Xwf1jWakXSmo6UDOcQNk6FWk4s06QUKZtaN9GFNnNJW2snk4TSzVSE7dSyxknkdp6DU1uo1qLWeL69qbNpetf3/fez34vvj+h/R1Wrc9z9dKg47qlxJLZpVIx9Pi7GPflgSGzQF2wob+D+WRSOSyOVJU/UG4uaJ1hhM3w0rfB/8B5BjaNYV2+EvFKHcm3XZ03F5SwimjOj/MqfJH1q6fSxjPTpxJw0VJQpsC3vMLibb+FSY8Ciyn5IC7VI0rRCr3+MF9UJD2cAVUqbrT0qhuFUHsaTbhAKneGTcR7cxVqYlXdiYWkHrHLbsDKzFl/GWvF1OA+GpgVKE9C8kysYUjMM7edhzOYhnJahO1WOKznJsM5tgSS7EbaH7sNOfQOld6uBsXMQ2uiCCXizy9koxPMwJPMYOcLjwyVXnFKHg0+thEPaPUiSbsFSVYIFYfmoqi+HOF6ErjqZ0QS0R9tPDe5gEPby0MXwyA5aixXRabDYXgoLVTHmKfIwf0sO5vuk4OeXGxA/ZeFuqa9IRHOJiKgtmJvujWLQx/N4sckdGtU62MiT4RB6EFsT1LDenA7L1Ylw8lLhe08Apgw8dBq7CdMFd+TOHboQhv5ohj4Vg5DIYzDNA0IGj4d73KEI34alHjHIPrIek232mNBaof2Ebb0JuOrllKH1Y3irYBhQMQzEMlzb7Ikod284yoIhkSkhc/FH13VXfLrN4d0ZF2gUsuMmIIJoWf0q6ceXG38jMQz6XTxqIjyxz9cbecFrMHyUx1iuKwzpDHUhjuKDQJLP2MJFmUP0I3epqPVj0IUw9EYxDGxn0MczDO1lGElhEBIYOpX24rMAh/zZ1rxEbWV1vsLN5UeLD0N7AIMulKE7jOFdJENnOEOVNyfus7csI6JZf8KMiDydiDIPWFu+vuYsnazjObF2uZ141YP7dpZJesOWWBQR0XoiMp8N+BNzInIkIi8iCiCiQCLyJSI3IlpMfz3SLwhTiSB8mFi+AAAAAElFTkSuQmCC";
+            var foxaimg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADCklEQVQ4ja3SW1CMARgG4M9ozKy09f+/ti27025RTYaYlC2booPVUVQOJcmOCC2LqNRs2+a0iE5srU2n3VQoEpNDhtBkpBxyNlxw54pxmMm+ruwwcue9/t5nvouX6H8nUH9eGm+6fVJRd+/94oZha3TDsDXWdO9tfO2tyvk6i/ifxYPX36UH7DJsnLOl7It4hRZTsmpgv84EfkYtBGuOY7bKBHXL3U/zii2Ff5VD9nY7Z7WMjIZu1ltnp+5B9OEuhOY3Y1xMKeyi94MXUQgHWTaico1Qtg1BcehC7x9AWm1/ZKJxCCGGQcjrHiKp/TlEy/bAYYkOdlFa8MIK4BiwCZLQbKw+/wqpZ0eQ3fEsyQakmgZPyY/2Q6DtBaO/g2kVA5hfPQBFxS1MCC+Cw4y1cPJdjcneKZAXmTG9/TUS256ctAFLjQ8+ehddhVBzDeyBPngZHiC89AJ4MfvAk++Eo1cKGJeF4ESRCCtshMfpl4iof/TBBigq+kc9crvhVtADSUkvZJpzcE3SYULwFkz0WwPGWQ6Wk8OJmYM482N4NL+A4sRdJLe2jiciotAD10an5JyDKLcbLtu7EKDpgL3/KjjKMuG5vBTOXolgWRkYt3lY0DQCsekp4uuGvtk+mLXD8kaUcwauqg5wOZ3w0d+G3HAfQcZhBJb3YVpcPjjnYHgnF2CG4SF8ap4g8OCVARvgs76qQqJqh5PSDFdVJ6ZqrmPmjkZIYneCc48E5xIEJ+Fc+JVchHj/HQRUDUKaWXnMBjiE53HSzKrPnLIZjNIMN1Un/I/0w1fdBFHUZnis1MHvcB8kupsQ5vXAe2sTfIq6Fv2xBXHKvg3i9PIfbEY9+BkNEGS3w33XZXhpb8CzuBeC3EsQ5fXAfZsFUnWrcaw187ng9GqXRO0ol1IGfloNmLWNEGS1QLixBVJ1G4RpZeCHKRuJyG0swI6IfO0Y0W4uRPmKjcn/ziZorMwSzQ82Lv8rG5/3fpJ/Qi0RBRERbyzgV3hEJCYifyJaSEQRRCQjIk8i4hPRuN+PfwJ9NnNXhsfaTgAAAABJRU5ErkJggg==";
+            var foxnimg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADBklEQVQ4ja2Tb0yMARzHf1YPri53PXfneXrqcdVVl1v/lpoSK9yf1l13oUJHnYotf2YqkVVTEXOTiBGqRYlI/pQxLUZe2FpjZWrJzDvLzCsvpPt6kd2w5pXf++/n99t3nx/R/56CR+8icu68bbdcH51KaR5yJZx6OhNTcedTbEnbla1XBuP+Gd7x4F3luu6x6aVtI1Bceg2l8wX89vdB4miFj/4Q+LXF31MPdzjn3vxwsirt9oQrtn0c/I1JeLS+gezEC/iV9kFib4Ykbidkodlgw9a5smo6mv4I5/aPRWX0TPxIvPsRkR0TYLs/gLk8Avb4IITi+5DYm8EYarAouhDKIBuCYnKntzh7UtyAnHtj13Vto/C/+R6q7g/wvDoOr8YhLK4egGrXLSw0HYEkcR9k8bvBaTLBCSYk5Z0edgMsnSNfFOeHwTS8BNP0Cl6NQ1DUPYN/aS8W5baCWVUGn3A7WO1mcKIZHG9ApLn2GxHNIyKilJZhl7K6H9KKR5CWP4DqQB/8S3sh334NTEYDpBEOyEOzoBTN4HgjON4AzeoKlLf1K4iIKKHhuYvd0Q6ZvQm+WWegKroBn21X4ZF5DoypDtJlRVAE2sAJs2Hez4RQYy0cXU94IiKKqun9LFl/Et76SngnH4BkZQnmWesx31ALaVIplNGF4AJt4HgDON4AdUg2dOud09TV5TELKOvs9tGXwyumENKofEgj8iBdUQzZ8r1QRuVD0GRCCEhzA7TL9yGh4Oy4u8TwbfXJctOhaZl2E+Qh2ZBrNoAN3QhOmwN+SToE0YwA0QKONyAw3A7NmipXUklL3u8qeC4taLzI6ja7lGIaFgsmcIIRgmiGqLYiQEyHIFoQFOGAzliDhF3NA0Tk+beMXLD14GO/SMfMbFlGBIjpENU2iCHZCI7dA635GMKyakeJlGFz2cwQMfG+cbYL6tSyKbW+6ofWfBRamxNqS50r2Fr5lU/c2EUk0xOR95z/8OssFZF3NC1gTawuMZ8NX7Gd5IKVyCuOiAQiWuAWiIh+ApuUU04+RoVjAAAAAElFTkSuQmCC";
+            var foxwikiimg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA8klEQVRYhe2SPQrCQBCFPUgOokdYmTfoG7DwHnoPb6FXECysLTyA9rap0gjGwp9ospgVBEXmwTTLt5Mvs9PpeDy/FJFhD+BKYAco9/dz5RTKPdQKqJUCHgV2ELFJvUcAu6K2vbHXykVtG8Bu9MNQrgU8PlwooVaGwAxqef38uSpRwBYCnl7ysEXzz8F5DG5tVjXdAbZLYtVKUU6fJwCOUy9/pqqpPTxDi/VlGnnyVNSKF2zxjkAhsNl9yQKz2L5Uz8FVCMza2FSBpumF3cT4PgajCBtd4lSBPCoALpOauoALuIALuIAL/K+Acv1xAY/nWzkDbNhFrINuUewAAAAASUVORK5CYII=";
+            var foxdirimg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABEUlEQVQ4jbWSsXEDMQwEL0CIWAWwBdTCFtgCU0Xs4bMPVAgL+GZUwTrg/5uS7JECGwlnOLzF4UDpr6u1RkqJkIgIWmv03nkrvN/vRAQhsUks+1mkAZN+B63rDTOj7MIicZUgxlkkUkq4+88AMzsB7J23GLCrxKYg50xKiUXiRdxaw8xYdgD67nyAmOBlHgfA3cfsMR7NggN2ZHLcLftYp4Pn7jMgJNydnPOjkwgEnGtbJsH1CXhsotZKiTjDlpnRe8fdT9E2Cee7I5daKwpRShkOzAx3f5l9k7hcLoREzplaK4uCCLGuNx620Ht/sb5Ntt/+xFor8Zx87El/Ur13Yg9n7p5z/gwwg47w3H0E9Z/1BfAkJDRE3FKkAAAAAElFTkSuQmCC";
             /* ==================== 從這裡開始進行選單設定 ==================== */
             var menus = [{
                 label: "Firefox選單",
@@ -414,70 +419,87 @@
                 childs: [{
                         label: "ESR版測試配置",
                         text: "-no-remote -profile ..\\esr_profiles",
+                        image: foximg,
                         exec: "\\..\\Firefox_esr\\firefox.exe",
                     }, {
                         label: "ESR版64BIT測試配置",
                         text: "-no-remote -profile ..\\esr_profiles_64BIT",
+                        image: foximg,
                         exec: "\\..\\Firefox_esr_64BIT\\firefox.exe",
                     }, {
                         label: "正式版測試配置",
                         text: "-no-remote -profile ..\\releases_profiles",
+                        image: foximg,
                         exec: "\\..\\Firefox_releases\\firefox.exe",
                     }, {
                         label: "正式版64BIT測試配置",
                         text: "-no-remote -profile ..\\releases_profiles_64BIT",
+                        image: foximg,
                         exec: "\\..\\Firefox_releases_64BIT\\firefox.exe",
                     }, {
                         label: "pcxFirefox測試配置",
                         text: "-no-remote -profile ..\\pcxFirefox_profiles",
+                        image: foximg,
                         exec: "\\..\\pcxFirefox\\firefox.exe",
                     }, {
                         label: "pcxFirefox64BIT測試配置",
                         text: "-no-remote -profile ..\\pcxFirefox_profiles_64BIT",
+                        image: foximg,
                         exec: "\\..\\pcxFirefox_64BIT\\firefox.exe",
                     }, {
                         label: "tete009測試配置",
                         text: "-no-remote -profile ..\\tete009_profiles",
+                        image: foxnimg,
                         exec: "\\..\\tete009\\firefox.exe",
                     }, {
                         label: "正式版(Unbranded)測試配置",
                         text: "-no-remote -profile ..\\releases_profiles_Unbranded",
+                        image: foxnimg,
                         exec: "\\..\\Firefox_releases_Unbranded\\firefox.exe",
                     }, {
                         label: "正式版64BIT(Unbranded)測試配置",
                         text: "-no-remote -profile ..\\releases_profiles_Unbranded_64BIT",
+                        image: foxnimg,
                         exec: "\\..\\Firefox_releases_Unbranded_64BIT\\firefox.exe",
                     }, {
                         label: "BATA版測試配置",
                         text: "-no-remote -profile ..\\bata_profiles",
+                        image: foximg,
                         exec: "\\..\\Firefox_bata\\firefox.exe",
                     }, {
                         label: "BATA版64BIT測試配置",
                         text: "-no-remote -profile ..\\bata_profiles_64BIT",
+                        image: foximg,
                         exec: "\\..\\Firefox_bata_64BIT\\firefox.exe",
                     }, {
                         label: "BATA(Unbranded)版測試配置",
                         text: "-no-remote -profile ..\\bata_profiles_Unbranded",
+                        image: foxnimg,
                         exec: "\\..\\Firefox_bata_Unbranded\\firefox.exe",
                     }, {
                         label: "BATA(Unbranded)版64BIT測試配置",
                         text: "-no-remote -profile ..\\bata_profiles_Unbranded_64BIT",
+                        image: foxnimg,
                         exec: "\\..\\Firefox_bata_Unbranded_64BIT\\firefox.exe",
                     }, {
                         label: "開發版測試配置",
                         text: "-no-remote -profile ..\\aurora_profiles",
+                        image: foxaimg,
                         exec: "\\..\\Firefox_aurora\\firefox.exe",
                     }, {
                         label: "開發版64BIT測試配置",
                         text: "-no-remote -profile ..\\aurora_profiles_64BIT",
+                        image: foxaimg,
                         exec: "\\..\\Firefox_aurora_64BIT\\firefox.exe",
                     }, {
                         label: "每夜版測試配置",
                         text: "-no-remote -profile ..\\nightly_profiles",
+                        image: foxnimg,
                         exec: "\\..\\Firefox_nightly\\firefox.exe",
                     }, {
                         label: "每夜版64BIT測試配置",
                         text: "-no-remote -profile ..\\nightly_profiles_64BIT",
+                        image: foxnimg,
                         exec: "\\..\\Firefox_nightly_64BIT\\firefox.exe",
                     }, {
                         label: "測試用配置",
@@ -488,38 +510,38 @@
                         exec: "\\..\\..",
                     }, {
                         label: "官方ESR版",
-                        image: "http://mozilla.com.tw/media/img/firefox/favicon.ico?2013-08",
+                        image: foximg,
                         url: "https://www.mozilla.org/en-US/firefox/organizations/all/?q=Chinese+%28Traditional%29",
                         where: "tab",
                         closemenu: "none",
                     }, {
                         label: "官方正式版",
-                        image: "http://mozilla.com.tw/media/img/firefox/favicon.ico?2013-08",
+                        image: foximg,
                         url: "https://www.mozilla.org/en-US/firefox/all/?q=Chinese%20(Traditional)",
                         where: "tab",
                         closemenu: "none",
                     }, {
                         label: "官方未來發行版",
-                        image: "http://mozilla.com.tw/media/img/firefox/favicon.ico?2013-08",
+                        image: foximg,
                         url: "http://mozilla.com.tw/firefox/channel/",
                         where: "tab",
                         closemenu: "none",
                     }, {
                         label: "官方無品牌版",
-                        image: "https://wiki.mozilla.org/assets/favicon.ico",
+                        image: foxwikiimg,
                         //url: "https://wiki.mozilla.org/Add-ons/Extension_Signing#Unbranded_Builds",//函數會把大寫轉成小寫 造成網址開啟錯誤
                         //where: "tab",
                         oncommand: "openUILinkIn('https://wiki.mozilla.org/Add-ons/Extension_Signing#Unbranded_Builds','tab');",
                         closemenu: "none",
                     }, {
                         label: "官方正式版語言檔",
-                        image: "https://download-installer.cdn.mozilla.net/favicon.ico",
+                        image: foxdirimg,
                         url: "https://addons.mozilla.org/zh-TW/firefox/addon/traditional-chinese-zh-tw-l/",
                         where: "tab",
                         closemenu: "none",
                     }, {
                         label: "官方49b語言檔",
-                        image: "https://download-installer.cdn.mozilla.net/favicon.ico",
+                        image: foxdirimg,
                         url: "https://download-installer.cdn.mozilla.net/pub/firefox/releases/49.0b1/win32/xpi/",
                         where: "tab",
                         closemenu: "none",
@@ -552,8 +574,9 @@
             /*==========備份Firefox==========*/
             /* ==================== END ==================== */
         },
-        editor: 1,
+        editor: 1,// view_source.editor.path
         //editor: 'D:\\Software\\TeraPad\\TeraPad.exe',
+        UIcharset: "BIG5", //字符集 BIG5 / gbk / GB2312 / Shift_JIS
         removeExt: true, //腳本名稱不顯示 uc.js/uc.xul
         ecmp: true,//強制啟用腳本true/false 避免意外關閉
         get focusedWindow() {
@@ -652,12 +675,9 @@
                         text: ms.text || "", //參數 %u返回當前頁面網址 %s返回當前選取的文字 %es%返回當前選取的文字並進行UTF-8 URI編碼 %p返回剪貼簿文字 %ep%返回剪貼簿文字並進行UTF-8 URI編碼
                         exec: ms.exec || "", //執行檔路徑 ※※※測試過用來開啟.bat批次檔會造成火狐崩潰 改用ECM.open();正常※※※
                         image: ms.image || this.setIcon(ms.exec), //根據執行檔添加圖示
-                        src: ms.src || "",
                         disabled: this.setdisabled(ms.exec), //根據執行檔的存在與否錯誤與否 啟用禁用選單
                         oncommand: ms.oncommand || "ECM.onCommand(event);",
                         onclick: ms.onclick || "",
-                        style: ms.style || "",
-                        condition: ms.condition || "", //顯示條件
                         closemenu: ms.closemenu || "", //"none"點擊選單不離開選單
                         type: ms.type || "",
                         checked: ms.checked || "",
@@ -791,7 +811,7 @@
         edit: function(key, pathArray) {
             var vieweditor = Services.prefs.getCharPref("view_source.editor.path");
             var UI = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
-            UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0 ? "BIG5" : "UTF-8";
+            UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0 ? this.UIcharset : "UTF-8";
             var path = UI.ConvertFromUnicode(this.getPath(key, pathArray));
             if (this.editor === 1) {
                 if (!vieweditor) {
