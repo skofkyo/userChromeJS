@@ -576,8 +576,8 @@
                 id: "ecm-popup",
                 position: "after_start",
                 onclick: 'event.preventDefault(); event.stopPropagation();',
+                onpopupshowing: "ECM.onpopup(event);"
             });
-            mp.addEventListener('popupshowing', (event) => ECM.onpopup(event));
             $('mainPopupSet').appendChild(mp);
             CustomizableUI.createWidget({
                 id: 'ExtrasConfigMenu',
@@ -736,6 +736,11 @@
             }
             var g = $('gm_general_menu'); //Greasemonkey
             if (g != null) {
+                try {
+                    Services.prefs.getBoolPref("extensions.greasemonkey.enabled");
+                } catch (e) {
+                    Services.prefs.setBoolPref("extensions.greasemonkey.enabled", true);
+                }
                 var ege = gPrefService.getBoolPref("extensions.greasemonkey.enabled");
                 if (ege) {
                     g.setAttribute('image', 'chrome://greasemonkey/skin/icon16.png');
