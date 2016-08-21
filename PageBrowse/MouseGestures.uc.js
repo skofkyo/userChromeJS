@@ -261,4 +261,5 @@
     };
     ucjsMouseGestures.createMenuitem();
     ucjsMouseGestures.init();
+    window.ucjsMouseGestures = ucjsMouseGestures;
 })();

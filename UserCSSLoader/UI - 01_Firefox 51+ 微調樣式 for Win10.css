@@ -1,20 +1,21 @@
 @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 
 toolbar[overflowable] > .customization-target {
-    overflow: visible !important;
+  overflow: visible !important;
 }
 
 /* 設置不顯示菜單欄的情況下，按下 alt 鍵時不會激活菜單欄。 */
 #toolbar-menubar[autohide="true"] {display:none !Important;}
 
 #navigator-toolbox #preferences-button .toolbarbutton-icon{
-list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjVJivzgAAACwElEQVQ4T7VUX0hTcRRWCV+0i5lRiRhqRbCEULSZ/5qa021ddd1td3Nuu9P5Z+ZmuimSGRVWD4H1EpFPIT1IEPQYBtWLEaXMHqSyh9CiOVqmoj2eft9tDnMJ9dCFH+d+3/nOdw/n/La4uP/9fPiydJid/E0n56+/yYp2RwwSYJCUnDKTtCeTOC51KmIIHh9I3dYUQre316QsLr0QeD9fAJylyCOVzkiIwOCR9/oHDMAxZugEJty+A+vph3IpLT37SWBuoUBZUUuCvZ0QgcEjz+3NXPcNDOlZXcpvZozIqak3Dh49XkbVDRYqrNBQoap2tuaMlcwtXYQIDB55RWEpaepNA6wuK6arz+HVKqHRMaERGknf5CKt0U4awRI9wOCRN1gdjz+FVyu3dhPdTnBprc7sbJ8VbG102mhdHBt/OBxe/dGKCCzYWsnS0vEGupht/tpO6sz+gwo6VlJJvEUiXrTT3Xv3Ly18XSli+XhEYPA6UZJ10HNcmrxNuTO85OTmk84skYnNw9HlJ53RSs9eBtQslxjRJAKDRx466LNZXaSzeNmoXK2dPsUL1NDoJLu7hxqamkmU2rojop2IwODlPNNBX16tmd7cUUZoed2IWcwvht0uj29O6vJRBW8I1+jFvmu37mgRgR1nfeTy+N8Fv620Q486ZpQRHToDOyYDb5X5xaqnpmY3dfYPkeTxk97mIrXBKkdg8CZnB+UVn5TvGatL2Lq5I0Uq9ZUSNU9Obx85Os9Rz+DlqQ7/IPUP3yBEYPCS108nqjRUqdX34/5tNeJGx8btZWrtUp1oI1dn90Roec1gd3vp/PURNhcvAYNHHrqxB49EZpQccyE/hpaVz1+87r55e3Rk457wZhv1XrxKiBgqeOQnXwU80G/7w2XCXewoNq4FL4jTdWITIW5sB/ng9zXuX/5SotuM2c4fXH4C3BQJxGxDNfsAAAAASUVORK5CYII=) !important;
--moz-image-region: rect(0px 16px 0px 16px) !important;
+  list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjVJivzgAAACwElEQVQ4T7VUX0hTcRRWCV+0i5lRiRhqRbCEULSZ/5qa021ddd1td3Nuu9P5Z+ZmuimSGRVWD4H1EpFPIT1IEPQYBtWLEaXMHqSyh9CiOVqmoj2eft9tDnMJ9dCFH+d+3/nOdw/n/La4uP/9fPiydJid/E0n56+/yYp2RwwSYJCUnDKTtCeTOC51KmIIHh9I3dYUQre316QsLr0QeD9fAJylyCOVzkiIwOCR9/oHDMAxZugEJty+A+vph3IpLT37SWBuoUBZUUuCvZ0QgcEjz+3NXPcNDOlZXcpvZozIqak3Dh49XkbVDRYqrNBQoap2tuaMlcwtXYQIDB55RWEpaepNA6wuK6arz+HVKqHRMaERGknf5CKt0U4awRI9wOCRN1gdjz+FVyu3dhPdTnBprc7sbJ8VbG102mhdHBt/OBxe/dGKCCzYWsnS0vEGupht/tpO6sz+gwo6VlJJvEUiXrTT3Xv3Ly18XSli+XhEYPA6UZJ10HNcmrxNuTO85OTmk84skYnNw9HlJ53RSs9eBtQslxjRJAKDRx466LNZXaSzeNmoXK2dPsUL1NDoJLu7hxqamkmU2rojop2IwODlPNNBX16tmd7cUUZoed2IWcwvht0uj29O6vJRBW8I1+jFvmu37mgRgR1nfeTy+N8Fv620Q486ZpQRHToDOyYDb5X5xaqnpmY3dfYPkeTxk97mIrXBKkdg8CZnB+UVn5TvGatL2Lq5I0Uq9ZUSNU9Obx85Os9Rz+DlqQ7/IPUP3yBEYPCS108nqjRUqdX34/5tNeJGx8btZWrtUp1oI1dn90Roec1gd3vp/PURNhcvAYNHHrqxB49EZpQccyE/hpaVz1+87r55e3Rk457wZhv1XrxKiBgqeOQnXwU80G/7w2XCXewoNq4FL4jTdWITIW5sB/ng9zXuX/5SotuM2c4fXH4C3BQJxGxDNfsAAAAASUVORK5CYII=) !important;
+  -moz-image-region: rect(0px 16px 0px 16px) !important;
 }
 .statuspanel-label[value^="[FeiRuoMouse]"],
 .statuspanel-label[value^="PAC"],
 .statuspanel-label[value^="全"],
 .statuspanel-label[value^="手"],
+.statuspanel-label[value^="未知"],
 .statuspanel-label[value^="重"]{
 font-size:2em!important;
 }
@@ -53,7 +54,7 @@ font-size:2em!important;
 }
 
 #ublock0-button .toolbarbutton-icon {
-margin: 0 -8px !important;
+  margin: 0 -8px !important;
 }
 #urlbar:not(:hover) > .urlbar-textbox-container > .urlbar-history-dropmarker {
   opacity: 1 !important;
@@ -61,18 +62,18 @@ margin: 0 -8px !important;
 #urlbar-go-button,
 #urlbar-reload-button,
 #urlbar-stop-button {
-padding: 0 4px 0 2px!important;
-margin: 0 !important;
-border: none !important;
+  padding: 0 4px 0 2px!important;
+  margin: 0 !important;
+  border: none !important;
 }
 .autocomplete-history-dropmarker {
-padding: 0 !important;
-border: none !important;
+  padding: 0 !important;
+  border: none !important;
 }
 /*
 #urlbar-icons .toolbarbutton-1{
-    padding: 0px 1px !important;
-    margin: -6px 0 !important;
+  padding: 0px 1px !important;
+  margin: -6px 0 !important;
 }
 */
 
@@ -431,7 +432,8 @@ margin-left: -4px !important;
 .autocomplete-history-dropmarker {-moz-box-ordinal-group: 7 !important;}
 
 #urlbar-icons #downloads-button {-moz-box-ordinal-group: 0 !important;}
-#urlbar-icons #uAutoPagerize-icon {-moz-box-ordinal-group: 0 !important;}
+#urlbar-icons #showLocationModEx {-moz-box-ordinal-group: 0 !important;}
+#urlbar-icons #uAutoPagerize-icon {-moz-box-ordinal-group: 1 !important;}
 #urlbar-icons #abp-toolbarbutton {-moz-box-ordinal-group: 1 !important;}
 #urlbar-icons #ublock-button {-moz-box-ordinal-group: 1 !important;}
 #urlbar-icons #userChromebtnMenu {-moz-box-ordinal-group: 2 !important;}
@@ -453,16 +455,16 @@ margin-left: -4px !important;
 
 /*自動隱藏網址列圖示
 :not(:hover) #urlbar-icons>:not(#uAutoPagerize-icon):not(#addtion-link){
-visibility: collapse;
-opacity: 1 !important;
--moz-transition: opacity 0.3s ease-out, visibility 0.3s ease-out !important;
+  visibility: collapse;
+  opacity: 1 !important;
+  -moz-transition: opacity 0.3s ease-out, visibility 0.5s ease-out !important;
 }
 :not(:hover) fireie-urlbar-switch{
-visibility: collapse;
-opacity: 1 !important;
--moz-transition: opacity 0.3s ease-out, visibility 0.3s ease-out !important;
-}
-*/
+  visibility: collapse;
+  opacity: 1 !important;
+  -moz-transition: opacity 0.3s ease-out, visibility 0.3s ease-out !important;
+}*/
+
 /*去除地址栏最左侧的FLASH标志及弹出框
 #notification-popup-box,
 #identity-icon-label,

@@ -333,3 +333,12 @@ html body .wrap_bright .content .left_section {
     display: none !important;
 }
 }
+@-moz-document regexp(".*tieba.baidu.com.*(page\=like|pn\=0\&).*") {
+.j_zan_reply{
+    margin-bottom: 0px !important;
+}
+.forum_recommend_w,
+#frslistcontent > .tuijian-wrap-feed.tuijian-wrap {
+    display: none !important;
+}
+}
