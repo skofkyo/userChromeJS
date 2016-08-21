@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            BackToTheFavicon.uc.js
 // @charset         UTF-8
-// @description     ÁÙ­ìºô§}¦C¯¸ÂI¹Ï¥Ü
+// @description     é‚„åŸç¶²å€åˆ—ç«™é»åœ–ç¤º
 // @include         chrome://browser/content/browser.xul
 // @author          aborix
 // @compatibility    Firefox 45+
