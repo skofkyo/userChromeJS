@@ -334,11 +334,22 @@ html body .wrap_bright .content .left_section {
 }
 }
 @-moz-document regexp(".*tieba.baidu.com.*(page\=like|pn\=0\&).*") {
+body.ue_revision {
+    padding-bottom: 0px !important;
+}
+
 .j_zan_reply{
     margin-bottom: 0px !important;
 }
+[style="background: rgba(0, 0, 0, 0.7) none repeat scroll 0% 0%; position: fixed; bottom: 0px; left: 0px; width: 100%; height: 50px; color: rgb(255, 255, 255); z-index: 10001; font-family: Microsoft YaHei; font-size: 16px; display: block;"],
+li[data-daid],
+a.arrow,
+.client_ghost_icon,
+#index-tuijian-wrap,
 .forum_recommend_w,
-#frslistcontent > .tuijian-wrap-feed.tuijian-wrap {
+.tb-multi-ad-wrap,
+.tuijian-wrap-feed.tuijian-wrap,
+.tl_shadow.tl_spread.j_tl_spread.tl_spread_frs {
     display: none !important;
 }
 }
