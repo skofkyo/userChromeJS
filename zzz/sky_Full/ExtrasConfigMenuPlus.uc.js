@@ -8,7 +8,8 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                2016.8.21!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.25!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.25 使用alice0775的重啟代碼
 // @note                2016.8.14 微調代碼
 // @note                2016.8.13 v3 階層式選單可用insertBefore: "ID",insertAfter: "ID" 改變添加的位置
 // @note                2016.8.13 v2 修正一個bug
@@ -79,7 +80,7 @@
                 {mid: "toolsbar_KeyChanger_rebuild"}, //KeyChanger
                 {mid: "ucjsMouseGestures"}, //設置滑鼠手勢
                 {mid: "ucjsSuperDrag"}, //設置拖拽手勢
-                {mid: "FeiRuoMouse_set"}, //FeiRuoMouse設定
+                //{mid: "FeiRuoMouse_set"}, //FeiRuoMouse設定
                 {mid: "RefererChanger"}, //破解圖片外鏈
                 {mid: "NewTabOverride_set"}, //NewTabOverride 設定
                 {mid: "downloadPlus_set"}, //downloadPlus 設定
@@ -185,18 +186,18 @@
             {mid: "redirector-icon"},//Redirector
             {mid: "ucjs_UserAgentChanger"},//UserAgentChange
             {mid: "EncodeDecodeHtml_menu"},//EncodeDecodeHtml
-            {mid: "eom-menu"},//擴充套件及外掛管理器
+            //{mid: "eom-menu"},//擴充套件及外掛管理器
             {mid: "gm_general_menu"},//Greasemonkey
             ];
             this.newMenuitem(mp,menus);
             /*//擴充套件及外掛管理器 添加點擊事件//*/
-            if ($('eom-menu') != null) {
-                $('eom-menu').addEventListener("click", function(event) {
-                    if (event.button == 2) {
-                        mp.hidePopup();
-                    }
-                }, false);
-            }
+            //if ($('eom-menu') != null) {
+            //    $('eom-menu').addEventListener("click", function(event) {
+            //        if (event.button == 2) {
+            //            mp.hidePopup();
+            //        }
+            //    }, false);
+            //}
             /*//擴充套件及外掛管理器 添加點擊事件//*/
             /*==========移動選單==========*/
             /*==========Greasemonkey 添加複製選單==========*/
@@ -804,9 +805,34 @@
             } else if (event.button === 2) {
                 event.preventDefault();
                 event.stopPropagation();
-                Services.appinfo.invalidateCachesOnRestart();
-                ('BrowserUtils' in window) ? BrowserUtils.restartApplication(): Application.restart();
+                ECM.restartApp();
             }
+        },
+        restartApp: function() {
+            if ("BrowserUtils" in window && typeof BrowserUtils.restartApplication == "function") {
+                Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).invalidateCachesOnRestart();
+                BrowserUtils.restartApplication();
+                return;
+            }
+            const appStartup = Components.classes["@mozilla.org/toolkit/app-startup;1"].getService(Components.interfaces.nsIAppStartup);
+            var os = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+            var cancelQuit = Components.classes["@mozilla.org/supports-PRBool;1"].createInstance(Components.interfaces.nsISupportsPRBool);
+            os.notifyObservers(cancelQuit, "quit-application-requested", null);
+            if (cancelQuit.data)
+                return;
+            os.notifyObservers(null, "quit-application-granted", null);
+            var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+            var windows = wm.getEnumerator(null);
+            var win;
+            while (windows.hasMoreElements()) {
+                win = windows.getNext();
+                if (("tryToClose" in win) && !win.tryToClose())
+                    return;
+            }
+            let XRE = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime);
+            if (typeof XRE.invalidateCachesOnRestart == "function")
+                XRE.invalidateCachesOnRestart();
+            appStartup.quit(appStartup.eRestart | appStartup.eAttemptQuit);
         },
         edit: function(key, pathArray) {
             var vieweditor = Services.prefs.getCharPref("view_source.editor.path");

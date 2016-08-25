@@ -8,6 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
+// @note                2016.8.25 使用alice0775的重啟代碼
 // @note                2016.8.14 微調代碼
 // @note                2016.8.13 v3 階層式選單可用insertBefore: "ID",insertAfter: "ID" 改變添加的位置 ※請先確認ID 100%存在
 // @note                2016.8.13 v2 修正一個bug
@@ -36,6 +37,7 @@
         //editor: 'D:\\Software\\TeraPad\\TeraPad.exe',
         // 1 = view_source.editor.pathに設定したエディタ
         // エディタへのフルパスを記述すればそのエディタを使う ※パスを''で囲い\は\\に置き換える
+        UIcharset: "GB2312", //字符集 BIG5 / gbk / GB2312 / Shift_JIS
         removeExt: true, //腳本名稱不顯示 uc.js/uc.xul
         ecmp: true,//強制啟用腳本true/false 避免意外關閉
         
@@ -71,6 +73,7 @@
             //mp.appendChild(this.createME('menuitem', '編輯userChrome.css', 'ECM.edit(0, ["userChrome.css"])', Editimg));
             //mp.appendChild(this.createME('menuitem', '編輯userContent.css', 'ECM.edit(0, ["userContent.css"])', Editimg));
             //mp.appendChild(document.createElement('menuseparator'));//分割線
+            mp.appendChild(this.createME('menuitem', '重新啟動瀏覽器', 'ECM.restartApp();', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB20lEQVQ4jY2Tv2sUURDHZ/bX7eW0ChJBRFKIRRCRIEHuzVvfrYmkSiFXSSoLERERy5B/wcIuqG9mN5VecUWwCqkOEQsLKysLsQgSxEJEgsVYeJfsHXuY4tvN9zMzzHxBVXFS8Gy1kRaZi8U+iCV7HIq73Xqez9XWThoDsRvg6QDY6Ji8+RMK9dLSztcCoMhnkc27YxPth0I7oVAPhT5WYD9ScfkYALYWYxQa/OvU/h5ztg5bi3G1U2vbXUFPb4fT/EzELRwBYraPRvSE7eW6XVUV4en1JjLtARtFoYGqInRfd0Nk8wXYaCzZ/WnmkZrengc2v4GNNr1bglPiFoaj/5orV1r/A6gqhkI9YKMB0yY0OF9GsV/jIts9iVlVMeJscwhgOKmpqoDpGNDg5YuB0HYg9lUotINCuxFn/bN+9czUFZj6wEYDsRsQle7W+NPQ/uhEdUpLOw/cPgQ2OlPcvAoJZ90qICnc2tQzlist9GYAbDRk2lNVhFDs3YmXPUjkxp3JR2qWbgk9fRj9S+Olu6SqCJHYJ+DN5xnOryHT+wrsG7J9g0x9ZPup2iAS1z6aKi076+mLzoVRmKJpYeL2YSC2aBadc1PTOB7n3AXe3guYHiberZ0u8tm62r99Gyd0lo7sIAAAAABJRU5ErkJggg=='));
             mp.appendChild(this.createME('menuitem', '編輯prefs.js', 'ECM.edit(1, ["prefs.js"])', Editimg));
             mp.appendChild(this.createME('menuitem', '編輯user.js', 'ECM.edit(1, ["user.js"])', Editimg));
             //mp.appendChild(this.createME('menuitem', '編輯_keychanger.js', 'ECM.edit(0, ["_keychanger.js"])', Editimg));
@@ -275,9 +278,8 @@
                 #ecm-popup menu menupopup menuitem[checked="false"]:not(#redirector-toggle):not(.gm-enabled-item) {\
                     -moz-box-ordinal-group:99!important;\
                 }\
-                menu#ExtrasConfigMenu,\
-                #urlbar-icons #ExtrasConfigMenu .toolbarbutton-icon {\
-                    list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAaUlEQVQ4jbWSSwrAMAgFPZ6/O+XmaVdCm6gRbAOzMgyPpyAilwHLy2bbJ1V1BczcE7QTlAXtDj4RIOJ4ks2MlyDCNuFREmQAM4+IJcU2R8QRdlMu8XfB8ZSrCYhouiVWE4RbqCbwIKJ5Az/o8unP1INsAAAAAElFTkSuQmCC) !important;\
+                menu#ExtrasConfigMenu {\
+                    list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAaUlEQVQ4jbWSQQrAMAgEfZ0sJn/Kz9OehLRVu5A2MCdlWNZIa+1w5Paq2WOp9x4KzGxPsJ2AFmx38IlAVcdKNXMuggy/RAQlqBAAI2NdjOaqOtJu6BJ/F7x+ZTYBgBmWyCZIr8AmiAAwTy3X8ln7ZUyPAAAAAElFTkSuQmCC)\
                 }\
                 '.replace(/\s+/g, " ");
             var sspi = document.createProcessingInstruction(
@@ -288,7 +290,7 @@
             //移動按鈕的樣式
             var cssStr = '@-moz-document url("chrome://browser/content/browser.xul"){' 
             + '#ExtrasConfigMenu .toolbarbutton-icon' 
-            + '{list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAn0lEQVRYhe3W0QqAIAwFUL/vbv//M0H2JAyRbDpd0YL7EGgdFm4lZs7MnIkoE1Eu96lzlfV1evuaD5IAAL4AlwoAmALI/UMAGZcKBCAALYQLoPSDf1ZAzgT3CuzM9wH1JHUF3K2p855P0NLtCoBTfWrMj2EAAmABmPoptQDIhuMCkN0NwKFqRBYATetdAhgZQksr4Ap4Mh1NAfULtcPoAr5fptLBChDyAAAAAElFTkSuQmCC)}' 
+            + '{list-style-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAaUlEQVQ4jbWSQQrAMAgEfZ0sJn/Kz9OehLRVu5A2MCdlWNZIa+1w5Paq2WOp9x4KzGxPsJ2AFmx38IlAVcdKNXMuggy/RAQlqBAAI2NdjOaqOtJu6BJ/F7x+ZTYBgBmWyCZIr8AmiAAwTy3X8ln7ZUyPAAAAAElFTkSuQmCC)}' 
             + '}';
             var sss = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
             var ios = Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService);
@@ -322,15 +324,41 @@
             } else if (event.button === 2) {
                 event.preventDefault();
                 event.stopPropagation();
-                Services.appinfo.invalidateCachesOnRestart();
-                ('BrowserUtils' in window) ? BrowserUtils.restartApplication(): Application.restart();
+                ECM.restartApp();
             }
+        },
+
+        restartApp: function() {
+            if ("BrowserUtils" in window && typeof BrowserUtils.restartApplication == "function") {
+                Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULRuntime).invalidateCachesOnRestart();
+                BrowserUtils.restartApplication();
+                return;
+            }
+            const appStartup = Components.classes["@mozilla.org/toolkit/app-startup;1"].getService(Components.interfaces.nsIAppStartup);
+            var os = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+            var cancelQuit = Components.classes["@mozilla.org/supports-PRBool;1"].createInstance(Components.interfaces.nsISupportsPRBool);
+            os.notifyObservers(cancelQuit, "quit-application-requested", null);
+            if (cancelQuit.data)
+                return;
+            os.notifyObservers(null, "quit-application-granted", null);
+            var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
+            var windows = wm.getEnumerator(null);
+            var win;
+            while (windows.hasMoreElements()) {
+                win = windows.getNext();
+                if (("tryToClose" in win) && !win.tryToClose())
+                    return;
+            }
+            let XRE = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULRuntime);
+            if (typeof XRE.invalidateCachesOnRestart == "function")
+                XRE.invalidateCachesOnRestart();
+            appStartup.quit(appStartup.eRestart | appStartup.eAttemptQuit);
         },
 
         edit: function(key, pathArray) {
             var vieweditor = Services.prefs.getCharPref("view_source.editor.path");
             var UI = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
-            UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0 ? "BIG5" : "UTF-8";
+            UI.charset = window.navigator.platform.toLowerCase().indexOf("win") >= 0 ? this.UIcharset : "UTF-8";
             var path = UI.ConvertFromUnicode(this.getPath(key, pathArray));
             if (this.editor === 1) {
                 if (!vieweditor) {

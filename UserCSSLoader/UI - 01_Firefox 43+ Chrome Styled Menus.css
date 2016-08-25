@@ -74,10 +74,7 @@ menuseparator:not([hidden]) {
   opacity: 0.6 !important;
 }
 
-#context-navigation,
-#context-sep-navigation,
 menuseparator,
-#page-menu-separator,
 [tooltiptext^="囧rz"] {
   display: none !important;
 }
