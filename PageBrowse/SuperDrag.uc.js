@@ -11,7 +11,7 @@
 // ==/UserScript==
 (function() {
     var ucjsSuperDrag = {
-        Locus: true, // true / false 是否使用拖曳描繪軌跡
+        Locus: false, // true / false 是否使用拖曳描繪軌跡
         trailColor: '#3030FF', // 軌跡顏色
         trailSize: 5, // 軌跡粗細 單位px
         GESTURES: {},

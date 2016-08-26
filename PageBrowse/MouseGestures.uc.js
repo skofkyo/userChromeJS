@@ -5,7 +5,8 @@
 // @author          紫雲飛&w13998686967&黒仪大螃蟹
 // @include         chrome://browser/content/browser.xul
 // @homepageURL          http://www.cnblogs.com/ziyunfei/archive/2011/12/15/2289504.html
-// @version         2016.8.21
+// @version         2016.8.23
+// @note         2016.8.23 DOMMouseScroll==>wheel
 // @note         2016.8.21 增加開關 by skofkyo 
 // @note         2016.2.22  取用黒仪大蚂蚁的描繪軌跡 by w13998686967
 // @note         2014.11.02 搜集修改自網絡各種代碼，配置外放，自用 DIY版 by w13998686967
@@ -42,11 +43,11 @@
         init: function() {
             this.reload();
             var self = this;
-            ["mousedown", "mousemove", "mouseup", "contextmenu", "DOMMouseScroll", "dragend"].forEach(function(type) {
+            ["mousedown", "mousemove", "mouseup", "contextmenu", "wheel", "dragend"].forEach(function(type) {
                 gBrowser.mPanelContainer.addEventListener(type, self, true);
             });
             window.addEventListener("unload", function() {
-                ["mousedown", "mousemove", "mouseup", "contextmenu", "DOMMouseScroll", "dragend"].forEach(function(type) {
+                ["mousedown", "mousemove", "mouseup", "contextmenu", "wheel", "dragend"].forEach(function(type) {
                     gBrowser.mPanelContainer.removeEventListener(type, self, true);
                 });
             }, false);
@@ -231,11 +232,11 @@
                         this.hideFireContext = false;
                     }
                     break;
-                case "DOMMouseScroll":
+                case "wheel":
                     if (this.isMouseDownR) {
                         this.shouldFireContext = false;
                         this.hideFireContext = true;
-                        this.directionChain = "W" + (event.detail > 0 ? "+" : "-");
+                        this.directionChain = "W" + (event.deltaY > 0 ? "+" : "-");
                         this.stopGesture(event);
                     }
                     break;
