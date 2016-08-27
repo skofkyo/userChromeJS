@@ -8,7 +8,7 @@
 // @note             2.0.0  スクラッチパッドをエディタにする機能を廃止、Fx44以降で再起動できなくなっていたのを修正
 // @note             1.9.9  真偽値の設定を切り替えるするtoggle関数を追加
 // @note             1.9.8  要素を追加する際に$(id)と書ける様に
-// @note                2016.8.25!!!自用完整版 有精簡用不到的代碼
+// @note                2016.8.27!!!自用完整版 有精簡用不到的代碼
 // @note                2016.8.25 使用alice0775的重啟代碼
 // @note                2016.8.14 微調代碼
 // @note                2016.8.13 v3 階層式選單可用insertBefore: "ID",insertAfter: "ID" 改變添加的位置
@@ -319,30 +319,34 @@
                 label: "切換代理設置",
                 accesskey: "P",
                 image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACZElEQVQ4jZ2S3U9SARjG36v+HNfFyc0/wM115VoFB7U8tYM0N71AlHNKCdE1NmUIWE1EjHNAM/MLBMuPymqKill+TAtHTjTNsppu1UqfLpzYUfOiZ3vv3ue35333EB2SqqSpQGXwxnJE6TsryLtqo29LXeYbZAWJO7yr0AWD93SeIK1Z3P3oj75FPPkZqxvbmE1soHt4DhV3HkFtlMZY8V7aEfO54oYz+RWBXa01AoaX/zn51SFojL5PRyDXLK3fOp/MgOFlEBHSmHRI/mZUmMpxs9KEqmoLuoOdYHgZzaEYNKI0kjJzoq/K3PAYX7d/KAB2hw0cx0Gr1aKwsBD321rB8DJmE+sQXGGkflJsfbjW+3Ie75eTRwA6nQ5FRUXQ6/Xo6t5LkFxdg9Q3BY0oh4mI6KqpZWdmcR1tQ9MKgMNlx3gsip5gF2pqahAKB8HwMuKLCQzEEmAF6SMREeWIMt4lv6B9bF0BcNbX4cXIM1itVthsthSgo3cAz98sgxXk30REdKncvzOx8AGR4ZgC4PG6YTabMfR0AHa7PQWYnHqNvujiQYIrppaVB4PTiC+tgOFlZGZlIo1Jx133bXiaGlFbWwuXy5UCeAId8ARjBz/grvudYn0Ec4m9E3IzCLkZeyn2QbJfSgH8kSgMdb1QNJMztW419oyD4WXos0gx+6B9gKt9VNkDIqJsrTM7rzyAXEvwxCaev9EJ1ihtHlvns5dvsbrKwM8yRxje0CQio3EMvVpCaCQOd88EDHUhqEub5441/6VTF4udAU2pd5M1SrsaQYba6Pul0jcuqEqaCk4y/rf+AMrf4D2zeD50AAAAAElFTkSuQmCC",
-                onpopupshowing: function() {
-                var npt = gPrefService.getIntPref("network.proxy.type");
-                var nph = gPrefService.getCharPref("network.proxy.http");
-                var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
+                onpopupshowing: function(event) {
+                    var mp = event.target;
+                    if (mp !== event.currentTarget) {
+                        return;
+                    }
+                    var npt = gPrefService.getIntPref("network.proxy.type");
+                    var nph = gPrefService.getCharPref("network.proxy.http");
+                    var npa = gPrefService.getCharPref("network.proxy.autoconfig_url");
                     if (npt == 0) {
-                        $("uc_noproxy").setAttribute('checked', 'true');
-                        $("uc_systemproxy").setAttribute('checked', 'false');
-                        $("uc_proxyhinet").setAttribute('checked', 'false');
-                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_noproxy").setAttribute('checked', 'true');
+                        mp.querySelector("#uc_systemproxy").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_proxyhinet").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_proxyUnblock").setAttribute('checked', 'false');
                     } else if (npt == 5) {
-                        $("uc_noproxy").setAttribute('checked', 'false');
-                        $("uc_systemproxy").setAttribute('checked', 'true');
-                        $("uc_proxyhinet").setAttribute('checked', 'false');
-                        $("uc_proxyUnblock").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_noproxy").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_systemproxy").setAttribute('checked', 'true');
+                        mp.querySelector("#uc_proxyhinet").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_proxyUnblock").setAttribute('checked', 'false');
                     } else if (npt == 1 && nph == "proxy.hinet.net") {
-                        $("uc_noproxy").setAttribute('checked', 'false');
-                        $("uc_systemproxy").setAttribute('checked', 'false');
-                        $("uc_proxyhinet").setAttribute('checked', 'true');
+                        mp.querySelector("#uc_noproxy").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_systemproxy").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_proxyhinet").setAttribute('checked', 'true');
                         $("uc_proxyUnblock").setAttribute('checked', 'false');
                     } else if (npt == 2 && /\.pac$/.test(npa)) {
-                        $("uc_noproxy").setAttribute('checked', 'false');
-                        $("uc_systemproxy").setAttribute('checked', 'false');
-                        $("uc_proxyhinet").setAttribute('checked', 'false');
-                        $("uc_proxyUnblock").setAttribute('checked', 'true');
+                        mp.querySelector("#uc_noproxy").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_systemproxy").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_proxyhinet").setAttribute('checked', 'false');
+                        mp.querySelector("#uc_proxyUnblock").setAttribute('checked', 'true');
                     }
                 },
                 childs: [{
