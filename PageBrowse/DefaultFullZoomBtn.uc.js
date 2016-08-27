@@ -1,29 +1,29 @@
 // ==UserScript==
 // @name           Default Full Zoom Level
 // @namespace      dfz@slimx.com
-// @description    自動縮放頁面,可以為所有頁面指定默認的縮放值.轉制自alice0775所做擴展.
+// @description    自動縮放頁面,可以為所有頁面指定預設的縮放值.轉制自alice0775所做擴充套件.
 // @compatibility    Firefox 29+
 // @include        main
 // @charset        UTF-8
 // @author         slimx
 // @version        2.0.0.3
 // @updateURL     https://j.mozest.com/ucscript/script/7.meta.js
-// @note          2016/08/27 modified by skofkyo 修改為網址列按鈕 修正按鈕滾輪事件
+// @note          2016/08/27 modified by skofkyo 2.0.0.3 修改為網址列按鈕 修正按鈕滾輪事件
 // @note          2013/07/15 modified by lastdream2013 修正恢復上次關閉網頁時有可能在第一個頁面失效的問題
-// @note          2013/07/11 稍做修正，增加右鍵點擊菜單項設置所有頁面默認的縮放率
+// @note          2013/07/11 稍做修正，增加右鍵點擊選單項設定所有頁面預設的縮放率
 // ==/UserScript==
 //@11/22 第一版
 //@1/2/13 第二版
 var FullZoomConfig = new function() {
-    //默認的縮放級別
+    //預設的縮放級別
     this.defaultLv = 120;
-    //按钮为图标或者文字：true 为图标， false 为文字
+    //按鈕為圖示或者文字：true 為圖示， false 為文字
     this.showIconBtn = true;
     //只縮放文字
     this.Textmode = false;
-    //是否應用於本地文件?
+    //是否應用於本地檔案?
     this.localFolderSpecific = false;
-    //自動適應窗口
+    //自動適應視窗
     this.fitToWidth = false;
     //?
     this.forceFitToWidth = false;
@@ -31,17 +31,17 @@ var FullZoomConfig = new function() {
     this.fitToWidthPreserveTextSize = false;
     //側邊欄寬度發生變化後,是否重新計算縮放
     this.reserveSidebarWidth = true;
-    //自動適應窗口下的,最大值
+    //自動適應視窗下的,最大值
     this.maximum = 200;
-    //自動適應窗口下的,最小值
+    //自動適應視窗下的,最小值
     this.minimum = 50;
-    //忽略圖片類型的文件
+    //忽略圖片類型的檔案
     this.ignoreImageDocument = true;
-    //快捷菜單的縮放項目,需要注意的是最大值和最小值不能超過zoom.minPercent和zoom.maxPercent
+    //快捷選單的縮放項目,需要注意的是最大值和最小值不能超過zoom.minPercent和zoom.maxPercent
     this.zoomValues = "0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.30,1.35";
     //label
-    this.fitToWindow = "適合窗口寬度";
-    this.reset = " 默認值";
+    this.fitToWindow = "適合視窗寬度";
+    this.reset = " 預設值";
 }
 "use strict";
 //Replace FullZoom
@@ -775,12 +775,11 @@ var fullZoomBtn = {
             case 'resize':
                 this.windowResized(event);
                 break;
-                /*case 'DOMContentLoaded':
-				  setTimeout(function(){
-				    this.init(event);
-				    }, 1000);
-				  
-				  break;*/
+            /*case 'DOMContentLoaded':
+                setTimeout(function(){
+                    this.init(event);
+                }, 1000);
+                break;*/
             case 'unload':
                 this.uninit(event);
         }
@@ -797,10 +796,10 @@ var fullZoomBtn = {
         if (FullZoomConfig.showIconBtn) {
             if (ZoomManager.useFullZoom) {
                 src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAItSURBVDhPlZBPTJJhHMffOQ+tQ4cOXW2NteahjXHzwuaJA6fWBgdWJ6st45A6VhAuy4wGCQN0lthQlEkmhGERjEwCnJo2Xhy4JeLMaUj+iRoyfPn2Ml73+qpz+dl+e/Y8z+/zPXyJ/fS/811wf/qqGvk8M2gfDQ2ael0qRXP7eeb7eN4HZ1X+SCL/IRyHJxjHsD+KnuEgnpgG8vVKnYpeqShvHoF7bFrtm4hjZj6D5BqFVLqIBfqMpXbQNxrDfZ0NNxVtamadywu756JzbLYQS27RIrCcAZbWmaHviR+76HgTRaPGUrhyvf4So7FYnYFHnvEoVjbK0sIaG7AXNh7LoaXTjRtNbRpGYzH1e94GJhJIb7Piwfm2WITRHoL8QbuX0VgeGgZGPn6JYuvP0XJpyCXA4pxCU6vJRyvcMhsed2hsrgD+7gC5PFfM/KZPuoe55SJ6nBEoWo1mRmO5Jm++fO+5lVpNb4CigMIuNyD5E5hMbOPlaz8lq7tTw2hc5Gq9Qds9hPVfmygWgXwByOaA1U0gtpiFwzuFp+Y+D71aWTYOIBQKK28rtWalvpdy+cKYJr9jkkzBR5fr8IapxhYj2Wl1Fa5KJE6ZTHaO0Q5RIam7W6N81tWl6x4KGW3uiN7isNxqUNYSVVWnLK+sK1KpFGKxmDwuZI9S05y2aanWYDBkTxJyiP0hIpGIFAgEp5mv/6cUotVqs3Rvczwe7wzzfDL4fD6vurr6LEEQxD/MoaXb0IcUsQAAAABJRU5ErkJggg==";
-                tooltiptext = "完整縮放: " + label + "%";
+                tooltiptext = "完整縮放: " + label + "%" + "\n左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設置縮放倍數";
             } else {
                 src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJzSURBVDhPlZBdTJJRHMaZ86J10UUX3doaa82LNsedNzAvmmtubbUmF6xusloZLT+yCeHUzChAiw/DxEIxFU0UQzOITERJTYuPQZuKZs5CEokKGb48vejbkGwuf9vZ2Tnn/3vevQ9tKy3PjYf0r9/xe99Mtrf1WdtlTd38krKag9TzzvRbpvimt57IixE3DBY3ukx2NHZZcFvRFsnnifnkSMrm5D/QD04IjDY3Jj/6MfuFwJwvhhlyd86tobnPiVKxBhdKqgXUeDL1rYbDPYNTUefsKikCC35AYwyixRTAPHn2fF6H4pkd14Wq6Mmz+UcoLYFaZ640DNmxuALML4P8MlCk+IRSpXcjLH435Ayjok6P88XVQkpLIGsx9JhtHviCQJs5iMonizh14wNOFNpwTTyJ+q4ZvPfGIG21giuoGaC0BOUPnva+HLZj9Qeg7vejWDaN41dHcOzSK5wrt+BekwuOeUClG0dxldxIKsllFt5SCDXdZvxcA8IR4Be5uMIxFIhs8H8nf4HswbUQQ6NuFCVVUjmlJTjDLTvKk6iJJd8KCAKIrgMPtS4oO1wbAbNfgTFPEI86TAQn70ompSXDFdTeFzV0YvlbALEYEIkCoTCwFACc3hC0A+O4I282kKOpm8ZfMJnM1Ms8kfxmbRPRbRzBhGMaY445GMlytQM2oqhC6qhr1kdP57J1HA7nAKVtIyU3ryCTd1epFDd0WmUa/WitSqu6WMjLoqWl7VE9Vi+y2Wzk5OQ4dgr5Q7zppLZJKUsqlYZ2E7KNrSHZ2dkOBoOxl3r6f+IhEokkxGKxXHQ6fR91vTsyMjLo6enp+2k0Gu03BsOUvNQISWAAAAAASUVORK5CYII=";
-                tooltiptext = "文字縮放: " + label + "%";
+                tooltiptext = "文字縮放: " + label + "%" + "\n左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設置縮放倍數";
             }
             statusbarZoomLevel.setAttribute("tooltiptext", tooltiptext);
             statusbarZoomLevel.setAttribute("class", "toolbarbutton-1 chromeclass-toolbar-additional");
@@ -811,7 +810,7 @@ var fullZoomBtn = {
             else
                 label = "T" + label + "%";
             statusbarZoomLevel.setAttribute("label", label);
-            statusbarZoomLevel.setAttribute("tooltiptext", "左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設置縮放倍數");
+            statusbarZoomLevel.setAttribute("tooltiptext", "左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設定縮放倍數");
         }
     },
     clickStatusLabel: function(evt) {
@@ -1018,7 +1017,7 @@ var fullZoomBtn = {
         else if (event.button == 2) {
             FullZoom._prefBranch.setCharPref("browser.zoom.defaultZoomValue", zoom);
             var alertsService = Components.classes["@mozilla.org/alerts-service;1"].getService(Components.interfaces.nsIAlertsService);
-            alertsService.showAlertNotification("chrome://global/skin/icons/information-32.png", "DefaultFullZoomLevel", "已設置所有頁面默認值縮放值為" + zoom * 100 + "%", false, "", null, "");
+            alertsService.showAlertNotification("chrome://global/skin/icons/information-32.png", "DefaultFullZoomLevel", "已設定所有頁面預設值縮放值為" + zoom * 100 + "%", false, "", null, "");
         }
     },
     //create popup menu
@@ -1057,13 +1056,13 @@ var fullZoomBtn = {
             arr.push(zoom);
         }
         for (var i = 0; i < arr.length; i++) {
-            var menuitem = document.createElement('menuitem');
+            var menuitem = $C('menuitem');
             var s = '    ' + (arr[i]).toString();
             menuitem.setAttribute('label', s.substr(s.length - 4, 4) + '%');
             menuitem.setAttribute('type', 'radio');
             //menuitem.setAttribute('oncommand', 'fullZoomBtn.doFullZoomBy(' + arr[i] / 100 + ', ' + useFullZoom + ');');
             menuitem.setAttribute('onclick', 'fullZoomBtn.SetFullZoom(event, ' + arr[i] / 100 + ', ' + useFullZoom + ');');
-            menuitem.setAttribute('tooltiptext', "左鍵點擊為設置當前頁面縮放率，右鍵點擊設置為所有頁面的默認縮放率");
+            menuitem.setAttribute('tooltiptext', "左鍵點擊為設定當前頁面縮放率，右鍵點擊設定為所有頁面的預設縮放率");
             if (!ZoomManager.useFullZoom == !useFullZoom && arr[i] == Math.floor(ZoomManager.zoom * 100 + 0.5)) {
                 menuitem.setAttribute('checked', true);
             }
@@ -1071,9 +1070,9 @@ var fullZoomBtn = {
         }
         var bundle = $("bundle_defaultfullzoomlevel");
         if (useFullZoom) {
-            var menuitem = document.createElement('menuseparator');
+            var menuitem = $C('menuseparator');
             popup.appendChild(menuitem);
-            var menuitem = document.createElement('menuitem');
+            var menuitem = $C('menuitem');
             menuitem.setAttribute('label', FullZoomConfig.fitToWindow);
             menuitem.setAttribute('oncommand', 'fullZoomBtn.doFullZoomBy( -1, ' + useFullZoom + ', null, true);');
             menuitem.setAttribute('type', 'checkbox');
@@ -1082,9 +1081,9 @@ var fullZoomBtn = {
             }
             popup.appendChild(menuitem);
         }
-        var menuitem = document.createElement('menuseparator');
+        var menuitem = $C('menuseparator');
         popup.appendChild(menuitem);
-        var menuitem = document.createElement('menuitem');
+        var menuitem = $C('menuitem');
         menuitem.setAttribute('label', FullZoomConfig.reset);
         var value = FullZoom.globalValue;
         menuitem.setAttribute('oncommand', 'fullZoomBtn.doFullZoomBy(' + value + ', ' + useFullZoom + ');');
@@ -1151,18 +1150,18 @@ var fullZoomBtn = {
     },
     addstyle: function() {
         var style = ' \
-                @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
-                #urlbar-icons #statusbarZoomLevel .toolbarbutton-icon {\
-                    padding: 0!important;\
-                    background: none !important;\
-                    border: none !important;\
-                    box-shadow: none !important;\
-                }\
-                #urlbar-icons #statusbarZoomLevel {\
-                    padding: 0px 2px !important;\
-                    margin: -6px 0 !important;\
-                }\
-                '.replace(/\s+/g, " ");
+            @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
+            #urlbar-icons #statusbarZoomLevel .toolbarbutton-icon {\
+                padding: 0!important;\
+                background: none !important;\
+                border: none !important;\
+                box-shadow: none !important;\
+            }\
+            #urlbar-icons #statusbarZoomLevel {\
+                padding: 0px 2px !important;\
+                margin: -6px 0 !important;\
+            }\
+            '.replace(/\s+/g, " ");
         var sspi = document.createProcessingInstruction(
             'xml-stylesheet',
             'type="text/css" href="data:text/css,' + encodeURIComponent(style) + '"'
@@ -1273,26 +1272,35 @@ var ZoomManager = {
 };
 //ui
 function fullZoomUI() {
-    $("urlbar-icons").appendChild($C("toolbarbutton", {
-        id: "statusbarZoomLevel",
-        class: "toolbarbutton-1 chromeclass-toolbar-additional",
-        label: "Default Full Zoom Level",
-        tooltiptext: '左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設置縮放倍數',
-        type: 'button',
-        context: 'fullZoomBtn_popup',
-        onmousedown: 'fullZoomBtn.clickStatusLabel(event);',
-        onclick: 'event.preventDefault();',
-        onwheel: 'fullZoomBtn.clickStatusLabel(event);',
-    }));
+    if (FullZoomConfig.showIconBtn) {
+        $("urlbar-icons").appendChild($C("toolbarbutton", {
+            id: "statusbarZoomLevel",
+            class: "toolbarbutton-1 chromeclass-toolbar-additional",
+            label: "Default Full Zoom Level",
+            tooltiptext: '左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設定縮放倍數',
+            type: 'button',
+            context: 'fullZoomBtn_popup',
+            onmousedown: 'fullZoomBtn.clickStatusLabel(event);',
+            onclick: 'event.preventDefault();',
+            onwheel: 'fullZoomBtn.clickStatusLabel(event);',
+        }));
+    } else {
+        $("urlbar-icons").appendChild($C("statusbarpanel", {
+            id: "statusbarZoomLevel",
+            label: "Default Full Zoom Level",
+            tooltiptext: '左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設定縮放倍數',
+            context: 'fullZoomBtn_popup',
+            onmousedown: 'fullZoomBtn.clickStatusLabel(event);',
+            onclick: 'event.preventDefault();',
+            onwheel: 'fullZoomBtn.clickStatusLabel(event);',
+        }));
+    }
     var popupSet = $("mainPopupSet");
-    var popup = document.createElement("menupopup");
+    var popup = $C("menupopup");
     popup.setAttribute("id", "fullZoomBtn_popup");
     popup.setAttribute("ignorekeys", "true");
     popup.setAttribute("position", "event.preventDefault();");
-    popup.setAttribute("onpopupshowing", "event.stopPropagation();\
-        event.target.shown = true;\
-            if (event.target == this)\
-          fullZoomBtn.onPopupShowing(event)");
+    popup.setAttribute("onpopupshowing", "event.stopPropagation();event.target.shown = true;if (event.target == this) fullZoomBtn.onPopupShowing(event)");
     popupSet.appendChild(popup);
 }
 fullZoomUI();
@@ -1308,9 +1316,7 @@ var loadFullZoom = function() {
     gBrowser.addEventListener("DOMContentLoaded", delayloadFullZoom, true);
 };
 window.addEventListener("pageshow", loadFullZoom, false);
-function $(id) {
-    return document.getElementById(id);
-};
+function $(id) document.getElementById(id);
 function $C(name, attr) {
     const XUL_NS = 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul';
     let el = document.createElementNS(XUL_NS, name);
