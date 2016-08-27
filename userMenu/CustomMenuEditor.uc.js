@@ -1,22 +1,27 @@
 // ==UserScript==
 // @name                 CustomMenuEditor.uc.js
-// @description       編輯頁面右鍵選單&使用CSS隱藏用不到的選單 (自用版)
+// @description       編輯右鍵選單&使用CSS隱藏用不到的選單 (自用版)
 // @author               skofkyo
-// @license               MIT License
 // @compatibility    Firefox 29+
 // @charset              UTF-8
-// @version              2016.8.24
+// @version              2016.8.27
 // @include              chrome://browser/content/browser.xul
+// @include              chrome://mozapps/content/extensions/extensions.xul
+// @include              chrome://browser/content/bookmarks/bookmarksPanel.xul
+// @include              chrome://browser/content/history/history-panel.xul
+// @include              chrome://browser/content/downloads/contentAreaDownloadsView.xul
 // ==/UserScript==
 (function() {
 
     var CustomMenuEditor = {
 
         Move: function() {
+            /*$M("要移動的ID", "做為目標的ID");*/
             $M("context-viewbgimage", "context-copyimage-contents"); //檢視背景圖片插入到複製圖片的上方
             $M("context-viewimageinfo", "context-viewbgimage"); //檢視圖片資訊插入到檢視背景圖片的上方
             $M("context-saveimage", "context-viewimage"); //圖片另存新檔…插入到檢視圖片的上方
-            //復原,剪下,複製,貼上,刪除,全選插入到拼寫分割線的上方
+
+            /*復原,剪下,複製,貼上,刪除,全選插入到拼寫分割線的上方 (同目標可以這樣寫)*/
             ["context-undo", "context-cut", "context-copy", "context-paste", "context-delete", "context-selectall"].forEach(function(n) {
                 $M(n, "spell-suggestions-separator");
             });
@@ -103,11 +108,10 @@
     function $(id) document.getElementById(id);
 
     function $M(a, b) {
-        let cm = $("contentAreaContextMenu");
         let id = $(a);
         let ins = $(b);
         if (!a && !b) return;
-        var move = cm.insertBefore(id, ins); //.nextSibling
+        var move = ins.parentNode.insertBefore(id, ins); //.nextSibling
         return move;
     }
 
