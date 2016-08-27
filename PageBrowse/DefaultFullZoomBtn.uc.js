@@ -6,8 +6,9 @@
 // @include        main
 // @charset        UTF-8
 // @author         slimx
-// @version        2.0.0.2
+// @version        2.0.0.3
 // @updateURL     https://j.mozest.com/ucscript/script/7.meta.js
+// @note          2016/08/27 modified by skofkyo 修改為網址列按鈕 修正按鈕滾輪事件
 // @note          2013/07/15 modified by lastdream2013 修正恢復上次關閉網頁時有可能在第一個頁面失效的問題
 // @note          2013/07/11 稍做修正，增加右鍵點擊菜單項設置所有頁面默認的縮放率
 // ==/UserScript==
@@ -36,17 +37,14 @@ var FullZoomConfig = new function() {
     this.minimum = 50;
     //忽略圖片類型的文件
     this.ignoreImageDocument = true;
-
     //快捷菜單的縮放項目,需要注意的是最大值和最小值不能超過zoom.minPercent和zoom.maxPercent
     this.zoomValues = "0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.30,1.35";
     //label
     this.fitToWindow = "適合窗口寬度";
     this.reset = " 默認值";
 }
-
 "use strict";
 //Replace FullZoom
-
 /**
  * Controls the "full zoom" setting and its site-specific preferences.
  */
@@ -54,7 +52,6 @@ var FullZoom = {
     /*nsIContentPrefService2*/
     _cps2: Cc["@mozilla.org/content-pref/service;1"].
     getService(Ci.nsIContentPrefService2),
-
     /**
      * Gets the load context from the given Browser.
      *
@@ -64,16 +61,13 @@ var FullZoom = {
     _loadContextFromBrowser: function FullZoom__loadContextFromBrowser(browser) {
         return browser.loadContext;
     },
-
     // Identifies the setting in the content prefs database.
     name: "browser.content.full-zoom",
     mode: "browser.content.full-mode",
     auto: "browser.content.full-AutoFit",
-
     // The global value (if any) for the setting.  Lazily loaded from the service
     // when first requested, then updated by the pref change listener as it changes.
     // If there is no global value, then this should be undefined.
-
     get globalValue() {
         var globalValue = FullZoomConfig.defaultLv;
         return this.globalValue = globalValue / 100;
@@ -106,7 +100,6 @@ var FullZoom = {
         var ignoreImageDocument = FullZoomConfig.ignoreImageDocument;
         return this.ignoreImageDocument = ignoreImageDocument;
     },
-
     isMozSyntheticDocument: function(aBrowser) {
         try {
             return aBrowser.isSyntheticDocument ||
@@ -115,34 +108,25 @@ var FullZoom = {
             return aBrowser.isSyntheticDocument;
         }
     },
-
     get _prefBranch() {
         delete this._prefBranch;
         return this._prefBranch = Cc["@mozilla.org/preferences-service;1"].
         getService(Ci.nsIPrefBranch);
     },
-
     // browser.zoom.siteSpecific preference cache
     _siteSpecificPref: undefined,
-
     // browser.zoom.updateBackgroundTabs preference cache
     updateBackgroundTabs: undefined,
-
     // One of the possible values for the mousewheel.* preferences.
     // From nsEventStateManager.h.
     ACTION_ZOOM: 3,
-
     prevBrowser: null,
     prevURI: null,
-
     get siteSpecific() {
         return this._siteSpecificPref;
     },
-
-
     //**************************************************************************//
     // nsISupports
-
     QueryInterface: XPCOMUtils.generateQI([Ci.nsIDOMEventListener,
         Ci.nsIObserver,
         Ci.nsIContentPrefObserver,
@@ -151,21 +135,16 @@ var FullZoom = {
     ]),
     //**************************************************************************//
     // Initialization & Destruction
-
     init: function FullZoom_init() {
         //on load
         // Listen for scrollwheel events so we can save scrollwheel-based changes.
         window.addEventListener("DOMMouseScroll", this, false);
         gBrowser.tabContainer.addEventListener('TabSelect', this, false);
-
-        document.getElementById("cmd_fullZoomReset").setAttribute("oncommand", "FullZoom.resetZoom()");
-        document.getElementById("cmd_fullZoomToggle").setAttribute("oncommand", "FullZoom.toggleZoom()");
-
-
+        $("cmd_fullZoomReset").setAttribute("oncommand", "FullZoom.resetZoom()");
+        $("cmd_fullZoomToggle").setAttribute("oncommand", "FullZoom.toggleZoom()");
         // Register ourselves with the service so we know when our pref changes.
         this._cps2.addObserverForName(this.name, this);
         this._cps2.addObserverForName(this.mode, this);
-
         this._siteSpecificPref = this._prefBranch.getBoolPref("browser.zoom.siteSpecific");
         this.localFolderSpecific = FullZoomConfig.localFolderSpecific;
         try {
@@ -176,7 +155,6 @@ var FullZoom = {
         // updating background tabs and per-site saving and restoring of zoom levels.
         this._prefBranch.addObserver("browser.zoom.", this, true);
         this._prefBranch.addObserver("extensions.browser.zoom.", this, true);
-
         //When the default browser confirmation dialog is showwn on startup, Site specific zoom does not be allpied.
         //So, Force apply for the first tab
         if (gBrowser.mTabs.length == 1) {
@@ -186,7 +164,6 @@ var FullZoom = {
             }.bind(this), 0);
         }
     },
-
     destroy: function FullZoom_destroy() {
         this._prefBranch.removeObserver("browser.zoom.", this);
         this._prefBranch.removeObserver("extensions.browser.zoom.", this);
@@ -195,13 +172,9 @@ var FullZoom = {
         window.removeEventListener("DOMMouseScroll", this, false);
         gBrowser.tabContainer.removeEventListener('TabSelect', this, false);
     },
-
-
     //**************************************************************************//
     // Event Handlers
-
     // nsIDOMEventListener
-
     handleEvent: function FullZoom_handleEvent(event) {
         switch (event.type) {
             case 'TabSelect':
@@ -212,7 +185,6 @@ var FullZoom = {
                 break;
         }
     },
-
     tabSelect: function() {
         //fullZoomBtn.debug("tabSelect " + gBrowser.selectedBrowser.currentURI.spec);
         if (this.updateBackgroundTabs && this.prevBrowser != gBrowser.selectedBrowser) {
@@ -223,9 +195,7 @@ var FullZoom = {
         if (isBlankPageURL(gBrowser.selectedBrowser.currentURI.spec)) {
             this.prevBrowser = null;
         }
-
     },
-
     _handleMouseScrolled: function FullZoom__handleMouseScrolled(event) {
         // Construct the "mousewheel action" pref key corresponding to this event.
         // Based on nsEventStateManager::WheelPrefs::GetBasePrefName().
@@ -246,19 +216,15 @@ var FullZoom = {
         } else {
             pref += "with_win.";
         }
-
         pref += "action";
-
         // Don't do anything if this isn't a "zoom" scroll event.
         let isZoomEvent = false;
         isZoomEvent = (gPrefService.getIntPref(pref) == this.ACTION_ZOOM);
-
         // XXX Lazily cache all the possible action prefs so we don't have to get
         // them anew from the pref service for every scroll event?  We'd have to
         // make sure to observe them so we can update the cache when they change.
         if (!isZoomEvent)
             return;
-
         // We have to call _applyZoomToPref in a timeout because we handle
         // the event before the event state manager has a chance to apply the zoom
         // during nsEventStateManager::PostHandleEvent.
@@ -266,9 +232,7 @@ var FullZoom = {
             self._applyZoomToPref()
         }, 0, this);
     },
-
     // nsIObserver
-
     observe: function(aSubject, aTopic, aData) {
         switch (aTopic) {
             case "nsPref:changed":
@@ -332,7 +296,6 @@ var FullZoom = {
                 break;
         }
     },
-
     //Ensure local file url convert to aURI
     convURI: function(aURI) {
         const ioService = Components.classes['@mozilla.org/network/io-service;1']
@@ -347,7 +310,6 @@ var FullZoom = {
         }
         return aURI;
     },
-
     // nsIContentPrefObserver
     _onContentPrefChanged: function FullZoom_onContentPrefSet(aGroup, aName, aValue) {
         let url = this.convURI(gBrowser.currentURI);
@@ -357,7 +319,6 @@ var FullZoom = {
             this._applyPrefToZoom(aName, aValue);
         else if (aGroup == null) {
             this.globalValue = this._ensureValid(aValue);
-
             // If the current page doesn't have a site-specific preference,
             // then its zoom should be set to the new global preference now that
             // the global preference has changed.
@@ -371,15 +332,12 @@ var FullZoom = {
             });
         }
     },
-
     onContentPrefSet: function FullZoom_onContentPrefSet(aGroup, aName, aValue) {
         this._onContentPrefChanged(aGroup, aName, aValue);
     },
-
     onContentPrefRemoved: function FullZoom_onContentPrefRemoved(aGroup, aName) {
         this._onContentPrefChanged(aGroup, aName, undefined);
     },
-
     /**
      * Called when the location of a tab changes.
      * When that happens, we need to update the current zoom level if appropriate.
@@ -395,11 +353,9 @@ var FullZoom = {
         // fullZoomBtn.debug("onLocationChange");
         if (!aURI)
             return;
-
         aBrowser = aBrowser || gBrowser.selectedBrowser;
         aURI = this.convURI(aURI);
         this.prevBrowser = aBrowser;
-
         // We don't save a pref for image documents, so don't try to restore it
         // after switching to a different tab.
         if (!this.ignoreImageDocument && aIsTabSwitch && this.isMozSyntheticDocument(aBrowser)) {
@@ -479,16 +435,13 @@ var FullZoom = {
             fullZoomBtn.showZoomLevelInStatusbar();
         }
     },
-
     //When not Site Specific Mode, Does already applied zooming facor for aBrowser or not.
     isAlreadyApplied: function FullZoom_isAlreadyApplied(aBrowser) {
         let ss = Components.classes["@mozilla.org/browser/sessionstore;1"].
         getService(Components.interfaces.nsISessionStore);
-
         let browser = aBrowser || gBrowser.selectedBrowser;
         let index = gBrowser.getBrowserIndexForDocument(browser.contentDocument);
         let aTab = gBrowser.mTabs[index];
-
         try {
             if (!!ss.getTabValue(aTab, "FullZoomMode")) {
                 return true;
@@ -497,16 +450,13 @@ var FullZoom = {
             return aTab.hasAttribute("FullZoomMode");
         }
     },
-
     //When not Site Specific Mode, Get ZoomLevel for curennt aBrowser
     getApplied: function FullZoom_getApplied(aBrowser) {
         let ss = Components.classes["@mozilla.org/browser/sessionstore;1"].
         getService(Components.interfaces.nsISessionStore);
-
         let browser = aBrowser || gBrowser.selectedBrowser;
         let index = gBrowser.getBrowserIndexForDocument(browser.contentDocument);
         let aTab = gBrowser.mTabs[index];
-
         let value, useFullZoom, useFullAuto;
         try {
             value = ss.getTabValue(aTab, "FullZoomLevel");
@@ -527,16 +477,13 @@ var FullZoom = {
         ZoomManager.useFullAuto = useFullAuto;
         return useFullAuto;
     },
-
     //When not Site Specific Mode, Save ZoomLevel for curennt aBrowser
     setApplied: function FullZoom_setApplied(aBrowser) {
         let ss = Components.classes["@mozilla.org/browser/sessionstore;1"].
         getService(Components.interfaces.nsISessionStore);
-
         let browser = aBrowser || gBrowser.selectedBrowser;
         let index = gBrowser.getBrowserIndexForDocument(browser.contentDocument);
         let aTab = gBrowser.mTabs[index];
-
         try {
             ss.setTabValue(aTab, "FullZoomLevel", ZoomManager.getZoomForBrowser(browser));
             ss.setTabValue(aTab, "FullZoomMode", !!ZoomManager.getCurrentMode(browser));
@@ -547,7 +494,6 @@ var FullZoom = {
         aTab.setAttribute("FullZoomAuto", !!ZoomManager.useFullAuto);
         aTab.setAttribute("FullZoomAutoSavedURL", browser.currentURI.spec);
     },
-
     //When not Site Specific Mode, Remove ZoomLevel for curennt aBrowser
     removeApplied: function FullZoom_removeApplied() {
         let ss = Components.classes["@mozilla.org/browser/sessionstore;1"].
@@ -564,32 +510,25 @@ var FullZoom = {
         aTab.removeAttribute("FullZoomAuto");
         aTab.removeAttribute("FullZoomAutoSavedURL");
     },
-
     // update state of zoom type menu item
     updateMenu: function FullZoom_updateMenu() {
-        let menuItem = document.getElementById("toggle_zoom");
-
+        let menuItem = $("toggle_zoom");
         menuItem.setAttribute("checked", !ZoomManager.getCurrentMode(getBrowser().selectedBrowser));
     },
-
     //**************************************************************************//
     // Setting & Pref Manipulation
-
     reduce: function FullZoom_reduce() {
         ZoomManager.reduce();
         this._applyZoomToPref();
     },
-
     enlarge: function FullZoom_enlarge() {
         ZoomManager.enlarge();
         this._applyZoomToPref();
     },
-
     toggleZoom: function FullZoom_toggleZoom() {
         ZoomManager.toggleZoom();
         this._applyZoomToPref();
     },
-
     resetZoom: function FullZoom_resetZoom() {
         if (typeof this.globalValue != "undefined")
             ZoomManager.zoom = this.globalValue;
@@ -598,21 +537,17 @@ var FullZoom = {
         this._applyZoomToPref();
         fullZoomBtn.showZoomLevelInStatusbar();
     },
-
     reset: function FullZoom_reset() {
         if (typeof this.globalValue != "undefined")
             ZoomManager.zoom = this.globalValue;
         else
             ZoomManager.reset();
-
         if (!(this.ignoreImageDocument && this.isMozSyntheticDocument(gBrowser.selectedBrowser))) {
             this._removePref();
-
             //Remove saved zoomlevel for Tab
             this.removeApplied();
         }
     },
-
     setSettingValue: function FullZoom_setSettingValue(aBrowser) {
         let browser = aBrowser || gBrowser.selectedBrowser;
         let uri = this.convURI(browser.currentURI);
@@ -632,8 +567,6 @@ var FullZoom = {
             }.bind(this)
         });
     },
-
-
     /**
      * Set the zoom level for the current tab.
      *
@@ -656,11 +589,8 @@ var FullZoom = {
     _applyPrefToZoom: function FullZoom__applyPrefToZoom(aName, aValue, aBrowser, aUpdateUI) {
         if (gInPrintPreviewMode)
             return;
-
         let browser = aBrowser || gBrowser.selectedBrowser;
-
         let resetZoom = (this.ignoreImageDocument && this.isMozSyntheticDocument(browser));
-
         if (aName == this.name) {
             try {
                 if (resetZoom)
@@ -679,7 +609,6 @@ var FullZoom = {
                     zoomMode = !!aValue;
                 else
                     zoomMode = this.globalMode;
-
                 ZoomManager.setCurrentMode(browser, zoomMode);
             } catch (ex) {}
         } else if (aName == this.auto) {
@@ -697,14 +626,11 @@ var FullZoom = {
             fullZoomBtn.showZoomLevelInStatusbar();
         }
     },
-
     _applyZoomToPref: function FullZoom__applyZoomToPref(aBrowser) {
         if (gInPrintPreviewMode)
             return;
-
         let browser = aBrowser || gBrowser.selectedBrowser;
         let url = this.convURI(browser.currentURI);
-
         if (!this.ignoreImageDocument && this.isMozSyntheticDocument(browser)) {
             ZoomManager.setCurrentMode(browser, true);
             if (browser == gBrowser.selectedBrowser) {
@@ -740,14 +666,10 @@ var FullZoom = {
                 }
             }
         }
-
-
         if (browser == gBrowser.selectedBrowser) {
             fullZoomBtn.showZoomLevelInStatusbar();
         }
-
     },
-
     _removePref: function FullZoom_removePref(url) {
         if (content.document instanceof ImageDocument)
             return;
@@ -768,7 +690,6 @@ var FullZoom = {
             }.bind(this),
         });
     },
-
     _removePrefZoom: function FullZoom_removePrefZoom(url) {
         if (content.document instanceof ImageDocument)
             return;
@@ -781,7 +702,6 @@ var FullZoom = {
             }.bind(this),
         });
     },
-
     _removePrefMode: function FullZoom_removePrefMode(url) {
         if (content.document instanceof ImageDocument)
             return;
@@ -794,7 +714,6 @@ var FullZoom = {
             }.bind(this),
         });
     },
-
     _removePrefAuto: function FullZoom_removePrefAuto(url) {
         if (content.document instanceof ImageDocument)
             return;
@@ -807,25 +726,18 @@ var FullZoom = {
             }.bind(this),
         });
     },
-
-
     //**************************************************************************//
     // Utilities
-
     _ensureValid: function FullZoom__ensureValid(aValue) {
         if (isNaN(aValue))
             return this.globalValue;
-
         if (aValue < ZoomManager.MIN)
             return ZoomManager.MIN;
-
         if (aValue > ZoomManager.MAX)
             return ZoomManager.MAX;
-
         return aValue;
     }
 };
-
 var fullZoomBtn = {
     full: null,
     win: null,
@@ -834,11 +746,10 @@ var fullZoomBtn = {
     init: function() {
         window.removeEventListener('DOMContentLoaded', this, false);
         window.addEventListener('unload', this, false);
-        document.getElementById("appcontent").addEventListener("resize", this, false);
-
+        $("appcontent").addEventListener("resize", this, false);
+        this.addstyle();
         fullZoomBtn.lastInnerWidth = fullZoomBtn.calculateWidth();
         //fullZoomBtn.showZoomLevelInStatusbar(ZoomManager.zoom, ZoomManager.useFullZoom);
-
         // Bug 505312 -  After detach tab,The zoom level of the detached tab does not
         // synchronize until it reloads.(In the detached tab, onLocationChange does not
         // fire by switching tab until it reload.)
@@ -846,15 +757,13 @@ var fullZoomBtn = {
         if (isFx35)
             gBrowser.tabContainer.addEventListener('TabSelect', this, false);
     },
-
     uninit: function() {
         window.removeEventListener('unload', this, false);
-        document.getElementById("appcontent").removeEventListener("resize", this, false);
+        $("appcontent").removeEventListener("resize", this, false);
         //stop observing
         if (this.observer1)
             this.observer1.disconnect();
     },
-
     handleEvent: function(event) {
         switch (event.type) {
             case 'TabSelect':
@@ -876,18 +785,15 @@ var fullZoomBtn = {
                 this.uninit(event);
         }
     },
-
     tabSelect: function(event) {
         FullZoom.onLocationChange(event.target.linkedBrowser.currentURI, true, event.target.linkedBrowser);
     },
-
     //show Zoom Level In Statusbar
     showZoomLevelInStatusbar: function() {
-        var statusbarZoomLevel = document.getElementById("statusbarZoomLevel");
+        var statusbarZoomLevel = $("statusbarZoomLevel");
         if (!statusbarZoomLevel)
             return;
         var label = Math.floor(ZoomManager.zoom * 100 + 0.5);
-
         if (FullZoomConfig.showIconBtn) {
             if (ZoomManager.useFullZoom) {
                 src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAItSURBVDhPlZBPTJJhHMffOQ+tQ4cOXW2NteahjXHzwuaJA6fWBgdWJ6st45A6VhAuy4wGCQN0lthQlEkmhGERjEwCnJo2Xhy4JeLMaUj+iRoyfPn2Ml73+qpz+dl+e/Y8z+/zPXyJ/fS/811wf/qqGvk8M2gfDQ2ael0qRXP7eeb7eN4HZ1X+SCL/IRyHJxjHsD+KnuEgnpgG8vVKnYpeqShvHoF7bFrtm4hjZj6D5BqFVLqIBfqMpXbQNxrDfZ0NNxVtamadywu756JzbLYQS27RIrCcAZbWmaHviR+76HgTRaPGUrhyvf4So7FYnYFHnvEoVjbK0sIaG7AXNh7LoaXTjRtNbRpGYzH1e94GJhJIb7Piwfm2WITRHoL8QbuX0VgeGgZGPn6JYuvP0XJpyCXA4pxCU6vJRyvcMhsed2hsrgD+7gC5PFfM/KZPuoe55SJ6nBEoWo1mRmO5Jm++fO+5lVpNb4CigMIuNyD5E5hMbOPlaz8lq7tTw2hc5Gq9Qds9hPVfmygWgXwByOaA1U0gtpiFwzuFp+Y+D71aWTYOIBQKK28rtWalvpdy+cKYJr9jkkzBR5fr8IapxhYj2Wl1Fa5KJE6ZTHaO0Q5RIam7W6N81tWl6x4KGW3uiN7isNxqUNYSVVWnLK+sK1KpFGKxmDwuZI9S05y2aanWYDBkTxJyiP0hIpGIFAgEp5mv/6cUotVqs3Rvczwe7wzzfDL4fD6vurr6LEEQxD/MoaXb0IcUsQAAAABJRU5ErkJggg==";
@@ -905,12 +811,11 @@ var fullZoomBtn = {
             else
                 label = "T" + label + "%";
             statusbarZoomLevel.setAttribute("label", label);
-            statusbarZoomLevel.setAttribute("tooltiptext", "左鍵：切換縮放模式\n右鍵：設置縮放倍數");
+            statusbarZoomLevel.setAttribute("tooltiptext", "左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設置縮放倍數");
         }
     },
-
     clickStatusLabel: function(evt) {
-        if (evt.type == "DOMMouseScroll") {
+        if (evt.type == "wheel") {
             this.click(evt, ZoomManager.getCurrentMode());
             return;
         }
@@ -918,18 +823,17 @@ var fullZoomBtn = {
             evt.stopPropagation();
             evt.preventDefault();
             //トグルモード
-            document.getElementById("cmd_fullZoomToggle").doCommand();
+            $("cmd_fullZoomToggle").doCommand();
             return;
         }
         if (evt.button == 1) {
             // 標準サイズ
-            document.getElementById("cmd_fullZoomReset").doCommand();
+            $("cmd_fullZoomReset").doCommand();
             return;
         }
-
         var btn = evt.target;
         this.full = ZoomManager.getCurrentMode(getBrowser().selectedBrowser);
-        var popup = document.getElementById("fullZoomBtn_popup");
+        var popup = $("fullZoomBtn_popup");
         //toggle
         if (popup.status == "open") {
             popup.hidePopup();
@@ -943,35 +847,33 @@ var fullZoomBtn = {
             popup.openPopup(btn);
         }
     },
-
     click: function(evt, fullZoom) {
-        if (!!document.getElementById("textZoomBtn_popup2") && document.getElementById("textZoomBtn_popup2").state == "open") {
+        if (!!$("textZoomBtn_popup2") && $("textZoomBtn_popup2").state == "open") {
             return;
         }
-        if (!!document.getElementById("fullZoomBtn_popup2") && document.getElementById("fullZoomBtn_popup2").state == "open") {
+        if (!!$("fullZoomBtn_popup2") && $("fullZoomBtn_popup2").state == "open") {
             return;
         }
-        if (evt.type == "DOMMouseScroll") {
-            if (evt.detail > 0) {
+        if (evt.type == "wheel") {
+            if (evt.deltaY > 0) {
                 // ページ縮小
                 this.toggleZoom(fullZoom);
-                document.getElementById("cmd_fullZoomReduce").doCommand();
+                $("cmd_fullZoomReduce").doCommand();
             } else {
                 // ページ擴大
                 this.toggleZoom(fullZoom);
-                document.getElementById("cmd_fullZoomEnlarge").doCommand();
+                $("cmd_fullZoomEnlarge").doCommand();
             }
             return;
         }
-
         if (evt.button == 0 && evt.shiftKey) {
             evt.stopPropagation();
             var btn = evt.target;
-            if (document.getElementById("fullzoombtn") == btn || document.getElementById("fullzoombtn2") == btn)
+            if ($("fullzoombtn") == btn || $("fullzoombtn2") == btn)
                 this.full = true;
-            else if (document.getElementById("textzoombtn") == btn || document.getElementById("textzoombtn2") == btn)
+            else if ($("textzoombtn") == btn || $("textzoombtn2") == btn)
                 this.full = false;
-            var popup = document.getElementById("fullZoomBtn_popup");
+            var popup = $("fullZoomBtn_popup");
             // workaround Bug 622507
             popup.removeAttribute("height");
             popup.removeAttribute("width");
@@ -985,7 +887,6 @@ var fullZoomBtn = {
         evt.stopPropagation();
         return false;
     },
-
     zoom: function(type, fullZoom) {
         //AutoFit to Flase
         ZoomManager.useFullAuto = false;
@@ -993,28 +894,26 @@ var fullZoomBtn = {
             case 0:
                 // ページ擴大
                 this.toggleZoom(fullZoom);
-                document.getElementById("cmd_fullZoomEnlarge").doCommand();
+                $("cmd_fullZoomEnlarge").doCommand();
                 break;
             case 1: // Middle Click
                 // 標準サイズ
                 this.toggleZoom(fullZoom);
-                document.getElementById("cmd_fullZoomReset").doCommand();
+                $("cmd_fullZoomReset").doCommand();
                 fullZoomBtn.showZoomLevelInStatusbar();
                 break;
             case 2: // Right Click
                 // ページ縮小
                 this.toggleZoom(fullZoom);
-                document.getElementById("cmd_fullZoomReduce").doCommand();
+                $("cmd_fullZoomReduce").doCommand();
                 break;
         }
     },
-
     toggleZoom: function ZoomManager_toggleZoom(useFullZoom) {
         if (useFullZoom != ZoomManager.getCurrentMode()) {
             FullZoom.toggleZoom();
         }
     },
-
     //option
     openPrefWindow: function() {
         window.openDialog(
@@ -1022,7 +921,6 @@ var fullZoomBtn = {
             "chrome,titlebar,toolbar,centerscreen,modal"
         );
     },
-
     windowResized: function(event) {
         if (this.windowResizedTimer) {
             clearTimeout(this.windowResizedTimer);
@@ -1039,25 +937,20 @@ var fullZoomBtn = {
             }
         }, 500, this);
     },
-
     calculateWidth: function() {
         //Reserve Sidebar Width
         var reservesidebar = FullZoomConfig.reserveSidebarWidth;
         var sidebarWidth = 0;
         var sidebarsplitterWidth = 0;
-        var sidebarbox = document.getElementById("sidebar-box");
-        var sidebar = document.getElementById("sidebar");
-
+        var sidebarbox = $("sidebar-box");
+        var sidebar = $("sidebar");
         if (reservesidebar && sidebarbox.boxObject.width == 0) {
-
             sidebarWidth = Math.ceil(sidebarbox.width);
             if (!sidebarWidth)
                 sidebarWidth = Math.ceil(document.defaultView.getComputedStyle(sidebar, '').getPropertyValue('width').replace('px', ''));
-
-            var sidebarsplitter = document.getElementById("sidebar-splitter");
+            var sidebarsplitter = $("sidebar-splitter");
             if (sidebarsplitter.boxObject.width == 0)
                 sidebarsplitterWidth = Math.ceil(document.defaultView.getComputedStyle(sidebarsplitter, '').getPropertyValue('min-width').replace('px', ''));
-
             sidebarWidth = sidebarWidth + sidebarsplitterWidth;
         }
         //window width
@@ -1065,7 +958,6 @@ var fullZoomBtn = {
         //this.debug("sidebar W= " + sidebarWidth);
         return gBrowser.mPanelContainer.boxObject.width - sidebarWidth;
     },
-
     //calculate zoom level for fit to window.
     getFitZoomLevel: function(useFullZoom, aBrowser, forceFit) {
         var doc = aBrowser.contentDocument;
@@ -1074,19 +966,15 @@ var fullZoomBtn = {
         //min max
         var minzoom = (FullZoomConfig.minimum / 100);
         var maxzoom = (FullZoomConfig.maximum / 100);
-
         ZoomManager.preserveTextSize = FullZoomConfig.fitToWidthPreserveTextSize;
         ZoomManager.useFullZoom = useFullZoom;
-
         //display width (include/exclude sidebar width)
         var width = this.calculateWidth();
-
         //scrollbar width
         var scw = Math.ceil((doc.defaultView.innerWidth - doc.documentElement.offsetWidth) * ZoomManager.getZoomForBrowser(aBrowser)); ////ZoomManager.getZoom2(aTab) );
         //this.debug("scroll W= " + scw);
         //display width exclude scrollbar width
         var ww = width - scw;
-
         //content width
         var hw = doc.documentElement.scrollWidth;
         var dw = (doc.body) ? doc.body.scrollWidth : hw;
@@ -1098,7 +986,6 @@ var fullZoomBtn = {
                 changeZoom();
             }, 0);
         }
-
         function changeZoom() {
             //content width
             var hw = doc.documentElement.scrollWidth;
@@ -1109,11 +996,9 @@ var fullZoomBtn = {
             ZoomManager.useFullAuto = true;
             ZoomManager.useFullZoom = useFullZoom;
             ZoomManager.setZoomForBrowser(aBrowser, zoom);
-
             FullZoom._applyZoomToPref();
         }
     },
-
     //Apply zoom level to current tab
     doFullZoomBy: function(zoom, useFullZoom, aBrowser, forceFit) {
         var browser = aBrowser || gBrowser.selectedBrowser;
@@ -1123,12 +1008,10 @@ var fullZoomBtn = {
             fullZoomBtn.getFitZoomLevel(useFullZoom, browser, forceFit);
             return;
         }
-
         ZoomManager.setZoomForBrowser(browser, zoom);
         this.toggleZoom(useFullZoom);
         FullZoom._applyZoomToPref(browser);
     },
-
     SetFullZoom: function(event, zoom, useFullZoom) {
         if (event.button == 0)
             fullZoomBtn.doFullZoomBy(zoom, useFullZoom);
@@ -1138,7 +1021,6 @@ var fullZoomBtn = {
             alertsService.showAlertNotification("chrome://global/skin/icons/information-32.png", "DefaultFullZoomLevel", "已設置所有頁面默認值縮放值為" + zoom * 100 + "%", false, "", null, "");
         }
     },
-
     //create popup menu
     onPopupShowing: function(event, useFullZoom) {
         //sort關數
@@ -1147,19 +1029,16 @@ var fullZoomBtn = {
             var bb = Math.floor(b);
             return aa > bb ? -1 : 1;
         }
-
         var popup = event.target;
         while (popup.lastChild) {
             popup.removeChild(popup.lastChild);
         }
-
         if (typeof useFullZoom == 'undefined') {
             useFullZoom = this.full;
         }
         var p = FullZoomConfig.zoomValues;
         var s = p.split(',');
         s.sort(cmp_val);
-
         var arr = [];
         var zoom = Math.floor(ZoomManager.zoom * 100 + 0.5);
         for (var i = 0; i < s.length; i++) {
@@ -1188,19 +1067,16 @@ var fullZoomBtn = {
             if (!ZoomManager.useFullZoom == !useFullZoom && arr[i] == Math.floor(ZoomManager.zoom * 100 + 0.5)) {
                 menuitem.setAttribute('checked', true);
             }
-
             popup.appendChild(menuitem);
         }
-        var bundle = document.getElementById("bundle_defaultfullzoomlevel");
+        var bundle = $("bundle_defaultfullzoomlevel");
         if (useFullZoom) {
             var menuitem = document.createElement('menuseparator');
             popup.appendChild(menuitem);
-
             var menuitem = document.createElement('menuitem');
             menuitem.setAttribute('label', FullZoomConfig.fitToWindow);
             menuitem.setAttribute('oncommand', 'fullZoomBtn.doFullZoomBy( -1, ' + useFullZoom + ', null, true);');
             menuitem.setAttribute('type', 'checkbox');
-
             if (FullZoom.globalAuto && !!ZoomManager.useFullAuto) {
                 menuitem.setAttribute('checked', true);
             }
@@ -1208,7 +1084,6 @@ var fullZoomBtn = {
         }
         var menuitem = document.createElement('menuseparator');
         popup.appendChild(menuitem);
-
         var menuitem = document.createElement('menuitem');
         menuitem.setAttribute('label', FullZoomConfig.reset);
         var value = FullZoom.globalValue;
@@ -1216,7 +1091,6 @@ var fullZoomBtn = {
         menuitem.setAttribute('type', 'checkbox');
         popup.appendChild(menuitem);
     },
-
     //prefを讀み迂み
     getPref: function(aPrefString, aPrefType, aDefault) {
         var xpPref = Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefService);
@@ -1262,13 +1136,11 @@ var fullZoomBtn = {
         } catch (e) {}
         return null;
     },
-
     debug: function(aMsg) {
         const Cc = Components.classes;
         const Ci = Components.interfaces;
         Cc["@mozilla.org/consoleservice;1"].getService(Ci.nsIConsoleService).logStringMessage(aMsg);
     },
-
     //Fxのバージョン
     getVer: function() {
         const Cc = Components.classes;
@@ -1276,66 +1148,73 @@ var fullZoomBtn = {
         var info = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULAppInfo);
         var ver = parseInt(info.version.substr(0, 3) * 10, 10) / 10;
         return ver;
-    }
+    },
+    addstyle: function() {
+        var style = ' \
+                @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
+                #urlbar-icons #statusbarZoomLevel .toolbarbutton-icon {\
+                    padding: 0!important;\
+                    background: none !important;\
+                    border: none !important;\
+                    box-shadow: none !important;\
+                }\
+                #urlbar-icons #statusbarZoomLevel {\
+                    padding: 0px 2px !important;\
+                    margin: -6px 0 !important;\
+                }\
+                '.replace(/\s+/g, " ");
+        var sspi = document.createProcessingInstruction(
+            'xml-stylesheet',
+            'type="text/css" href="data:text/css,' + encodeURIComponent(style) + '"'
+        );
+        document.insertBefore(sspi, document.documentElement);
+    },
 };
-
 var ZoomManager = {
     useFullAuto: false,
     preserveTextSize: false,
-
     get _prefBranch() {
         delete this._prefBranch;
         return this._prefBranch = Components.classes["@mozilla.org/preferences-service;1"]
             .getService(Components.interfaces.nsIPrefBranch);
     },
-
     get MIN() {
         delete this.MIN;
         return this.MIN = this._prefBranch.getIntPref("zoom.minPercent") / 100;
     },
-
     get MAX() {
         delete this.MAX;
         return this.MAX = this._prefBranch.getIntPref("zoom.maxPercent") / 100;
     },
-
     get useFullZoom() {
         return this._prefBranch.getBoolPref("browser.zoom.full");
     },
-
     set useFullZoom(aVal) {
         this._prefBranch.setBoolPref("browser.zoom.full", aVal);
         return aVal;
     },
-
     getCurrentMode: function getCurrentMode(aBrowser) {
         aBrowser = aBrowser || getBrowser().selectedBrowser;
         return aBrowser.currentMode;
     },
-
     setCurrentMode: function setCurrentMode(aBrowser, aVal) {
         aBrowser = aBrowser || getBrowser().selectedBrowser;
         aBrowser.currentMode = aVal;
         return aVal;
     },
-
     get zoom() {
         return this.getZoomForBrowser(getBrowser().selectedBrowser || getBrowser());
     },
-
     getZoomForBrowser: function ZoomManager_getZoomForBrowser(aBrowser) {
         return (this.getCurrentMode(aBrowser) || aBrowser.isSyntheticDocument) ? aBrowser.fullZoom : aBrowser.textZoom;
     },
-
     set zoom(aVal) {
         this.setZoomForBrowser(getBrowser().selectedBrowser || getBrowser(), aVal);
         return aVal;
     },
-
     setZoomForBrowser: function ZoomManager_setZoomForBrowser(aBrowser, aVal) {
         if (aVal < this.MIN || aVal > this.MAX)
             throw Components.results.NS_ERROR_INVALID_ARG;
-
         if (this.getCurrentMode(aBrowser) || aBrowser.isSyntheticDocument) {
             if (this.preserveTextSize)
                 aBrowser.textZoom = aBrowser.textZoom * aBrowser.fullZoom / aVal;
@@ -1347,49 +1226,39 @@ var ZoomManager = {
             if (aBrowser.fullZoom != 1) aBrowser.fullZoom = 1;
         }
     },
-
     get zoomValues() {
         var zoomValues = FullZoomConfig.zoomValues.split(",").map(parseFloat);
         zoomValues.sort(function(a, b) a - b);
-
         while (zoomValues[0] < this.MIN)
             zoomValues.shift();
-
         while (zoomValues[zoomValues.length - 1] > this.MAX)
             zoomValues.pop();
-
         delete this.zoomValues;
         return this.zoomValues = zoomValues;
     },
-
     enlarge: function ZoomManager_enlarge() {
         this.useFullAuto = false;
         var i = this.zoomValues.indexOf(this.snap(this.zoom)) + 1;
         if (i < this.zoomValues.length)
             this.zoom = this.zoomValues[i];
     },
-
     reduce: function ZoomManager_reduce() {
         this.useFullAuto = false;
         var i = this.zoomValues.indexOf(this.snap(this.zoom)) - 1;
         if (i >= 0)
             this.zoom = this.zoomValues[i];
     },
-
     reset: function ZoomManager_reset() {
         this.useFullAuto = false;
         this.zoom = 1;
     },
-
     toggleZoom: function ZoomManager_toggleZoom() {
         this.useFullAuto = false;
         var zoomLevel = this.zoom;
-
         this.useFullZoom = !this.useFullZoom;
         this.setCurrentMode(getBrowser().selectedBrowser, !this.getCurrentMode());
         this.zoom = zoomLevel;
     },
-
     snap: function ZoomManager_snap(aVal) {
         var values = this.zoomValues;
         for (var i = 0; i < values.length; i++) {
@@ -1402,46 +1271,20 @@ var ZoomManager = {
         return values[i - 1];
     }
 };
-
 //ui
 function fullZoomUI() {
-    //var statusbar = document.getElementById("urlbar-icons"); //status-bar navigator-toolbox urlbar-icons  TabsToolbar
-    //var button = document.createElement("toolbarbutton");
-    //button.setAttribute("id", "statusbarZoomLevel");
-    //button.setAttribute("onmousedown", "fullZoomBtn.clickStatusLabel(event);");
-    //button.setAttribute("onclick", "event.preventDefault();");
-    //button.setAttribute("onDOMMouseScroll", "fullZoomBtn.clickStatusLabel(event);");
-    //button.setAttribute("tooltiptext", "左鍵：切換縮放模式\n右鍵：設置縮放倍數");
-    //statusbar.appendChild(button);
-    //statusbar.insertBefore(button, statusbar.childNodes[1]);
-    try {
-        CustomizableUI.createWidget({
-            id: "statusbarZoomLevel",
-            type: 'custom',
-            defaultArea: CustomizableUI.AREA_NAVBAR,
-            onBuild: function(aDocument) {
-                var toolbarbutton = aDocument.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', 'toolbarbutton');
-                var props = {
-                    id: "statusbarZoomLevel",
-                    class: "toolbarbutton-1 chromeclass-toolbar-additional",
-                    label: "Default Full Zoom Level",
-                    tooltiptext: "左鍵：切換縮放模式\n右鍵：設置縮放倍數",
-                    removable: "true",
-                    overflows: "false",
-                    type: 'button',
-                    context: '_child',
-                    onmousedown: 'fullZoomBtn.clickStatusLabel(event);',
-                    onclick: 'event.preventDefault();',
-                    onDOMMouseScroll: 'fullZoomBtn.clickStatusLabel(event);',
-                };
-                for (var p in props) {
-                    toolbarbutton.setAttribute(p, props[p]);
-                };
-                return toolbarbutton;
-            }
-        });
-    } catch (e) {};
-    var popupSet = document.getElementById("mainPopupSet");
+    $("urlbar-icons").appendChild($C("toolbarbutton", {
+        id: "statusbarZoomLevel",
+        class: "toolbarbutton-1 chromeclass-toolbar-additional",
+        label: "Default Full Zoom Level",
+        tooltiptext: '左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設置縮放倍數',
+        type: 'button',
+        context: 'fullZoomBtn_popup',
+        onmousedown: 'fullZoomBtn.clickStatusLabel(event);',
+        onclick: 'event.preventDefault();',
+        onwheel: 'fullZoomBtn.clickStatusLabel(event);',
+    }));
+    var popupSet = $("mainPopupSet");
     var popup = document.createElement("menupopup");
     popup.setAttribute("id", "fullZoomBtn_popup");
     popup.setAttribute("ignorekeys", "true");
@@ -1452,11 +1295,9 @@ function fullZoomUI() {
           fullZoomBtn.onPopupShowing(event)");
     popupSet.appendChild(popup);
 }
-
 fullZoomUI();
 FullZoom.init();
 fullZoomBtn.init();
-
 var delayloadFullZoom = function(aEvent) {
     setTimeout(function() {
         FullZoom.init();
@@ -1467,3 +1308,12 @@ var loadFullZoom = function() {
     gBrowser.addEventListener("DOMContentLoaded", delayloadFullZoom, true);
 };
 window.addEventListener("pageshow", loadFullZoom, false);
+function $(id) {
+    return document.getElementById(id);
+};
+function $C(name, attr) {
+    const XUL_NS = 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul';
+    let el = document.createElementNS(XUL_NS, name);
+    if (attr) Object.keys(attr).forEach(function(n) el.setAttribute(n, attr[n]));
+    return el;
+};

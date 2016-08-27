@@ -1,8 +1,0 @@
-configs = {
-    TabsToolbar : [
-
-	],
-    urlbar : [
-
-	]
-};

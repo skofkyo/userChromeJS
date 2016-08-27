@@ -43,13 +43,11 @@
 // Released under the GPL license
 // http://www.gnu.org/copyleft/gpl.html
 (function(css) {
-
     var Config = {
         isUrlbar: 1, // 放置的位置，0 為可移動按鈕，1 為地址欄
         ORIGINAL_SITEINFO: false, // 原版JSON規則是否啟用？以國外網站為主
-        UPDATE_CN_SITEINFO_DAYS: 7, // 更新中文規則的間隔（天）
+        UPDATE_CN_SITEINFO_DAYS: 0, // 更新中文規則的間隔（天）
         SEND_COOKIE: false, // 是否額外的獲取 cookie？百度有問題時需要清除 cookie
-
         // 默認值，有些可在右鍵菜單直接修改
         MAX_PAGER_NUM: -1, // 默認最大翻頁數， -1表示無限制
         IMMEDIATELY_PAGER_NUM: 3, // 立即加載的默認頁數
@@ -58,23 +56,17 @@
         ADD_TO_HISTORY: false, // 添加下一頁鏈接到歷史記錄
         SEPARATOR_RELATIVELY: true, // 分隔符.在使用上滾一頁或下滾一頁的時候是否保持相對位置..
     };
-
     var useScraptchpad = true; // 如果不存在編輯器，則使用代碼片段速記器，否則設置編輯器路徑
-
     // 自定義數據庫、中文數據庫、默認的 JSON 數據庫擺放的文件夾，例如 Local
     // 不要在這裡更改，請到右鍵設置中更改（需重啟生效）
     //      或 about:config 中更改 uAutoPagerize.DB_FOLDER 的值（如果沒有手動新建一個）
     var DB_FOLDER = "Local";
-
-
     // 額外的設置，具體在配置文件中
     var prefs = {
         pauseA: false, // 快速停止翻頁開關
         ipages: [false, 2],
-
         lazyImgSrc: 'zoomfile|file|original|load-src|_src|imgsrc|real_src|src2|data-lazyload-src|data-ks-lazyload|data-lazyload|data-src|data-original|data-thumb|data-imageurl|data-defer-src|data-placeholder',
     };
-
     // ワイルドカード(*)で記述する
     var INCLUDE = [
         "*"
@@ -91,29 +83,24 @@
         '*://www.wumii.com/*',
         'http://www.cnbeta.com/*'
     ];
-
     var MY_SITEINFO = [{
         url: '^https?://mobile\\.twitter\\.com/',
         nextLink: '//div[contains(concat(" ",normalize-space(@class)," "), " w-button-more ")]/a[@href]',
         pageElement: '//div[@class="timeline"]/table[@class="tweet"] | //div[@class="user-list"]/table[@class="user-item"]',
         exampleUrl: 'https://mobile.twitter.com/ https://mobile.twitter.com/search?q=css'
     }, ];
-
     var MICROFORMAT = [{
         url: '^https?://.*',
         nextLink: '//a[@rel="next"] | //link[@rel="next"]',
         pageElement: '//*[contains(@class, "autopagerize_page_element")]',
         insertBefore: '//*[contains(@class, "autopagerize_insert_before")]',
     }];
-
     var SITEINFO_IMPORT_URLS = Config.ORIGINAL_SITEINFO ? [
         'http://wedata.net/databases/AutoPagerize/items.json',
     ] : [];
-
     // Super_preloaderPlus 规则更新地址
     // var SITEINFO_CN_IMPORT_URL = "https://greasyfork.org/scripts/293-super-preloaderplus-one/code/Super_preloaderPlus_one.user.js";
     var SITEINFO_CN_IMPORT_URL = "https://github.com/ywzhaiqi/userscript/raw/master/Super_preloaderPlus/super_preloaderplus_one.user.js";
-
     var COLOR = {
         on: '#0f0',
         off: '#ccc',
@@ -123,8 +110,6 @@
         terminated: '#00f',
         error: '#f0f'
     };
-
-
     // 以下 設定が無いときに利用する
     var FORCE_TARGET_WINDOW = true;
     var BASE_REMAIN_HEIGHT = 400;
@@ -133,35 +118,27 @@
     var SCROLL_ONLY = false;
     var CACHE_EXPIRE = 24 * 60 * 60 * 1000;
     var XHR_TIMEOUT = 30 * 1000;
-
     // By lastDream2013
     // 出在自動翻頁信息附加顯示真實相對頁面信息，一般能智能識別出來。如果還有站點不能識別，可以把地址的特徵字符串加到下面
     // 最好不要亂加，一些不規律的站點顯示出來的數字也沒有意義
     var REALPAGE_SITE_PATTERN = ['search?', 'search_', 'forum', 'thread'];
-
-
     // 自造簡化版 underscroe 庫，僅 ECMAScript 5
     var _ = (function() {
-
         var nativeIsArray = Array.isArray;
         var _ = function(obj) {
             if (obj instanceof _) return obj;
             if (!(this instanceof _)) return new _(obj);
             this._wrapped = obj;
         };
-
         var toString = Object.prototype.toString;
-
         _.isArray = nativeIsArray || function(obj) {
             return toString.call(obj) == '[object Array]';
         };
-
         ['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'].forEach(function(name) {
             _['is' + name] = function(obj) {
                 return toString.call(obj) == '[object ' + name + ']';
             };
         });
-
         // Return the first value which passes a truth test. Aliased as `detect`.
         _.find = function(obj, iterator, context) {
             var result;
@@ -173,11 +150,8 @@
             });
             return result;
         };
-
         return _;
     })();
-
-
     let {
         classes: Cc,
         interfaces: Ci,
@@ -185,9 +159,7 @@
         results: Cr
     } = Components;
     if (!window.Services) Cu.import("resource://gre/modules/Services.jsm");
-
     /* main */
-
     if (typeof window.uAutoPagerize != 'undefined') {
         window.uAutoPagerize.destroy();
         delete window.uAutoPagerize;
@@ -204,7 +176,6 @@
             }, 1000);
         }
     }
-
     var ns = window.uAutoPagerize = {
         INCLUDE_REGEXP: /./,
         EXCLUDE_REGEXP: [],
@@ -214,7 +185,6 @@
         SITEINFO_CN: [],
         HashchangeSites: [], // 頁面不刷新的站點，在配置文件中修改
         monitorUserFile: true,
-
         get prefs() {
             delete this.prefs;
             return this.prefs = Services.prefs.getBranch("uAutoPagerize.");
@@ -247,22 +217,18 @@
             if (!aFile.exists() || !aFile.isFile()) {
                 return false;
             }
-
             let now = Date.now();
             if (now - this._isModified_lastcheck < 1000) {
                 return false;
             }
             this._isModified_lastcheck = now;
-
             let lmt = aFile.lastModifiedTime;
             if (this._modified != lmt) {
                 this._modified = lmt;
                 return true;
             }
-
             return false;
         },
-
         get INCLUDE() INCLUDE,
         set INCLUDE(arr) {
             try {
@@ -354,10 +320,8 @@
                 ns.prefs.setIntPref('lastCheckTime', ns.lastCheckTime = time);
             } catch (e) {}
         },
-
         init: function() {
             ns.style = addStyle(css);
-
             if (Config.isUrlbar) {
                 ns.icon = $('urlbar-icons').appendChild($C("image", {
                     id: "uAutoPagerize-icon",
@@ -390,7 +354,6 @@
                 } catch (e) {};
                 ns.icon = $('uAutoPagerize-icon');
             }
-
             var xml = '\
             <menupopup id="uAutoPagerize-popup" position="after_start"\
                        ignorekeys="true"\
@@ -403,12 +366,6 @@
                 <menuitem label="載入/編輯配置"\
                           tooltiptext="左鍵載入配置，右鍵編輯配置文件和中文規則文件"\
                           onclick="uAutoPagerize.reloadMenuClick(event);"/>\
-                <menuitem label="更新中文規則" \
-                          tooltiptext="包含 Super_preloader 的中文規則"\
-                          oncommand="uAutoPagerize.resetSITEINFO_CN();"/>\
-                <menuitem label="更新原版規則" hidden="' + !Config.ORIGINAL_SITEINFO + '" \
-                          tooltiptext="原版 JSON 規則，以外國網站為主" \
-                          oncommand="uAutoPagerize.resetSITEINFO();"/>\
                 <hbox>\
                     <textbox id="uAutoPagerize-blacklist-textbox" oninput="uAutoPagerize.checkUrl(event);"\
                         tooltiptext="綠色代表在黑名單中，紅色代表不匹配當前網址"/>\
@@ -466,9 +423,6 @@
                 <menuitem label="首選項"\
                           id="uAutoPagerize-pref"\
                           oncommand="uAutoPagerize.openPref()"/>\
-                <menuitem label="在線搜索翻頁規則"\
-                          id="uAutoPagerize-search"\
-                          oncommand="uAutoPagerize.search()"/>\
                 <menuitem label="打開規則列表"\
                           hidden="true"\
                           oncommand="uAutoPagerize.showUI()"/>\
@@ -479,7 +433,6 @@
             range.collapse(false);
             range.insertNode(range.createContextualFragment(xml.replace(/\n|\t/g, '')));
             range.detach();
-
             ["DEBUG", "AUTO_START", "FORCE_TARGET_WINDOW", "SCROLL_ONLY", "PRELOADER_NEXTPAGE", "ADD_TO_HISTORY", "monitorUserFile"].forEach(function(name) {
                 try {
                     ns[name] = ns.prefs.getBoolPref(name);
@@ -493,19 +446,14 @@
                     ns[name] = ns.prefs.getIntPref(name);
                 } catch (e) {}
             }, ns);
-
             // 載入存儲的文件夾位置
             try {
                 DB_FOLDER = ns.prefs.getCharPref('DB_FOLDER');
             } catch (e) {}
-
             ns.INCLUDE = INCLUDE;
-
             ns.loadExclude();
-
             ns.addListener();
             ns.loadSetting();
-
             if (!ns.loadSetting_CN()) {
                 requestSITEINFO_CN();
             } else { // 檢查是否更新規則
@@ -514,13 +462,10 @@
                     requestSITEINFO_CN();
                 }
             }
-
             if (!getCache()) {
                 requestSITEINFO();
             }
-
             updateIcon();
-
             // 載入初始值
             ns.isModified;
         },
@@ -536,9 +481,7 @@
                     ns.prefs.setIntPref(name, ns[name]);
                 } catch (e) {}
             }, ns);
-
             ns.saveExclude();
-
             ns.IMMEDIATELY_PAGER_NUM = $("uAutoPagerize-immedialate-pages").value;
         },
         theEnd: function() {
@@ -560,7 +503,6 @@
             gBrowser.mTabContainer.addEventListener('TabClose', this, false);
             window.addEventListener('uAutoPagerize_destroy', this, false);
             window.addEventListener('unload', this, false);
-
             // uc 腳本會因為打開新窗口而重複註冊
             var mediator = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
             var enumerator = mediator.getEnumerator("navigator:browser");
@@ -579,7 +521,6 @@
             gBrowser.mTabContainer.removeEventListener('TabClose', this, false);
             window.removeEventListener('uAutoPagerize_destroy', this, false);
             window.removeEventListener('unload', this, false);
-
             if (ns.registerDone) {
                 ns.prefs.removeObserver('', this, false);
                 ns.registerDone = false;
@@ -630,7 +571,6 @@
                 let str = ns.prefs.getCharPref("EXCLUDE");
                 ns.EXCLUDE = str.split(/,| |[\n\r]+/);
             } catch (e) {}
-
             if (!ns.EXCLUDE) {
                 ns.EXCLUDE = EXCLUDE;
             }
@@ -648,9 +588,7 @@
             sandbox.MICROFORMAT = [];
             sandbox.USE_MY_SITEINFO = false;
             sandbox.USE_MICROFORMAT = true;
-
             data = ns.convertSiteInfoData(data);
-
             try {
                 var lineFinder = new Error();
                 Cu.evalInSandbox(data, sandbox, '1.8');
@@ -663,14 +601,12 @@
                 return;
             }
             sandbox.MY_SITEINFO = ns.convertSiteInfos(sandbox.MY_SITEINFO);
-
             ns.MY_SITEINFO = sandbox.USE_MY_SITEINFO ? sandbox.MY_SITEINFO.concat(MY_SITEINFO) : sandbox.MY_SITEINFO;
             ns.MICROFORMAT = sandbox.USE_MICROFORMAT ? sandbox.MICROFORMAT.concat(MICROFORMAT) : sandbox.MICROFORMAT;
             if (sandbox.INCLUDE)
                 ns.INCLUDE = sandbox.INCLUDE;
             // if (sandbox.EXCLUDE)
             //  ns.EXCLUDE = sandbox.EXCLUDE;
-
             var newPrefs = sandbox.prefs;
             if (newPrefs) {
                 Object.keys(newPrefs).forEach(function(key) {
@@ -679,9 +615,7 @@
             }
             if (sandbox.HashchangeSites)
                 ns.HashchangeSites = sandbox.HashchangeSites;
-
             if (isAlert) alerts('uAutoPagerize', '配置文件已經重新載入');
-
             return true;
         },
         loadSetting_CN: function(isAlert) {
@@ -691,22 +625,16 @@
             sandbox.SITEINFO = [];
             sandbox.SITEINFO_TP = [];
             sandbox.SITEINFO_comp = [];
-
             data = ns.convertSiteInfoData(data);
-
             try {
                 Cu.evalInSandbox(data, sandbox, '1.8');
             } catch (e) {
                 return log('載入中文數據庫錯誤', e);
             }
-
             var list = sandbox.SITEINFO.concat(sandbox.SITEINFO_TP).concat(sandbox.SITEINFO_comp);
-
             ns.SITEINFO_CN = ns.convertSiteInfos(list);
-
             if (isAlert)
                 alerts('uAutoPagerize', '中文數據庫已經重新載入');
-
             return true;
         },
         convertSiteInfoData: function(data) {
@@ -723,7 +651,6 @@
                     newList.push(info);
                     continue;
                 }
-
                 let newInfo = {
                     url: info.url,
                     nextLink: info.nextLink,
@@ -731,21 +658,17 @@
                     name: info.name || info.siteName,
                     exampleUrl: info.exampleUrl || info.siteExample
                 };
-
                 ['name', 'exampleUrl'].forEach(function(n) {
                     if (!newInfo[n]) delete newInfo[n];
                 });
-
                 ["enable", "pageElement", "useiframe", "newIframe", "iloaded", "itimeout", "documentFilter", "filter", "startFilter", "stylish", 'replaceE', 'lazyImgSrc', 'separatorReal', 'maxpage', 'ipages'].forEach(function(name) {
                     if (info.autopager[name] != undefined) {
                         newInfo[name] = info.autopager[name];
                     }
                 });
-
                 if (newInfo.ipages == undefined) {
                     newInfo.ipages = prefs.ipages;
                 }
-
                 newList.push(newInfo);
             }
             return newList;
@@ -754,25 +677,21 @@
             if (!win) return;
             var doc = win.document;
             if (!doc) return;
-
             // 監測文件是否更新
             if (ns.monitorUserFile && ns.isModified) {
                 ns.loadSetting(true);
             }
-
             var locationHref = win.location.href,
                 locationHost = win.location.host;
             if (locationHref.indexOf('http') !== 0 ||
                 !ns.INCLUDE_REGEXP.test(locationHref)) {
                 return updateIcon("不包含的頁面");
             }
-
             if (!/html|xml/i.test(doc.contentType) ||
                 doc.body instanceof HTMLFrameSetElement ||
                 win.frameElement && !(win.frameElement instanceof HTMLFrameElement) ||
                 doc.querySelector('meta[http-equiv="refresh"]') && /shooter\.cn/.test(win.location.host))
                 return updateIcon();
-
             if (typeof win.AutoPagerize == 'undefined') {
                 win.filters = [];
                 win.documentFilters = [];
@@ -798,17 +717,14 @@
                     // uAutoPagerize original
                 win.fragmentFilters = [];
             }
-
             for (let [index, reg] in Iterator(ns.EXCLUDE_REGEXP)) {
                 if (reg.test(locationHref)) {
                     return updateIcon("排除列表, " + ns.EXCLUDE[index]);
                 }
             }
-
             var ev = doc.createEvent('Event');
             ev.initEvent('GM_AutoPagerizeLoaded', true, false);
             doc.dispatchEvent(ev);
-
             var miscellaneous = [];
             // 継ぎ足されたページからは新しいタブで開く
             win.fragmentFilters.push(function(df) {
@@ -821,11 +737,9 @@
                     }
                 });
             });
-
             var index = -1,
                 info, nextLink;
             var hashchange = false;
-
             function reStartAutoPager() {
                 debug("觸發 Hashchang 或 pjax:success 事件" + locationHref);
                 if (!win.ap) {
@@ -845,7 +759,6 @@
                     updateIcon();
                 }, timer);
             }
-
             // 頁面不刷新的站點
             var hashSite = _.find(ns.HashchangeSites, function(x) {
                 return toRE(x.url).test(locationHref);
@@ -876,20 +789,16 @@
                     sandbox.run = reStartAutoPager;
                     Cu.evalInSandbox(script, sandbox);
                 };
-
                 github_addListener(win);
                 debug('github.com 成功添加 pjax:success 事件')
             }
-
             if (hashchange) {
                 win.addEventListener("hashchange", reStartAutoPager, false);
             }
-
             // 不是加載文檔時啟用則不需要延遲
             if (!DOMLoad) {
                 timer = 0;
             }
-
             win.setTimeout(function() {
                 var startTime = Date.now();
                 win.ap = null;
@@ -910,7 +819,6 @@
                         win.filters.push(info.filter.bind(win));
                     if (info.fragmentFilter)
                         win.fragmentFilters.push(info.fragmentFilter.bind(win));
-
                     if (info.stylish) {
                         let style = doc.createElement("style");
                         style.setAttribute("id", "uAutoPagerize-style");
@@ -931,27 +839,22 @@
                         win.ap = new AutoPager(win.document, info, nextLink);
                     }
                 }
-
                 debug('總耗時:' + (new Date() - startTime) + '毫秒, 地址為：' + locationHref);
-
                 updateIcon();
             }, timer || 0);
         },
         onPopupShowing: function(event) {
             if (event.target != event.currentTarget) return;
-
             var excludeStr;
             var locationHref = content.location.href;
             var blacklistBtn = $("uAutoPagerize-blacklist-icon");
             var blacklistText = $("uAutoPagerize-blacklist-textbox");
-
             for (let [index, reg] in Iterator(ns.EXCLUDE_REGEXP)) {
                 if (reg.test(locationHref)) {
                     excludeStr = ns.EXCLUDE[index];
                     break;
                 }
             }
-
             if (excludeStr) {
                 blacklistBtn.setAttribute("label", "修改");
                 blacklistBtn.setAttribute("tooltiptext", "修改黑名單或從中刪除，空白為刪除");
@@ -964,20 +867,16 @@
                 blacklistText.removeAttribute("oldvalue");
                 blacklistText.style.color = "";
             }
-
             blacklistText.value = excludeStr;
         },
         checkUrl: function(event) {
             var blacklistText = event.target;
-
             var url = content.location.href;
             if (!url)
                 blacklistText.style.color = "";
-
             var urlValue = wildcardToRegExpStr(blacklistText.value);
             try {
                 var regexp = new RegExp(urlValue);
-
                 if (regexp.test(url))
                     blacklistText.style.color = "green";
                 else
@@ -998,34 +897,26 @@
             var textbox = $("uAutoPagerize-blacklist-textbox");
             var oldvalue = textbox.getAttribute("oldvalue");
             var newValue = textbox.value.trim();
-
             if (oldvalue) {
                 var index = ns.EXCLUDE.indexOf(oldvalue);
                 if (index == -1) return;
-
                 if (!newValue || newValue == "**") { // remove
                     ns.EXCLUDE.splice(index, 1);
                 } else { // modified
                     ns.EXCLUDE[index] = newValue;
                 }
-
                 ns.EXCLUDE = ns.EXCLUDE; // 重新賦值，刷新 EXCLUDE_REGEXP
-
                 ns.launch(content);
             } else { // add
                 if (!newValue || newValue == "**") return;
-
                 ns.EXCLUDE.push(newValue);
                 ns.EXCLUDE = ns.EXCLUDE;
-
                 if (content.ap) {
                     content.ap.destroy(true);
                     updateIcon("排除列表, " + newValue);
                 }
             }
-
             $('uAutoPagerize-popup').hidePopup();
-
             ns.saveExclude();
         },
         resetSITEINFO: function() {
@@ -1067,7 +958,6 @@
         },
         immediatelyStart: function() {
             var pages = ns.IMMEDIATELY_PAGER_NUM;
-
             if (content.ap) {
                 content.ap.loadImmediately(pages);
             }
@@ -1108,10 +998,8 @@
             </prefpane>\
             </prefwindow>\
             ';
-
             window.openDialog("data:application/vnd.mozilla.xul+xml;charset=UTF-8," + encodeURIComponent(xul), '','chrome,titlebar,toolbar,centerscreen,dialog=no');
         },
-
         getInfo: function(list, win) {
             if (!list) list = ns.MY_SITEINFO.concat(ns.SITEINFO_CN);
             if (!win) win = content;
@@ -1124,10 +1012,8 @@
                         value: toRE(info.url)
                     }).url_regexp;
                     if (!exp.test(locationHref)) continue;
-
                     if (info.startFilter)
                         info.startFilter.call(win, win, doc);
-
                     var nextLink = getElementMix(info.nextLink, doc);
                     if (!nextLink) {
                         // FIXME microformats case detection.
@@ -1177,13 +1063,10 @@
             var win = document.commandDispatcher.focusedWindow;
             return (!win || win == window) ? content : win;
         },
-
         search: function() {
             var url = content.location.href;
             if (!url.startsWith("http")) return;
-
             var keyword = Services.eTLD.getBaseDomainFromHost(content.location.host);
-
             // gBrowser.addTab('http://wedata.net/databases/AutoPagerize/items?query=' + keyword);
             gBrowser.selectedTab = gBrowser.addTab('http://ap.teesoft.info/?exp=0&url=' + encodeURIComponent(url));
         },
@@ -1192,13 +1075,11 @@
                 id: "uAutoPagerize-bottombar-splitter",
                 orient: "vertical"
             });
-
             var box = $C("vbox", {
                 id: "uAutoPagerize-bottombar",
                 width: "200",
                 height: "232"
             });
-
             var toolbar = box.appendChild($C("toolbar", {
                 id: "uAutoPagerize-bottombar-toolbar",
                 align: "center",
@@ -1218,13 +1099,11 @@
                 oncommand: "uAutoPagerize.hideUI()",
                 style: "list-style-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABj0lEQVQ4jaXRsUsCYRjHcf8YNcQg1CGUAk1RvJOLaIlAJKPBQVzMIVu8amlNCQQbDqIhwqGlocWzwUMknByEONH5kIIav03dS4mg9MBveH4872d5HZ/mG6NqjY6yu1BG1Rqf5hs/4zCvqryrFbjTFsq7WsG8qgqgLe+A1mBSLvGSTfOSTTMpl0BrzO3b8o4AWtI21Gu003t22S+XGBcLjIsF+uWS3bfTe1Cv0ZK2BfCcUODygnHuiH6xIJBiYWYf547g8oLnhCKAp7gMJ8dwcswos89rPsffec3nGGX27bunuCyAx5iEtbZmx3C50eWkfaDLSQyX+9fNY0wSQDOSmPt4HtKMJARwH45j+fwY7hX0lJD1lDSzG+4VLJ+f+3BcALebMabBEA9OlzhWUnS9q3S9q+hKyu4fnC6mwRC3mzEBaKEtPqJRev4ATY+HpsdDzx/gIxqd22uhLQHcrEf4kqWlcrMeEYBxfoZ5eACV04ViHh5gnJ8JwBoO6Kgq14GNhdJRVazhQAAzf7bk/Bv4Bv7RCf77/Pb2AAAAAElFTkSuQmCC)"
             }));
-
             box.appendChild($C("iframe", {
                 id: "uAutoPagerize-bottombar-browser",
                 src: "chrome://userchromejs/content/uAutoPagerizeUI/main.xul",
                 flex: "1"
             }));
-
             var ins = $("appcontent");
             ins.appendChild(splitter);
             ins.appendChild(box);
@@ -1233,7 +1112,6 @@
             let m = $("uAutoPagerize-bottombar-splitter");
             if (m)
                 m.parentNode.removeChild(m);
-
             m = $("uAutoPagerize-bottombar");
             if (m)
                 m.parentNode.removeChild(m);
@@ -1254,7 +1132,6 @@
                 sepSelector = ".autopagerize_link";
             if (!insertPoint && win.ap && win.ap.insertPoint)
                 insertPoint = win.ap.insertPoint.parentNode;
-
             var [preDS, , divS] = ns.getSeparators(win, sepSelector, insertPoint);
             divS = divS || 0;
             if (Config.SEPARATOR_RELATIVELY) {
@@ -1262,7 +1139,6 @@
             } else {
                 preDS += win.scrollY - 6;
             }
-
             win.scroll(win.scrollY, preDS);
         },
         gotonext: function(win, sepSelector, insertPoint) {
@@ -1272,7 +1148,6 @@
                 sepSelector = ".autopagerize_link";
             if (!insertPoint && win.ap && win.ap.insertPoint)
                 insertPoint = win.ap.insertPoint.parentNode;
-
             var [, nextDS, divS] = this.getSeparators(win, sepSelector, insertPoint);
             divS = divS || 0;
             if (Config.SEPARATOR_RELATIVELY) {
@@ -1280,7 +1155,6 @@
             } else {
                 nextDS += win.scrollY - 6;
             }
-
             win.scroll(win.scrollY, nextDS);
         },
         // 找到窗口視野內前後2個分隔條的位置
@@ -1288,11 +1162,9 @@
             var doc = win.document;
             if (!insertPoint)
                 insertPoint = doc.documentElement;
-
             var separators = doc.querySelectorAll(separatorSelector);
             var insData = insertPoint.getBoundingClientRect();
             var viewportHeight = win.innerHeight;
-
             // 得到一個數組
             var heightArr = [insData.top];
             for (var i = 0; i < separators.length; i++) {
@@ -1302,7 +1174,6 @@
                 heightArr.push(insData.bottom);
             else
                 heightArr.push(viewportHeight + 1);
-
             // 查找
             for (var i = 0; i < heightArr.length; i++) {
                 if (heightArr[i] > viewportHeight) {
@@ -1313,7 +1184,6 @@
                     }
                 }
             }
-
             return [];
         },
         autoGetLink: function(doc) {
@@ -1324,10 +1194,8 @@
         },
         openScriptInScratchpad: function(parentWindow, file) {
             let spWin = (parentWindow.Scratchpad || Services.wm.getMostRecentWindow("navigator:browser").Scratchpad).openScratchpad();
-
             spWin.addEventListener("load", function spWinLoaded() {
                 spWin.removeEventListener("load", spWinLoaded, false);
-
                 let Scratchpad = spWin.Scratchpad;
                 Scratchpad.setFilename(file.path);
                 Scratchpad.addObserver({
@@ -1376,7 +1244,6 @@
         getElementMix: getElementMix,
         getElementsMix: getElementsMix
     };
-
     // Class
     function AutoPager(doc, info, nextLink) {
         this.init.apply(this, arguments);
@@ -1416,45 +1283,36 @@
             for (let [key, val] in Iterator(info)) {
                 this.info[key] = val;
             }
-
             // 新加的
             this.iframeMode = Config.USE_IFRAME && this.info.useiframe || false;
             this.ipagesMode = this.info.ipages ? this.info.ipages[0] : false;
             this.ipagesNumber = this.info.ipages ? this.info.ipages[1] : 0;
             this.lastPageURL = doc.location.href.replace(/#.*$/, ''); // url 去掉hash;
             this.C = this.win.wrappedJSObject.console;
-
             var url = this.getNextURL(nextLink ? nextLink : this.doc);
             if (!url) {
                 debug("getNextURL returns null.", this.info.nextLink);
                 return;
             }
-
             this.setInsertPoint();
             if (!this.insertPoint) {
                 debug("insertPoint not found.", this.info.pageElement);
                 return;
             }
             this.setRemainHeight();
-
             if (this.isFrame)
                 this.initIcon();
-
             this.requestURL = url;
             this.loadedURLs = {};
             this.loadedURLs[doc.location.href] = true;
-
             this.state = "enable";
             this.win.addEventListener("pagehide", this, false);
             this.addListener();
-
             if (!ns.SCROLL_ONLY && !this.info.scroll_only)
                 this.scroll();
             if (this.getScrollHeight() == this.win.innerHeight)
                 this.body.style.minHeight = (this.win.innerHeight + 1) + 'px';
-
             this.addPauseContrl();
-
             if (this.state !== 'loading' && ns.PRELOADER_NEXTPAGE) { // 提前預讀
                 this.request();
             }
@@ -1464,13 +1322,11 @@
             this.win.removeEventListener("pagehide", this, false);
             this.removeListener();
             this.abort();
-
             try {
                 this.myRemoves.forEach(function(func) {
                     func();
                 });
             } catch (e) {}
-
             if (isRemoveAddPage) {
                 var separator = this.doc.querySelector('.autopagerize_page_separator, .autopagerize_page_info');
                 if (separator) {
@@ -1484,7 +1340,6 @@
                 if (style)
                     style.parentNode.removeChild(style);
             }
-
             this.win.ap = null;
             updateIcon();
         },
@@ -1529,23 +1384,17 @@
         },
         addPauseContrl: function() {
             if (!prefs.pauseA) return;
-
             var self = this;
-
             var Sbutton = ['target', 'shiftKey', 'ctrlKey', 'altKey'];
             var ltype = prefs.mouseA ? 'mousedown' : 'dblclick';
-
             var button_1 = Sbutton[prefs.Pbutton[0]];
             var button_2 = Sbutton[prefs.Pbutton[1]];
             var button_3 = Sbutton[prefs.Pbutton[2]];
-
             this.doc.addEventListener(ltype, pausehandler, false);
             this.myRemoves.push(function() {
                 self.doc.removeEventListener(ltype, pausehandler, false);
             });
-
             var Sctimeout;
-
             function pausehandler(e) {
                 if (e[button_1] && e[button_2] && e[button_3]) {
                     if (e.type == 'mousedown') {
@@ -1556,12 +1405,10 @@
                     }
                 }
             }
-
             function clearPause() {
                 self.win.clearTimeout(Sctimeout);
                 self.doc.removeEventListener('mouseup', arguments.callee, false);
             }
-
             function pauseIt() {
                 self.stateToggle();
                 if (prefs.stop_ipage) self.ipagesMode = false;
@@ -1575,11 +1422,9 @@
         scroll: function() {
             if (this.state !== 'enable' || !ns.AUTO_START) return;
             var remain = this.getScrollHeight() - this.win.innerHeight - this.win.scrollY;
-
             // 可能高度會發生變化，所以每次都重新設置
             // 但在 https://www.firefox.net.cn/thread-4 又會由於 id("J_posts_list") 只能找到一個，無法準確得到最後一個，所以會不斷加載。
             // this.setRemainHeight();
-
             if (remain < this.remainHeight || this.ipagesMode) {
                 if (this.tmpDoc) {
                     this.load(this.tmpDoc);
@@ -1604,14 +1449,12 @@
         },
         request: function() {
             if (!this.requestURL || this.loadedURLs[this.requestURL]) return;
-
             // 最大頁數自動停止
             var maxpage = this.info.maxpage || Config.MAX_PAGER_NUM;
             if (maxpage > 0 && this.pageNum > (maxpage - 1)) {
                 this.addEndSeparator();
                 return;
             }
-
             var [reqScheme, , reqHost] = this.requestURL.split('/');
             var {
                 protocol,
@@ -1629,7 +1472,6 @@
                 return;
             }
             this.lastRequestURL = this.requestURL;
-
             if (this.iframeMode) {
                 this.iframeRequest();
             } else {
@@ -1656,11 +1498,9 @@
                     self.req = null;
                 }
             };
-
             if (!this.isXML) {
                 opt.responseType = "document";
             }
-
             this.win.requestFilters.forEach(function(i) {
                 i(opt)
             }, this);
@@ -1670,12 +1510,10 @@
         iframeRequest: function() {
             var self = this;
             this.state = 'loading';
-
             var browser = gBrowser.getBrowserForDocument(this.doc);
             if (typeof browser.uAutoPagerizeIframes == 'undefined') {
                 browser.uAutoPagerizeIframes = [];
             }
-
             var iframe;
             if (this.info.newIframe || browser.uAutoPagerizeIframes.length === 0) {
                 iframe = createIframe("uAutoPagerize-iframe");
@@ -1683,24 +1521,19 @@
             } else {
                 iframe = browser.uAutoPagerizeIframes[0];
             }
-
             //兩個地址都要改?mdc是按照第二個寫的,真正有效的也是第二個,第一個是以後用來比較用的
             iframe.src = this.requestURL;
             iframe.contentDocument.location.href = this.requestURL;
-
             if (this.info.iloaded) {
                 iframe.addEventListener("load", onload, true);
             } else {
                 iframe.addEventListener("DOMContentLoaded", onload, true);
             }
-
             function onload(event) {
                 var doc = event.originalTarget;
                 if (doc.location.href == "about:blank" || doc.defaultView.frameElement)
                     return;
-
                 iframe.removeEventListener(event.type, onload, true);
-
                 self.win.setTimeout(function() {
                     self.iframeLoad.apply(self, [doc]);
                 }, self.info.itimeout || 0);
@@ -1716,13 +1549,11 @@
             }
             delete res.URI;
             delete res.originalURI;
-
             this.win.responseFilters.forEach(function(i) {
                 i(res, this.requestURL)
             }, this);
             if (res.finalUrl)
                 this.requestURL = res.finalUrl;
-
             var htmlDoc;
             if (this.isXML) {
                 var str = res.responseText;
@@ -1730,7 +1561,6 @@
             } else {
                 htmlDoc = res.response;
             }
-
             try {
                 this.win.documentFilters.forEach(function(i) {
                     i(htmlDoc, this.requestURL, this.info)
@@ -1738,13 +1568,11 @@
             } catch (ex) {
                 debug('執行 documentFilters 錯誤 ', ex);
             }
-
             this.beforeLoad(htmlDoc);
         },
         iframeLoad: function(htmlDoc) {
             let win = htmlDoc.defaultView;
             win.scroll(win.scrollX, 99999); //滾動到底部,針對,某些使用滾動事件加載圖片的網站.
-
             this.beforeLoad(htmlDoc);
         },
         beforeLoad: function(htmlDoc) {
@@ -1752,7 +1580,6 @@
                 this.tmpDoc = htmlDoc;
                 this.state = 'enable'; // 让 scroll 能继续下去
                 this.scroll();
-
             } else {
                 this.load(htmlDoc);
             }
@@ -1765,19 +1592,16 @@
                 this.state = 'error';
                 return;
             }
-
             if (!page || page.length < 1) {
                 this.state = 'terminated';
                 this.C.error('[uAutoPagerize] pageElement not found.', this.info.pageElement, htmlDoc.body && htmlDoc.body.innerHTML);
                 return;
             }
-
             if (this.loadedURLs[this.requestURL]) {
                 this.C.error('[uAutoPagerize] page is already loaded.', this.requestURL, this.info.nextLink);
                 this.state = 'terminated';
                 return;
             }
-
             if (typeof this.win.ap == 'undefined') {
                 this.win.ap = {
                     state: 'enabled'
@@ -1795,7 +1619,6 @@
                 this.setRemainHeight();
             }
             page = this.addPage(htmlDoc, page, url);
-
             try {
                 this.win.filters.forEach(function(i) {
                     i(page)
@@ -1803,12 +1626,10 @@
             } catch (ex) {
                 debug('執行 filters 錯誤', ex);
             }
-
             if (ns.ADD_TO_HISTORY) { // 添加到歷史記錄
                 this.doc.title = htmlDoc.title;
                 this.win.history.pushState(null, '', this.requestURL);
             }
-
             this.requestURL = url;
             this.state = 'enable';
             // if (!ns.SCROLL_ONLY)
@@ -1817,11 +1638,9 @@
                 debug('nextLink not found.', this.info.nextLink);
                 this.state = 'terminated';
             }
-
             var ev = this.doc.createEvent('Event');
             ev.initEvent('GM_AutoPagerizeNextPageLoaded', true, false);
             this.doc.dispatchEvent(ev);
-
             this.afterLoad();
         },
         addPage: function(htmlDoc, page, nextPageUrl) {
@@ -1829,7 +1648,6 @@
             page.forEach(function(i) {
                 fragment.appendChild(i);
             });
-
             try {
                 this.win.fragmentFilters.forEach(function(i) {
                     i(fragment, htmlDoc, page)
@@ -1837,7 +1655,6 @@
             } catch (ex) {
                 debug('執行 fragmentFilters 錯誤', ex);
             }
-
             // 移除部分內容
             if (typeof(this.info.filter) == 'string') { //功能未完善.
                 var nodes = []
@@ -1850,16 +1667,13 @@
                     nodes_x.parentNode.removeChild(nodes_x);
                 }
             }
-
             // 修正延遲加載的圖片
             var lazyImgSrc = (this.info.lazyImgSrc === undefined) ? prefs.lazyImgSrc : this.info.lazyImgSrc;
             if (lazyImgSrc) {
                 var lazyAttributes = lazyImgSrc.split('|');
-
                 var noLazyNode = function(node) {
                     lazyAttributes.some(function(attr) {
                         if (!node.hasAttribute(attr)) return;
-
                         var newSrc = node.getAttribute(attr);
                         if (node.src != newSrc) {
                             node.src = newSrc;
@@ -1867,16 +1681,13 @@
                         return true;
                     });
                 };
-
                 [].map.call(fragment.querySelectorAll('img'), noLazyNode);
             }
-
             //收集所有圖片
             var imgs;
             if (this.iframeMode && !this.ipagesMode) {
                 imgs = getElementsMix('css;img[src]', fragment);
             }
-
             if (this.info.wrap) {
                 var div = this.doc.createElement("div");
                 div.setAttribute("class", "uAutoPagerize-wrapper");
@@ -1887,9 +1698,7 @@
             var ralativePageStr = (this.info.separatorReal === false) ?
                 '' :
                 getRalativePageStr(this.lastPageURL, this.requestURL, nextPageUrl);
-
             this.lastPageURL = this.requestURL;
-
             var hr = this.doc.createElement('hr');
             hr.setAttribute('class', 'autopagerize_page_separator');
             hr.setAttribute('style', 'clear: both;');
@@ -1898,7 +1707,6 @@
             p.setAttribute('style', 'clear: both;');
             p.innerHTML = '<a class="autopagerize_link" href="' + this.requestURL.replace(/&/g, '&amp;') +
                 '">第 <font color="red">' + (++this.pageNum) + '</font> 頁 ' + ralativePageStr + '</a> ';
-
             if (!this.isFrame) {
                 var o = p.insertBefore(this.doc.createElement('div'), p.firstChild);
                 o.setAttribute('class', 'autopagerize_icon');
@@ -1909,7 +1717,6 @@
                 ].join('');
                 o.addEventListener('click', this, false);
             }
-
             var insertParent = this.insertPoint.parentNode;
             if (page[0] && page[0].tagName == 'TR') {
                 var colNodes = getElementsByXPath('child::tr[1]/child::*[self::td or self::th]', insertParent);
@@ -1929,9 +1736,7 @@
                 fragment.insertBefore(p, fragment.firstChild);
                 fragment.insertBefore(hr, fragment.firstChild);
             }
-
             insertParent.insertBefore(fragment, this.insertPoint);
-
             if (imgs) { // 非opera, 在iframeDOM取出數據時需要重載圖片.
                 this.win.setTimeout(function() {
                     var _imgs = imgs;
@@ -1943,7 +1748,6 @@
                     }
                 }, 99);
             }
-
             // 來自Super_preloader，需要替換的部分 xpath 或 CSS選擇器 一般是頁面的本來的翻頁導航
             if (this.info.replaceE) {
                 var oldE = getElementsMix(this.info.replaceE, this.doc);
@@ -1961,7 +1765,6 @@
                     }
                 }
             }
-
             return page.map(function(pe) {
                 var ev = this.doc.createEvent('MutationEvent');
                 ev.initMutationEvent('AutoPagerize_DOMNodeInserted', true, false,
@@ -1973,23 +1776,18 @@
         },
         addEndSeparator: function() {
             var html = "已達到設置的最大自動翻頁數，點擊進入下一頁";
-
             var fragment = this.doc.createDocumentFragment();
             var page = this.doc.createElement('div');
-
             this.addPage(fragment, [page], html);
-
             this.state = 'terminated';
         },
         afterLoad: function() {
             this.tmpDoc = null;
-
             // 立即加載n頁
             this.ipaged += 1;
             if (this.ipagesMode && this.ipaged >= this.ipagesNumber) {
                 this.ipagesMode = false;
             }
-
             if (ns.PRELOADER_NEXTPAGE || this.ipagesMode) {
                 this.request();
             }
@@ -2001,7 +1799,6 @@
             if (nextLink) {
                 var nextValue = nextLink.getAttribute('href') ||
                     nextLink.getAttribute('action') || nextLink.value;
-
                 return this.getFullUrl(nextValue);
             }
         },
@@ -2051,13 +1848,10 @@
         loadImmediately: function(num) {
             num = parseInt(num, 10);
             if (num <= 0) return;
-
             debug("準備立即載入" + num + "頁");
-
             this.ipagesMode = true;
             this.ipaged = 0;
             this.ipagesNumber = num;
-
             this.scroll();
         },
         getFullUrl: function(url) {
@@ -2070,7 +1864,6 @@
             return url;
         }
     };
-
     var stateTooltip = {
         "off": "自動翻頁已關閉",
         "terminated": "自動翻頁已結束",
@@ -2079,7 +1872,6 @@
         "error": "自動翻頁有錯誤",
         "loading": "自動翻頁進行中"
     };
-
     function updateIcon(tooltiptext) {
         var newState = "";
         if (ns.AUTO_START == false) {
@@ -2094,7 +1886,6 @@
         ns.icon.setAttribute('state', newState);
         ns.icon.setAttribute('tooltiptext', tooltiptext || stateTooltip[newState]);
     }
-
     function launchAutoPager_org(list, win) {
         try {
             var doc = win.document;
@@ -2122,7 +1913,6 @@
         });
         updateIcon();
     }
-
     var SP = (function() { // 来自 NLF 的 Super_preloader
         var nextPageKey = [ // 下一页关键字
             '較舊的文章', '较旧的文章', 'Next 75', '»', 'Older posts',
@@ -2152,16 +1942,13 @@
                 }
             }
         };
-
         function parseKWRE() {
             function modifyPageKey(name, pageKey, pageKeyLength) {
                 function strMTE(str) {
                     return str.replace(/[()\[\]{}|+.,^$?\\]/g, "\\$&");
                 }
-
                 var pfwordl = autoMatch.pfwordl,
                     sfwordl = autoMatch.sfwordl;
-
                 var RE_enable_a = pfwordl[name].enable,
                     RE_maxPrefix = pfwordl[name].maxPrefix,
                     RE_character_a = pfwordl[name].character,
@@ -2171,13 +1958,11 @@
                 var plwords,
                     slwords,
                     rep;
-
                 plwords = RE_maxPrefix > 0 ? ('[' + (RE_enable_a ? strMTE(RE_character_a.join('')) : '.') + ']{0,' + RE_maxPrefix + '}') : '';
                 plwords = '^\\s*' + plwords;
                 slwords = RE_maxSubfix > 0 ? ('[' + (RE_enable_b ? strMTE(RE_character_b.join('')) : '.') + ']{0,' + RE_maxSubfix + '}') : '';
                 slwords = slwords + '\\s*$';
                 rep = autoMatch.cases ? '' : 'i';
-
                 for (var i = 0; i < pageKeyLength; i++) {
                     pageKey[i] = new RegExp(plwords + strMTE(pageKey[i]) + slwords, rep);
                 }
@@ -2186,15 +1971,11 @@
             //轉成正則.
             return modifyPageKey('next', nextPageKey, nextPageKey.length);
         }
-
         var re_nextPageKey;
-
         function autoGetLink(doc, cplink) {
             if (!re_nextPageKey)
                 re_nextPageKey = parseKWRE();
-
             var startTime = new Date();
-
             var _nextPageKey = re_nextPageKey;
             var _nPKL = _nextPageKey.length;
             var _getAllElementsByXpath = function(xpath, contextNode, doc) {
@@ -2207,31 +1988,24 @@
             var _domain_port = m[1]; //端口和域名,用來驗證是否跨域.
             var alllinks = doc.links;
             var alllinksl = alllinks.length;
-
             var curLHref = cplink;
             var _nextlink;
-
             var DCEnable = autoMatch.digitalCheck;
             var DCRE = /^\s*\D{0,1}(\d+)\D{0,1}\s*$/;
-
             var i, a, ahref, atext, numtext;
             var aP, initSD, searchD = 1,
                 preS1, preS2, searchedD, pSNText, preSS, nodeType;
             var nextS1, nextS2, nSNText, nextSS;
             var aimgs, j, jj, aimg_x, xbreak, k, keytext;
-
             function finalCheck(a, type) {
                 var ahref = a.href;
-
                 //3個條件:http協議鏈接,非跳到當前頁面的鏈接,非跨域
                 if (/^https?:/i.test(ahref) && ahref.replace(/#.*$/, '') != curLHref && ahref.match(/https?:\/\/([^\/]+)/)[1] == _domain_port) {
                     debug("[autoGetLink] " + (type == 'pre' ? '上一頁' : '下一頁') + '匹配到的關鍵字為:', atext);
                     return a; //返回對像A
                 }
             }
-
             debug('[autoGetLink] 全文檔鏈接數量：' + alllinksl);
-
             for (i = 0; i < alllinksl; i++) {
                 if (_nextlink) break;
                 a = alllinks[i];
@@ -2245,11 +2019,9 @@
                             numtext = numtext[1];
                             aP = a;
                             initSD = 0;
-
                             if (!_nextlink) {
                                 preS1 = a.previousSibling;
                                 preS2 = a.previousElementSibling;
-
                                 while (!(preS1 || preS2) && initSD < searchD) {
                                     aP = aP.parentNode;
                                     if (aP) {
@@ -2259,7 +2031,6 @@
                                     initSD++;
                                 }
                                 searchedD = initSD > 0 ? true : false;
-
                                 if (preS1 || preS2) {
                                     pSNText = preS1 ? preS1.textContent.match(DCRE) : '';
                                     if (pSNText) {
@@ -2281,7 +2052,6 @@
                                     }
                                 }
                             }
-
                             continue;
                         }
                     }
@@ -2297,7 +2067,6 @@
                     }
                 }
                 if (!atext) continue;
-
                 if (!_nextlink) {
                     xbreak = false;
                     for (k = 0; k < _nPKL; k++) {
@@ -2310,17 +2079,13 @@
                     if (xbreak || _nextlink) continue;
                 }
             }
-
             debug('[autoGetLink] 搜索鏈接數量：' + i, '，耗時：' + (new Date() - startTime) + '毫秒');
-
             return _nextlink || null;
         }
-
         // 地址欄遞增
         function hrefInc(obj, doc, win) {
             var _cplink = doc._cplink || doc.URL;
             // _cplink = _cplink.replace(/#.*$/, ''); //url 去掉hash
-
             function getHref(href) {
                 var mFails = obj.mFails;
                 if (!mFails) return href;
@@ -2347,11 +2112,9 @@
                 };
                 return str;
             }
-
             var sa = obj.startAfter;
             var saType = typeof sa;
             var index;
-
             if (saType == 'string') {
                 index = _cplink.indexOf(sa);
                 if (index == -1) {
@@ -2372,7 +2135,6 @@
                     index = _cplink.indexOf(sa);
                 }
             }
-
             index += sa.length;
             var max = obj.max === undefined ? 9999 : obj.max;
             var min = obj.min === undefined ? 1 : obj.min;
@@ -2394,13 +2156,11 @@
                 return aStr + nbStr;
             }
         }
-
         return {
             autoGetLink: autoGetLink,
             hrefInc: hrefInc
         };
     })();
-
     function toRE(obj) {
         if (obj instanceof RegExp) {
             return obj;
@@ -2413,7 +2173,6 @@
             return new RegExp(obj);
         }
     }
-
     function createIframe(name) {
         let frame = document.createElement("iframe");
         if (name)
@@ -2432,19 +2191,16 @@
         frame.webNavigation.allowSubframes = false; //子窗口,frame,iframe
         return frame;
     }
-
     // By lastDream2013 略加修改，原版只能用於 Firefox
     function getRalativePageStr(lastUrl, currentUrl, nextUrl) {
         var getRalativePageNumArray = function(lasturl, url) {
             if (!lasturl || !url) {
                 return [0, 0];
             }
-
             var lasturlarray = lasturl.split(/-|\.|\&|\/|=|#|\?/),
                 urlarray = url.split(/-|\.|\&|\/|=|#|\?/),
                 url_info,
                 lasturl_info;
-
             // 一些 url_info 為 p1,p2,p3 之類的
             var handleInfo = function(s) {
                 if (s) {
@@ -2452,7 +2208,6 @@
                 }
                 return s;
             };
-
             while (urlarray.length != 0) {
                 url_info = handleInfo(urlarray.pop()),
                     lasturl_info = handleInfo(lasturlarray.pop());
@@ -2463,7 +2218,6 @@
             }
             return [0, 0];
         };
-
         //論壇和搜索引擎網頁顯示實際頁面信息
         var ralativePageNumarray = [];
         if (nextUrl) {
@@ -2474,27 +2228,22 @@
             ralativePageNumarray[1] = ralativePageNumarray[1] + ralativeOff;
             ralativePageNumarray[0] = ralativePageNumarray[0] + ralativeOff;
         }
-
         // console.log('[獲取實際頁數] ', '要比較的3個頁數：',arguments, '，得到的差值:', ralativePageNumarray);
-
         if (isNaN(ralativePageNumarray[0]) || isNaN(ralativePageNumarray[1])) {
             return '';
         }
-
         var realPageSiteMatch = false;
         var ralativeOff = ralativePageNumarray[1] - ralativePageNumarray[0];
         //上一頁與下一頁差值為1，並最大數值不超過10000(一般論壇也不會超過這麼多頁……)
         if (ralativeOff === 1 && ralativePageNumarray[1] < 10000) {
             realPageSiteMatch = true;
         }
-
         //上一頁與下一頁差值不為1，但上一頁與下一頁差值能被上一頁與下一面所整除的，有規律的頁面
         if (!realPageSiteMatch && ralativeOff !== 1) {
             if ((ralativePageNumarray[1] % ralativeOff) == 0 && (ralativePageNumarray[0] % ralativeOff) == 0) {
                 realPageSiteMatch = true;
             }
         }
-
         if (!realPageSiteMatch) { //不滿足以上條件，再根據地址特徵來匹配
             var sitePattern;
             for (var i = 0, length = REALPAGE_SITE_PATTERN.length; i < length; i++) {
@@ -2505,7 +2254,6 @@
                 }
             }
         }
-
         var ralativePageStr;
         if (realPageSiteMatch) { //如果匹配就顯示實際網頁信息
             if (ralativePageNumarray[1] - ralativePageNumarray[0] > 1) { //一般是搜索引擎的第xx - xx項……
@@ -2520,7 +2268,6 @@
         }
         return ralativePageStr;
     }
-
     //-------- 來自 Super_preloader, 為了兼容 Super_preloader 數據庫 -------------
     //獲取單個元素,混合。
     function getElementMix(selector, doc, win) {
@@ -2553,7 +2300,6 @@
         }
         return ret;
     }
-
     function getElementsMix(selector, doc) {
         if (selector.search(/^css;/i) == 0) {
             return Array.prototype.slice.call(doc.querySelectorAll(selector.slice(4)));
@@ -2561,7 +2307,6 @@
             return getElementsByXPath(selector, doc);
         }
     }
-
     function getElementsByXPath(xpath, node) {
         var nodesSnapshot = getXPathResult(xpath, node, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE);
         var data = [];
@@ -2570,23 +2315,19 @@
         }
         return data;
     }
-
     function getFirstElementByXPath(xpath, node) {
         var result = getXPathResult(xpath, node, XPathResult.FIRST_ORDERED_NODE_TYPE);
         return result.singleNodeValue;
     }
-
     function getXPathResult(xpath, node, resultType) {
         var doc = node.ownerDocument || node;
         var resolver = doc.createNSResolver(node.documentElement || node);
         var defaultNS = null;
-
         try {
             defaultNS = (node.nodeType == node.DOCUMENT_NODE) ?
                 node.documentElement.lookupNamespaceURI(null) :
                 node.lookupNamespaceURI(null);
         } catch (e) {}
-
         if (defaultNS) {
             const defaultPrefix = '__default__';
             xpath = addDefaultPrefix(xpath, defaultPrefix);
@@ -2596,14 +2337,12 @@
                     defaultNS : defaultResolver.lookupNamespaceURI(prefix);
             }
         }
-
         try {
             return doc.evaluate(xpath, node, resolver, resultType, null);
         } catch (e) {
             console.error(e, xpath, doc)
         }
     }
-
     function addDefaultPrefix(xpath, prefix) {
         const tokenPattern = /([A-Za-z_\u00c0-\ufffd][\w\-.\u00b7-\ufffd]*|\*)\s*(::?|\()?|(".*?"|'.*?'|\d+(?:\.\d*)?|\.(?:\.|\d+)?|[\)\]])|(\/\/?|!=|[<>]=?|[\(\[|,=+-])|([@$])/g
         const TERM = 1,
@@ -2611,7 +2350,6 @@
             MODIFIER = 3
         var tokenType = OPERATOR
         prefix += ':'
-
         function replacer(token, identifier, suffix, term, operator, modifier) {
             if (suffix) {
                 tokenType =
@@ -2630,7 +2368,6 @@
         }
         return xpath.replace(tokenPattern, replacer)
     };
-
     function getElementPosition(elem) {
         var offsetTrail = elem;
         var offsetLeft = 0;
@@ -2645,7 +2382,6 @@
             top: offsetTop || null
         };
     }
-
     function getElementBottom(elem) {
         var doc = elem.ownerDocument;
         if ('getBoundingClientRect' in elem) {
@@ -2669,7 +2405,6 @@
         }
         return top ? (top + height) : null;
     }
-
     function getCookie(host, needSecureCookie) {
         var result = []
         var cookieManager = Cc['@mozilla.org/cookiemanager;1'].getService(Ci.nsICookieManager2);
@@ -2683,7 +2418,6 @@
         }
         return result.join('; ');
     }
-
     // end utility functions.
     function getCache() {
         try {
@@ -2698,12 +2432,9 @@
             return false;
         }
     }
-
-
     function requestSITEINFO_CN() {
         var xhrState,
             url = SITEINFO_CN_IMPORT_URL;
-
         var opt = {
             method: 'get',
             url: url,
@@ -2727,28 +2458,22 @@
             }
         }, XHR_TIMEOUT);
     }
-
     function getCacheCallback_CN(res, url) {
         if (res.status != 200) {
             return getCacheErrorCallback(url);
         }
-
         var matches = res.responseText.match(/(\/\/高優先級規則,第一個是教程[\s\S]+)\/\/分頁導航的6個圖標/i);
-
         if (!matches) {
             if (!matches) {
                 log("no matches.");
                 return;
             }
         }
-
         saveFile(ns.file_CN, "    " + matches[1]);
         ns.loadSetting_CN();
         alerts("uAutoPagerize", "中文規則已經更新完畢");
-
         log('getCacheCallback:' + url);
     }
-
     function requestSITEINFO() {
         var xhrStates = {};
         SITEINFO_IMPORT_URLS.forEach(function(i) {
@@ -2773,12 +2498,10 @@
             }, XHR_TIMEOUT);
         });
     };
-
     function getCacheCallback(res, url) {
         if (res.status != 200) {
             return getCacheErrorCallback(url);
         }
-
         var temp;
         try {
             temp = Cu.evalInSandbox(res.responseText, Cu.Sandbox("about:blank"));
@@ -2787,7 +2510,6 @@
         }
         if (!temp || !temp.length)
             return getCacheErrorCallback(url);
-
         var info = [];
         temp.forEach(function(i) {
             var data = i.data;
@@ -2812,24 +2534,19 @@
         });
         info.sort(function(a, b) b.url.length - a.url.length);
         saveFile(ns.file_DB_JSON, JSON.stringify(info));
-
         ns.SITEINFO = info;
         log('getCacheCallback:' + url);
         alerts("uAutoPagerize", "JSON 規則已經更新完畢");
     }
-
     function getCacheErrorCallback(url) {
         log('getCacheErrorCallback:' + url);
     }
-
     // 修改過，為了能使用 responseType = "document"，這樣下一頁頭像和 //body 都有能用。
     function GM_xmlhttpRequest(obj, win) {
         if (typeof(obj) != 'object' || (typeof(obj.url) != 'string' && !(obj.url instanceof String))) return;
         if (!win || "@maone.net/noscript-service;1" in Cc) win = window;
-
         var req = new win.XMLHttpRequest();
         req.open(obj.method || 'GET', obj.url, true);
-
         if (typeof(obj.headers) == 'object')
             for (var i in obj.headers)
                 req.setRequestHeader(i, obj.headers[i]);
@@ -2837,7 +2554,6 @@
             req.overrideMimeType(obj.overrideMimeType);
         if (obj.responseType)
             req.responseType = obj.responseType;
-
         ['onload', 'onerror', 'onreadystatechange'].forEach(function(k) {
             if (obj[k] && (typeof(obj[k]) == 'function' || obj[k] instanceof Function)) req[k] = function() {
                 req.finalUrl = (req.readyState == 4) ? req.channel.URI.spec : '';
@@ -2846,11 +2562,9 @@
                 obj[k](req);
             };
         });
-
         req.send(obj.send || null);
         return req;
     }
-
     function wildcardToRegExpStr(urlstr) {
         if (urlstr.source) return urlstr.source;
         let reg = urlstr.replace(/[()\[\]{}|+.,^$?\\]/g, "\\$&").replace(/\*+/g, function(str) {
@@ -2858,25 +2572,19 @@
         });
         return "^" + reg + "$";
     }
-
     function log() {
         Application.console.log('[uAutoPagerize] ' + $A(arguments));
     }
-
     function debug() {
         if (ns.DEBUG) Application.console.log('[uAutoPagerize DEBUG] ' + $A(arguments));
     };
-
     function $(id, doc)(doc || document).getElementById(id);
-
     function $A(arr) Array.slice(arr);
-
     function $C(name, attr) {
         var el = document.createElement(name);
         if (attr) Object.keys(attr).forEach(function(n) el.setAttribute(n, attr[n]));
         return el;
     }
-
     function alerts(title, info, aCallback) {
         var callback = aCallback ? {
             observe: function(subject, topic, data) {
@@ -2885,11 +2593,9 @@
                 aCallback.call(null);
             }
         } : null;
-
         Cc['@mozilla.org/alerts-service;1'].getService(Ci.nsIAlertsService)
             .showAlertNotification(null, title, info, !!callback, "", callback, "");
     }
-
     function addStyle(css) {
         var pi = document.createProcessingInstruction(
             'xml-stylesheet',
@@ -2897,13 +2603,11 @@
         );
         return document.insertBefore(pi, document.documentElement);
     }
-
     function loadFile(aLeafName) {
         var aFile = Services.dirsvc.get('UChrm', Ci.nsILocalFile);
         aFile.appendRelativePath(aLeafName);
         return loadText(aFile);
     }
-
     function loadText(aFile) {
         if (!aFile.exists() || !aFile.isFile()) return null;
         var fstream = Cc["@mozilla.org/network/file-input-stream;1"].createInstance(Ci.nsIFileInputStream);
@@ -2918,7 +2622,6 @@
         fstream.close();
         return data;
     }
-
     function saveFile(fileOrName, data) {
         var file;
         if (typeof fileOrName == "string") {
@@ -2927,17 +2630,14 @@
         } else {
             file = fileOrName;
         }
-
         var suConverter = Cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Ci.nsIScriptableUnicodeConverter);
         suConverter.charset = 'UTF-8';
         data = suConverter.ConvertFromUnicode(data);
-
         var foStream = Cc['@mozilla.org/network/file-output-stream;1'].createInstance(Ci.nsIFileOutputStream);
         foStream.init(file, 0x02 | 0x08 | 0x20, 0664, 0);
         foStream.write(data, data.length);
         foStream.close();
     }
-
 })('\
 #uAutoPagerize-icon {\
 	list-style-image: url(\
@@ -2970,5 +2670,4 @@
 }\
 \
 '.replace(/\n|\t/g, ''));
-
 window.uAutoPagerize.init();
