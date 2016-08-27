@@ -110,7 +110,7 @@
     function $M(a, b) {
         let id = $(a);
         let ins = $(b);
-        if (!a && !b) return;
+        if (!id && !ins) return;
         var move = ins.parentNode.insertBefore(id, ins); //.nextSibling
         return move;
     }
