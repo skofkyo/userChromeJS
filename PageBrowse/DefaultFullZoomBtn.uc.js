@@ -6,9 +6,10 @@
 // @include        main
 // @charset        UTF-8
 // @author         slimx
-// @version        2.0.0.3
+// @version        2.0.0.2 mod
 // @updateURL     https://j.mozest.com/ucscript/script/7.meta.js
-// @note          2016/08/27 modified by skofkyo 2.0.0.3 修改為網址列按鈕 修正按鈕滾輪事件
+// @note          2016/08/28 modified by skofkyo 調整按鈕代碼,樣式
+// @note          2016/08/27 modified by skofkyo 修改為網址列按鈕 修正按鈕滾輪事件
 // @note          2013/07/15 modified by lastdream2013 修正恢復上次關閉網頁時有可能在第一個頁面失效的問題
 // @note          2013/07/11 稍做修正，增加右鍵點擊選單項設定所有頁面預設的縮放率
 // ==/UserScript==
@@ -17,7 +18,7 @@
 var FullZoomConfig = new function() {
     //預設的縮放級別
     this.defaultLv = 120;
-    //按鈕為圖示或者文字：true 為圖示， false 為文字
+    //按鈕為圖示或者文字： true 為圖示， false 為文字
     this.showIconBtn = true;
     //只縮放文字
     this.Textmode = false;
@@ -796,10 +797,10 @@ var fullZoomBtn = {
         if (FullZoomConfig.showIconBtn) {
             if (ZoomManager.useFullZoom) {
                 src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAItSURBVDhPlZBPTJJhHMffOQ+tQ4cOXW2NteahjXHzwuaJA6fWBgdWJ6st45A6VhAuy4wGCQN0lthQlEkmhGERjEwCnJo2Xhy4JeLMaUj+iRoyfPn2Ml73+qpz+dl+e/Y8z+/zPXyJ/fS/811wf/qqGvk8M2gfDQ2ael0qRXP7eeb7eN4HZ1X+SCL/IRyHJxjHsD+KnuEgnpgG8vVKnYpeqShvHoF7bFrtm4hjZj6D5BqFVLqIBfqMpXbQNxrDfZ0NNxVtamadywu756JzbLYQS27RIrCcAZbWmaHviR+76HgTRaPGUrhyvf4So7FYnYFHnvEoVjbK0sIaG7AXNh7LoaXTjRtNbRpGYzH1e94GJhJIb7Piwfm2WITRHoL8QbuX0VgeGgZGPn6JYuvP0XJpyCXA4pxCU6vJRyvcMhsed2hsrgD+7gC5PFfM/KZPuoe55SJ6nBEoWo1mRmO5Jm++fO+5lVpNb4CigMIuNyD5E5hMbOPlaz8lq7tTw2hc5Gq9Qds9hPVfmygWgXwByOaA1U0gtpiFwzuFp+Y+D71aWTYOIBQKK28rtWalvpdy+cKYJr9jkkzBR5fr8IapxhYj2Wl1Fa5KJE6ZTHaO0Q5RIam7W6N81tWl6x4KGW3uiN7isNxqUNYSVVWnLK+sK1KpFGKxmDwuZI9S05y2aanWYDBkTxJyiP0hIpGIFAgEp5mv/6cUotVqs3Rvczwe7wzzfDL4fD6vurr6LEEQxD/MoaXb0IcUsQAAAABJRU5ErkJggg==";
-                tooltiptext = "完整縮放: " + label + "%" + "\n左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設置縮放倍數";
+                tooltiptext = "完整縮放: " + label + "%" + "\n左鍵：切換為文字縮放模式\n滾輪：向上放大,向下縮小\n右鍵：設置縮放倍數選單";
             } else {
                 src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJzSURBVDhPlZBdTJJRHMaZ86J10UUX3doaa82LNsedNzAvmmtubbUmF6xusloZLT+yCeHUzChAiw/DxEIxFU0UQzOITERJTYuPQZuKZs5CEokKGb48vejbkGwuf9vZ2Tnn/3vevQ9tKy3PjYf0r9/xe99Mtrf1WdtlTd38krKag9TzzvRbpvimt57IixE3DBY3ukx2NHZZcFvRFsnnifnkSMrm5D/QD04IjDY3Jj/6MfuFwJwvhhlyd86tobnPiVKxBhdKqgXUeDL1rYbDPYNTUefsKikCC35AYwyixRTAPHn2fF6H4pkd14Wq6Mmz+UcoLYFaZ640DNmxuALML4P8MlCk+IRSpXcjLH435Ayjok6P88XVQkpLIGsx9JhtHviCQJs5iMonizh14wNOFNpwTTyJ+q4ZvPfGIG21giuoGaC0BOUPnva+HLZj9Qeg7vejWDaN41dHcOzSK5wrt+BekwuOeUClG0dxldxIKsllFt5SCDXdZvxcA8IR4Be5uMIxFIhs8H8nf4HswbUQQ6NuFCVVUjmlJTjDLTvKk6iJJd8KCAKIrgMPtS4oO1wbAbNfgTFPEI86TAQn70ompSXDFdTeFzV0YvlbALEYEIkCoTCwFACc3hC0A+O4I282kKOpm8ZfMJnM1Ms8kfxmbRPRbRzBhGMaY445GMlytQM2oqhC6qhr1kdP57J1HA7nAKVtIyU3ryCTd1epFDd0WmUa/WitSqu6WMjLoqWl7VE9Vi+y2Wzk5OQ4dgr5Q7zppLZJKUsqlYZ2E7KNrSHZ2dkOBoOxl3r6f+IhEokkxGKxXHQ6fR91vTsyMjLo6enp+2k0Gu03BsOUvNQISWAAAAAASUVORK5CYII=";
-                tooltiptext = "文字縮放: " + label + "%" + "\n左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設置縮放倍數";
+                tooltiptext = "文字縮放: " + label + "%" + "\n左鍵：切換為完整縮放模式\n滾輪：向上放大,向下縮小\n右鍵：設置縮放倍數選單";
             }
             statusbarZoomLevel.setAttribute("tooltiptext", tooltiptext);
             statusbarZoomLevel.setAttribute("class", "toolbarbutton-1 chromeclass-toolbar-additional");
@@ -810,7 +811,7 @@ var fullZoomBtn = {
             else
                 label = "T" + label + "%";
             statusbarZoomLevel.setAttribute("label", label);
-            statusbarZoomLevel.setAttribute("tooltiptext", "左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設定縮放倍數");
+            statusbarZoomLevel.setAttribute("tooltiptext", "左鍵：切換縮放模式\n滾輪：向上放大,向下縮小\n右鍵：設定縮放倍數選單");
         }
     },
     clickStatusLabel: function(evt) {
@@ -1151,15 +1152,21 @@ var fullZoomBtn = {
     addstyle: function() {
         var style = ' \
             @namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul); \
-            #urlbar-icons #statusbarZoomLevel .toolbarbutton-icon {\
+            #urlbar-icons toolbarbutton#statusbarZoomLevel .toolbarbutton-icon {\
                 padding: 0!important;\
                 background: none !important;\
                 border: none !important;\
                 box-shadow: none !important;\
             }\
-            #urlbar-icons #statusbarZoomLevel {\
+            #urlbar-icons toolbarbutton#statusbarZoomLevel {\
                 padding: 0px 2px !important;\
                 margin: -6px 0 !important;\
+            }\
+            #urlbar-icons statusbarpanel#statusbarZoomLevel {\
+                -moz-appearance: none !important;\
+                border: none !important;\
+                padding: 0px !important;\
+                margin: 0 -3px !important;\
             }\
             '.replace(/\s+/g, " ");
         var sspi = document.createProcessingInstruction(
@@ -1272,12 +1279,11 @@ var ZoomManager = {
 };
 //ui
 function fullZoomUI() {
+    var ins = $("urlbar-icons");
     if (FullZoomConfig.showIconBtn) {
-        $("urlbar-icons").appendChild($C("toolbarbutton", {
+        ins.appendChild($C("toolbarbutton", {
             id: "statusbarZoomLevel",
             class: "toolbarbutton-1 chromeclass-toolbar-additional",
-            label: "Default Full Zoom Level",
-            tooltiptext: '左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設定縮放倍數',
             type: 'button',
             context: 'fullZoomBtn_popup',
             onmousedown: 'fullZoomBtn.clickStatusLabel(event);',
@@ -1285,23 +1291,21 @@ function fullZoomUI() {
             onwheel: 'fullZoomBtn.clickStatusLabel(event);',
         }));
     } else {
-        $("urlbar-icons").appendChild($C("statusbarpanel", {
+        ins.insertBefore($C("statusbarpanel", {
             id: "statusbarZoomLevel",
             label: "Default Full Zoom Level",
-            tooltiptext: '左鍵：切換縮放模式\n滾輪：放大縮小\n右鍵：設定縮放倍數',
             context: 'fullZoomBtn_popup',
             onmousedown: 'fullZoomBtn.clickStatusLabel(event);',
             onclick: 'event.preventDefault();',
             onwheel: 'fullZoomBtn.clickStatusLabel(event);',
-        }));
+        }), ins.lastChild.nextSibling);
     }
-    var popupSet = $("mainPopupSet");
-    var popup = $C("menupopup");
-    popup.setAttribute("id", "fullZoomBtn_popup");
-    popup.setAttribute("ignorekeys", "true");
-    popup.setAttribute("position", "event.preventDefault();");
-    popup.setAttribute("onpopupshowing", "event.stopPropagation();event.target.shown = true;if (event.target == this) fullZoomBtn.onPopupShowing(event)");
-    popupSet.appendChild(popup);
+    $("mainPopupSet").appendChild($C("menupopup", {
+        id: "fullZoomBtn_popup",
+        ignorekeys: true,
+        position: 'event.preventDefault();',
+        onpopupshowing: 'event.stopPropagation();event.target.shown = true;if (event.target == this) fullZoomBtn.onPopupShowing(event)'
+    }));
 }
 fullZoomUI();
 FullZoom.init();
