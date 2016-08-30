@@ -10,10 +10,11 @@
     var CustomBrowserClick = {
             TabClose: function(event) {
                 var tar = event.target;
+                var onlink = XULBrowserWindow.overLink;
                 var node = document.commandDispatcher.focusedElement;
                 var doc = tar.ownerDocument;
                 if (event.button === 1) { //0左鍵1中鍵2右鍵
-                    if (tar.href || tar.parentNode.href) return; //排除鏈接
+                    if (tar.href || tar.parentNode.href || /^https?/i.test(onlink.toString())) return; //排除鏈接
                     if (tar.nodeName.match(/img/i)) return; //排除圖片
                     if (tar.localName == 'input' || node && (node.type == "text" || node.type == "textarea")) return; //排除文本框
                     if (tar.localName == 'HTML' || tar.localName == 'span' || tar.localName == 'a' || tar.localName == 'b' || tar.localName == 'p') return; //排除節點名
