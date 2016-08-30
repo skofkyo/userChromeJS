@@ -16,7 +16,7 @@
                     if (tar.href || tar.parentNode.href) return; //排除鏈接
                     if (tar.nodeName.match(/img/i)) return; //排除圖片
                     if (tar.localName == 'input' || node && (node.type == "text" || node.type == "textarea")) return; //排除文本框
-                    if (tar.localName == 'HTML' || tar.localName == 'span' || tar.localName == 'b') return; //排除節點名
+                    if (tar.localName == 'HTML' || tar.localName == 'span' || tar.localName == 'a' || tar.localName == 'b' || tar.localName == 'p') return; //排除節點名
                     if (doc.contentType != 'text/plain' && doc.contentType != 'text/html' && doc.contentType != 'application/xml' && doc.contentType != 'application/xhtml+xml') return; //排除類型
                     if (getBrowserSelection()) return; //排除有選取文字
                     event.preventDefault();
