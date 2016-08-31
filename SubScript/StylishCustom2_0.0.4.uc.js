@@ -3,17 +3,18 @@
 // @description  在Stylish編輯視窗中增加一些小功能
 // @namespace    stylishCustom2@uc.js
 // @author       Crab
+// @modified    skofkyo
 // @include      about:stylish-edit*
-// @version      0.0.4.20160224
+// @version      0.0.4mod.20160901
 // ==/UserScript==
 if (location.href.indexOf('about:stylish-edit') == 0) {
     /* 
     // 1.取消預覽:  恢復 預覽 至未儲存時的狀態(實質上是將儲存前的樣式再一次"預覽")
     // 2.鍵盤輸入"!"時自動補全為"!important;"
     // 3.註釋按鈕(ctrl+/)
-    // 4.插入鏈接:檢測當前打開的視窗和標籤列出其地址鏈接;
-    //		左鍵選單項直接插入對應的鏈接;
-    //		中鍵或右鍵則插入包含@-moz-document url("")的鏈接
+    // 4.插入鏈結:檢測當前打開的視窗和標籤列出其地址鏈結;
+    //		左鍵選單項直接插入對應的鏈結;
+    //		中鍵或右鍵則插入包含@-moz-document url("")的鏈結
     // 5.插入文本:第一個子選單為文檔規則,其餘為一些常用的文本 
     // 6.顯示行和列，在行文本框內輸入正整數回車可跳轉之對應行
     */
@@ -41,19 +42,19 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
             }
         },
 
-        locale: ['en-US', 'zh-TW'].indexOf(Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch).getCharPref('general.useragent.locale')),
+        locale: ['en-US', 'zh-CN', 'zh-TW'].indexOf(Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch).getCharPref('general.useragent.locale')),
 
         _localeText: {
-            unperview: ['UnPerview', '取消預覽'],
-            lineNumber: ['Ln: ', '行: '],
-            colNumber: [',Col: ', ',列: '],
-            comment: ['Comment', '註釋'],
-            save: ['Save', '儲存'],
-            insertURL: ['Insert URL', '插入鏈接'],
-            insertText: ['Insert Text', '插入文本'],
-            saveAndClose: ['Save & Close', '儲存並關閉'],
-            documentRules: ['Document Rule', '文檔規則'],
-            chromeMenu: ['Chrome URL', 'Chrome 路徑'],
+            unperview: ['UnPerview', '取消预览', '取消預覽'],
+            lineNumber: ['Ln: ', '行: ', '行: '],
+            colNumber: [',Col: ', ',列: ', ',列: '],
+            comment: ['Comment', '注释', '註釋'],
+            save: ['Save', '保存', '儲存'],
+            insertURL: ['Insert URL', '插入链接', '插入鏈結'],
+            insertText: ['Insert Text', '插入文本', '插入文本'],
+            saveAndClose: ['Save & Close', '保存并关闭', '儲存並關閉'],
+            documentRules: ['Document Rule', '文档规则', '文檔規則'],
+            chromeMenu: ['Chrome URL', 'Chrome 路径', 'Chrome 路徑'],
         },
 
         localeText: function(name) {
@@ -62,7 +63,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
 
         oldPreview: null,
         init: function() {
-            if (document.getElementById('stylishCustomToolbar') || !sourceEditor || sourceEditorType == 'textarea') return;
+            if ($('stylishCustomToolbar') || !sourceEditor || sourceEditorType == 'textarea') return;
             eval('save=' + save.toString().replace(/(?=return true;\s+}$)/, 'if(typeof(stylishCustom2)!=\'undefined\'){stylishCustom2.oldPreview = codeElementWrapper.value;document.getElementById(\'unperview\').disabled = true;}\n'));
             eval('enableSave=' + enableSave.toString().replace(/(?=\}$)/, 'if(typeof(stylishCustom2)!=\'undefined\'){document.getElementById(\'saveAndClose\').disabled = !enabled;}\n'));
             eval('preview=' + preview.toString().replace('setTimeout', 'if(typeof(stylishCustom2)!=\'undefined\'){document.getElementById(\'unperview\').disabled = false;}$&'));
@@ -72,15 +73,19 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
             this.oldPreview = codeElementWrapper.value;
             this.revertOldFindbar();
             sourceEditor.on('cursorActivity', this.setLineAndcolNum.bind(this));
+            var ins = $('unperview');
+            [$('ExternalEditor'), $('Editorimportant')].forEach(function(n) {
+                ins.parentNode.insertBefore(n, ins.nextSibling);
+            });
         },
 
         setToolButtons: function() {
-            var _et = document.getElementById('editor-tools'),
+            var _et = $('editor-tools'),
                 cE = this.createElement,
                 editortools = cE('hbox', {
                     id: 'stylishCustomToolbar'
                 }, [_et.parentNode, _et.nextSibling]),
-                insertMenupopup = document.getElementById('insert-data-uri').parentNode;
+                insertMenupopup = $('insert-data-uri').parentNode;
             //工具列按鈕
 
             //儲存並關閉按鈕
@@ -126,7 +131,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
                 style: 'width:50px; max-height: 20px; margin:7px 0 4px 2px;',
                 value: this.localeText('colNumber') + '0'
             }, editortools);
-            //插入鏈接選單
+            //插入鏈結選單
             cE('menupopup', {
                     onpopupshowing: 'stylishCustom2.showDocumentList(event,false);'
                 },
@@ -191,8 +196,8 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
             style.name = nameE.value;
             style.code = stylishCustom2.oldPreview;
             this.unperview.setAttribute('disabled', true);
-            document.getElementById('preview-button').removeAttribute('disabled');
-            document.getElementById('errors').style.display = 'none';
+            $('preview-button').removeAttribute('disabled');
+            $('errors').style.display = 'none';
             setTimeout(function() {
                 style.setPreview(true);
             }, 50);
@@ -251,7 +256,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
                 }
             });
             finder.requestMatchesCount = function() {};
-            var findBar = document.getElementById('findbar');
+            var findBar = $('findbar');
             Object.defineProperty(findBar.browser, '_lastSearchString', {
                 get: function() finder.searchString
             });
@@ -366,346 +371,349 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
             }
         }
     }
-    setTimeout(stylishCustom2.init.bind(stylishCustom2), 150);
-}
-(function winhook(aWindow) {
-    // get the checkbox
-    var checkbox = aWindow.document.getElementById("wrap-lines");
 
-    //color picker///////////////////////////////////////////////////////////////////////////////////
-    var picker = aWindow.document.createElement("colorpicker");
-    var CopyColor = function() {
-        if (arguments.callee.caller.name != 'onchange') return; //why is this necessary?
-        var color = this.getAttribute("color");
-        Components.classes['@mozilla.org/widget/clipboardhelper;1'].createInstance(Components.interfaces.nsIClipboardHelper).copyString(color);
-        var box = aWindow.document.getElementById("internal-code").multiline;
-        box.focus();
-    }
-    picker.CopyColor = CopyColor;
-    picker.setAttribute("label", "CopyColor");
-    picker.setAttribute("type", 'button');
-    picker.setAttribute("style", 'margin-left: 4px;');
-    picker.setAttribute("onchange", "this.CopyColor();");
-    checkbox.parentNode.insertBefore(picker, checkbox);
-    //External Editor///////////////////////////////////////////////////////////////////////////////////
-    //if(typeof ItsAllText != 'undefined') return;
-    // add External Editor button
-    var button = aWindow.document.createElement("button");
-    button.setAttribute("label", "外部編輯器");
-    button.setAttribute("accesskey", "T");
-    checkbox.parentNode.insertBefore(button, checkbox);
+    setTimeout(stylishCustom2.init.bind(stylishCustom2), 300);
 
-    // add click event to button
-    button.addEventListener("click", function() {
-        if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
-            var textarea = aWindow.document.getElementById("sourceeditor");
-            editinit();
-            edittarget(textarea);
-        } else {
-            var textarea = aWindow.document.getElementById("code");
-            if (!textarea)
-                textarea = aWindow.document.getElementById("internal-code");
+    function $(id) document.getElementById(id);
+
+    (function winhook(aWindow) {
+        // get the checkbox
+        var checkbox = aWindow.$("wrap-lines");
+        var locale = ['en-US', 'zh-CN', 'zh-TW'].indexOf(Components.classes['@mozilla.org/preferences-service;1'].getService(Components.interfaces.nsIPrefBranch).getCharPref('general.useragent.locale'));
+        var _localeText = {
+            ExternalEditor: ['Editor', '外部编辑', '外部編輯'],
+            ColorPicker: ['Color Picker', '选色器', '選色器']
+        };
+        function localeText(name) {
+            return _localeText[name][locale == -1 ? 0 : locale];
+        }
+        if (aWindow.$("internal-code")) { //ver 1.0 のとき color picker と importantを入れる
+
+            //color picker///////////////////////////////////////////////////////////////////////////////////
+            var picker = aWindow.document.createElement("colorpicker");
+            var getColor = function() {
+                if (arguments.callee.caller.name != 'onchange') return; //why is this necessary?
+                var color = this.getAttribute("color");
+                stylishCustom2.insertString(color);
+            }
+            picker.getColor = getColor;
+            picker.setAttribute("label", localeText('ColorPicker'));
+            picker.setAttribute("type", 'button');
+            picker.setAttribute("style", 'margin-left: 4px;');
+            picker.setAttribute("onchange", "this.getColor();");
+            checkbox.parentNode.insertBefore(picker, checkbox);
+
+            //External Editor///////////////////////////////////////////////////////////////////////////////////
+            //if(typeof ItsAllText != 'undefined') return;
+            // add External Editor button
+
+            var button = aWindow.document.createElement("button");
+            button.setAttribute("id", "ExternalEditor");
+            button.setAttribute("label", localeText('ExternalEditor'));
+            button.setAttribute("accesskey", "T");
+            checkbox.parentNode.insertBefore(button, checkbox);
+
+            // add click event to button
+            button.addEventListener("click", function() {
+                if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
+                    var textarea = aWindow.$("sourceeditor");
+                    editinit();
+                    edittarget(textarea);
+                } else {
+                    var textarea = aWindow.$("code");
+                    if (!textarea)
+                        textarea = aWindow.$("internal-code");
+                    try {
+                        editinit();
+                        edittarget(textarea);
+                    } catch (e) {}
+                }
+            }, false);
+            //!important////////////////////////////////////////////////////////////////////////////////////////
+            // create a button and place it
+            var button = aWindow.document.createElement("button");
+            button.setAttribute("id", "Editorimportant");
+            button.setAttribute("label", "!important");
+            checkbox.parentNode.insertBefore(button, checkbox);
+
+            // add click event to button
+            button.addEventListener("click", function() {
+                if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
+                    var codeElement = aWindow.$("sourceeditor");
+                    var code = aWindow.sourceEditor.getText();
+                } else {
+                    var codeElement = aWindow.$("code");
+                    if (!codeElement)
+                        codeElement = aWindow.$("internal-code");
+                    var box = codeElement.mInputField;
+                    var scroll = [box.scrollTop, box.scrollLeft];
+                    var code = codeElement.value;
+                }
+
+                code = code.replace(/\s*?!\s*?important/gi, "") // remove existing !important's to simplify things
+                    //change ;base64 to __base64__ so we don't match it on the ; when we split declarations
+                code = code.replace(/;base64/g, "__base64__");
+                var declarationBlocks = code.match(/\{[^\{\}]*[\}]/g);
+                var declarations = [];
+                declarationBlocks.forEach(function(declarationBlock) {
+                    declarations = declarations.concat(declarationBlock.split(/;/));
+                });
+                //make sure everything is really a declaration, and make sure it's not already !important
+                declarations = declarations.filter(function(declaration) {
+                    return /[A-Za-z0-9-]+\s*:\s*[^};]+/.test(declaration) && !/!important/.test(declaration);
+                });
+                //strip out any extra stuff like brackets and whitespace
+                declarations = declarations.map(function(declaration) {
+                    return declaration.match(/[A-Za-z0-9-]+\s*:\s*[^};]+/)[0].replace(/\s+$/, "");
+                });
+                //replace them with "hashes" to avoid a problem with multiple identical name/value pairs
+                var replacements = [];
+                declarations.forEach(function(declaration) {
+                    var replacement = {
+                        hash: Math.random(),
+                        value: declaration
+                    };
+                    replacements.push(replacement);
+                    code = code.replace(replacement.value, replacement.hash);
+                });
+                replacements.forEach(function(replacement) {
+                    code = code.replace(replacement.hash, replacement.value + " !important");
+                });
+                //put ;base64 back
+                code = code.replace(/__base64__/g, ";base64");
+                if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
+                    aWindow.sourceEditor.setText(code);
+                } else {
+                    codeElement.value = code;
+                    enableSave(true);
+                    enablePreview(true);
+                    enableCheckForErrors(true);
+                    box.scrollTop = scroll[0];
+                    box.scrollLeft = scroll[1];
+                }
+            }, false);
+        }
+
+        ////Extarnal Edittor functions///////////////////////////////////////////////////////////////////////
+
+        //Extarnal Edittor functions
+        //
+        var _editor, _tmpdir = null, _dir_separator, _os;
+        var _ext, _encode, _target = [];
+
+        function editinit() {
+            if (window.navigator.platform.toLowerCase().indexOf("win") != -1) {
+                _editor = "C:\\WINDOWS\\notepad.exe"; /* windows */
+                //_editor = "C:\\progra~1\\hidemaru\\hidemaru.exe"; /* windows */
+                _dir_separator = '\\'; /* windows */
+                _os = 'win'; /* windows */
+            } else {
+                _editor = "/bin/vi"; /* unix */
+                _dir_separator = '/'; /* unix */
+                _os = 'unix'; /* unix */
+            }
+            _ext = "css";
+            _encode = 'UTF-8';
+            _target = [];
+
+            window.addEventListener("unload", function() {
+                edituninit();
+            }, false);
+            aWindow.addEventListener("unload", function() {
+                aWindow.document.removeEventListener("focus", function() {
+                    checkfocus_window();
+                }, true);
+            }, false);
+        }
+
+        function edituninit() {
+            if (_tmpdir == null) return;
+            var windowType = "navigator:browser";
+            var windowManager = Components.classes['@mozilla.org/appshell/window-mediator;1'].getService();
+            var windowManagerInterface = windowManager.QueryInterface(Components.interfaces.nsIWindowMediator);
+            var enumerator = windowManagerInterface.getEnumerator(windowType);
+            if (enumerator.hasMoreElements()) {
+                return;
+            }
+            var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+            file.initWithPath(_tmpdir);
+            var entries = file.directoryEntries;
+            while (entries.hasMoreElements()) {
+                var entry = entries.getNext().QueryInterface(Components.interfaces.nsIFile);
+                if (/^ucjs.textarea\./i.test(entry.leafName)) {
+                    try {
+                        entry.remove(false);
+                    } catch (e) {}
+                }
+            }
+
             try {
-                editinit();
-                edittarget(textarea);
+                if (file.exists() == true) file.remove(false);
             } catch (e) {}
-        }
-    }, false);
-
-    //important///////////////////////////////////////////////////////////////////////////////////
-    var button = aWindow.document.createElement("button");
-    button.setAttribute("label", "!important");
-    checkbox.parentNode.insertBefore(button, checkbox);
-    button.addEventListener("click", function() {
-        if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
-            var codeElement = aWindow.document.getElementById("sourceeditor");
-            var code = aWindow.sourceEditor.getText();
-        } else {
-            var codeElement = aWindow.document.getElementById("code");
-            if (!codeElement)
-                codeElement = aWindow.document.getElementById("internal-code");
-            var box = codeElement.mInputField;
-            var scroll = [box.scrollTop, box.scrollLeft];
-            var code = codeElement.value;
+            _tmpdir = null;
         }
 
-        code = code.replace(/\s*?!\s*?important/gi, "") // remove existing !important's to simplify things
-            //change ;base64 to __base64__ so we don't match it on the ; when we split declarations
-        code = code.replace(/;base64/g, "__base64__");
-        var declarationBlocks = code.match(/\{[^\{\}]*[\}]/g);
-        var declarations = [];
-        declarationBlocks.forEach(function(declarationBlock) {
-            declarations = declarations.concat(declarationBlock.split(/;/));
-        });
-        //make sure everything is really a declaration, and make sure it's not already !important
-        declarations = declarations.filter(function(declaration) {
-            return /[A-Za-z0-9-]+\s*:\s*[^};]+/.test(declaration) && !/!important/.test(declaration);
-        });
-        //strip out any extra stuff like brackets and whitespace
-        declarations = declarations.map(function(declaration) {
-            return declaration.match(/[A-Za-z0-9-]+\s*:\s*[^};]+/)[0].replace(/\s+$/, "");
-        });
-        //replace them with "hashes" to avoid a problem with multiple identical name/value pairs
-        var replacements = [];
-        declarations.forEach(function(declaration) {
-            var replacement = {
-                hash: Math.random(),
-                value: declaration
-            };
-            replacements.push(replacement);
-            code = code.replace(replacement.value, replacement.hash);
-        });
-        replacements.forEach(function(replacement) {
-            code = code.replace(replacement.hash, replacement.value + " !important");
-        });
-        //put ;base64 back
-        code = code.replace(/__base64__/g, ";base64");
-        if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
-            aWindow.sourceEditor.setText(code);
-        } else {
-            codeElement.value = code;
-            enableSave(true);
-            enablePreview(true);
-            enableCheckForErrors(true);
-            box.scrollTop = scroll[0];
-            box.scrollLeft = scroll[1];
-        }
-    }, false);
+        function checkfocus_window() {
+            var target, filename, timestamp, encode, file, inst, sstream, utf, textBoxText
+            if (_target.length <= 0) return;
+            file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+            istr = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Components.interfaces.nsIFileInputStream);
+            // FileInputStream's read is [noscript].
+            sstream = Components.classes["@mozilla.org/scriptableinputstream;1"].createInstance(Components.interfaces.nsIScriptableInputStream);
+            utf = Components.classes['@mozilla.org/intl/utf8converterservice;1'].createInstance(Components.interfaces.nsIUTF8ConverterService);
 
-    ////Extarnal Edittor functions///////////////////////////////////////////////////////////////////////
+            for (var i = 0, len = _target.length; i < len; i++) {
+                target = _target[i];
+                if (!target.hasAttribute("filename")) continue;
+                filename = target.getAttribute("filename");
+                timestamp = target.getAttribute("timestamp");
+                file.initWithPath(filename);
+                if (!file.exists() || !file.isReadable()) continue;
+                if (file.lastModifiedTime <= timestamp) continue;
 
-    //Extarnal Edittor functions
-    //
-    var _editor, _tmpdir = null,
-        _dir_separator, _os;
-    var _ext, _encode, _target = [];
+                target.setAttribute("timestamp", file.lastModifiedTime);
 
-    function editinit() {
-        if (window.navigator.platform.toLowerCase().indexOf("win") != -1) {
-            _editor = "C:\\WINDOWS\\notepad.exe"; /* windows */
-            //_editor = "C:\\progra~1\\hidemaru\\hidemaru.exe"; /* windows */
-            _dir_separator = '\\'; /* windows */
-            _os = 'win'; /* windows */
-        } else {
-            _editor = "/bin/vi"; /* unix */
-            _dir_separator = '/'; /* unix */
-            _os = 'unix'; /* unix */
-        }
-        _ext = "css";
-        _encode = 'UTF-8';
-        _target = [];
+                istr.init(file, 1, 0x400, false);
+                sstream.init(istr);
 
-        window.addEventListener("unload", function() {
-            edituninit();
-        }, false);
-        aWindow.addEventListener("unload", function() {
-            aWindow.document.removeEventListener("focus", function() {
-                checkfocus_window();
-            }, true);
-        }, false);
-    }
+                textBoxText = sstream.read(sstream.available());
+                encode = target.getAttribute("encode");
+                if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
+                    aWindow.sourceEditor.setText(utf.convertStringToUTF8(textBoxText, encode, true));
+                } else {
+                    if (textBoxText.length)
+                        target.value = utf.convertStringToUTF8(textBoxText, encode, true);
+                    else
+                        target.value = "";
+                }
+                enableSave(true);
+                enablePreview(true);
+                enableCheckForErrors(true);
 
-    function edituninit() {
-        if (_tmpdir == null) return;
-        var windowType = "navigator:browser";
-        var windowManager = Components.classes['@mozilla.org/appshell/window-mediator;1'].getService();
-        var windowManagerInterface = windowManager.QueryInterface(Components.interfaces.nsIWindowMediator);
-        var enumerator = windowManagerInterface.getEnumerator(windowType);
-        if (enumerator.hasMoreElements()) {
-            return;
-        }
-        var file = Components.classes["@mozilla.org/file/local;1"]
-            .createInstance(Components.interfaces.nsILocalFile);
-        file.initWithPath(_tmpdir);
-        var entries = file.directoryEntries;
-        while (entries.hasMoreElements()) {
-            var entry = entries.getNext().QueryInterface(Components.interfaces.nsIFile);
-            if (/^ucjs.textarea\./i.test(entry.leafName)) {
+                sstream.close();
+                istr.close();
                 try {
-                    entry.remove(false);
+                    file.remove(false);
                 } catch (e) {}
             }
         }
 
-        try {
-            if (file.exists() == true) file.remove(false);
-        } catch (e) {}
-        _tmpdir = null;
-    }
-
-    function checkfocus_window() {
-        var target, filename, timestamp, encode, file, inst, sstream, utf, textBoxText
-        if (_target.length <= 0) return;
-        file = Components.classes["@mozilla.org/file/local;1"].
-        createInstance(Components.interfaces.nsILocalFile);
-        istr = Components.classes['@mozilla.org/network/file-input-stream;1'].
-        createInstance(Components.interfaces.nsIFileInputStream);
-        // FileInputStream's read is [noscript].
-        sstream = Components.classes["@mozilla.org/scriptableinputstream;1"].
-        createInstance(Components.interfaces.nsIScriptableInputStream);
-        utf = Components.classes['@mozilla.org/intl/utf8converterservice;1'].
-        createInstance(Components.interfaces.nsIUTF8ConverterService);
-
-        for (var i = 0, len = _target.length; i < len; i++) {
-            target = _target[i];
-            if (!target.hasAttribute("filename")) continue;
-            filename = target.getAttribute("filename");
-            timestamp = target.getAttribute("timestamp");
-            file.initWithPath(filename);
-            if (!file.exists() || !file.isReadable()) continue;
-            if (file.lastModifiedTime <= timestamp) continue;
-
+        function editfile(target, filename) {
+            // Figure out what editor to use.
+            var editor = _editor;
+            var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+            file.initWithPath(editor);
+            if (!file.exists()) {
+                alert("Error_invalid_Editor_file");
+                return false;
+            }
+            if (!file.isExecutable()) {
+                alert("Error_Editor_not_executable");
+                return false;
+            }
+            target.setAttribute("filename", filename);
             target.setAttribute("timestamp", file.lastModifiedTime);
 
-            istr.init(file, 1, 0x400, false);
-            sstream.init(istr);
-
-            textBoxText = sstream.read(sstream.available());
-            encode = target.getAttribute("encode");
-            if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
-                aWindow.sourceEditor.setText(utf.convertStringToUTF8(textBoxText, encode, true));
-            } else {
-                if (textBoxText.length)
-                    target.value = utf.convertStringToUTF8(textBoxText, encode, true);
-                else
-                    target.value = "";
-            }
-            enableSave(true);
-            enablePreview(true);
-            enableCheckForErrors(true);
-
-            sstream.close();
-            istr.close();
-            try {
-                file.remove(false);
-            } catch (e) {}
-        }
-    }
-
-    function editfile(target, filename) {
-        // Figure out what editor to use.
-        var editor = _editor;
-        var file = Components.classes["@mozilla.org/file/local;1"].
-        createInstance(Components.interfaces.nsILocalFile);
-        file.initWithPath(editor);
-        if (!file.exists()) {
-            alert("Error_invalid_Editor_file");
-            return false;
-        }
-        if (!file.isExecutable()) {
-            alert("Error_Editor_not_executable");
-            return false;
-        }
-        target.setAttribute("filename", filename);
-        target.setAttribute("timestamp", file.lastModifiedTime);
-
-        // Run the editor.
-        var process = Components.classes["@mozilla.org/process/util;1"].
-        createInstance(Components.interfaces.nsIProcess);
-        process.init(file);
-        var args = [filename];
-        process.run(false, args, args.length); // don't block
-        aWindow.document.addEventListener("focus", function() {
-            checkfocus_window();
-        }, true);
-        return true;
-    }
-
-    function edittarget(target) {
-        if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
-            var textBoxText = aWindow.sourceEditor.getText();
-        } else {
-            var textBoxText = target.value;
-        }
-        // Get filename.
-        var file = Components.classes["@mozilla.org/file/local;1"].
-        createInstance(Components.interfaces.nsILocalFile);
-        if (target.hasAttribute("filename")) {
-            var filename = target.getAttribute("filename");
-            file.initWithPath(filename);
-            try {
-                if (file.exists() == true) file.remove(false);
-            } catch (e) {}
-        } else {
-            var filename = TmpFilenameTextarea();
-        }
-        file.initWithPath(filename);
-        file.create(file.NORMAL_FILE_TYPE, parseInt(600, 8));
-
-        // Write the data to the file.
-        var ostr = Components.classes['@mozilla.org/network/file-output-stream;1'].
-        createInstance(Components.interfaces.nsIFileOutputStream);
-        ostr.init(file, 2, 0x200, false);
-
-        if (navigator.platform == "Win32") {
-            // Convert Unix newlines to standard network newlines.
-            textBoxText = textBoxText.replace(/\n/g, "\r\n");
-        }
-        var conv = Components.classes['@mozilla.org/intl/saveascharset;1'].
-        createInstance(Components.interfaces.nsISaveAsCharset);
-        try {
-            conv.Init(_encode, 0, 0);
-            textBoxText = conv.Convert(textBoxText);
-        } catch (e) {
-            textBoxText = "";
-        }
-        ostr.write(textBoxText, textBoxText.length);
-
-        ostr.flush();
-        ostr.close();
-
-        // setup target info
-        target.setAttribute("encode", _encode);
-
-        // Edit the file.
-        if (editfile(target, file.path)) {
-            _target.push(target); // Editting target array
-        }
-    }
-
-    //Compose temporary filename out of
-    //    - tmpdir setting
-    //    - document url
-    //    - textarea name
-    //    - ext suffix
-    function TmpFilenameTextarea() {
-        var TmpFilename;
-        _tmpdir = gettmpDir();
-        do {
-            TmpFilename = _tmpdir + _dir_separator + "ucjs.textarea." +
-                Math.floor(Math.random() * 100000) + "." + _ext;
-        } while (!ExistsFile(TmpFilename))
-        return TmpFilename;
-    }
-
-    //Function returns true if given filename exists
-    function ExistsFile(filename) {
-        try {
-            var file = Components.classes["@mozilla.org/file/local;1"].
-            createInstance(Components.interfaces.nsILocalFile);
-            file.initWithPath(filename);
+            // Run the editor.
+            var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
+            process.init(file);
+            var args = [filename];
+            process.run(false, args, args.length); // don't block
+            aWindow.document.addEventListener("focus", function() {
+                checkfocus_window();
+            }, true);
             return true;
-        } catch (e) {
-            return false;
         }
-    }
-    /**
-     * Returns the directory where we put files to edit.
-     * @returns nsILocalFile The location where we should write editable files.
-     */
-    function gettmpDir() {
-        /* Where is the directory that we use. */
-        var fobj = Components.classes["@mozilla.org/file/directory_service;1"].
-        getService(Components.interfaces.nsIProperties).
-        get("ProfD", Components.interfaces.nsIFile);
-        fobj.append('Temp_ExternalEditor');
-        if (!fobj.exists()) {
-            fobj.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,
-                parseInt('0700', 8));
+
+        function edittarget(target) {
+            if (aWindow.sourceEditorType == "orion" || aWindow.sourceEditorType == "sourceeditor") {
+                var textBoxText = aWindow.sourceEditor.getText();
+            } else {
+                var textBoxText = target.value;
+            }
+            // Get filename.
+            var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+            if (target.hasAttribute("filename")) {
+                var filename = target.getAttribute("filename");
+                file.initWithPath(filename);
+                try {
+                    if (file.exists() == true) file.remove(false);
+                } catch (e) {}
+            } else {
+                var filename = TmpFilenameTextarea();
+            }
+            file.initWithPath(filename);
+            file.create(file.NORMAL_FILE_TYPE, parseInt(600, 8));
+
+            // Write the data to the file.
+            var ostr = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
+            ostr.init(file, 2, 0x200, false);
+
+            if (navigator.platform == "Win32") {
+                // Convert Unix newlines to standard network newlines.
+                textBoxText = textBoxText.replace(/\n/g, "\r\n");
+            }
+            var conv = Components.classes['@mozilla.org/intl/saveascharset;1'].createInstance(Components.interfaces.nsISaveAsCharset);
+            try {
+                conv.Init(_encode, 0, 0);
+                textBoxText = conv.Convert(textBoxText);
+            } catch (e) {
+                textBoxText = "";
+            }
+            ostr.write(textBoxText, textBoxText.length);
+
+            ostr.flush();
+            ostr.close();
+
+            // setup target info
+            target.setAttribute("encode", _encode);
+
+            // Edit the file.
+            if (editfile(target, file.path)) {
+                _target.push(target); // Editting target array
+            }
         }
-        if (!fobj.isDirectory()) {
-            alert('Having a problem finding or creating directory: ' + fobj.path);
+
+        //Compose temporary filename out of
+        //    - tmpdir setting
+        //    - document url
+        //    - textarea name
+        //    - ext suffix
+        function TmpFilenameTextarea() {
+            var TmpFilename;
+            _tmpdir = gettmpDir();
+            do {
+                TmpFilename = _tmpdir + _dir_separator + "ucjs.textarea." + Math.floor(Math.random() * 100000) + "." + _ext;
+            } while (!ExistsFile(TmpFilename))
+            return TmpFilename;
         }
-        return fobj.path;
-    }
-})(window);
+
+        //Function returns true if given filename exists
+        function ExistsFile(filename) {
+            try {
+                var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+                file.initWithPath(filename);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        /**
+         * Returns the directory where we put files to edit.
+         * @returns nsILocalFile The location where we should write editable files.
+         */
+        function gettmpDir() {
+            /* Where is the directory that we use. */
+            var fobj = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("ProfD", Components.interfaces.nsIFile);
+            fobj.append('Temp_ExternalEditor');
+            if (!fobj.exists()) {
+                fobj.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,
+                    parseInt('0700', 8));
+            }
+            if (!fobj.isDirectory()) {
+                alert('Having a problem finding or creating directory: ' + fobj.path);
+            }
+            return fobj.path;
+        }
+    })(window);
+}
