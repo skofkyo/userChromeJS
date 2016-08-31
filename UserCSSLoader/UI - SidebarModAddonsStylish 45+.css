@@ -636,6 +636,8 @@ menuitem[command="cmd_resetAddonAutoUpdate"] {
 <constructor>\%0A\
 <![CDATA[\%0A\
 var richlistitem = document.getBindingParent(this);\%0A\
+var description = document.getAnonymousElementByAttribute(richlistitem, "anonid", "description");\%0A\
+richlistitem.setAttribute("tooltiptext", description.value);\%0A\
 \%0A\
 var nameLabel = document.getAnonymousElementByAttribute(richlistitem, "anonid", "name");\%0A\
 var label = richlistitem._version = document.createElement("label");\%0A\

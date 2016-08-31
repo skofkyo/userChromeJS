@@ -11,7 +11,7 @@
     //改這裡選擇是否加載本地國旗圖示庫，不存在或路徑錯誤自動切換從網絡中讀國旗圖示
     var localFlagPath = "\\Local\\countryflags.js"; // 注意是相對路徑： profile\chrome\Local\countryflags.js
     //改這裡選擇顯示國旗圖示/IP位置
-    var showLocationPos = "urlbar-icons"; // urlbar-icons   identity-box
+    var showLocationPos = "identity-box"; // urlbar-icons   identity-box
     var IsUserLocalFlag = false;
     var FullPath = Cc["@mozilla.org/file/directory_service;1"].getService(Ci.nsIProperties).get("UChrm", Ci.nsILocalFile).path + localFlagPath;
     var file = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsILocalFile);

@@ -23,6 +23,8 @@ SITE_LIST =[
 {url : "https?://(?:mybank1?|b2c1)\\.icbc\\.com\\.cn/",Name : "Fox10.0"},
 {url : ".*forum\.php.*mobile\=(1|2|yes).*",Name : "Android Droid"},
 {url : "https:\/\/m\.youtube\.com\/*",Name : "Android Droid"},
+{url : "https?:\/\/tieba\.baidu\.com\/.*(page\=like|page\=selected|page\=discovery|page\=user|mo_device|\&pn\=0|home\/collect)",Name : "Android Droid"},
+//http://tieba.baidu.com/home/collect?st_type=source&st_param=index
 ],
 
 UA_LIST=[
