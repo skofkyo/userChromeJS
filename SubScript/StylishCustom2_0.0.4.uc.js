@@ -73,7 +73,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
             this.oldPreview = codeElementWrapper.value;
             this.revertOldFindbar();
             sourceEditor.on('cursorActivity', this.setLineAndcolNum.bind(this));
-            var ins = $('unperview');
+            var ins = $('comment');
             [$('ExternalEditor'), $('Editorimportant')].forEach(function(n) {
                 ins.parentNode.insertBefore(n, ins.nextSibling);
             });
@@ -98,19 +98,19 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
                     'save' in window && window.save() && codeElementWrapper.value && window.nameE.value && window.setTimeout(window.close, 200);
                 }
             }, editortools);
-            //註釋按鈕
-            cE('button', {
-                id: 'comment',
-                class: 'devtools-toolbarbutton',
-                label: this.localeText('comment'),
-                onclick: this.setComment
-            }, editortools);
             //預覽按鈕
             this.unperview = cE('button', {
                 id: 'unperview',
                 class: 'devtools-toolbarbutton',
                 label: this.localeText('unperview'),
                 onclick: this.unperview.bind(this)
+            }, editortools);
+            //註釋按鈕
+            cE('button', {
+                id: 'comment',
+                class: 'devtools-toolbarbutton',
+                label: this.localeText('comment'),
+                onclick: this.setComment
             }, editortools);
 
             cE('spacer', {
@@ -273,8 +273,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
             while (windows.hasMoreElements()) {
                 try {
                     var windowDocShell = windows.getNext().QueryInterface(Components.interfaces.nsIXULWindow).docShell;
-                    this.appendContainedDocuments(docs, windowDocShell,
-                        isChrome ? Components.interfaces.nsIDocShellTreeItem.typeChrome : Components.interfaces.nsIDocShellTreeItem.typeContent);
+                    this.appendContainedDocuments(docs, windowDocShell, isChrome ? Components.interfaces.nsIDocShellTreeItem.typeChrome : Components.interfaces.nsIDocShellTreeItem.typeContent);
                 } catch (ex) {
                     Components.utils.reportError(ex);
                 }
@@ -303,8 +302,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
         },
 
         appendContainedDocuments: function(array, docShell, type) {
-            var containedDocShells = docShell.getDocShellEnumerator(type,
-                Components.interfaces.nsIDocShell.ENUMERATE_FORWARDS);
+            var containedDocShells = docShell.getDocShellEnumerator(type, Components.interfaces.nsIDocShell.ENUMERATE_FORWARDS);
             while (containedDocShells.hasMoreElements()) {
                 try {
                     var childDoc = containedDocShells.getNext().QueryInterface(Components.interfaces.nsIDocShell)
@@ -330,8 +328,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
         },
 
         createElement: function(name, attr, parent) {
-            var e = document.createElementNS(
-                'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', name);
+            var e = document.createElementNS('http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul', name);
             if (attr) {
                 for (var i in attr) {
                     if (typeof attr[i] == 'function' || (i == 'value' && (name == 'textbox' || name == 'menuitem')))
@@ -409,6 +406,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
 
             var button = aWindow.document.createElement("button");
             button.setAttribute("id", "ExternalEditor");
+            button.setAttribute("class", "devtools-toolbarbutton");
             button.setAttribute("label", localeText('ExternalEditor'));
             button.setAttribute("accesskey", "T");
             checkbox.parentNode.insertBefore(button, checkbox);
@@ -433,6 +431,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
             // create a button and place it
             var button = aWindow.document.createElement("button");
             button.setAttribute("id", "Editorimportant");
+            button.setAttribute("class", "devtools-toolbarbutton");
             button.setAttribute("label", "!important");
             checkbox.parentNode.insertBefore(button, checkbox);
 
@@ -554,7 +553,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
         }
 
         function checkfocus_window() {
-            var target, filename, timestamp, encode, file, inst, sstream, utf, textBoxText
+            var target, filename, timestamp, encode, file, inst, sstream, utf, textBoxText;
             if (_target.length <= 0) return;
             file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
             istr = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Components.interfaces.nsIFileInputStream);
