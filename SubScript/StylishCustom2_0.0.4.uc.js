@@ -5,26 +5,37 @@
 // @author       Crab
 // @modified    skofkyo
 // @include      about:stylish-edit*
-// @version      0.0.4mod.20160901
+// @version      0.0.4mod.20160903
 // ==/UserScript==
 if (location.href.indexOf('about:stylish-edit') == 0) {
     /* 
     // 1.取消預覽:  恢復 預覽 至未儲存時的狀態(實質上是將儲存前的樣式再一次"預覽")
     // 2.鍵盤輸入"!"時自動補全為"!important;"
     // 3.註釋按鈕(ctrl+/)
-    // 4.插入鏈結:檢測當前打開的視窗和標籤列出其地址鏈結;
+    // 4.插入鏈結:檢測當前打開的視窗和分頁列出其地址鏈結;
     //		左鍵選單項直接插入對應的鏈結;
     //		中鍵或右鍵則插入包含@-moz-document url("")的鏈結
-    // 5.插入文本:第一個子選單為文檔規則,其餘為一些常用的文本 
-    // 6.顯示行和列，在行文本框內輸入正整數回車可跳轉之對應行
+    // 5.插入文本:第一個子選單為文檔規則,其餘為一些常用的文本 ，第二個子選單為備用的插入文本2 可將一些不常用的文本整理至這裡
+    // 6.顯示行和列，在行輸入框內輸入正整數回車可跳轉之對應行
     */
     var stylishCustom2 = {
 
-        _revertOldFindbar: false, //還原舊查找欄(預設關閉，若開啟請將 false , 改為 true);
-
+        _revertOldFindbar: false, //還原舊尋找列(預設關閉，若開啟請將 false , 改為 true);
+        AutoExternalEditor: false, //自動使用外部編輯開啟(預設關閉，若開啟請將 false , 改為 true);
+        
         insertRules: {
             //可以在text中按格式加入一些常用的屬性或文本
             text: [
+                '/* AGENT_SHEET */',
+                '-moz-box-ordinal-group:',
+                '-moz-linear-gradient',
+                'vertical-align:middle',
+                'text-decoration:underline', ['::before 偽元素', '::before {\n\tcontent: ""\n}', 3], // 插入模板塊數組，
+                ['::after 偽元素', '::after {\n\tcontent: ""\n}', 3], // 參數 0：選單名，
+                // 參數 1：插入內容，其中\n代表換行符，\t為製表符（tab）。
+                // 參數 2：插入內容後光標所在對應內容倒數位置，可忽略預設為0，即最末
+            ],
+            text2: [
                 '/* AGENT_SHEET */',
                 '-moz-box-ordinal-group:',
                 '-moz-linear-gradient',
@@ -77,6 +88,7 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
             [$('ExternalEditor'), $('Editorimportant')].forEach(function(n) {
                 ins.parentNode.insertBefore(n, ins.nextSibling);
             });
+            if (this.AutoExternalEditor) $('ExternalEditor').click();
         },
 
         setToolButtons: function() {
@@ -150,8 +162,14 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
                 id: 'documentRules',
                 label: this.localeText('documentRules')
             }, insertTextMenupopup));
+            //插入文本選單2
+            var insertTextMenu2 = cE('menupopup', {}, cE('menu', {
+                id: 'insertTextMenu2',
+                label: this.localeText('insertText') + '2'
+            }, insertTextMenupopup));
             var {
                 text,
+                text2,
                 domRules
             } = this.insertRules;
             for (var i in domRules) {
@@ -159,6 +177,12 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
                     label: i,
                     onclick: this.insertString.bind(null, domRules[i], 6)
                 }, documentRules);
+            }
+            for (var i in text2) {
+                cE('menuitem', {
+                    label: Array.isArray(text2[i]) ? text2[i][0] : text2[i],
+                    onclick: this.insertString.bind(null, text2[i])
+                }, insertTextMenu2);
             }
             cE('menuseparator', {}, insertTextMenupopup);
             for (var i in text) {
