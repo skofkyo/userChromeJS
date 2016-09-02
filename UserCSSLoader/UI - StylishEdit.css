@@ -1,0 +1,17 @@
+@-moz-document url-prefix("about:stylish-edit"), url-prefix("data:text/html") {
+  .CodeMirror-line span,/*編輯器內文字*/
+  .CodeMirror-linenumber.CodeMirror-gutter-elt/*行號文字*/ {
+    font-size: 14px ;/*文字大小*/
+  }
+  /*啟用舊尋找列時 浮動版*/
+  #findbar {
+    position: fixed !important;/*浮動*/
+    top: 43px !important;/*上邊界的距離*/
+    left: 416px !important;/*左邊界的距離*/
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+  .findbar-container {
+    padding: 0 !important;
+  }
+}

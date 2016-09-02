@@ -102,28 +102,17 @@ font-size:2em!important;
 	width: 16px !important;
 	height: 16px !important;
 }
+
 #navigator-toolbox #lpt_lastpass-compact-btn .toolbarbutton-icon {
-	margin-right: 0px !important;
+	margin-right: -2px !important;
 }
 
 #PanelUI-button {
 	border: none !important;
 	margin: 2px 0px 0px -6px !important;
 }
-
-#lpt_lastpass-compact-btn{
-	-moz-appearance: none !important;
-	background: none !important;
-	border: none !important;
-	border-radius: 0 !important;
-	box-shadow: none !important;
-	outline: none !important;
-	background-color: transparent !important;
-}
-
 #PanelUI-menu-button>*,
-#ublock0-button>*,
-#lpt_lastpass-compact-btn>*{
+#ublock0-button>*{
 	border:none !important;
 	box-shadow: none !important;
 	transition-property: none !important;
