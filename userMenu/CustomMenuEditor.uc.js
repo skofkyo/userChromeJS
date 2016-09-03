@@ -91,7 +91,7 @@
                 #context-sep-selectall,/*全選的分割線*/\
                 #context-sep-undo,/*復原的分割線*/\
                 #inspect-separator/*inspect分割線*/\
-                { display: none; !important; }\
+                { display: none !important; }\
                 '.replace(/\s+/g, " ");
             var sspi = document.createProcessingInstruction(
                 'xml-stylesheet',
