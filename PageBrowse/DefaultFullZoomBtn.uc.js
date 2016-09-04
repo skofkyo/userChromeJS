@@ -299,14 +299,13 @@ var FullZoom = {
     },
     //Ensure local file url convert to aURI
     convURI: function(aURI) {
-        const ioService = Components.classes['@mozilla.org/network/io-service;1']
-            .getService(Components.interfaces.nsIIOService);
+        const ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
         if (!!aURI && !this.localFolderSpecific) {
             if (/^(file|about|chrome|data):/i.test(aURI.spec)) {
                 let tmp = aURI.spec.split('/');
                 tmp.pop();
                 let url = tmp.join('/');
-                aURI = ioService.newURI(url, null, null)
+                var aURI = ioService.newURI(url, null, null);
             }
         }
         return aURI;
@@ -325,7 +324,9 @@ var FullZoom = {
             // the global preference has changed.
             let hasPref = false;
             this._cps2.getByDomainAndName(url.spec, aName, ctxt, {
-                handleResult: function() hasPref = true,
+                handleResult: function() {
+                    hasPref = true
+                },
                 handleCompletion: function() {
                     if (!hasPref)
                         this._applyPrefToZoom(aName);
@@ -401,13 +402,19 @@ var FullZoom = {
                     let value1, value2, value3;
                     value1 = value2 = value3 = undefined;
                     this._cps2.getByDomainAndName(aURI.spec, this.mode, ctxt, {
-                        handleResult: function(resultPref) value1 = resultPref.value,
+                        handleResult: function(resultPref) {
+                            value1 = resultPref.value
+                        },
                         handleCompletion: function() {
                             this._cps2.getByDomainAndName(aURI.spec, this.name, ctxt, {
-                                handleResult: function(resultPref) value2 = resultPref.value,
+                                handleResult: function(resultPref) {
+                                    value2 = resultPref.value
+                                },
                                 handleCompletion: function() {
                                     this._cps2.getByDomainAndName(aURI.spec, this.auto, ctxt, {
-                                        handleResult: function(resultPref) value3 = resultPref.value,
+                                        handleResult: function(resultPref) {
+                                            value3 = resultPref.value
+                                        },
                                         handleCompletion: function() {
                                             // fullZoomBtn.debug("location change "+aURI.spec+", M="+value1+", v="+value2);
                                             this._applyPrefToZoom(this.mode, value1, aBrowser, false);
@@ -556,10 +563,14 @@ var FullZoom = {
         let value1, value2;
         value1 = value2 = undefined;
         this._cps2.getByDomainAndName(uri.spec, this.name, ctxt, {
-            handleResult: function(resultPref) value1 = resultPref.value,
+            handleResult: function(resultPref) {
+                value1 = resultPref.value
+            },
             handleCompletion: function() {
                 this._cps2.getByDomainAndName(uri.spec, this.mode, ctxt, {
-                    handleResult: function(resultPref) value2 = resultPref.value,
+                    handleResult: function(resultPref) {
+                        value2 = resultPref.value
+                    },
                     handleCompletion: function() {
                         this._applyPrefToZoom(this.name, value1, browser, false);
                         this._applyPrefToZoom(this.mode, value2, browser);
@@ -776,11 +787,11 @@ var fullZoomBtn = {
             case 'resize':
                 this.windowResized(event);
                 break;
-            /*case 'DOMContentLoaded':
-                setTimeout(function(){
-                    this.init(event);
-                }, 1000);
-                break;*/
+                /*case 'DOMContentLoaded':
+                    setTimeout(function(){
+                        this.init(event);
+                    }, 1000);
+                    break;*/
             case 'unload':
                 this.uninit(event);
         }
@@ -986,6 +997,7 @@ var fullZoomBtn = {
                 changeZoom();
             }, 0);
         }
+
         function changeZoom() {
             //content width
             var hw = doc.documentElement.scrollWidth;
@@ -1234,7 +1246,9 @@ var ZoomManager = {
     },
     get zoomValues() {
         var zoomValues = FullZoomConfig.zoomValues.split(",").map(parseFloat);
-        zoomValues.sort(function(a, b) a - b);
+        zoomValues.sort(function(a, b) {
+            a - b
+        });
         while (zoomValues[0] < this.MIN)
             zoomValues.shift();
         while (zoomValues[zoomValues.length - 1] > this.MAX)
@@ -1320,10 +1334,19 @@ var loadFullZoom = function() {
     gBrowser.addEventListener("DOMContentLoaded", delayloadFullZoom, true);
 };
 window.addEventListener("pageshow", loadFullZoom, false);
-function $(id) document.getElementById(id);
+
+function $(id) {
+    return document.getElementById(id);
+}
+
 function $C(name, attr) {
-    const XUL_NS = 'http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul';
-    let el = document.createElementNS(XUL_NS, name);
-    if (attr) Object.keys(attr).forEach(function(n) el.setAttribute(n, attr[n]));
+    var el = document.createElement(name);
+    if (attr) Object.keys(attr).forEach(function(n) {
+        if (typeof attr[n] === 'function') {
+            el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
+        } else {
+            if (attr[n] != "") el.setAttribute(n, attr[n]);
+        }
+    });
     return el;
-};
+}

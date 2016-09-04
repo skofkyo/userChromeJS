@@ -104,8 +104,13 @@
 
     function $C(name, attr) {
         var el = document.createElement(name);
-        if (attr) Object.keys(attr)
-            .forEach(function(n) el.setAttribute(n, attr[n]));
+        if (attr) Object.keys(attr).forEach(function(n) {
+            if (typeof attr[n] === 'function') {
+                el.setAttribute(n, '(' + attr[n].toSource() + ').call(this, event);');
+            } else {
+                if (attr[n] != "") el.setAttribute(n, attr[n]);
+            }
+        });
         return el;
     }
 

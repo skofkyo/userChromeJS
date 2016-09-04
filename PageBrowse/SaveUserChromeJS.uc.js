@@ -394,15 +394,17 @@
 	};
 
 
-	function $(id) document.getElementById(id);
+    function $(id) {
+        return document.getElementById(id);
+    }
 
-	function $C(name, attr) {
-		var el = document.createElement(name);
-		if (attr) Object.keys(attr).forEach(function(n) el.setAttribute(n, attr[n]));
-		return el;
-	}
+    function $C(name, attr) {
+        var el = document.createElement(name);
+        if (attr) Object.keys(attr).forEach(function(n){ el.setAttribute(n, attr[n])});
+        return el;
+    }
 
-	function log(arg) Services.console.logStringMessage("[SaveUserChromeJS]" + arg);
+	function log(arg){ Services.console.logStringMessage("[SaveUserChromeJS]" + arg);}
 
 	function checkDoc(doc) {
 		if (!(doc instanceof HTMLDocument)) return false;

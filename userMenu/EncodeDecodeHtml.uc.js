@@ -233,7 +233,9 @@
     EncodeDecodeHtml.init();
     window.EncodeDecodeHtml = EncodeDecodeHtml;
     
-    function $(id) document.getElementById(id);
+    function $(id) {
+        return document.getElementById(id);
+    }
 
     function $C(name, attr) {
         var el = document.createElement(name);

@@ -105,7 +105,9 @@
     CustomMenuEditor.init();
     window.CustomMenuEditor = CustomMenuEditor;
 
-    function $(id) document.getElementById(id);
+    function $(id) {
+        return document.getElementById(id);
+    }
 
     function $M(a, b) {
         let id = $(a);

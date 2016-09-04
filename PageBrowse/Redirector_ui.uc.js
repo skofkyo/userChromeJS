@@ -222,10 +222,10 @@
                 this.redirector.state = this.state;
                 if (this.state) {
                     this.init();
-                    Object.keys(menuitems).forEach(function(n) menuitems[n].setAttribute("disabled", false));
+                    Object.keys(menuitems).forEach(function(n){ menuitems[n].setAttribute("disabled", false)});
                 } else {
                     this.destroy();
-                    Object.keys(menuitems).forEach(function(n) menuitems[n].setAttribute("disabled", true));
+                    Object.keys(menuitems).forEach(function(n){ menuitems[n].setAttribute("disabled", true)});
                 }
                 // update checkbox state
                 let toggle = $("redirector-toggle");
@@ -596,7 +596,7 @@
 
     function $C(name, attr) {
         var el = document.createElement(name);
-        if (attr) Object.keys(attr).forEach(function(n) el.setAttribute(n, attr[n]));
+        if (attr) Object.keys(attr).forEach(function(n){ el.setAttribute(n, attr[n])});
         return el;
     }
 })();

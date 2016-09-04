@@ -846,7 +846,9 @@ Ctrl + 右鍵：移除擴充套件
 		'.replace(/[\r\n\t]/g, '');;
     EOM.style = addStyle(css);
     window.EOM.init();
-    function $(id) document.getElementById(id);
+    function $(id) {
+        return document.getElementById(id);
+    }
     function $C(name, attr) {
         var el = document.createElement(name);
         if (attr) Object.keys(attr).forEach(function(n) {

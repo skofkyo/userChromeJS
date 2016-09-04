@@ -41,5 +41,7 @@
         if (event.ctrlKey || event.shiftKey || event.altKey) return;
         if (event.button == 2) clearTimeout(RightClickPlusTime); //在長按右鍵未達設定的延遲時間就放開右鍵則取消延遲
     }, false);
-    function $(id) document.getElementById(id);
+    function $(id) {
+        return document.getElementById(id);
+    }
 })();

@@ -133,10 +133,12 @@ function log() {
     Application.console.log('[VIOB] ' + Array.slice(arguments));
 }
 
-function $(id) document.getElementById(id);
+function $(id) {
+    return document.getElementById(id);
+}
 
 function $C(name, attr) {
     var el = document.createElement(name);
-    if (attr) Object.keys(attr).forEach(function(n) el.setAttribute(n, attr[n]));
+    if (attr) Object.keys(attr).forEach(function(n){ el.setAttribute(n, attr[n])});
     return el;
 }

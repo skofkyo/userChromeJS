@@ -395,7 +395,9 @@ if (location.href.indexOf('about:stylish-edit') == 0) {
 
     setTimeout(stylishCustom2.init.bind(stylishCustom2), 300);
 
-    function $(id) document.getElementById(id);
+    function $(id) {
+        return document.getElementById(id);
+    }
 
     (function winhook(aWindow) {
         // get the checkbox

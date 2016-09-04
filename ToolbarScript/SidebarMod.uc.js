@@ -91,7 +91,9 @@
                         btn.setAttribute('style', 'list-style-image: url("' + item.favicon + '")');
                         btn.setAttribute('url', item.url);
                         if (item.command) btn.setAttribute('oncommand', item.command);
-                        btn.setAttribute('onclick', 'if (event.button == 0) {openWebPanel(this.getAttribute("tooltiptext"), this.getAttribute("url"))}');
+                        btn.setAttribute('onclick', 'if (event.button == 0) {\
+                                openWebPanel(this.getAttribute("tooltiptext"),this.getAttribute("url"))\
+                            }');
                     }
                 }
                 insertpoint.parentNode.insertBefore(frag, insertpoint);
@@ -143,12 +145,12 @@
                 T.addEventListener("mouseover", function(event) {t = setTimeout(function(event) {T.click()}, 400)}, false);
                 T.addEventListener("mouseout", function(event) {clearTimeout(t)}, false);
                 T.addEventListener("click", function(event) {
-                    if (event.button == 2) openUILinkIn("https://translate.google.com.tw/?hl=zh-TW#auto/zh-TW/", "tab")
+                    if (event.button == 2) openUILinkIn(this.getAttribute("url"), "tab")
                 }, false);
                 Y.addEventListener("mouseover", function(event) {t = setTimeout(function(event) {Y.click()}, 400)}, false);
                 Y.addEventListener("mouseout", function(event) {clearTimeout(t)}, false);
                 Y.addEventListener("click", function(event) {
-                    if (event.button == 2) openUILinkIn("https://www.youtube.com/", "tab")
+                    if (event.button == 2) openUILinkIn(this.getAttribute("url"), "tab")
                 }, false);
             },
             addControlBtn: function() {
@@ -243,7 +245,7 @@
                 sidebar.addEventListener('DOMContentLoaded', function() {
                     if (sidebar.contentDocument) {
                         sidebar.removeEventListener('DOMContentLoaded', arguments.callee, false);
-                        var wpb = sidebar.content$('web-panels-browser');
+                        var wpb = sidebar.contentDocument.getElementById('web-panels-browser');
                         if (wpb) {
                             wpb.onclick = null;
                         }
@@ -271,5 +273,7 @@
         };
         SidebarMod.init();
     }
-    function $(id) document.getElementById(id);
+    function $(id) {
+        return document.getElementById(id);
+    }
 })();

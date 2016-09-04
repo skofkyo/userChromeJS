@@ -1285,8 +1285,8 @@
 	window.downloadPlus = downloadPlus;
 })();
 
-/*顯示下載速度*/
+/*顯示下載速度
 (function(){
    eval("DownloadsViewItem.prototype._updateProgress = " +
       DownloadsViewItem.prototype._updateProgress.toString().replace('status.text', 'status.tip'));
-})()
+})()*/

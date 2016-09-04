@@ -659,7 +659,7 @@ window.siteinfo_writer = {
 	normalClass: function(xpath) {
 		let r = /(?:contains\(concat\(\" \"\,normalize\-space\(@class\)\,\" \"\)\, \" .+? \"\)(?: and )?)+/g;
 		return xpath.replace(r, function(str) {
-			let cls = str.split(' and ').map(function(c) c.replace(/.*\" (.*) \".*/i, '$1') );
+			let cls = str.split(' and ').map(function(c){ c.replace(/.*\" (.*) \".*/i, '$1') });
 			return '@class="'+ cls.join(' ') +'"';
 		});
 	},
@@ -798,7 +798,7 @@ Inspector.prototype = {
 		}
 		var res = [];
 		for each(x in obj) res.push(x);
-		var res = res.filter(function(e, i, a) a.indexOf(e) === i).sort(function(a, b) {
+		var res = res.filter(function(e, i, a){ a.indexOf(e) === i}).sort(function(a, b) {
 			let aa = a.substr(0, 4) == 'id("';
 			let bb = b.substr(0, 4) == 'id("';
 			if ((aa && bb) || (!aa && !bb))
@@ -1278,11 +1278,11 @@ var Inspect = (function(){
 
 
 function log(arg){ Application.console.log("[SITEINFO_Writer] " + arg); }
-function $(id) document.getElementById(id);
-function $A(arr) Array.slice(arr);
+function $(id){ document.getElementById(id);}
+function $A(arr){ Array.slice(arr);}
 function $C(name, attr) {
 	var el = document.createElement(name);
-	if (attr) Object.keys(attr).forEach(function(n) el.setAttribute(n, attr[n]));
+	if (attr) Object.keys(attr).forEach(function(n){ el.setAttribute(n, attr[n])});
 	return el;
 }
 
