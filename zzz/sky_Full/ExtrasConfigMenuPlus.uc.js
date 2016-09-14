@@ -417,6 +417,22 @@
             w.setAttribute('class', 'menu-iconic');//網頁開發者
             w.setAttribute('image', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPGSURBVDhPTZN7TNNXFMd/RdlgmcPFEOjQKB1YaYsVqR1YRltAoCjj0QpbC0QQeaSADg11QCLDAoJ1YAtFsDwLKI+iIpaQEVEGE9EJy7ZAzJJtZtlDjG7OmKXr735Hq7idf869597PN+fcfC9FvQztKStjZu4nF8dWW2ndUnDEknFQPaCVJZu07/hXZnj6lG10nG0KOs1gcmsYq5wz5xcNOgsazWVvbe3nbbrm6WenTbMoqp4g/OQO4htuwCaB7k9vTrVhvU/52467rKC6FyJpB3qcC9k+I+tUw43F+osLqLr2PV04uEgrGu/Ylbppe8THV+mQjAs0L+Yctgh0ixtYn/o6GB9u9WonYvcy7fjds0Pf4szkD7a2+Z9J271fcfjyElG0fEWUZ2chKR4looMDNkFiO3gSw11heL37qzEU6V2a6vNzOGGetiUoM6FSqkiLXo/l5Uew3rmPzKYpRJavjJM5AG5yp40tbQJPrD++KuAal9b9TU3PAvJbpuj38qvBOXQSEZnFePrkCR7/8gC9/ZeQ2/gFRIdHwUvtoQXyDkSldC65McvfoNYxywJ3xLX+/VHlBBT62ySx8zvIeu/j/MTXmL4+gV3iGIRHRMPcYUL2yWH4JnWTnIpxxB/oszG31+6kuKGfRfH3tkKYYyHJdTeJoGoOx/oXcW9mCvxYFbg5RgSm1yI4VAyRQoMdGYNElNZDdq4wwdHGKEoY1Ri2LdKIoPReEnviFlHXVeHHhS7kFFeAX2iGrH4ekoqb4CgNeD+vD+LcYcL9oM0psFmgC6Mi4k3MAKl+2S+hD0lHGsjTyY2YbXZBYEo5pJUzCNOMQXTMCoF6FGL1FcgKhsnuD81gSxofrvfXMp0PyYs8Z+HI9PjSHGB/PvE6UpP8wc0agOjoNQgLRsDPtiAkZ4goy8cQl2/5h72nGZtDGyz/udHXHGKsFANzHnRriSstSKyASD1KhIeGIMq/hESNlaR+YkVE1kWaF2+ysyKbybvhht2vBG4ZGapnk16Yb19DC8R7iCjLQqeWjJC9hcNEfnSExOYNEvY+k52fYrZzFN3wi211emBbQocLdbuZ4vw25v37Q6sH1HL3B9tTOx5Fl15HfMUNoqydRmTJOPh5V8muQiuEeVee81J6Ch1wkOrCCxubStcVLPVvQGcp9ZfbWkrm5SeXsqTHJ/0VTX+w07vo4Nw+uzC7/TFfXjO+NTRL4mACEtqdv/ZleLjsl1KlMULK2dab7pTXSuIzKJf9r7l5FjFcPdUUxUhYqW2lGGve8uQq1v4Ppv4FRNDMTne1uc8AAAAASUVORK5CYII=');
             mp.appendChild(w); //網頁開發者
+            var menus = [{
+                label: "瀏覽器主控台",
+                image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABQ0lEQVQ4jX2TS05CQRBFi4FNrHPBffCRuA0W4tgpUbYADDBxD7ID4giXQMQFGAhjHQADcWC/l6b51LDfrVN976s2yyqE0AAGkhbABthI+gAGIYRGrj/odfcxsAZ6QNvMqmZWBTru3gfWkl7M7PqoGZhKmpjZTXEoaSZplujqkibAm5kFS4TPsbmSUiPgPRtWkTRx93EhagKrSM8nHlTyvQ4sJTUNGLp7/8LEkzeKOQ0tpt3Jxe7+eA4UAW1JCwO29p92Pm0PPFxgBGBbAnL/EfDr7vdncpCk79JC7l/SPkJ27t7NcwBugflBiLmFBLI8kUEPGJmkVhTUM8EyAayy/uI3toppR4vk7l1gBXylFiwukqTnPNGppFczqx0HXlbt5CoXkPQxxetdmRnufufuT5ceU1lxtUeSPoEd8APM41kr1/8BlhlfHqOqklEAAAAASUVORK5CYII=",
+                tooltiptext: "左鍵：瀏覽器主控台\n右鍵：打開browser.xul",
+                onclick: function() {
+                    switch (event.button) {
+                        case 0:
+                            $("menu_browserConsole").doCommand();
+                            break;
+                        case 2:
+                            switchToTabHavingURI("chrome://browser/content/browser.xul", true);
+                            break;
+                    }
+                }
+            }];
+            this.newMenuitem(mp, menus);
             /*==========多開火狐測試配置選單==========*/
             var menus = [{
                 label: "多開火狐測試配置選單",

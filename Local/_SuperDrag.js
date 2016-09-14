@@ -69,6 +69,17 @@ GESTURES = {
 				Cc['@mozilla.org/widget/clipboardhelper;1'].createInstance(Ci.nsIClipboardHelper).copyString(edglink[0]);
 			}
 		},
+		LD: {
+			//複製連結文字[向左下]
+			name: "複製連結文字",
+			cmd: function(event) {
+				var edglink = event.dataTransfer.getData("text/x-moz-url").replace(/[\n\r]+/, "\n").split("\n");
+				//Cc['@mozilla.org/widget/clipboardhelper;1'].createInstance(Ci.nsIClipboardHelper).copyString(edglink[1].replace(/^\s+/, "").replace(/\s+$/, ""));//去前後空白
+				//Cc['@mozilla.org/widget/clipboardhelper;1'].createInstance(Ci.nsIClipboardHelper).copyString(edglink[1].replace(/^\s+|\s+$/g, ""));//去前後空白
+				Cc['@mozilla.org/widget/clipboardhelper;1'].createInstance(Ci.nsIClipboardHelper).copyString(edglink[1].trim());//去前後空白
+				//Cc['@mozilla.org/widget/clipboardhelper;1'].createInstance(Ci.nsIClipboardHelper).copyString(edglink[1]);
+			}
+		},
 		R: {
 			//新分頁開啟連結(背景)[向右]
 			name: "新分頁開啟連結(背景)",
@@ -157,8 +168,8 @@ GESTURES = {
 															break;
 													}
 											},
-											onDOMMouseScroll: function() {
-													if (event.detail > 0) {
+											onwheel: function() {
+													if (event.deltaY > 0) {
 															gTranslator.translate(event);
 													} else {
 															gBrowser.selectedTab = gBrowser.addTab("https://translate.google.com/#auto/zh-TW/" + encodeURIComponent(getBrowserSelection()));
